@@ -4,7 +4,6 @@ import { SidebarActions } from "./components/SidebarActions";
 import { useTheme } from "@emotion/react";
 
 const Sidebar = ({
-  mode,
   isAuth,
   setIsAuth,
   mobileOpen,
@@ -54,7 +53,7 @@ const Sidebar = ({
           },
         }}
       >
-        <SidebarActions mode={mode} isAuth={isAuth} setIsAuth={setIsAuth} />
+        <SidebarActions isAuth={isAuth} setIsAuth={setIsAuth} />
       </Drawer>
       <Drawer
         variant="permanent"
@@ -79,7 +78,7 @@ const Sidebar = ({
         }}
         open
       >
-        <SidebarActions mode={mode} isAuth={isAuth} setIsAuth={setIsAuth} />
+        <SidebarActions isAuth={isAuth} setIsAuth={setIsAuth} />
       </Drawer>
     </Box>
   );

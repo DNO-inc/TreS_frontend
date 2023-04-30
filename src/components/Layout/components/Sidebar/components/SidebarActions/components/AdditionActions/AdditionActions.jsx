@@ -6,15 +6,17 @@ import ListItemText from "@mui/material/ListItemText";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { useContext, useEffect, useState } from "react";
-import { ColorModeContext } from "../../../../../../../../App";
 import { endpoints } from "../../../../../../../../constants";
 import { NavLink } from "react-router-dom";
 import { Switch } from "@mui/material";
 import styled from "@emotion/styled";
+import { ColorModeContext } from "../../../../../../../../theme";
+import { useTheme } from "@mui/material/styles";
 
-const AdditionActions = ({ mode, isAuth, selectedIndex, setSelectedIndex }) => {
+const AdditionActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
+  const theme = useTheme();
   const { toggleColorMode } = useContext(ColorModeContext);
-  const [checked, setChecked] = useState(mode === "dark");
+  const [checked, setChecked] = useState(theme.palette.mode === "dark");
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -26,7 +28,7 @@ const AdditionActions = ({ mode, isAuth, selectedIndex, setSelectedIndex }) => {
 
   useEffect(() => {
     setChecked(!checked);
-  }, [mode]);
+  }, [theme.palette.mode]);
 
   const CustomSwitch = styled(props => (
     <Switch

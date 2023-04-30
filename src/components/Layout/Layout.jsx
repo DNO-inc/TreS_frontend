@@ -1,14 +1,14 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import Box from "@mui/material/Box";
 import { MobileHeader } from "./components/MobileHeader";
 import { Sidebar } from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
 import { useTheme } from "@emotion/react";
+import { Box, Grid } from "@mui/material";
 
 const drawerWidth = 300;
 
-const Layout = ({ mode }) => {
+const Layout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   const theme = useTheme();
@@ -18,7 +18,7 @@ const Layout = ({ mode }) => {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Grid sx={{ display: "flex" }}>
       <MobileHeader
         isAuth={isAuth}
         setIsAuth={setIsAuth}
@@ -26,7 +26,6 @@ const Layout = ({ mode }) => {
         handleDrawerToggle={handleDrawerToggle}
       />
       <Sidebar
-        mode={mode}
         isAuth={isAuth}
         setIsAuth={setIsAuth}
         mobileOpen={mobileOpen}
@@ -40,16 +39,13 @@ const Layout = ({ mode }) => {
           height: "100vh",
           p: { xs: "80px 24px 24px", md: 3 },
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          bgcolor:
-            theme.palette.mode === "light"
-              ? theme.palette.common.white
-              : theme.palette.grey[100],
+          bgcolor: theme.palette.common.white,
           color: theme.palette.common.black,
         }}
       >
         <Outlet />
       </Box>
-    </Box>
+    </Grid>
   );
 };
 
