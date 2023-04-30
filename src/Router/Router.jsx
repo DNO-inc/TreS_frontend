@@ -2,10 +2,10 @@ import { Route, Routes } from "react-router-dom";
 import { Layout } from "../components/Layout";
 import { endpoints } from "../constants";
 
-const Router = ({ mode }) => {
+const Router = () => {
   return (
     <Routes>
-      <Route path={endpoints.base} element={<Layout mode={mode} />}>
+      <Route path={endpoints.base} element={<Layout />}>
         <Route index element={<h1>General Reports</h1>}></Route>
         <Route path={endpoints.dashboard} element={<h1>Dashboard</h1>} />
         <Route path={endpoints.myReports} element={<h1>My Reports</h1>} />

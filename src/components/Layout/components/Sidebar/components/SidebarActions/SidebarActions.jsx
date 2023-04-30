@@ -7,7 +7,7 @@ import { Avatar, Grid, Typography } from "@mui/material";
 import Logo from "../../../../../../assets/Logomark.svg";
 import { useLocation } from "react-router-dom";
 
-const SidebarActions = ({ mode, isAuth, setIsAuth }) => {
+const SidebarActions = ({ isAuth, setIsAuth }) => {
   const { pathname } = useLocation();
   const [selectedIndex, setSelectedIndex] = useState("/general-reports");
 
@@ -52,7 +52,6 @@ const SidebarActions = ({ mode, isAuth, setIsAuth }) => {
         />
         <Divider />
         <AdditionActions
-          mode={mode}
           isAuth={isAuth}
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
