@@ -13,9 +13,11 @@ import NotesIcon from "@mui/icons-material/Notes";
 import { NestedList } from "./components/NestedList";
 import { endpoints } from "../../../../../../../../constants";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
 
   const handleClick = () => {
     setOpen(!open);
@@ -53,16 +55,16 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
               <ListItemIcon>
                 <GridViewIcon />
               </ListItemIcon>
-              <ListItemText primary={"Dashboard"} />
+              <ListItemText primary={t("sidebar.dashboard")} />
             </ListItemButton>
           </NavLink>
         </ListItem>
-        <ListItem key={"My Reports"} disablePadding>
+        <ListItem key={"My Tickets"} disablePadding>
           <ListItemButton onClick={handleClick}>
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
-            <ListItemText primary="My Reports" />
+            <ListItemText primary={t("sidebar.myTickets.title")} />
             {open ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
         </ListItem>
@@ -87,22 +89,22 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
               <ListItemIcon>
                 <NotificationsNoneIcon />
               </ListItemIcon>
-              <ListItemText primary={"Notifications"} />
+              <ListItemText primary={t("sidebar.notification")} />
             </ListItemButton>
           </NavLink>
         </ListItem>
-        <ListItem key={"General reports"} disablePadding>
-          <NavLink to={endpoints.generalReports}>
+        <ListItem key={"General tickets"} disablePadding>
+          <NavLink to={endpoints.generalTickets}>
             <ListItemButton
-              selected={selectedIndex === endpoints.generalReports}
+              selected={selectedIndex === endpoints.generalTickets}
               onClick={event =>
-                handleListItemClick(event, endpoints.generalReports)
+                handleListItemClick(event, endpoints.generalTickets)
               }
             >
               <ListItemIcon>
                 <NotesIcon />
               </ListItemIcon>
-              <ListItemText primary={"General reports"} />
+              <ListItemText primary={t("sidebar.generalTickets")} />
             </ListItemButton>
           </NavLink>
         </ListItem>

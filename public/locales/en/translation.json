@@ -1,0 +1,50 @@
+{
+  "common": {
+    "login": "Log in",
+    "profile": "Profile",
+    "error": "Error"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "myTickets": {
+      "title": "My Tickets",
+      "sent": "Sent",
+      "received": "Received",
+      "bookmarks": "Bookmarks",
+      "deleted": "Deleted"
+    },
+    "notification": "Notification",
+    "generalTickets": "General Tickets",
+    "settings": "Settings",
+    "lightMode": "Light Mode",
+    "profile": "Profile"
+  },
+  "dashboard": {
+    "heading": "Dashboard"
+  },
+  "sent": {
+    "heading": "Sent"
+  },
+  "received": {
+    "heading": "Received"
+  },
+  "bookmarks": {
+    "heading": "Bookmarks"
+  },
+  "deleted": {
+    "heading": "Deleted"
+  },
+  "notification": {
+    "heading": "Notification"
+  },
+  "generalTickets": {
+    "heading": "General Tickets"
+  },
+  "settings": {
+    "heading": "Settings"
+  },
+  "profile": {
+    "heading": "Profile"
+  },
+  "hello": "Hello world!"
+}

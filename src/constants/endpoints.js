@@ -1,14 +1,12 @@
 const endpoints = {
   base: "/",
   dashboard: "/dashboard",
-  myReports: "/my-reports",
   sent: "/sent",
   received: "/received",
-  followed: "/followed",
-  saved: "/saved",
+  bookmarks: "/bookmarks",
   deleted: "/deleted",
   notifications: "/notifications",
-  generalReports: "/general-reports",
+  generalTickets: "/general-tickets",
   settings: "/settings",
   profile: "/profile",
 };

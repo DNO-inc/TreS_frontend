@@ -1,0 +1,50 @@
+{
+  "common": {
+    "login": "Авторизація",
+    "profile": "Профіль",
+    "error": "Помилка"
+  },
+  "sidebar": {
+    "dashboard": "Панель приладів",
+    "myTickets": {
+      "title": "Мої квитки",
+      "sent": "Надіслані",
+      "received": "Отримані",
+      "bookmarks": "Закладки",
+      "deleted": "Видалені"
+    },
+    "notification": "Сповіщення",
+    "generalTickets": "Загальні квитки",
+    "settings": "Налаштування",
+    "lightMode": "Світлий режим",
+    "profile": "Профіль"
+  },
+  "dashboard": {
+    "heading": "Панель приладів"
+  },
+  "sent": {
+    "heading": "Надіслані"
+  },
+  "received": {
+    "heading": "Отримані"
+  },
+  "bookmarks": {
+    "heading": "Закладки"
+  },
+  "deleted": {
+    "heading": "Видалені"
+  },
+  "notification": {
+    "heading": "Сповіщення"
+  },
+  "generalTickets": {
+    "heading": "Загальні квитки"
+  },
+  "settings": {
+    "heading": "Налаштування"
+  },
+  "profile": {
+    "heading": "Профіль"
+  },
+  "hello": "Привіт Світ!"
+}

@@ -8,8 +8,11 @@ import { Avatar, Box, Typography } from "@mui/material";
 import Logo from "../../../../assets/Logomark.svg";
 import { NavLink } from "react-router-dom";
 import { endpoints } from "../../../../constants";
+import { useTranslation } from "react-i18next";
 
 const AuthZone = ({ isAuth, setIsAuth }) => {
+  const { t } = useTranslation();
+
   const handleLogIn = () => {
     setIsAuth(true);
   };
@@ -32,7 +35,7 @@ const AuthZone = ({ isAuth, setIsAuth }) => {
             onClick={handleLogIn}
             sx={{ minWidth: "100%" }}
           >
-            Log In
+            {t("common.login")}
           </Button>
         </ListItem>
       ) : (
@@ -49,7 +52,7 @@ const AuthZone = ({ isAuth, setIsAuth }) => {
               />
             </NavLink>
             <Typography sx={{ display: { xs: "none", md: "inline-block" } }}>
-              Profile
+              {t("common.profile")}
             </Typography>
           </Box>
           <NavLink to={endpoints.base}>
