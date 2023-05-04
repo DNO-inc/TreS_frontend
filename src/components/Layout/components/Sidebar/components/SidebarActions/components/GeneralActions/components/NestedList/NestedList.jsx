@@ -12,31 +12,29 @@ import {
 } from "@mui/material";
 import { endpoints } from "../../../../../../../../../../constants";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const NestedList = ({ open, isAuth, selectedIndex, handleListItemClick }) => {
+  const { t } = useTranslation();
+
   const listItemsArray = [
     {
-      text: "Sent",
+      text: t("sidebar.myTickets.sent"),
       icon: <FolderOpenIcon />,
       endpoint: endpoints.sent,
     },
     {
-      text: "Received",
+      text: t("sidebar.myTickets.received"),
       icon: <FolderOpenIcon />,
       endpoint: endpoints.received,
     },
     {
-      text: "Followed",
-      icon: <FolderOpenIcon />,
-      endpoint: endpoints.followed,
-    },
-    {
-      text: "Saved",
+      text: t("sidebar.myTickets.bookmarks"),
       icon: <Inventory2OutlinedIcon />,
-      endpoint: endpoints.saved,
+      endpoint: endpoints.bookmarks,
     },
     {
-      text: "Deleted",
+      text: t("sidebar.myTickets.deleted"),
       icon: <DeleteOutlineIcon />,
       endpoint: endpoints.deleted,
     },

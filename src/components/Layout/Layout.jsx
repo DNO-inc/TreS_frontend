@@ -4,7 +4,8 @@ import { MobileHeader } from "./components/MobileHeader";
 import { Sidebar } from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-import { Box, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const drawerWidth = 300;
 
@@ -12,6 +13,12 @@ const Layout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   const theme = useTheme();
+
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = lang => {
+    i18n.changeLanguage(lang);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -43,6 +50,22 @@ const Layout = () => {
           color: theme.palette.common.black,
         }}
       >
+        <Button
+          variant="outlined"
+          onClick={() => {
+            changeLanguage("ua");
+          }}
+        >
+          UA
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            changeLanguage("en");
+          }}
+        >
+          EN
+        </Button>
         <Outlet />
       </Box>
     </Grid>

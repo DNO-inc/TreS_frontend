@@ -12,11 +12,13 @@ import { Switch } from "@mui/material";
 import styled from "@emotion/styled";
 import { ColorModeContext } from "../../../../../../../../theme";
 import { useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 
 const AdditionActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
   const theme = useTheme();
   const { toggleColorMode } = useContext(ColorModeContext);
   const [checked, setChecked] = useState(theme.palette.mode === "dark");
+  const { t } = useTranslation();
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -113,7 +115,7 @@ const AdditionActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
             <ListItemIcon>
               <SettingsOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary={"Settings"} />
+            <ListItemText primary={t("sidebar.settings")} />
           </ListItemButton>
         </NavLink>
       </ListItem>
@@ -128,7 +130,7 @@ const AdditionActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
           <ListItemIcon>
             <LightModeIcon />
           </ListItemIcon>
-          <ListItemText primary={"Light mode"} />
+          <ListItemText primary={t("sidebar.lightMode")} />
           <CustomSwitch />
         </ListItemButton>
       </ListItem>

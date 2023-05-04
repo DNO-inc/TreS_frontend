@@ -1,1 +1,0 @@
-export { GeneralReports } from "./GeneralReports";

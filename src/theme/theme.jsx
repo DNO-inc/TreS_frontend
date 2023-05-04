@@ -8,7 +8,7 @@ const themeSettings = mode => {
       ...(mode === "dark"
         ? {
             primary: {
-              main: colors.codGray.DEFAULT,
+              main: colors.cerulean.DEFAULT,
             },
             secondary: {
               main: colors.mercury.DEFAULT,
@@ -20,7 +20,7 @@ const themeSettings = mode => {
           }
         : {
             primary: {
-              main: colors.mercury.DEFAULT,
+              main: colors.cerulean[600],
             },
             secondary: {
               main: colors.codGray.DEFAULT,
