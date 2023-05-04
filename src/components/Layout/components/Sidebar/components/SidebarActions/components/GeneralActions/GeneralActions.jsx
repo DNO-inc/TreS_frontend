@@ -14,8 +14,10 @@ import { NestedList } from "./components/NestedList";
 import { endpoints } from "../../../../../../../../constants";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Badge, IconButton } from "@mui/material";
 
 const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
+  const countOfNotification = 120;
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -27,16 +29,21 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
     setSelectedIndex(index);
   };
 
+  function notificationsLabel(count) {
+    if (count === 0) {
+      return "no notifications";
+    }
+    if (count > 99) {
+      return "more than 99 notifications";
+    }
+
+    return `${count} notifications`;
+  }
+
   return (
     <>
       <List
         sx={{
-          "& >  li > a > div, & > li > div": {
-            borderRadius: "8px",
-          },
-          "& > li": {
-            padding: "4px 16px",
-          },
           "& > li > a": {
             width: "100%",
           },
@@ -90,6 +97,17 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
                 <NotificationsNoneIcon />
               </ListItemIcon>
               <ListItemText primary={t("sidebar.notification")} />
+              {isAuth && (
+                <IconButton
+                  aria-label={notificationsLabel(countOfNotification)}
+                >
+                  <Badge
+                    badgeContent={countOfNotification}
+                    color="primary"
+                    sx={{ "& > span": { color: "white" } }}
+                  ></Badge>
+                </IconButton>
+              )}
             </ListItemButton>
           </NavLink>
         </ListItem>

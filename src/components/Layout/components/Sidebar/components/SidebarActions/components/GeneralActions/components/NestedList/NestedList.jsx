@@ -4,6 +4,7 @@ import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import {
+  Badge,
   List,
   ListItem,
   ListItemButton,
@@ -22,21 +23,25 @@ const NestedList = ({ open, isAuth, selectedIndex, handleListItemClick }) => {
       text: t("sidebar.myTickets.sent"),
       icon: <FolderOpenIcon />,
       endpoint: endpoints.sent,
+      isHaveNewMessage: true,
     },
     {
       text: t("sidebar.myTickets.received"),
       icon: <FolderOpenIcon />,
       endpoint: endpoints.received,
+      isHaveNewMessage: true,
     },
     {
       text: t("sidebar.myTickets.bookmarks"),
       icon: <Inventory2OutlinedIcon />,
       endpoint: endpoints.bookmarks,
+      isHaveNewMessage: false,
     },
     {
       text: t("sidebar.myTickets.deleted"),
       icon: <DeleteOutlineIcon />,
       endpoint: endpoints.deleted,
+      isHaveNewMessage: false,
     },
   ];
 
@@ -45,12 +50,6 @@ const NestedList = ({ open, isAuth, selectedIndex, handleListItemClick }) => {
       <List
         disablePadding
         sx={{
-          "& >  li > a > div": {
-            borderRadius: "8px",
-          },
-          "& > li": {
-            padding: "4px 16px",
-          },
           "& > li > a": {
             width: "100%",
           },
@@ -73,6 +72,9 @@ const NestedList = ({ open, isAuth, selectedIndex, handleListItemClick }) => {
                 >
                   <ListItemIcon>{listItem.icon}</ListItemIcon>
                   <ListItemText primary={listItem.text} />
+                  {isAuth && listItem.isHaveNewMessage && (
+                    <Badge color="primary" variant="dot"></Badge>
+                  )}
                 </ListItemButton>
               </NavLink>
             </ListItem>
