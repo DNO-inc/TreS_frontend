@@ -3,6 +3,7 @@ const endpoints = {
   dashboard: "/dashboard",
   sent: "/sent",
   received: "/received",
+  followed: "/followed",
   bookmarks: "/bookmarks",
   deleted: "/deleted",
   notifications: "/notifications",

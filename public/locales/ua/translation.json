@@ -10,6 +10,7 @@
       "title": "Мої квитки",
       "sent": "Надіслані",
       "received": "Отримані",
+      "followed": "Відстежувані",
       "bookmarks": "Закладки",
       "deleted": "Видалені"
     },
@@ -27,6 +28,9 @@
   },
   "received": {
     "heading": "Отримані"
+  },
+  "followed": {
+    "heading": "Відстежувані"
   },
   "bookmarks": {
     "heading": "Закладки"

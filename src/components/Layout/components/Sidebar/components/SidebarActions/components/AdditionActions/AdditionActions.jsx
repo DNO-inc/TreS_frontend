@@ -108,7 +108,7 @@ const AdditionActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
           style={{ cursor: !isAuth ? "default" : "pointer" }}
         >
           <ListItemButton
-            disabled={!isAuth}
+            disabled={true || !isAuth}
             selected={selectedIndex === endpoints.settings}
             onClick={event => handleListItemClick(event, endpoints.settings)}
           >

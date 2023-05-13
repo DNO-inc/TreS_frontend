@@ -1,24 +1,17 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { MobileHeader } from "./components/MobileHeader";
+import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-import { Box, Button, Grid } from "@mui/material";
-import { useTranslation } from "react-i18next";
+import { Box, Grid } from "@mui/material";
 
 const drawerWidth = 300;
 
 const Layout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
-  const theme = useTheme();
-
-  const { t, i18n } = useTranslation();
-
-  const changeLanguage = lang => {
-    i18n.changeLanguage(lang);
-  };
+  const { palette } = useTheme();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -26,7 +19,7 @@ const Layout = () => {
 
   return (
     <Grid sx={{ display: "flex" }}>
-      <MobileHeader
+      <Header
         isAuth={isAuth}
         setIsAuth={setIsAuth}
         drawerWidth={drawerWidth}
@@ -42,30 +35,14 @@ const Layout = () => {
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
-          height: "100vh",
-          p: { xs: "80px 24px 24px", md: 3 },
+          flex: "1 0 auto",
+          minHeight: "100vh",
+          p: { xs: "100px 24px 24px", md: "100px 24px 24px" },
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          bgcolor: theme.palette.common.white,
-          color: theme.palette.common.black,
+          bgcolor: palette.grey.background,
+          color: palette.common.white,
         }}
       >
-        <Button
-          variant="outlined"
-          onClick={() => {
-            changeLanguage("ua");
-          }}
-        >
-          UA
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            changeLanguage("en");
-          }}
-        >
-          EN
-        </Button>
         <Outlet />
       </Box>
     </Grid>

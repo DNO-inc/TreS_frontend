@@ -10,6 +10,7 @@
       "title": "My Tickets",
       "sent": "Sent",
       "received": "Received",
+      "followed": "Followed",
       "bookmarks": "Bookmarks",
       "deleted": "Deleted"
     },
@@ -28,6 +29,9 @@
   "received": {
     "heading": "Received"
   },
+  "followed": {
+    "heading": "Followed"
+  },
   "bookmarks": {
     "heading": "Bookmarks"
   },
@@ -45,6 +49,5 @@
   },
   "profile": {
     "heading": "Profile"
-  },
-  "hello": "Hello world!"
+  }
 }
