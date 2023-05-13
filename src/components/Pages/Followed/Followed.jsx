@@ -1,16 +1,16 @@
 import { Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-const GeneralTickets = () => {
+const Followed = () => {
   const { t } = useTranslation();
 
   return (
     <Grid container>
-      <Typography variant="h4">{t("generalTickets.heading")}</Typography>
+      <Typography variant="h4">{t("followed.heading")}</Typography>
     </Grid>
   );
 };
 
-GeneralTickets.propTypes = {};
+Followed.propTypes = {};
 
-export { GeneralTickets };
+export { Followed };

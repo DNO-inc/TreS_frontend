@@ -8,31 +8,62 @@ const themeSettings = mode => {
       ...(mode === "dark"
         ? {
             primary: {
-              main: colors.cerulean.DEFAULT,
+              main: colors.blue.primary,
             },
             secondary: {
-              main: colors.mercury.DEFAULT,
+              main: colors.grey[100],
             },
             neutral: {
-              dark: colors.codGray[100],
-              light: colors.codGray[100],
+              dark: colors.grey[100],
+              light: colors.grey[100],
+            },
+            grey: {
+              active: colors.grey[50],
+              border: colors.grey[400],
+              card: colors.grey[600],
+              background: colors.grey[700],
+              sidebar: colors.grey[800],
+            },
+            whiteAlpha: {
+              600: colors.whiteAlpha[600],
+            },
+            semantic: {
+              info: colors.semantic.info,
+              success: colors.semantic.success,
+              warning: colors.semantic.warning,
+              error: colors.semantic.error,
             },
           }
         : {
             primary: {
-              main: colors.cerulean.DEFAULT,
+              main: colors.blue.primary,
             },
             secondary: {
-              main: colors.codGray.DEFAULT,
+              main: colors.grey[100],
             },
             neutral: {
-              dark: colors.codGray[100],
-              light: colors.codGray[100],
+              dark: colors.grey[100],
+              light: colors.grey[100],
+            },
+            grey: {
+              active: colors.grey[50],
+              border: colors.grey[400],
+              card: colors.grey[100],
+              background: colors.grey[50],
+            },
+            whiteAlpha: {
+              600: colors.whiteAlpha[600],
+            },
+            semantic: {
+              info: colors.semantic.info,
+              success: colors.semantic.success,
+              warning: colors.semantic.warning,
+              error: colors.semantic.error,
             },
           }),
     },
     typography: {
-      fontFamily: ["Poppins", "san-serif"].join(","),
+      fontFamily: ["Inter"].join(","),
       fontSize: 14,
       fontWeight: 400,
       h1: {
@@ -69,7 +100,13 @@ const themeSettings = mode => {
       MuiListItem: {
         styleOverrides: {
           root: {
-            padding: "4px 16px",
+            padding: "4px 12px",
+            "& > a > div > div:first-of-type": {
+              minWidth: "40px",
+            },
+            "& >  div > div:first-of-type": {
+              minWidth: "40px",
+            },
           },
         },
       },

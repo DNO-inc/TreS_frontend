@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import Collapse from "@mui/material/Collapse";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import {
   Badge,
   List,
@@ -25,15 +25,21 @@ const NestedList = ({ open, isAuth, selectedIndex, handleListItemClick }) => {
       endpoint: endpoints.sent,
       isHaveNewMessage: true,
     },
+    // {
+    //   text: t("sidebar.myTickets.received"),
+    //   icon: <FolderOpenIcon />,
+    //   endpoint: endpoints.received,
+    //   isHaveNewMessage: true,
+    // },
     {
-      text: t("sidebar.myTickets.received"),
+      text: t("sidebar.myTickets.followed"),
       icon: <FolderOpenIcon />,
-      endpoint: endpoints.received,
+      endpoint: endpoints.followed,
       isHaveNewMessage: true,
     },
     {
       text: t("sidebar.myTickets.bookmarks"),
-      icon: <Inventory2OutlinedIcon />,
+      icon: <BookmarkBorderIcon />,
       endpoint: endpoints.bookmarks,
       isHaveNewMessage: false,
     },

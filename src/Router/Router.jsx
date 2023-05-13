@@ -1,16 +1,17 @@
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "../components/Layout";
 import { endpoints } from "../constants";
-import { Dashboard } from "../components/Dashboard";
-import { Sent } from "../components/Sent";
-import { Received } from "../components/Received";
-import { Bookmarks } from "../components/Bookmarks";
-import { Deleted } from "../components/Deleted";
-import { Notifications } from "../components/Notifications";
-import { GeneralTickets } from "../components/GeneralTickets";
-import { Settings } from "../components/Settings";
-import { Profile } from "../components/Profile";
-import { ErrorPage } from "../components/ErrorPage";
+import { GeneralTickets } from "../components/Pages/GeneralTickets";
+import { Dashboard } from "../components/Pages/Dashboard";
+import { Sent } from "../components/Pages/Sent";
+import { Received } from "../components/Pages/Received";
+import { Followed } from "../components/Pages/Followed";
+import { Bookmarks } from "../components/Pages/Bookmarks";
+import { Deleted } from "../components/Pages/Deleted";
+import { Notifications } from "../components/Pages/Notifications";
+import { Settings } from "../components/Pages/Settings";
+import { Profile } from "../components/Pages/Profile/Profile";
+import { ErrorPage } from "../components/Pages/ErrorPage/ErrorPage";
 
 const Router = () => {
   return (
@@ -20,6 +21,7 @@ const Router = () => {
         <Route path={endpoints.dashboard} element={<Dashboard />} />
         <Route path={endpoints.sent} element={<Sent />} />
         <Route path={endpoints.received} element={<Received />} />
+        <Route path={endpoints.followed} element={<Followed />} />
         <Route path={endpoints.bookmarks} element={<Bookmarks />} />
         <Route path={endpoints.deleted} element={<Deleted />} />
         <Route path={endpoints.notifications} element={<Notifications />} />

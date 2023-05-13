@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import { Badge, IconButton } from "@mui/material";
 
 const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
-  const countOfNotification = 120;
+  const countOfNotification = 0;
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -67,7 +67,7 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
           </NavLink>
         </ListItem>
         <ListItem key={"My Tickets"} disablePadding>
-          <ListItemButton onClick={handleClick}>
+          <ListItemButton disabled={!isAuth} onClick={handleClick}>
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
@@ -87,7 +87,7 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
             style={{ cursor: !isAuth ? "default" : "pointer" }}
           >
             <ListItemButton
-              disabled={!isAuth}
+              disabled={true}
               selected={selectedIndex === endpoints.notifications}
               onClick={event =>
                 handleListItemClick(event, endpoints.notifications)
