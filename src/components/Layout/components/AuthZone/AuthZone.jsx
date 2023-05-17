@@ -2,13 +2,15 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PropTypes from "prop-types";
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, Typography } from "@mui/material";
 import Logo from "../../../../assets/Logomark.svg";
 import { NavLink } from "react-router-dom";
 import { endpoints } from "../../../../constants";
 import { useTranslation } from "react-i18next";
+import { VerticalDivider } from "../../../VerticalDivider";
 
 const AuthZone = ({ isAuth, setIsAuth }) => {
   const { t } = useTranslation();
@@ -22,14 +24,15 @@ const AuthZone = ({ isAuth, setIsAuth }) => {
   };
 
   return (
-    <List>
+    <List
+      sx={{
+        "& > li": {
+          padding: { xs: 0, md: "8px 16px" },
+        },
+      }}
+    >
       {!isAuth ? (
-        <ListItem
-          key={"Log In"}
-          sx={{
-            padding: { xs: 0, md: "8px 16px" },
-          }}
-        >
+        <ListItem key={"Log In"}>
           <Button
             variant="contained"
             onClick={handleLogIn}
@@ -39,29 +42,22 @@ const AuthZone = ({ isAuth, setIsAuth }) => {
           </Button>
         </ListItem>
       ) : (
-        <ListItem
-          key={"Log out"}
-          sx={{ display: "flex", padding: { xs: 0, md: "8px 16px" } }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center", flex: "1 0 auto" }}>
-            <NavLink to={endpoints.profile}>
-              <Avatar
-                alt="Avatar"
-                src={Logo}
-                sx={{ width: 40, height: 40, mr: 1 }}
-              />
-            </NavLink>
-            <Typography sx={{ display: { xs: "none", md: "inline-block" } }}>
-              {t("common.profile")}
-            </Typography>
-          </Box>
+        <ListItem key={"Log out"} sx={{ display: "flex", gap: 2 }}>
+          <Typography sx={{ display: { xs: "none", md: "inline-block" } }}>
+            User name
+          </Typography>
+          <NavLink to={endpoints.profile}>
+            <Avatar alt="Avatar" src={Logo} sizes="40" sx={{ mr: 1 }} />
+          </NavLink>
+          <VerticalDivider />
           <NavLink to={endpoints.base}>
-            <Button onClick={handleLogOut} sx={{ minWidth: 2 }}>
+            <IconButton onClick={handleLogOut} sx={{ minWidth: 2 }}>
               <ListItemIcon sx={{ minWidth: 2 }}>
                 <LogoutIcon />
               </ListItemIcon>
-            </Button>
+            </IconButton>
           </NavLink>
+          <VerticalDivider />
         </ListItem>
       )}
     </List>

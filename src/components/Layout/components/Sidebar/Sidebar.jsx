@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { useTheme } from "@emotion/react";
 import { MobileDrawer } from "./components/MobileDrawer/MobileDrawer";
 import { CommonDrawer } from "./components/CommonDrawer/CommonDrawer";
 
@@ -31,14 +30,7 @@ const Sidebar = ({
         handleDrawerToggle={handleDrawerToggle}
         drawerWidth={drawerWidth}
       />
-      <CommonDrawer
-        isAuth={isAuth}
-        setIsAuth={setIsAuth}
-        container={container}
-        mobileOpen={mobileOpen}
-        handleDrawerToggle={handleDrawerToggle}
-        drawerWidth={drawerWidth}
-      />
+      <CommonDrawer isAuth={isAuth} drawerWidth={drawerWidth} />
     </Box>
   );
 };

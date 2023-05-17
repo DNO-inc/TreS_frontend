@@ -17,8 +17,7 @@
     "notification": "Notification",
     "generalTickets": "General Tickets",
     "settings": "Settings",
-    "lightMode": "Light Mode",
-    "profile": "Profile"
+    "lightMode": "Light Mode"
   },
   "dashboard": {
     "heading": "Dashboard"

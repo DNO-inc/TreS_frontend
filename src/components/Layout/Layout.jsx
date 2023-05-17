@@ -8,9 +8,8 @@ import { Box, Grid } from "@mui/material";
 
 const drawerWidth = 300;
 
-const Layout = () => {
+const Layout = ({ isAuth, setIsAuth }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
   const { palette } = useTheme();
 
   const handleDrawerToggle = () => {
@@ -43,7 +42,7 @@ const Layout = () => {
           color: palette.common.white,
         }}
       >
-        <Outlet />
+        <Outlet isAuth={isAuth} setIsAuth={setIsAuth} />
       </Box>
     </Grid>
   );

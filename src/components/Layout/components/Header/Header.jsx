@@ -40,9 +40,6 @@ const Header = ({ isAuth, setIsAuth, drawerWidth, handleDrawerToggle }) => {
         >
           <MenuIcon />
         </IconButton>
-        {/* <Typography variant="h6" noWrap component="div">
-          Some filters
-        </Typography> */}
         <AuthZone isAuth={isAuth} setIsAuth={setIsAuth} />
       </Toolbar>
     </AppBar>

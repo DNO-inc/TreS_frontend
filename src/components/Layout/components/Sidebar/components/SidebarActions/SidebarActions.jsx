@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import Divider from "@mui/material/Divider";
 import { GeneralActions } from "./components/GeneralActions";
 import { AdditionActions } from "./components/AdditionActions";
-import { AuthZone } from "../../../AuthZone";
-import { Avatar, Box, Button, Grid, Toolbar, Typography } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@emotion/react";
+import { VerticalDivider } from "../../../../../VerticalDivider";
 
-const SidebarActions = ({ isAuth, setIsAuth }) => {
+const SidebarActions = ({ isAuth }) => {
   const { pathname } = useLocation();
   const [selectedIndex, setSelectedIndex] = useState("/general-reports");
   const { t, i18n } = useTranslation();
@@ -47,6 +47,7 @@ const SidebarActions = ({ isAuth, setIsAuth }) => {
         sx={{
           display: "flex",
           alignItems: "center",
+          gap: 1,
           "& > button": { minWidth: 24 },
         }}
       >
@@ -63,9 +64,7 @@ const SidebarActions = ({ isAuth, setIsAuth }) => {
         >
           EN
         </Button>
-        <Box
-          sx={{ width: 2, height: 22, backgroundColor: palette.grey.card }}
-        ></Box>
+        <VerticalDivider />
         <Button
           onClick={() => {
             changeLanguage("ua");
