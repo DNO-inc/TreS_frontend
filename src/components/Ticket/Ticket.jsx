@@ -1,27 +1,42 @@
 import Card from "@mui/material/Card";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@emotion/react";
-import { Box, Divider, Grid } from "@mui/material";
-import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
+import { Box, Divider, Grid, IconButton, Tooltip } from "@mui/material";
 import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useState } from "react";
+import { checkStatus } from "../../shared/functions";
 
-const Ticket = ({ ticket }) => {
+const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
   const { t } = useTranslation();
   const { palette } = useTheme();
+  const [isLiked, setIsLiked] = useState();
+  const [isBookmarked, setIsBookmarked] = useState();
+
+  const { color, icon } = checkStatus(ticket.status);
+
+  const handleLike = () => {
+    setIsLiked(prevIsLiked => !prevIsLiked);
+  };
+
+  const handleBookmark = () => {
+    setIsBookmarked(prevIsBookmarked => !prevIsBookmarked);
+  };
 
   return (
     <Card
       sx={{
-        maxWidth: 514,
+        flexBasis: `calc((100% - 16px * ${
+          ticketsPerRow - 1
+        }) / ${ticketsPerRow})`,
         height: 332,
         bgcolor: palette.grey.card,
         border: `2px solid ${palette.grey.border}`,
-
         "& > div > div": {
           p: 2,
         },
@@ -38,7 +53,7 @@ const Ticket = ({ ticket }) => {
           flexDirection: "column",
           width: "100%",
           height: "100%",
-          borderLeft: `12px solid ${palette.semantic.info}`,
+          borderLeft: `12px solid ${color}`,
         }}
       >
         <Box maxHeight={80}>
@@ -54,27 +69,30 @@ const Ticket = ({ ticket }) => {
                 sx={{
                   textAlign: "center",
                   lineHeight: "24px",
-                  width: 60,
-                  height: 24,
-                  bgcolor: palette.semantic.info,
+                  p: "0px 12px",
+                  bgcolor: color,
                   borderRadius: 1,
+                  textTransform: "capitalize",
+                  fontSize: "14px",
                 }}
               >
-                Open
+                {ticket.status}
               </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: 24,
-                  height: 24,
-                  bgcolor: palette.grey.active,
-                  borderRadius: 1,
-                }}
-              >
-                <FlagOutlinedIcon fontSize={"12px"} />
-              </Box>
+              <Tooltip title="Some tooltip text" arrow>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 24,
+                    height: 24,
+                    bgcolor: palette.grey.active,
+                    borderRadius: 1,
+                  }}
+                >
+                  {icon}
+                </Box>
+              </Tooltip>
             </Grid>
           </Grid>
           <Typography color={palette.whiteAlpha[600]}>
@@ -82,8 +100,8 @@ const Ticket = ({ ticket }) => {
           </Typography>
         </Box>
         <Divider />
-        <Grid>
-          <Box maxHeight={120} overflow={"hidden"}>
+        <Grid display={"flex"} flexDirection={"column"} sx={{ flexGrow: 1 }}>
+          <Box maxHeight={"120px"} overflow={"hidden"} flexGrow={1}>
             <Typography variant="body2" color="text.secondary">
               {ticket.body}
             </Typography>
@@ -96,20 +114,33 @@ const Ticket = ({ ticket }) => {
           </Grid>
         </Grid>
         <Divider />
-        <Grid container maxHeight={56} justifyContent={"space-between"}>
-          <Typography fontSize={14}>{ticket.created}</Typography>
-          <Grid
-            display={"flex"}
-            gap={1}
-            sx={{
-              "& > svg": {
-                fontSize: 24,
-              },
-            }}
-          >
-            <DoNotDisturbAltOutlinedIcon />
-            <BookmarkBorderOutlinedIcon />
-            <FavoriteBorderOutlinedIcon />
+        <Grid
+          container
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          sx={{ p: "8px 16px !important" }}
+        >
+          <Typography color="text.secondary" fontSize={14}>
+            {ticket.created}
+          </Typography>
+          <Grid display={"flex"}>
+            <IconButton disabled={!isAuth}>
+              <DoNotDisturbAltOutlinedIcon />
+            </IconButton>
+            <IconButton onClick={handleBookmark} disabled={!isAuth}>
+              {isAuth && isBookmarked ? (
+                <BookmarkIcon />
+              ) : (
+                <BookmarkBorderOutlinedIcon />
+              )}
+            </IconButton>
+            <IconButton onClick={handleLike} disabled={!isAuth}>
+              {isAuth && isLiked ? (
+                <FavoriteIcon />
+              ) : (
+                <FavoriteBorderOutlinedIcon />
+              )}
+            </IconButton>
           </Grid>
         </Grid>
       </Grid>

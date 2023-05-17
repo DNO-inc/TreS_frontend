@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "../components/Layout";
 import { endpoints } from "../constants";
@@ -14,10 +15,15 @@ import { Profile } from "../components/Pages/Profile/Profile";
 import { ErrorPage } from "../components/Pages/ErrorPage/ErrorPage";
 
 const Router = () => {
+  const [isAuth, setIsAuth] = useState(false);
+
   return (
     <Routes>
-      <Route path={endpoints.base} element={<Layout />}>
-        <Route index element={<GeneralTickets />}></Route>
+      <Route
+        path={endpoints.base}
+        element={<Layout isAuth={isAuth} setIsAuth={setIsAuth} />}
+      >
+        <Route index element={<GeneralTickets isAuth={isAuth} />}></Route>
         <Route path={endpoints.dashboard} element={<Dashboard />} />
         <Route path={endpoints.sent} element={<Sent />} />
         <Route path={endpoints.received} element={<Received />} />

@@ -1,12 +1,12 @@
 import Drawer from "@mui/material/Drawer";
 import { SidebarActions } from "../SidebarActions";
 import { useTheme } from "@emotion/react";
-import { Avatar, Grid, Toolbar, Typography } from "@mui/material";
+import { Avatar, Box, Grid, Toolbar, Typography } from "@mui/material";
 import Logo from "../../../../../../assets/Logomark.svg";
+import { EllipsisMenu } from "../EllipsisMenu";
 
 const MobileDrawer = ({
   isAuth,
-  setIsAuth,
   container,
   mobileOpen,
   handleDrawerToggle,
@@ -46,28 +46,29 @@ const MobileDrawer = ({
       <Toolbar
         sx={{
           minHeight: "72px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
           borderBottom: `2px solid ${palette.grey.card}`,
           mb: 4,
         }}
       >
-        <Grid container alignItems={"center"} gap={1}>
-          <Avatar alt="Logo" src={Logo} sx={{ width: 40, height: 40 }} />
-          <Typography
-            sx={{
-              ml: 1,
-              textTransform: "uppercase",
-              fontSize: "24px",
-              fontWeight: "bold",
-            }}
-          >
-            TreS
-          </Typography>
+        <Grid container justifyContent={"space-between"}>
+          <Grid display={"flex"} flexDirection={"row"} alignItems={"center"}>
+            <Avatar alt="Logo" src={Logo} sx={{ width: 40, height: 40 }} />
+            <Typography
+              sx={{
+                ml: 1,
+                textTransform: "uppercase",
+                fontSize: "24px",
+                fontWeight: "bold",
+              }}
+            >
+              TreS
+            </Typography>
+          </Grid>
+
+          <EllipsisMenu />
         </Grid>
       </Toolbar>
-      <SidebarActions isAuth={isAuth} setIsAuth={setIsAuth} />
+      <SidebarActions isAuth={isAuth} />
     </Drawer>
   );
 };

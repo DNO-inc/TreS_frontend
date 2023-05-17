@@ -1,4 +1,5 @@
 const endpoints = {
+  baseUrl: import.meta.env.VITE_API_URL,
   base: "/",
   dashboard: "/dashboard",
   sent: "/sent",

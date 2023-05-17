@@ -3,15 +3,9 @@ import { SidebarActions } from "../SidebarActions";
 import { useTheme } from "@emotion/react";
 import { Avatar, Grid, Toolbar, Typography } from "@mui/material";
 import Logo from "../../../../../../assets/Logomark.svg";
+import { EllipsisMenu } from "../EllipsisMenu";
 
-const CommonDrawer = ({
-  isAuth,
-  setIsAuth,
-  container,
-  mobileOpen,
-  handleDrawerToggle,
-  drawerWidth,
-}) => {
+const CommonDrawer = ({ isAuth, drawerWidth }) => {
   const { palette } = useTheme();
 
   return (
@@ -42,7 +36,7 @@ const CommonDrawer = ({
     >
       <Toolbar
         sx={{
-          minHeight: "73px !important",
+          minHeight: "73.5px !important",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -51,21 +45,25 @@ const CommonDrawer = ({
           mb: 2,
         }}
       >
-        <Grid container alignItems={"center"} gap={1}>
-          <Avatar alt="Logo" src={Logo} sx={{ width: 40, height: 40 }} />
-          <Typography
-            sx={{
-              ml: 1,
-              textTransform: "uppercase",
-              fontSize: "24px",
-              fontWeight: "bold",
-            }}
-          >
-            TreS
-          </Typography>
+        <Grid container justifyContent={"space-between"}>
+          <Grid display={"flex"} flexDirection={"row"} alignItems={"center"}>
+            <Avatar alt="Logo" src={Logo} sx={{ width: 40, height: 40 }} />
+            <Typography
+              sx={{
+                ml: 1,
+                textTransform: "uppercase",
+                fontSize: "24px",
+                fontWeight: "bold",
+              }}
+            >
+              TreS
+            </Typography>
+          </Grid>
+
+          <EllipsisMenu />
         </Grid>
       </Toolbar>
-      <SidebarActions isAuth={isAuth} setIsAuth={setIsAuth} />
+      <SidebarActions isAuth={isAuth} />
     </Drawer>
   );
 };

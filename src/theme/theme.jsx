@@ -20,6 +20,7 @@ const themeSettings = mode => {
             grey: {
               active: colors.grey[50],
               border: colors.grey[400],
+              divider: colors.grey[500],
               card: colors.grey[600],
               background: colors.grey[700],
               sidebar: colors.grey[800],
