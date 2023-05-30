@@ -1,5 +1,7 @@
 FROM node:18.16.0-alpine as tres-build-base
 
+ENV VITE_API_URL="https://burrito.tres.cyberbydlo.com"
+
 WORKDIR /app
 COPY . /app
 RUN npm install
