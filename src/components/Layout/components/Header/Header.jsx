@@ -1,7 +1,7 @@
 import { AppBar, IconButton, Toolbar } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import PropTypes from "prop-types";
-import { AuthZone } from "../AuthZone";
+import { AuthZone } from "./components/AuthZone";
 import { useTheme } from "@emotion/react";
 
 const Header = ({ isAuth, setIsAuth, drawerWidth, handleDrawerToggle }) => {

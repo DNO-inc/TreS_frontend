@@ -13,9 +13,11 @@ import { Notifications } from "../components/Pages/Notifications";
 import { Settings } from "../components/Pages/Settings";
 import { Profile } from "../components/Pages/Profile/Profile";
 import { ErrorPage } from "../components/Pages/ErrorPage/ErrorPage";
+import { useJwtDecode } from "../shared/hooks";
 
 const Router = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const jwt = useJwtDecode();
+  const [isAuth, setIsAuth] = useState(!!jwt);
 
   return (
     <Routes>
@@ -23,7 +25,7 @@ const Router = () => {
         path={endpoints.base}
         element={<Layout isAuth={isAuth} setIsAuth={setIsAuth} />}
       >
-        <Route index element={<GeneralTickets isAuth={isAuth} />}></Route>
+        <Route index element={<GeneralTickets />}></Route>
         <Route path={endpoints.dashboard} element={<Dashboard />} />
         <Route path={endpoints.sent} element={<Sent />} />
         <Route path={endpoints.received} element={<Received />} />

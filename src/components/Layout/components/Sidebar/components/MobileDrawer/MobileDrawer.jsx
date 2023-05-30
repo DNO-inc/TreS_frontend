@@ -6,7 +6,6 @@ import Logo from "../../../../../../assets/Logomark.svg";
 import { EllipsisMenu } from "../EllipsisMenu";
 
 const MobileDrawer = ({
-  isAuth,
   container,
   mobileOpen,
   handleDrawerToggle,
@@ -68,7 +67,7 @@ const MobileDrawer = ({
           <EllipsisMenu />
         </Grid>
       </Toolbar>
-      <SidebarActions isAuth={isAuth} />
+      <SidebarActions />
     </Drawer>
   );
 };

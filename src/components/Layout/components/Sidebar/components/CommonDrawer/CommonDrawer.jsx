@@ -5,7 +5,7 @@ import { Avatar, Grid, Toolbar, Typography } from "@mui/material";
 import Logo from "../../../../../../assets/Logomark.svg";
 import { EllipsisMenu } from "../EllipsisMenu";
 
-const CommonDrawer = ({ isAuth, drawerWidth }) => {
+const CommonDrawer = ({ drawerWidth }) => {
   const { palette } = useTheme();
 
   return (
@@ -63,7 +63,7 @@ const CommonDrawer = ({ isAuth, drawerWidth }) => {
           <EllipsisMenu />
         </Grid>
       </Toolbar>
-      <SidebarActions isAuth={isAuth} />
+      <SidebarActions />
     </Drawer>
   );
 };

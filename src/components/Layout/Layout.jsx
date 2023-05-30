@@ -24,9 +24,8 @@ const Layout = ({ isAuth, setIsAuth }) => {
         drawerWidth={drawerWidth}
         handleDrawerToggle={handleDrawerToggle}
       />
+
       <Sidebar
-        isAuth={isAuth}
-        setIsAuth={setIsAuth}
         mobileOpen={mobileOpen}
         drawerWidth={drawerWidth}
         handleDrawerToggle={handleDrawerToggle}
@@ -40,9 +39,12 @@ const Layout = ({ isAuth, setIsAuth }) => {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           bgcolor: palette.grey.background,
           color: palette.common.white,
+          "& > div > h4": {
+            mb: 4,
+          },
         }}
       >
-        <Outlet isAuth={isAuth} setIsAuth={setIsAuth} />
+        <Outlet />
       </Box>
     </Grid>
   );

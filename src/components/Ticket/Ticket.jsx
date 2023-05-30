@@ -96,12 +96,19 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
             </Grid>
           </Grid>
           <Typography color={palette.whiteAlpha[600]}>
-            Biased assessment
+            {ticket.assignee ? ticket.assignee : "No assignee"}
           </Typography>
         </Box>
         <Divider />
         <Grid display={"flex"} flexDirection={"column"} sx={{ flexGrow: 1 }}>
-          <Box maxHeight={"120px"} overflow={"hidden"} flexGrow={1}>
+          <Box
+            sx={{
+              maxHeight: "120px",
+              overflow: "hidden",
+              flexGrow: 1,
+              wordWrap: "break-word",
+            }}
+          >
             <Typography variant="body2" color="text.secondary">
               {ticket.body}
             </Typography>
@@ -109,7 +116,11 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
           <Grid
             sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
           >
-            <Typography color="text.secondary">@user_name</Typography>
+            <Typography color="text.secondary">
+              {ticket.creator?.firstname
+                ? `${ticket.creator.firstname} ${ticket.creator.lastname}`
+                : "@user_name"}
+            </Typography>
             <Typography color="text.secondary">ELIT</Typography>
           </Grid>
         </Grid>
@@ -121,7 +132,7 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
           sx={{ p: "8px 16px !important" }}
         >
           <Typography color="text.secondary" fontSize={14}>
-            {ticket.created}
+            {"12.06.23"}
           </Typography>
           <Grid display={"flex"}>
             <IconButton disabled={!isAuth}>

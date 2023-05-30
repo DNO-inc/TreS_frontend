@@ -1,5 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { ComingSoon } from "../../ComingSoon";
 
 const Notifications = () => {
   const { t } = useTranslation();
@@ -7,6 +8,7 @@ const Notifications = () => {
   return (
     <Grid container>
       <Typography variant="h4">{t("notification.heading")}</Typography>
+      <ComingSoon />
     </Grid>
   );
 };
