@@ -7,12 +7,14 @@ import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@emotion/react";
 import { VerticalDivider } from "../../../../../VerticalDivider";
+import { useJwtDecode } from "../../../../../../shared/hooks";
 
-const SidebarActions = ({ isAuth }) => {
+const SidebarActions = () => {
   const { pathname } = useLocation();
   const [selectedIndex, setSelectedIndex] = useState("/general-reports");
   const { t, i18n } = useTranslation();
   const { palette } = useTheme();
+  const jwt = useJwtDecode();
 
   const changeLanguage = lang => {
     i18n.changeLanguage(lang);
@@ -32,13 +34,13 @@ const SidebarActions = ({ isAuth }) => {
     >
       <Grid flex={"1 0 auto"}>
         <GeneralActions
-          isAuth={isAuth}
+          isAuth={!!jwt}
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
         />
         <Divider width={"100%"} />
         <AdditionActions
-          isAuth={isAuth}
+          isAuth={!!jwt}
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
         />

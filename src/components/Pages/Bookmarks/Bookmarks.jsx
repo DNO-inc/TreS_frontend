@@ -1,5 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { ComingSoon } from "../../ComingSoon";
 
 const Bookmarks = () => {
   const { t } = useTranslation();
@@ -7,6 +8,7 @@ const Bookmarks = () => {
   return (
     <Grid container>
       <Typography variant="h4">{t("bookmarks.heading")}</Typography>
+      <ComingSoon />
     </Grid>
   );
 };

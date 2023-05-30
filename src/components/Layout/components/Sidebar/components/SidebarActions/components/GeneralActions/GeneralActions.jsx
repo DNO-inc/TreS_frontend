@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -39,6 +39,10 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
 
     return `${count} notifications`;
   }
+
+  useEffect(() => {
+    setOpen(false);
+  }, [isAuth]);
 
   return (
     <>
@@ -87,7 +91,7 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
             style={{ cursor: !isAuth ? "default" : "pointer" }}
           >
             <ListItemButton
-              disabled={true}
+              disabled={!isAuth}
               selected={selectedIndex === endpoints.notifications}
               onClick={event =>
                 handleListItemClick(event, endpoints.notifications)

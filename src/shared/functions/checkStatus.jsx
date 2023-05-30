@@ -13,7 +13,7 @@ const checkStatus = status => {
     case "rejected":
       return { color: "#D94B44", icon: <FlagOutlinedIcon fontSize={"12px"} /> };
     default:
-      break;
+      return { color: "#2982D3", icon: <FlagOutlinedIcon fontSize={"12px"} /> };
   }
 };
 

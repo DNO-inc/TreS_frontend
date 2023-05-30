@@ -1,6 +1,7 @@
 {
   "common": {
     "login": "Log in",
+    "signup": "Sign Up",
     "profile": "Profile",
     "error": "Error"
   },
