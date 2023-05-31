@@ -10,3 +10,4 @@ RUN npm run build
 FROM nginx:latest
 
 COPY --from=tres-build-base /app/dist /usr/share/nginx/html
+COPY ./etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
