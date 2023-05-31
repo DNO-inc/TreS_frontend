@@ -40,7 +40,7 @@ const Router = () => {
         <Route path={endpoints.notifications} element={<Notifications />} />
         <Route path={endpoints.generalTickets} element={<GeneralTickets />} />
         <Route path={endpoints.settings} element={<Settings />} />
-        <Route path={endpoints.profile} element={<Profile />} />
+        <Route path={`${endpoints.profile}/:userId`} element={<Profile />} />
         <Route path={"*"} element={<ErrorPage />} />
       </Route>
       <Route path={"*"} element={<ErrorPage />} />

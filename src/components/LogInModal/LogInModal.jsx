@@ -22,6 +22,7 @@ const LogInModal = ({ open, setOpen, setIsAuth }) => {
   useEffect(() => {
     if (isSuccess) {
       localStorage.setItem("jwt-token", data.access_token);
+      localStorage.setItem("user-name", data.login);
       setIsAuth(true);
       setOpen(false);
     }

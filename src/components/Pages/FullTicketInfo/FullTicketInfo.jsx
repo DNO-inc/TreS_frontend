@@ -92,7 +92,6 @@ const FullTicketInfo = () => {
                     }}
                   >
                     {data.status.name}
-                    {console.log(data)}
                   </Box>
                   <Tooltip title="Some tooltip text" arrow>
                     <Box

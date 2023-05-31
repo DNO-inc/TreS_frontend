@@ -1,46 +1,63 @@
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
-import CardActionArea from "@mui/material/CardActionArea";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@emotion/react";
-import { Box, Divider, Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, Button, Divider, Grid, IconButton, Tooltip } from "@mui/material";
 import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { changeDate, checkStatus } from "../../shared/functions";
-import { useNavigate } from "react-router-dom";
+import {
+  useToggleBookmarkMutation,
+  useToggleLikeMutation,
+} from "../../store/api/tickets/tickets.api";
+import { NavLink } from "react-router-dom";
 import { endpoints } from "../../constants";
 
 const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
   const { t } = useTranslation();
   const { palette } = useTheme();
-  const navigate = useNavigate();
-  const [isLiked, setIsLiked] = useState();
+  const [isLiked, setIsLiked] = useState(ticket.is_liked);
   const [isBookmarked, setIsBookmarked] = useState();
+
+  const [toggleLike, { isSuccess: isLikeSuccess }] = useToggleLikeMutation();
+  const [toggleBookmark, { isSuccess: isBookmarkSuccess }] =
+    useToggleBookmarkMutation();
 
   const { color, icon } = checkStatus(ticket.status.name);
   const changedDate = ticket?.date && changeDate(ticket.date);
+  const userId = ticket.creator?.user_id;
 
-  const handleLike = () => {
-    setIsLiked(prevIsLiked => !prevIsLiked);
+  const handleToggleLike = () => {
+    const option = !isLiked ? "like" : "unlike";
+    toggleLike({
+      option: option,
+      body: JSON.stringify({ ticket_id: ticket.ticket_id }),
+    });
   };
 
-  console.log(ticket);
+  // const handleToggleBookmark = () => {
+  //   const option = !isBookmarked ? "bookmark" : "unbookmark";
+  //   toggleLike({
+  //     option: option,
+  //     body: JSON.stringify({ ticket_id: ticket.ticket_id }),
+  //   });
+  // };
+
+  useEffect(() => {
+    isLikeSuccess && setIsLiked(prevIsLiked => !prevIsLiked);
+    // isBookmarkSuccess && setIsBookmarked(prevIsBookmarked => !prevIsBookmarked);
+  }, [isLikeSuccess, isBookmarkSuccess]);
 
   const handleBookmark = () => {
     setIsBookmarked(prevIsBookmarked => !prevIsBookmarked);
   };
 
-  const handleClick = () => {
-    isAuth && navigate(`${endpoints.fullTicket}/${ticket.ticket_id}`);
-  };
-
   return (
     <Card
-      onClick={handleClick}
       sx={{
         flexBasis: `calc((100% - 16px * ${
           ticketsPerRow - 1
@@ -48,7 +65,6 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
         height: 332,
         bgcolor: palette.grey.card,
         border: `2px solid ${palette.grey.border}`,
-        cursor: isAuth ? "pointer" : "common",
         "& > div > div": {
           p: 2,
         },
@@ -88,7 +104,7 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
                   fontSize: "14px",
                 }}
               >
-                {ticket.status.name}
+                {ticket.status.name.toLowerCase()}
               </Box>
               <Tooltip title="Some tooltip text" arrow>
                 <Box
@@ -128,11 +144,13 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
           <Grid
             sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
           >
-            <Typography color="text.secondary">
-              {ticket.creator?.login
-                ? `@${ticket.creator.login}`
-                : "@user_name"}
-            </Typography>
+            <NavLink to={userId ? `${endpoints.profile}/${userId}` : "/"}>
+              <Typography color="text.secondary">
+                {ticket.creator?.login
+                  ? `@${ticket.creator.login}`
+                  : "@anonymous"}
+              </Typography>
+            </NavLink>
             <Typography color="text.secondary">
               {ticket.faculty.name}
             </Typography>
@@ -152,20 +170,27 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
             <IconButton disabled={!isAuth}>
               <DoNotDisturbAltOutlinedIcon />
             </IconButton>
-            <IconButton onClick={handleBookmark} disabled={!isAuth}>
+            <IconButton
+              // onClick={handleToggleBookmark}
+              disabled={!isAuth}
+            >
               {isAuth && isBookmarked ? (
                 <BookmarkIcon />
               ) : (
                 <BookmarkBorderOutlinedIcon />
               )}
             </IconButton>
-            <IconButton onClick={handleLike} disabled={!isAuth}>
+            <Button
+              onClick={handleToggleLike}
+              disabled={!isAuth}
+              sx={{ minWidth: 40, height: 40 }}
+            >
               {isAuth && isLiked ? (
                 <FavoriteIcon />
               ) : (
                 <FavoriteBorderOutlinedIcon />
               )}
-            </IconButton>
+            </Button>
           </Grid>
         </Grid>
       </Grid>
