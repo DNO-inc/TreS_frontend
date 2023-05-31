@@ -49,5 +49,8 @@
   },
   "profile": {
     "heading": "Profile"
+  },
+  "fullTicket": {
+    "heading": "Full ticket"
   }
 }
