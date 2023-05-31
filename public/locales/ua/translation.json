@@ -50,5 +50,7 @@
   "profile": {
     "heading": "Профіль"
   },
-  "hello": "Привіт Світ!"
+  "fullTicket": {
+    "heading": "Повна інфа про тікет"
+  }
 }

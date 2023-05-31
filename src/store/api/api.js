@@ -4,7 +4,7 @@ import { endpoints } from "../../constants";
 
 export const api = createApi({
   reducerPath: "api",
-  tagTypes: ["Tickets"],
+  //tagTypes: ["Tickets"],
   baseQuery: fetchBaseQuery({ baseUrl: endpoints.baseUrl }),
   endpoints: builder => ({
     getVersion: builder.query({

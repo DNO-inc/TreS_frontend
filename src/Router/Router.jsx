@@ -14,6 +14,7 @@ import { Settings } from "../components/Pages/Settings";
 import { Profile } from "../components/Pages/Profile/Profile";
 import { ErrorPage } from "../components/Pages/ErrorPage/ErrorPage";
 import { useJwtDecode } from "../shared/hooks";
+import { FullTicketInfo } from "../components/Pages/FullTicketInfo/FullTicketInfo";
 
 const Router = () => {
   const jwt = useJwtDecode();
@@ -26,6 +27,10 @@ const Router = () => {
         element={<Layout isAuth={isAuth} setIsAuth={setIsAuth} />}
       >
         <Route index element={<GeneralTickets />}></Route>
+        <Route
+          path={`${endpoints.fullTicket}/:ticketId`}
+          element={<FullTicketInfo />}
+        />
         <Route path={endpoints.dashboard} element={<Dashboard />} />
         <Route path={endpoints.sent} element={<Sent />} />
         <Route path={endpoints.received} element={<Received />} />
