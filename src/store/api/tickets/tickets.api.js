@@ -13,8 +13,8 @@ export const ticketsApi = api.injectEndpoints({
       }),
     }),
     getTickets: builder.mutation({
-      query: ({ body }) => ({
-        url: "/tickets/ticket_list",
+      query: ({ option, body }) => ({
+        url: `/${option}/ticket_list`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,11 +22,21 @@ export const ticketsApi = api.injectEndpoints({
         },
         body,
       }),
-      providesTags: ["Tickets"],
     }),
     createTicket: builder.mutation({
       query: ({ body }) => ({
         url: "/tickets/create",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+        },
+        body,
+      }),
+    }),
+    showTicket: builder.mutation({
+      query: ({ body }) => ({
+        url: "/tickets/show",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,4 +52,5 @@ export const {
   useGetAnonTicketsMutation,
   useGetTicketsMutation,
   useCreateTicketMutation,
+  useShowTicketMutation,
 } = ticketsApi;

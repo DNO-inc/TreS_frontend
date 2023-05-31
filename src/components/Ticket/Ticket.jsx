@@ -10,26 +10,37 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState } from "react";
-import { checkStatus } from "../../shared/functions";
+import { changeDate, checkStatus } from "../../shared/functions";
+import { useNavigate } from "react-router-dom";
+import { endpoints } from "../../constants";
 
 const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
   const { t } = useTranslation();
   const { palette } = useTheme();
+  const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState();
   const [isBookmarked, setIsBookmarked] = useState();
 
-  const { color, icon } = checkStatus(ticket.status);
+  const { color, icon } = checkStatus(ticket.status.name);
+  const changedDate = ticket?.date && changeDate(ticket.date);
 
   const handleLike = () => {
     setIsLiked(prevIsLiked => !prevIsLiked);
   };
 
+  console.log(ticket);
+
   const handleBookmark = () => {
     setIsBookmarked(prevIsBookmarked => !prevIsBookmarked);
   };
 
+  const handleClick = () => {
+    isAuth && navigate(`${endpoints.fullTicket}/${ticket.ticket_id}`);
+  };
+
   return (
     <Card
+      onClick={handleClick}
       sx={{
         flexBasis: `calc((100% - 16px * ${
           ticketsPerRow - 1
@@ -37,6 +48,7 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
         height: 332,
         bgcolor: palette.grey.card,
         border: `2px solid ${palette.grey.border}`,
+        cursor: isAuth ? "pointer" : "common",
         "& > div > div": {
           p: 2,
         },
@@ -76,7 +88,7 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
                   fontSize: "14px",
                 }}
               >
-                {ticket.status}
+                {ticket.status.name}
               </Box>
               <Tooltip title="Some tooltip text" arrow>
                 <Box
@@ -117,11 +129,13 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
             sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
           >
             <Typography color="text.secondary">
-              {ticket.creator?.firstname
-                ? `${ticket.creator.firstname} ${ticket.creator.lastname}`
+              {ticket.creator?.login
+                ? `@${ticket.creator.login}`
                 : "@user_name"}
             </Typography>
-            <Typography color="text.secondary">ELIT</Typography>
+            <Typography color="text.secondary">
+              {ticket.faculty.name}
+            </Typography>
           </Grid>
         </Grid>
         <Divider />
@@ -132,7 +146,7 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
           sx={{ p: "8px 16px !important" }}
         >
           <Typography color="text.secondary" fontSize={14}>
-            {"12.06.23"}
+            {changedDate}
           </Typography>
           <Grid display={"flex"}>
             <IconButton disabled={!isAuth}>
