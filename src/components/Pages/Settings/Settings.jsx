@@ -7,7 +7,7 @@ const Settings = () => {
 
   return (
     <Grid container>
-      <Typography variant="h4">{t("settings.heading")}</Typography>
+      <Typography variant="h1">{t("settings.heading")}</Typography>
       <ComingSoon />
     </Grid>
   );

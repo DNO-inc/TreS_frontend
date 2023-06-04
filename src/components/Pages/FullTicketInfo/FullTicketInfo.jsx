@@ -44,7 +44,7 @@ const FullTicketInfo = () => {
 
   return (
     <Grid container>
-      <Typography variant="h4">{t("fullTicket.heading")}</Typography>
+      <Typography variant="h1">{t("fullTicket.heading")}</Typography>
       {isLoading && <Loader />}
       {!isLoading && isSuccess && (
         <Card
@@ -92,7 +92,6 @@ const FullTicketInfo = () => {
                     }}
                   >
                     {data.status.name}
-                    {console.log(data)}
                   </Box>
                   <Tooltip title="Some tooltip text" arrow>
                     <Box

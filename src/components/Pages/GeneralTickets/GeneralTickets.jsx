@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography, useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Ticket } from "../../Ticket/Ticket";
 import { useGetTicketsMutation } from "../../../store/api/tickets/tickets.api";
@@ -11,6 +11,7 @@ const GeneralTickets = () => {
   const [ticketsPerRow, setTicketsPerRow] = useState(2);
   const [tickets, setTickets] = useState([]);
   const jwt = useJwtDecode();
+  const matches = useMediaQuery("(min-width:600px)");
   const [geTickets, result] = useGetTicketsMutation();
 
   const option = jwt ? "tickets" : "anon";
@@ -22,23 +23,32 @@ const GeneralTickets = () => {
   }, [option]);
 
   return (
-    <Grid container>
-      <Typography variant="h4">{t("generalTickets.heading")}</Typography>
-      <Button
-        onClick={() => {
-          setTicketsPerRow(2);
+    <Grid container flexDirection={"column"}>
+      <Typography variant="h1">{t("generalTickets.heading")}</Typography>
+      <Grid>
+        <Button
+          onClick={() => {
+            setTicketsPerRow(2);
+          }}
+        >
+          2
+        </Button>
+        <Button
+          onClick={() => {
+            setTicketsPerRow(3);
+          }}
+        >
+          3
+        </Button>
+      </Grid>
+      <Grid
+        container
+        gap={2}
+        sx={{
+          flexDirection: matches ? "row" : "column",
+          maxWidth: matches ? "100%" : "600px",
         }}
       >
-        2
-      </Button>
-      <Button
-        onClick={() => {
-          setTicketsPerRow(3);
-        }}
-      >
-        3
-      </Button>
-      <Grid container gap={2}>
         {result.isLoading && <Loader />}
         {result.isSuccess &&
           [...tickets]
@@ -47,7 +57,7 @@ const GeneralTickets = () => {
             .map(ticket => {
               return (
                 <Ticket
-                  ticketsPerRow={ticketsPerRow}
+                  ticketsPerRow={matches ? ticketsPerRow : 1}
                   ticket={ticket}
                   isAuth={!!jwt}
                   key={ticket.ticket_id}

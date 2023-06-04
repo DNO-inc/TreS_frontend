@@ -119,7 +119,7 @@ const AdditionActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
           </ListItemButton>
         </NavLink>
       </ListItem>
-      <ListItem key={"Light mode"} disablePadding>
+      {/* <ListItem key={"Light mode"} disablePadding>
         <ListItemButton
           disableRipple
           sx={{
@@ -133,7 +133,7 @@ const AdditionActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
           <ListItemText primary={t("sidebar.lightMode")} />
           <CustomSwitch />
         </ListItemButton>
-      </ListItem>
+      </ListItem> */}
     </List>
   );
 };

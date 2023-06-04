@@ -7,7 +7,7 @@ const Followed = () => {
 
   return (
     <Grid container>
-      <Typography variant="h4">{t("followed.heading")}</Typography>
+      <Typography variant="h1">{t("followed.heading")}</Typography>
       <ComingSoon />
     </Grid>
   );

@@ -7,7 +7,7 @@ const Deleted = () => {
 
   return (
     <Grid container>
-      <Typography variant="h4">{t("deleted.heading")}</Typography>
+      <Typography variant="h1">{t("deleted.heading")}</Typography>
       <ComingSoon />
     </Grid>
   );
