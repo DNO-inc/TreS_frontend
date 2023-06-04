@@ -24,8 +24,8 @@ const GeneralTickets = () => {
 
   return (
     <Grid container flexDirection={"column"}>
+      <Typography variant="h1">{t("generalTickets.heading")}</Typography>
       <Grid>
-        <Typography variant="h4">{t("generalTickets.heading")}</Typography>
         <Button
           onClick={() => {
             setTicketsPerRow(2);

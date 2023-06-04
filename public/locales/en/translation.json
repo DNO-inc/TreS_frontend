@@ -52,5 +52,8 @@
   },
   "fullTicket": {
     "heading": "Full ticket"
+  },
+  "createTicket": {
+    "heading": "Ticket creation"
   }
 }

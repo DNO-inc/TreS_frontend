@@ -7,7 +7,7 @@ const Notifications = () => {
 
   return (
     <Grid container>
-      <Typography variant="h4">{t("notification.heading")}</Typography>
+      <Typography variant="h1">{t("notification.heading")}</Typography>
       <ComingSoon />
     </Grid>
   );

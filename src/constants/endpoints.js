@@ -12,6 +12,7 @@ const endpoints = {
   generalTickets: "/general-tickets",
   settings: "/settings",
   profile: "/profile",
+  createTicket: "/tickets/create",
 };
 
 export { endpoints };

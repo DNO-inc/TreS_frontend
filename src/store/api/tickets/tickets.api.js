@@ -12,7 +12,7 @@ export const ticketsApi = api.injectEndpoints({
         },
         body,
       }),
-      providesTags: ["Like"],
+      providesTags: ["Like", "Bookmark"],
     }),
     createTicket: builder.mutation({
       query: ({ body }) => ({
@@ -58,6 +58,7 @@ export const ticketsApi = api.injectEndpoints({
         },
         body,
       }),
+      invalidatesTags: ["Bookmark"],
     }),
   }),
 });

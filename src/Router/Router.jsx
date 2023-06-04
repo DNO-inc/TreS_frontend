@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Layout } from "../components/Layout";
 import { endpoints } from "../constants";
 import { GeneralTickets } from "../components/Pages/GeneralTickets";
@@ -15,10 +15,16 @@ import { Profile } from "../components/Pages/Profile/Profile";
 import { ErrorPage } from "../components/Pages/ErrorPage/ErrorPage";
 import { useJwtDecode } from "../shared/hooks";
 import { FullTicketInfo } from "../components/Pages/FullTicketInfo/FullTicketInfo";
+import { CreateTicketForm } from "../components/Pages/CreateTicketForm";
 
 const Router = () => {
   const jwt = useJwtDecode();
   const [isAuth, setIsAuth] = useState(!!jwt);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    !isAuth && navigate(endpoints.base);
+  }, [isAuth]);
 
   return (
     <Routes>
@@ -33,6 +39,7 @@ const Router = () => {
         />
         <Route path={endpoints.dashboard} element={<Dashboard />} />
         <Route path={endpoints.sent} element={<Sent />} />
+        <Route path={endpoints.createTicket} element={<CreateTicketForm />} />
         <Route path={endpoints.received} element={<Received />} />
         <Route path={endpoints.followed} element={<Followed />} />
         <Route path={endpoints.bookmarks} element={<Bookmarks />} />

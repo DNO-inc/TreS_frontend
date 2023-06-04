@@ -7,7 +7,7 @@ const Bookmarks = () => {
 
   return (
     <Grid container>
-      <Typography variant="h4">{t("bookmarks.heading")}</Typography>
+      <Typography variant="h1">{t("bookmarks.heading")}</Typography>
       <ComingSoon />
     </Grid>
   );

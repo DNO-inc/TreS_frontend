@@ -4,7 +4,7 @@ import { endpoints } from "../../constants";
 
 export const api = createApi({
   reducerPath: "api",
-  tagTypes: ["Like"],
+  tagTypes: ["Like", "Bookmark"],
   baseQuery: fetchBaseQuery({ baseUrl: endpoints.baseUrl }),
   endpoints: builder => ({
     getVersion: builder.query({
@@ -36,6 +36,17 @@ export const api = createApi({
         body,
       }),
     }),
+    getQueueBuFaculty: builder.mutation({
+      query: ({ body }) => ({
+        url: "/meta/get_queues",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+        },
+        body,
+      }),
+    }),
   }),
 });
 
@@ -44,4 +55,5 @@ export const {
   useGetUpdatesQuery,
   useLoginMutation,
   useGetFacultiesQuery,
+  useGetQueueBuFacultyMutation,
 } = api;

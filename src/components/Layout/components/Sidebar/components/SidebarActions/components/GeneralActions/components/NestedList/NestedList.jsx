@@ -23,7 +23,7 @@ const NestedList = ({ open, isAuth, selectedIndex, handleListItemClick }) => {
       text: t("sidebar.myTickets.sent"),
       icon: <FolderOpenIcon />,
       endpoint: endpoints.sent,
-      isHaveNewMessage: true,
+      isHaveNewMessage: false,
     },
     // {
     //   text: t("sidebar.myTickets.received"),
@@ -35,7 +35,7 @@ const NestedList = ({ open, isAuth, selectedIndex, handleListItemClick }) => {
       text: t("sidebar.myTickets.followed"),
       icon: <FolderOpenIcon />,
       endpoint: endpoints.followed,
-      isHaveNewMessage: true,
+      isHaveNewMessage: false,
     },
     {
       text: t("sidebar.myTickets.bookmarks"),
