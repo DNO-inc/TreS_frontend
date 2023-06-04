@@ -2,7 +2,6 @@ import { Avatar, Box, Grid, Tooltip, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { endpoints } from "../../../../constants";
-import { useTheme } from "@emotion/react";
 
 const ProfileTooltip = ({ creator }) => {
   return (
@@ -19,7 +18,9 @@ const ProfileTooltip = ({ creator }) => {
             creator.lastname || "Nonamovich"
           }`}
         </Box>
-        <Box>{`${creator.faculty.name},  ${creator.group.name}`}</Box>
+        <Box>{`${creator.faculty ? creator.faculty.name : ""}${
+          creator.group ? `,  ${creator.group.name}` : ""
+        }`}</Box>
       </Grid>
     </Grid>
   );

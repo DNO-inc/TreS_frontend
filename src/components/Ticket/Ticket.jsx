@@ -36,6 +36,8 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
     setIsLiked(prevIsLiked => !prevIsLiked);
   };
 
+  console.log(ticket);
+
   const handleToggleBookmark = () => {
     const option = !isBookmarked ? "bookmark" : "unbookmark";
 
