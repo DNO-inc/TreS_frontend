@@ -11,10 +11,10 @@ import { Bookmarks } from "../components/Pages/Bookmarks";
 import { Deleted } from "../components/Pages/Deleted";
 import { Notifications } from "../components/Pages/Notifications";
 import { Settings } from "../components/Pages/Settings";
-import { Profile } from "../components/Pages/Profile/Profile";
+import { Profile } from "../components/Pages/Profile";
 import { ErrorPage } from "../components/Pages/ErrorPage/ErrorPage";
 import { useJwtDecode } from "../shared/hooks";
-import { FullTicketInfo } from "../components/Pages/FullTicketInfo/FullTicketInfo";
+import { FullTicketInfo } from "../components/Pages/FullTicketInfo";
 import { CreateTicketForm } from "../components/Pages/CreateTicketForm";
 
 const Router = () => {

@@ -2,9 +2,15 @@ import { useTheme } from "@emotion/react";
 import { Button, Grid, Typography, darken } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-const FormActions = () => {
+const FormActions = ({ reset, setQueue, setOption }) => {
   const { t } = useTranslation();
   const { palette } = useTheme();
+
+  const handleDelete = () => {
+    reset();
+    setQueue("none");
+    setOption(false);
+  };
 
   return (
     <Grid
@@ -20,6 +26,7 @@ const FormActions = () => {
         Sent ticket
       </Button>
       <Button
+        onClick={handleDelete}
         variant="contained"
         sx={{
           color: palette.semantic.error,

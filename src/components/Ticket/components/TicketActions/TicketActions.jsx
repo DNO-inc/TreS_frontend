@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, Typography } from "@mui/material";
+import { Grid, IconButton, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
@@ -37,24 +37,13 @@ const TicketActions = ({
             <BookmarkBorderOutlinedIcon />
           )}
         </IconButton>
-        <Button
-          onClick={handleToggleLike}
-          disabled={!isAuth}
-          sx={{
-            minWidth: 40,
-            height: 40,
-            borderRadius: "50%",
-            "& > svg": {
-              color: "#fff",
-            },
-          }}
-        >
+        <IconButton onClick={handleToggleLike} disabled={!isAuth}>
           {isAuth && isLiked ? (
             <FavoriteIcon />
           ) : (
             <FavoriteBorderOutlinedIcon />
           )}
-        </Button>
+        </IconButton>
       </Grid>
     </Grid>
   );

@@ -10,10 +10,9 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-const TicketVisibilityOptions = ({ setValue }) => {
+const TicketVisibilityOptions = ({ setValue, option, setOption }) => {
   const { t } = useTranslation();
   const { palette } = useTheme();
-  const [option, setOption] = useState("");
 
   const handleClick = event => {
     const selectedOption = event.target.value;

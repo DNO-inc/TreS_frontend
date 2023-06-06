@@ -13,7 +13,7 @@ const AuthZone = ({ isAuth, setIsAuth }) => {
       }}
     >
       {isAuth ? (
-        <AuthActions setIsAuth={setIsAuth} />
+        <AuthActions isAuth={isAuth} setIsAuth={setIsAuth} />
       ) : (
         <NoAuthActions setIsAuth={setIsAuth} />
       )}

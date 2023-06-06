@@ -12,9 +12,9 @@ import Logo from "../../../../../../../../assets/Logomark.svg";
 import { endpoints } from "../../../../../../../../constants";
 import { useJwtDecode } from "../../../../../../../../shared/hooks";
 
-const AuthActions = ({ setIsAuth }) => {
+const AuthActions = ({ isAuth, setIsAuth }) => {
   const { data } = useJwtDecode();
-  const userId = JSON.parse(data.sub).user_id;
+  const userId = isAuth && JSON.parse(data.sub)?.user_id;
   const userName = localStorage.getItem("user-name");
 
   const handleLogOut = () => {

@@ -3,7 +3,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PropTypes from "prop-types";
 import { AuthZone } from "./components/AuthZone";
 import { useTheme } from "@emotion/react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { endpoints } from "../../../../constants";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -11,8 +11,13 @@ const Header = ({ isAuth, setIsAuth, drawerWidth, handleDrawerToggle }) => {
   const { palette } = useTheme();
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { ticketId } = useParams();
 
-  const isNeedStepBack = pathname === endpoints.createTicket;
+  const isFullTicketInfo =
+    pathname.includes("tickets") && ticketId !== undefined;
+  const isCreateTicket = pathname === endpoints.createTicket;
+
+  const isNeedStepBack = isFullTicketInfo || isCreateTicket;
 
   const handleClick = () => {
     navigate(-1);

@@ -12,7 +12,7 @@ const checkStatus = status => {
     case "OPEN":
       return { color: "#2982D3", icon: <FlagOutlinedIcon fontSize={"12px"} /> };
     case "WAITING":
-      return { color: "#A020F0", icon: <FlagOutlinedIcon fontSize={"12px"} /> };
+      return { color: "#9E3DFF", icon: <FlagOutlinedIcon fontSize={"12px"} /> };
     case "REJECTED":
       return { color: "#D94B44", icon: <FlagOutlinedIcon fontSize={"12px"} /> };
     case "CLOSE":

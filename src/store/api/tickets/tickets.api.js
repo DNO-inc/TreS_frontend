@@ -12,7 +12,14 @@ export const ticketsApi = api.injectEndpoints({
         },
         body,
       }),
-      providesTags: ["Like", "Bookmark"],
+    }),
+    getSavedTickets: builder.query({
+      query: ({ option }) => ({
+        url: `/tickets/${option}`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+        },
+      }),
     }),
     createTicket: builder.mutation({
       query: ({ body }) => ({
@@ -46,7 +53,6 @@ export const ticketsApi = api.injectEndpoints({
         },
         body,
       }),
-      invalidatesTags: ["Like"],
     }),
     toggleBookmark: builder.mutation({
       query: ({ option, body }) => ({
@@ -58,13 +64,13 @@ export const ticketsApi = api.injectEndpoints({
         },
         body,
       }),
-      invalidatesTags: ["Bookmark"],
     }),
   }),
 });
 
 export const {
   useGetTicketsMutation,
+  useGetSavedTicketsQuery,
   useCreateTicketMutation,
   useShowTicketMutation,
   useToggleLikeMutation,

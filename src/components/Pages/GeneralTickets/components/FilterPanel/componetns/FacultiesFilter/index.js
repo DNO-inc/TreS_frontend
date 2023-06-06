@@ -1,0 +1,1 @@
+export { FacultiesFilter } from "./FacultiesFilter";

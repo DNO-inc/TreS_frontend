@@ -8,12 +8,14 @@ import { useForm } from "react-hook-form";
 import { useTheme } from "@emotion/react";
 import { TicketVisibilityOptions } from "./components/TicketVisibilityOptions";
 import { useGetProfileQuery } from "../../../store/api/profile/profile.api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCreateTicketMutation } from "../../../store/api/tickets/tickets.api";
 
 const CreateTicketForm = () => {
   const { t } = useTranslation();
   const { palette } = useTheme();
+  const [option, setOption] = useState("");
+  const [queue, setQueue] = useState("none");
 
   const { data, isSuccess } = useGetProfileQuery({ userId: null });
   const [createTicket] = useCreateTicketMutation();
@@ -66,11 +68,21 @@ const CreateTicketForm = () => {
               faculty={isSuccess && data.faculty}
               register={register}
               setValue={setValue}
+              queue={queue}
+              setQueue={setQueue}
             />
             <TicketTitleInput errors={errors} register={register} />
             <TicketBodyTextField register={register} />
-            <TicketVisibilityOptions setValue={setValue} />
-            <FormActions />
+            <TicketVisibilityOptions
+              setValue={setValue}
+              option={option}
+              setOption={setOption}
+            />
+            <FormActions
+              reset={reset}
+              setQueue={setQueue}
+              setOption={setOption}
+            />
           </Grid>
         </form>
       </Grid>
