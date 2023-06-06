@@ -7,7 +7,7 @@ const Profile = () => {
 
   return (
     <Grid container>
-      <Typography variant="h4">{t("profile.heading")}</Typography>
+      <Typography variant="h1">{t("profile.heading")}</Typography>
       <ComingSoon />
     </Grid>
   );

@@ -2,16 +2,6 @@ import { api } from "../api";
 
 export const ticketsApi = api.injectEndpoints({
   endpoints: builder => ({
-    getAnonTickets: builder.mutation({
-      query: ({ body }) => ({
-        url: "/anon/ticket_list",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body,
-      }),
-    }),
     getTickets: builder.mutation({
       query: ({ option, body }) => ({
         url: `/${option}/ticket_list`,
@@ -21,6 +11,14 @@ export const ticketsApi = api.injectEndpoints({
           Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
         },
         body,
+      }),
+    }),
+    getSavedTickets: builder.query({
+      query: ({ option }) => ({
+        url: `/tickets/${option}`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+        },
       }),
     }),
     createTicket: builder.mutation({
@@ -45,12 +43,36 @@ export const ticketsApi = api.injectEndpoints({
         body,
       }),
     }),
+    toggleLike: builder.mutation({
+      query: ({ option, body }) => ({
+        url: `/tickets/${option}`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+        },
+        body,
+      }),
+    }),
+    toggleBookmark: builder.mutation({
+      query: ({ option, body }) => ({
+        url: `/tickets/${option}`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+        },
+        body,
+      }),
+    }),
   }),
 });
 
 export const {
-  useGetAnonTicketsMutation,
   useGetTicketsMutation,
+  useGetSavedTicketsQuery,
   useCreateTicketMutation,
   useShowTicketMutation,
+  useToggleLikeMutation,
+  useToggleBookmarkMutation,
 } = ticketsApi;

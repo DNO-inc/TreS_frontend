@@ -19,6 +19,8 @@ const themeSettings = mode => {
             },
             grey: {
               active: colors.grey[50],
+              checkbox: colors.grey[200],
+              button: colors.grey[300],
               border: colors.grey[400],
               divider: colors.grey[500],
               card: colors.grey[600],
@@ -49,6 +51,7 @@ const themeSettings = mode => {
             grey: {
               active: colors.grey[50],
               border: colors.grey[400],
+              button: colors.grey[300],
               card: colors.grey[100],
               background: colors.grey[50],
             },
@@ -68,7 +71,7 @@ const themeSettings = mode => {
       fontSize: 14,
       fontWeight: 400,
       h1: {
-        fontSize: 28,
+        fontSize: 40,
         fontWeight: 600,
       },
       h2: {
@@ -76,8 +79,8 @@ const themeSettings = mode => {
         fontWeight: 600,
       },
       h3: {
-        fontSize: 18,
-        fontWeight: 600,
+        fontSize: 16,
+        fontWeight: 400,
       },
       p: {
         fontSize: 14,

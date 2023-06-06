@@ -1,44 +1,48 @@
 import { useEffect, useState } from "react";
-import { Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography, useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Ticket } from "../../Ticket/Ticket";
 import { useGetTicketsMutation } from "../../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../../shared/hooks";
 import { Loader } from "../../Loader";
+import { FilterPanel } from "./components/FilterPanel";
 
 const GeneralTickets = () => {
   const { t } = useTranslation();
   const [ticketsPerRow, setTicketsPerRow] = useState(2);
   const [tickets, setTickets] = useState([]);
+  const [requestBody, setRequestBody] = useState({});
   const jwt = useJwtDecode();
+  const matches = useMediaQuery("(min-width:600px)");
   const [geTickets, result] = useGetTicketsMutation();
 
   const option = jwt ? "tickets" : "anon";
 
   useEffect(() => {
-    geTickets({ option: option, body: JSON.stringify({}) }).then(res => {
-      setTickets(res.data.ticket_list);
-    });
-  }, [option]);
+    console.log(requestBody);
+    geTickets({ option: option, body: JSON.stringify(requestBody) }).then(
+      res => {
+        setTickets(res.data.ticket_list);
+      }
+    );
+  }, [option, requestBody]);
 
   return (
-    <Grid container>
-      <Typography variant="h4">{t("generalTickets.heading")}</Typography>
-      <Button
-        onClick={() => {
-          setTicketsPerRow(2);
+    <Grid container flexDirection={"column"}>
+      <Typography variant="h1">{t("generalTickets.heading")}</Typography>
+      <FilterPanel
+        ticketsPerRow={ticketsPerRow}
+        setRequestBody={setRequestBody}
+        setTicketsPerRow={setTicketsPerRow}
+      />
+      <Grid
+        container
+        gap={2}
+        sx={{
+          flexDirection: matches ? "row" : "column",
+          maxWidth: matches ? "100%" : "600px",
         }}
       >
-        2
-      </Button>
-      <Button
-        onClick={() => {
-          setTicketsPerRow(3);
-        }}
-      >
-        3
-      </Button>
-      <Grid container gap={2}>
         {result.isLoading && <Loader />}
         {result.isSuccess &&
           [...tickets]
@@ -47,7 +51,7 @@ const GeneralTickets = () => {
             .map(ticket => {
               return (
                 <Ticket
-                  ticketsPerRow={ticketsPerRow}
+                  ticketsPerRow={matches ? ticketsPerRow : 1}
                   ticket={ticket}
                   isAuth={!!jwt}
                   key={ticket.ticket_id}

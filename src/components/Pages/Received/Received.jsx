@@ -7,7 +7,7 @@ const Received = () => {
 
   return (
     <Grid container>
-      <Typography variant="h4">{t("received.heading")}</Typography>
+      <Typography variant="h1">{t("received.heading")}</Typography>
       <ComingSoon />
     </Grid>
   );

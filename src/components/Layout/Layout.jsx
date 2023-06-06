@@ -35,12 +35,12 @@ const Layout = ({ isAuth, setIsAuth }) => {
         sx={{
           flex: "1 0 auto",
           minHeight: "100vh",
-          p: { xs: "100px 24px 24px", md: "100px 24px 24px" },
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          p: { xs: "100px 8px 8px", sm: "100px 24px 24px" },
+          width: { xs: "100%", sm: `calc(100% - ${drawerWidth}px)` },
           bgcolor: palette.grey.background,
           color: palette.common.white,
-          "& > div > h4": {
-            mb: 4,
+          "& > div > h1": {
+            mb: 3,
           },
         }}
       >

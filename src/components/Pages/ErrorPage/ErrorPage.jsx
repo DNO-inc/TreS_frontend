@@ -6,7 +6,7 @@ const ErrorPage = () => {
 
   return (
     <Grid container>
-      <Typography variant="h4">{t("common.error")}</Typography>
+      <Typography variant="h1">{t("common.error")}</Typography>
     </Grid>
   );
 };

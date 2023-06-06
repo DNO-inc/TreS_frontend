@@ -1,11 +1,27 @@
-import { AppBar, IconButton, Toolbar } from "@mui/material";
+import { AppBar, Box, Button, IconButton, Toolbar } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import PropTypes from "prop-types";
 import { AuthZone } from "./components/AuthZone";
 import { useTheme } from "@emotion/react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { endpoints } from "../../../../constants";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Header = ({ isAuth, setIsAuth, drawerWidth, handleDrawerToggle }) => {
   const { palette } = useTheme();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const { ticketId } = useParams();
+
+  const isFullTicketInfo =
+    pathname.includes("tickets") && ticketId !== undefined;
+  const isCreateTicket = pathname === endpoints.createTicket;
+
+  const isNeedStepBack = isFullTicketInfo || isCreateTicket;
+
+  const handleClick = () => {
+    navigate(-1);
+  };
 
   return (
     <AppBar
@@ -13,7 +29,6 @@ const Header = ({ isAuth, setIsAuth, drawerWidth, handleDrawerToggle }) => {
       sx={{
         width: { md: `calc(100% - ${drawerWidth}px)` },
         ml: { md: `${drawerWidth}px` },
-
         boxShadow: "none",
         backgroundImage: "none",
         backgroundColor: palette.grey.background,
@@ -40,6 +55,26 @@ const Header = ({ isAuth, setIsAuth, drawerWidth, handleDrawerToggle }) => {
         >
           <MenuIcon />
         </IconButton>
+        {isNeedStepBack && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              bottom: 0,
+              width: 48,
+              bgcolor: palette.grey.card,
+              display: { xs: "none", md: "block" },
+            }}
+          >
+            <Button
+              onClick={handleClick}
+              sx={{ minWidth: "100%", minHeight: "100%" }}
+            >
+              <ArrowBackIcon sx={{ color: palette.common.white }} />
+            </Button>
+          </Box>
+        )}
         <AuthZone isAuth={isAuth} setIsAuth={setIsAuth} />
       </Toolbar>
     </AppBar>

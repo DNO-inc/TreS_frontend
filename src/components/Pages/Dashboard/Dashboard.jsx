@@ -1,14 +1,14 @@
 import { Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { CreateTicketForm } from "./components/CreateTicketForm";
+import { ComingSoon } from "../../ComingSoon";
 
 const Dashboard = () => {
   const { t } = useTranslation();
 
   return (
     <Grid container>
-      <Typography variant="h4">{t("dashboard.heading")}</Typography>
-      <CreateTicketForm />
+      <Typography variant="h1">{t("dashboard.heading")}</Typography>
+      <ComingSoon />
     </Grid>
   );
 };
