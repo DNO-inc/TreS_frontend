@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { Button, Grid, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Grid, Typography, useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Ticket } from "../../Ticket/Ticket";
 import { useGetTicketsMutation } from "../../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../../shared/hooks";
 import { Loader } from "../../Loader";
+import { FilterPanel } from "./components/FilterPanel";
 
 const GeneralTickets = () => {
   const { t } = useTranslation();
   const [ticketsPerRow, setTicketsPerRow] = useState(2);
   const [tickets, setTickets] = useState([]);
+  const [requestBody, setRequestBody] = useState({});
   const jwt = useJwtDecode();
   const matches = useMediaQuery("(min-width:600px)");
   const [geTickets, result] = useGetTicketsMutation();
@@ -17,30 +19,22 @@ const GeneralTickets = () => {
   const option = jwt ? "tickets" : "anon";
 
   useEffect(() => {
-    geTickets({ option: option, body: JSON.stringify({}) }).then(res => {
-      setTickets(res.data.ticket_list);
-    });
-  }, [option]);
+    console.log(requestBody);
+    geTickets({ option: option, body: JSON.stringify(requestBody) }).then(
+      res => {
+        setTickets(res.data.ticket_list);
+      }
+    );
+  }, [option, requestBody]);
 
   return (
     <Grid container flexDirection={"column"}>
       <Typography variant="h1">{t("generalTickets.heading")}</Typography>
-      <Grid>
-        <Button
-          onClick={() => {
-            setTicketsPerRow(2);
-          }}
-        >
-          2
-        </Button>
-        <Button
-          onClick={() => {
-            setTicketsPerRow(3);
-          }}
-        >
-          3
-        </Button>
-      </Grid>
+      <FilterPanel
+        ticketsPerRow={ticketsPerRow}
+        setRequestBody={setRequestBody}
+        setTicketsPerRow={setTicketsPerRow}
+      />
       <Grid
         container
         gap={2}

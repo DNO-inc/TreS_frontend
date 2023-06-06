@@ -26,7 +26,7 @@ const ProfileTooltip = ({ creator }) => {
   );
 };
 
-const TicketBody = ({ body, userId, creator, faculty }) => {
+const TicketBody = ({ body, userId, ticketId, creator, faculty }) => {
   const { t } = useTranslation();
 
   return (
@@ -39,9 +39,11 @@ const TicketBody = ({ body, userId, creator, faculty }) => {
           wordWrap: "break-word",
         }}
       >
-        <Typography variant="body2" color="text.secondary">
-          {body}
-        </Typography>
+        <NavLink to={`${endpoints.fullTicket}/${ticketId}`}>
+          <Typography variant="body2" color="text.secondary">
+            {body}
+          </Typography>
+        </NavLink>
       </Box>
       <Grid sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
         <NavLink to={userId ? `${endpoints.profile}/${userId}` : "/"}>

@@ -19,6 +19,7 @@ const themeSettings = mode => {
             },
             grey: {
               active: colors.grey[50],
+              checkbox: colors.grey[200],
               button: colors.grey[300],
               border: colors.grey[400],
               divider: colors.grey[500],

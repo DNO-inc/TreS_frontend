@@ -14,10 +14,10 @@ import { useTranslation } from "react-i18next";
 import { useGetQueueBuFacultyMutation } from "../../../../../store/api/api";
 import { Loader } from "../../../../Loader";
 
-const QueueSelect = ({ faculty, register, setValue }) => {
+const QueueSelect = ({ faculty, register, setValue, queue, setQueue }) => {
   const { t } = useTranslation();
   const { palette } = useTheme();
-  const [queue, setQueue] = useState("none");
+
   const [getQueues, { data, isSuccess, isLoading }] =
     useGetQueueBuFacultyMutation();
 
@@ -57,7 +57,7 @@ const QueueSelect = ({ faculty, register, setValue }) => {
             data.queues_list.map(item => {
               return (
                 <MenuItem value={item.name} key={item.queue_id}>
-                  {item.name}
+                  <ListItemText primary={item.name} />
                 </MenuItem>
               );
             })}

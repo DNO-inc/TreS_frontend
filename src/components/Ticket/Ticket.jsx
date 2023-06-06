@@ -2,7 +2,7 @@ import Card from "@mui/material/Card";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@emotion/react";
 import { Divider, Grid } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formatDate, checkStatus } from "../../shared/functions";
 import {
   useToggleBookmarkMutation,
@@ -12,7 +12,7 @@ import { TicketHeader } from "./components/TicketHeader";
 import { TicketBody } from "./components/TicketBody";
 import { TicketActions } from "./components/TicketActions/TicketActions";
 
-const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
+const Ticket = ({ ticket, ticketsPerRow, isAuth, isFullHeight = false }) => {
   const { t } = useTranslation();
   const { palette } = useTheme();
   const [isLiked, setIsLiked] = useState(ticket.is_liked);
@@ -36,8 +36,6 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
     setIsLiked(prevIsLiked => !prevIsLiked);
   };
 
-  console.log(ticket);
-
   const handleToggleBookmark = () => {
     const option = !isBookmarked ? "bookmark" : "unbookmark";
 
@@ -49,6 +47,14 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
     setIsBookmarked(prevIsBookmarked => !prevIsBookmarked);
   };
 
+  useEffect(() => {
+    setIsLiked(ticket.is_liked);
+  }, [ticket.is_liked]);
+
+  useEffect(() => {
+    setIsBookmarked(ticket.is_bookmarked);
+  }, [ticket.is_bookmarked]);
+
   return (
     <Card
       sx={{
@@ -56,7 +62,7 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
           ticketsPerRow - 1
         }) / ${ticketsPerRow})`,
         width: { xs: "100%" },
-        height: 332,
+        height: isFullHeight ? "auto" : 332,
         bgcolor: palette.grey.card,
         border: `2px solid ${palette.grey.border}`,
         "& > div > div": {
@@ -89,6 +95,7 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
         <TicketBody
           body={ticket.body}
           userId={userId}
+          ticketId={ticket.ticket_id}
           creator={ticket.creator}
           faculty={ticket.faculty.name}
         />
