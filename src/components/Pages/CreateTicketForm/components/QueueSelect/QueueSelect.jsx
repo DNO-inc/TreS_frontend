@@ -3,10 +3,9 @@ import { useTheme } from "@emotion/react";
 import {
   Box,
   FormControl,
-  InputLabel,
   ListItemText,
+  ListSubheader,
   MenuItem,
-  Radio,
   Select,
   Typography,
 } from "@mui/material";
@@ -17,6 +16,7 @@ import { Loader } from "../../../../Loader";
 const QueueSelect = ({ faculty, register, setValue, queue, setQueue }) => {
   const { t } = useTranslation();
   const { palette } = useTheme();
+  const [sortedQueues, setSortedQueues] = useState([]);
 
   const [getQueues, { data, isSuccess, isLoading }] =
     useGetQueueBuFacultyMutation();
@@ -28,45 +28,80 @@ const QueueSelect = ({ faculty, register, setValue, queue, setQueue }) => {
   };
 
   useEffect(() => {
-    getQueues({ body: JSON.stringify({ faculty: faculty }) });
+    faculty && getQueues({ body: JSON.stringify({ faculty: faculty }) });
   }, [faculty]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const newSortedQueues = [...data.queues_list].sort((a, b) =>
+        a.scope.localeCompare(b.scope)
+      );
+
+      setSortedQueues(newSortedQueues);
+    }
+  }, [isSuccess]);
 
   useEffect(() => {
     setValue("queue", null);
   }, []);
 
+  const menuItems = [];
+  let currentScope = null;
+
+  if (sortedQueues) {
+    for (let i = 0; i < sortedQueues.length; i++) {
+      const item = sortedQueues[i];
+      const isFirstItemWithScope = item.scope !== currentScope;
+
+      if (isFirstItemWithScope) {
+        currentScope = item.scope;
+        menuItems.push(
+          <ListSubheader key={`subheader-${currentScope}`}>
+            {currentScope}
+          </ListSubheader>
+        );
+      }
+
+      menuItems.push(
+        <MenuItem
+          value={item.queue_id}
+          key={`menuItem-${item.queue_id}`}
+          name={item.name}
+        >
+          <ListItemText primary={item.name} />
+        </MenuItem>
+      );
+    }
+  }
+
   return (
     <Box>
-      <Typography variant="h3">Queue</Typography>
+      <Typography variant="h3">{t("createTicket.queue")}</Typography>
       <FormControl
         fullWidth
         sx={{ bgcolor: palette.grey.card }}
         {...register("queue")}
       >
-        <Select id="queue-select" value={queue} onChange={handleChange}>
+        <Select
+          id="queue-select"
+          required
+          value={queue}
+          onChange={handleChange}
+        >
           <MenuItem value="none" disabled>
             <ListItemText
-              primary="Select queue"
+              primary={t("createTicket.selectQueue")}
               primaryTypographyProps={{
                 style: { color: palette.whiteAlpha[600] },
               }}
             />
           </MenuItem>
           {isLoading && <Loader />}
-          {isSuccess &&
-            data.queues_list.map(item => {
-              return (
-                <MenuItem value={item.name} key={item.queue_id}>
-                  <ListItemText primary={item.name} />
-                </MenuItem>
-              );
-            })}
+          {isSuccess && menuItems}
         </Select>
       </FormControl>
     </Box>
   );
 };
-
-QueueSelect.propTypes = {};
 
 export { QueueSelect };

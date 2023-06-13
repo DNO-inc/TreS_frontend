@@ -59,14 +59,14 @@ const LogInModal = ({ open, setOpen, setIsAuth }) => {
             {t("common.login")}
           </Typography>
           <TextField
-            label="Login"
+            label={t("common.loginInput")}
             value={login}
             onChange={e => setLogin(e.target.value)}
             error={hasError}
             fullWidth
           />
           <TextField
-            label="Password"
+            label={t("common.password")}
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
@@ -74,7 +74,7 @@ const LogInModal = ({ open, setOpen, setIsAuth }) => {
             fullWidth
           />
           <Button variant="contained" color="primary" type="submit">
-            Log In
+            {t("common.loginButton")}
           </Button>
         </Grid>
       </form>

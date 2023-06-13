@@ -8,10 +8,10 @@ const TicketBodyTextField = ({ register }) => {
 
   return (
     <Box>
-      <Typography variant="h3">Ticket body</Typography>
+      <Typography variant="h3">{t("createTicket.ticketBody")}</Typography>
       <TextField
         id="ticket-body"
-        placeholder="Start typing..."
+        placeholder={t("createTicket.ticketBodyPlaceholder")}
         required
         multiline
         rows={12}

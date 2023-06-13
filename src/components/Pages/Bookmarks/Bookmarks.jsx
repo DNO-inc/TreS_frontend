@@ -41,10 +41,8 @@ const Bookmarks = () => {
         ) : (
           <>
             {isLoading && <Loader />}
-            {isSuccess && tickets.length <= 0 ? (
-              <div>Not found</div>
-            ) : (
-              [...tickets].reverse().map(ticket => {
+            {isSuccess && tickets.length ? (
+              [...tickets].map(ticket => {
                 return (
                   <Ticket
                     ticketsPerRow={matches ? 2 : 1}
@@ -54,6 +52,10 @@ const Bookmarks = () => {
                   />
                 );
               })
+            ) : (
+              <Typography variant="h1" mt={6}>
+                Not found
+              </Typography>
             )}
           </>
         )}
