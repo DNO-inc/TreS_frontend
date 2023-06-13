@@ -19,7 +19,7 @@ const ActionPanel = () => {
         alignItems: "center",
         position: "fixed",
         gap: 1,
-        left: { xs: "50%", md: "calc(50% + 175px)" },
+        left: { xs: "50%", md: "calc(50% + 165px)" },
         bottom: "20px",
         bgcolor: palette.grey.card,
         border: `2px solid ${palette.grey.divider}`,

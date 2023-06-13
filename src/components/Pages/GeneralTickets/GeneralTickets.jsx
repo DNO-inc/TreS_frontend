@@ -22,7 +22,7 @@ const GeneralTickets = () => {
 
   const jwt = useJwtDecode();
   const matches = useMediaQuery("(min-width:600px)");
-  const [geTickets, result] = useGetTicketsMutation();
+  const [geTickets, { isLoading, isSuccess }] = useGetTicketsMutation();
 
   const option = jwt ? "tickets" : "anon";
 
@@ -48,8 +48,8 @@ const GeneralTickets = () => {
         setRequestBody={setRequestBody}
         setTicketsPerRow={setTicketsPerRow}
       />
-      {result.isLoading && <Loader />}
-      {result.isSuccess && tickets.length ? (
+      {isLoading && <Loader />}
+      {isSuccess && tickets.length ? (
         <>
           <Grid
             container

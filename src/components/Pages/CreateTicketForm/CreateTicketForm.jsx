@@ -23,15 +23,21 @@ const CreateTicketForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
-    reset,
+    resetField,
     formState: { errors },
   } = useForm();
 
+  const handleClear = () => {
+    resetField("subject");
+    resetField("body");
+    setQueue("none");
+    setSelectedOptions([]);
+  };
+
   const onSubmit = data => {
     createTicket({ body: JSON.stringify(data) });
-    reset();
+    handleClear();
   };
 
   useEffect(() => {
@@ -76,11 +82,7 @@ const CreateTicketForm = () => {
               selectedOptions={selectedOptions}
               setSelectedOptions={setSelectedOptions}
             />
-            <FormActions
-              reset={reset}
-              setQueue={setQueue}
-              setSelectedOptions={setSelectedOptions}
-            />
+            <FormActions handleClear={handleClear} />
           </Grid>
         </form>
       </Grid>

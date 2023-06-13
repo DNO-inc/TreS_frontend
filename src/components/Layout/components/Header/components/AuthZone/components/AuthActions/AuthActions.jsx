@@ -4,8 +4,10 @@ import { VerticalDivider } from "../../../../../../../VerticalDivider";
 import Logo from "../../../../../../../../assets/Logomark.svg";
 import { endpoints } from "../../../../../../../../constants";
 import { useJwtDecode } from "../../../../../../../../shared/hooks";
+import { useTranslation } from "react-i18next";
 
 const AuthActions = ({ isAuth, setIsAuth }) => {
+  const { t } = useTranslation();
   const { data } = useJwtDecode();
   const userId = isAuth && data && JSON.parse(data.sub)?.user_id;
   const userName = localStorage.getItem("user-name");
@@ -36,7 +38,7 @@ const AuthActions = ({ isAuth, setIsAuth }) => {
           variant={"contained"}
           sx={{ fontSize: 14, textTransform: "none" }}
         >
-          Create ticket
+          {t("common.createButton")}
         </Button>
       </NavLink>
     </ListItem>

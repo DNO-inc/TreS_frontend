@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Divider from "@mui/material/Divider";
 import { GeneralActions } from "./components/GeneralActions";
 import { AdditionActions } from "./components/AdditionActions";
-import { Box, Button, Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@emotion/react";

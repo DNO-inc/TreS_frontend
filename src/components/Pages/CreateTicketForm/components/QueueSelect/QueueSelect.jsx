@@ -76,7 +76,7 @@ const QueueSelect = ({ faculty, register, setValue, queue, setQueue }) => {
 
   return (
     <Box>
-      <Typography variant="h3">Queue</Typography>
+      <Typography variant="h3">{t("createTicket.queue")}</Typography>
       <FormControl
         fullWidth
         sx={{ bgcolor: palette.grey.card }}
@@ -90,7 +90,7 @@ const QueueSelect = ({ faculty, register, setValue, queue, setQueue }) => {
         >
           <MenuItem value="none" disabled>
             <ListItemText
-              primary="Select queue"
+              primary={t("createTicket.selectQueue")}
               primaryTypographyProps={{
                 style: { color: palette.whiteAlpha[600] },
               }}

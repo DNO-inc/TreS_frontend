@@ -1,8 +1,11 @@
 import PropTypes from "prop-types";
 import Collapse from "@mui/material/Collapse";
+import FolderIcon from "@mui/icons-material/Folder";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteIcon from "@mui/icons-material/Delete";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 import {
   Badge,
   List,
@@ -21,7 +24,8 @@ const NestedList = ({ open, isAuth, selectedIndex, handleListItemClick }) => {
   const listItemsArray = [
     {
       text: t("sidebar.myTickets.sent"),
-      icon: <FolderOpenIcon />,
+      icon:
+        selectedIndex === endpoints.sent ? <FolderIcon /> : <FolderOpenIcon />,
       endpoint: endpoints.sent,
       isHaveNewMessage: false,
     },
@@ -33,19 +37,34 @@ const NestedList = ({ open, isAuth, selectedIndex, handleListItemClick }) => {
     // },
     {
       text: t("sidebar.myTickets.followed"),
-      icon: <FolderOpenIcon />,
+      icon:
+        selectedIndex === endpoints.followed ? (
+          <FolderIcon />
+        ) : (
+          <FolderOpenIcon />
+        ),
       endpoint: endpoints.followed,
       isHaveNewMessage: false,
     },
     {
       text: t("sidebar.myTickets.bookmarks"),
-      icon: <BookmarkBorderIcon />,
+      icon:
+        selectedIndex === endpoints.bookmarks ? (
+          <BookmarkIcon />
+        ) : (
+          <BookmarkBorderIcon />
+        ),
       endpoint: endpoints.bookmarks,
       isHaveNewMessage: false,
     },
     {
       text: t("sidebar.myTickets.deleted"),
-      icon: <DeleteOutlineIcon />,
+      icon:
+        selectedIndex === endpoints.deleted ? (
+          <DeleteIcon />
+        ) : (
+          <DeleteOutlineIcon />
+        ),
       endpoint: endpoints.deleted,
       isHaveNewMessage: false,
     },

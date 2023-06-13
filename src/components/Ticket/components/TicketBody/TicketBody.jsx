@@ -27,9 +27,8 @@ const ProfileTooltip = ({ creator }) => {
   );
 };
 
-const TicketBody = ({ body, userId, ticketId, creator, faculty }) => {
+const TicketBody = ({ body, userId, creator, faculty }) => {
   const { t } = useTranslation();
-  const { data } = useJwtDecode();
 
   return (
     <Grid
@@ -44,18 +43,13 @@ const TicketBody = ({ body, userId, ticketId, creator, faculty }) => {
           wordWrap: "break-word",
         }}
       >
-        <NavLink
-          to={!data ? null : `${endpoints.fullTicket}/${ticketId}`}
-          style={{ cursor: !data ? "default" : "pointer" }}
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          whiteSpace={"pre-line"}
         >
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            whiteSpace={"pre-line"}
-          >
-            {body}
-          </Typography>
-        </NavLink>
+          {body}
+        </Typography>
       </Box>
       <Grid sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
         <NavLink
@@ -63,7 +57,7 @@ const TicketBody = ({ body, userId, ticketId, creator, faculty }) => {
           style={{ cursor: !userId ? "default" : "pointer" }}
         >
           <Tooltip title={<ProfileTooltip creator={creator} />} placement="top">
-            <Typography color="text.secondary">
+            <Typography color="text.secondary" className="evadeItem">
               {creator?.login ? `@${creator.login}` : "@anonymous"}
             </Typography>
           </Tooltip>

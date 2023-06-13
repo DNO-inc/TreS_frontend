@@ -4,7 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useShowTicketMutation } from "../../../store/api/tickets/tickets.api";
 import { Loader } from "../../Loader";
 import Typography from "@mui/material/Typography";
-import { Box, Grid, Paper } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { useJwtDecode } from "../../../shared/hooks";
 import { useTheme } from "@emotion/react";
 import { endpoints } from "../../../constants";
@@ -44,24 +44,33 @@ const FullTicketInfo = () => {
               container
               sx={{ alignItems: "center", justifyContent: "space-between" }}
             >
-              <Typography variant="h1" fontSize={36} mb={"12px"}>
+              <Typography
+                variant="h1"
+                sx={{
+                  fontSize: 36,
+                  mb: "12px",
+                  maxWidth: "70%",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                }}
+              >
                 {ticket.subject}
               </Typography>
               <Box
                 sx={{
                   textAlign: "center",
                   p: "4px 12px",
-                  bgcolor: checkStatus(ticket.status.name).color,
+                  bgcolor: checkStatus(ticket.status.name),
                   borderRadius: 1,
                   textTransform: "capitalize",
                   fontSize: "16px",
                   fontWeight: 500,
                 }}
               >
-                {ticket.status.name}
+                {t(`ticketStatus.${ticket.status.name.toLowerCase()}`)}
               </Box>
             </Grid>
-            <Typography>Queue</Typography>
+            <Typography>{ticket.queue.name}</Typography>
           </Grid>
           <Grid container>
             <Grid
@@ -76,7 +85,7 @@ const FullTicketInfo = () => {
             </Grid>
           </Grid>
           <Grid container>
-            <Typography mb={2}>Additional information</Typography>
+            <Typography mb={2}>{t("fullTicket.additionalInfo")}</Typography>
             <Grid
               container
               sx={{
@@ -94,7 +103,7 @@ const FullTicketInfo = () => {
               }}
             >
               <Grid>
-                <Typography>Author</Typography>
+                <Typography>{t("fullTicket.author")}</Typography>
                 <NavLink
                   to={`${endpoints.profile}/${ticket.creator.user_id}`}
                   style={{ color: palette.semantic.info }}
@@ -103,11 +112,11 @@ const FullTicketInfo = () => {
                 </NavLink>
               </Grid>
               <Grid>
-                <Typography>Faculty</Typography>
+                <Typography>{t("fullTicket.faculty")}</Typography>
                 <Box>{ticket.faculty.name}</Box>
               </Grid>
               <Grid>
-                <Typography>Date of creation</Typography>
+                <Typography>{t("fullTicket.dateOfCreation")}</Typography>
                 <Box>{formatDate(ticket.date)}</Box>
               </Grid>
             </Grid>

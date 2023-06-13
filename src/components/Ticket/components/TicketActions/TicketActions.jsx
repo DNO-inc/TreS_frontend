@@ -29,9 +29,8 @@ const TicketActions = ({
       <Grid
         sx={{
           display: "flex",
-          gap: 1.5,
+          gap: 1,
           "& > .MuiIconButton-root": {
-            width: 28,
             height: 28,
             "& > .MuiSvgIcon-root": {
               fontSize: 22,
@@ -42,22 +41,27 @@ const TicketActions = ({
         <IconButton
           onClick={handleToggleReported}
           disabled={!isAuth}
+          className="evadeItem"
           sx={{
-            bgcolor: isReported && palette.semantic.error,
-            "&:hover": {
-              bgcolor: isReported && palette.semantic.error,
-            },
+            width: 28,
+            // bgcolor: isReported && palette.semantic.error,
+            // "&:hover": {
+            //   bgcolor: isReported && palette.semantic.error,
+            // },
             "& > .MuiSvgIcon-root": {
               fontSize: 18,
             },
           }}
         >
-          <DoNotDisturbAltOutlinedIcon />
+          <DoNotDisturbAltOutlinedIcon className="evadeItem" />
         </IconButton>
         <IconButton
           onClick={handleToggleBookmark}
           disabled={!isAuth}
+          className="evadeItem"
           sx={{
+            width: 28,
+            mr: !!upvotes && -0.6,
             // bgcolor: isBookmarked && palette.semantic.info,
             // "&:hover": {
             //   bgcolor: isBookmarked && palette.semantic.info,
@@ -68,15 +72,19 @@ const TicketActions = ({
           }}
         >
           {isAuth && isBookmarked ? (
-            <BookmarkIcon />
+            <BookmarkIcon className="evadeItem" />
           ) : (
-            <BookmarkBorderOutlinedIcon />
+            <BookmarkBorderOutlinedIcon className="evadeItem" />
           )}
         </IconButton>
         <IconButton
           onClick={handleToggleLike}
           disabled={!isAuth}
+          className="evadeItem"
           sx={{
+            gap: 0.5,
+            width: !upvotes ? 28 : "auto",
+            borderRadius: 4,
             // bgcolor: isLiked && palette.semantic.info,
             // "&:hover": {
             //   bgcolor: isLiked && palette.semantic.info,
@@ -86,11 +94,13 @@ const TicketActions = ({
             },
           }}
         >
-          {/* {!!upvotes && upvotes} */}
           {isAuth && isLiked ? (
-            <FavoriteIcon />
+            <FavoriteIcon className="evadeItem" />
           ) : (
-            <FavoriteBorderOutlinedIcon />
+            <FavoriteBorderOutlinedIcon className="evadeItem" />
+          )}
+          {!!upvotes && (
+            <Typography className="evadeItem">{upvotes}</Typography>
           )}
         </IconButton>
       </Grid>

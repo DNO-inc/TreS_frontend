@@ -37,7 +37,7 @@ const TicketVisibilityOptions = ({
 
   return (
     <Box>
-      <Typography variant="h3">Ticket options</Typography>
+      <Typography variant="h3">{t("createTicket.ticketOptions")}</Typography>
       <FormControl sx={{ width: "100%" }}>
         <FormGroup
           sx={{
@@ -68,19 +68,20 @@ const TicketVisibilityOptions = ({
               <>
                 <Checkbox
                   size="small"
+                  checked={selectedOptions.includes("anonymous")}
                   value="anonymous"
                   onChange={handleClick}
                 />
                 <Typography>
-                  Your{" "}
+                  {t("createTicket.anonymousPart1")}{" "}
                   <span style={{ color: palette.semantic.info }}>
-                    name will be hidden
+                    {t("createTicket.anonymousPart2")}
                   </span>{" "}
-                  in general reports only
+                  {t("createTicket.anonymousPart3")}
                 </Typography>
               </>
             }
-            label="Become anonymous"
+            label={t("createTicket.anonymousTitle")}
             sx={{
               bgcolor:
                 selectedOptions.includes("anonymous") && palette.grey.divider,
@@ -89,17 +90,22 @@ const TicketVisibilityOptions = ({
           <FormControlLabel
             control={
               <>
-                <Checkbox size="small" value="hidden" onChange={handleClick} />
+                <Checkbox
+                  size="small"
+                  checked={selectedOptions.includes("hidden")}
+                  value="hidden"
+                  onChange={handleClick}
+                />
                 <Typography>
-                  Your{" "}
+                  {t("createTicket.hiddenPart1")}{" "}
                   <span style={{ color: palette.semantic.error }}>
-                    ticket will not be shown
+                    {t("createTicket.hiddenPart2")}
                   </span>{" "}
-                  in general reports
+                  {t("createTicket.hiddenPart3")}
                 </Typography>
               </>
             }
-            label="Private report"
+            label={t("createTicket.hiddenTitle")}
             sx={{
               bgcolor:
                 selectedOptions.includes("hidden") && palette.grey.divider,

@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+
+import SourceOutlinedIcon from "@mui/icons-material/SourceOutlined";
+import SourceRoundedIcon from "@mui/icons-material/SourceRounded";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import ArticleIcon from "@mui/icons-material/Article";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import GridViewIcon from "@mui/icons-material/GridView";
+import GridViewSharpIcon from "@mui/icons-material/GridViewSharp";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import GridViewIcon from "@mui/icons-material/GridView";
-import NotesIcon from "@mui/icons-material/Notes";
+
 import { NestedList } from "./components/NestedList";
 import { endpoints } from "../../../../../../../../constants";
 import { NavLink } from "react-router-dom";
@@ -64,7 +70,11 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
               onClick={event => handleListItemClick(event, endpoints.dashboard)}
             >
               <ListItemIcon>
-                <GridViewIcon />
+                {selectedIndex === endpoints.dashboard ? (
+                  <GridViewSharpIcon />
+                ) : (
+                  <GridViewIcon />
+                )}
               </ListItemIcon>
               <ListItemText primary={t("sidebar.dashboard")} />
             </ListItemButton>
@@ -73,7 +83,7 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
         <ListItem key={"My Tickets"} disablePadding>
           <ListItemButton disabled={!isAuth} onClick={handleClick}>
             <ListItemIcon>
-              <InboxIcon />
+              {open ? <SourceRoundedIcon /> : <SourceOutlinedIcon />}
             </ListItemIcon>
             <ListItemText primary={t("sidebar.myTickets.title")} />
             {open ? <ExpandLess /> : <ExpandMore />}
@@ -98,7 +108,11 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
               }
             >
               <ListItemIcon>
-                <NotificationsNoneIcon />
+                {selectedIndex === endpoints.notifications ? (
+                  <NotificationsIcon />
+                ) : (
+                  <NotificationsOutlinedIcon />
+                )}
               </ListItemIcon>
               <ListItemText primary={t("sidebar.notification")} />
               {isAuth && (
@@ -124,7 +138,11 @@ const GeneralActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
               }
             >
               <ListItemIcon>
-                <NotesIcon />
+                {selectedIndex === endpoints.generalTickets ? (
+                  <ArticleIcon />
+                ) : (
+                  <ArticleOutlinedIcon />
+                )}
               </ListItemIcon>
               <ListItemText primary={t("sidebar.generalTickets")} />
             </ListItemButton>
