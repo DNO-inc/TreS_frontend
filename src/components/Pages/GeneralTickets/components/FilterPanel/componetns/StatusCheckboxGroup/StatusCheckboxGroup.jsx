@@ -16,7 +16,7 @@ const StatusCheckboxGroup = ({ setRequestBody }) => {
       .filter((status, i) => updatedChecked[i])
       .map(status => status.label);
 
-    console.log("check", selectedStatuses);
+    // console.log("check", selectedStatuses);
   };
 
   const handleParentChange = event => {
@@ -27,17 +27,17 @@ const StatusCheckboxGroup = ({ setRequestBody }) => {
       .filter((status, i) => updatedChecked[i])
       .map(status => status.label);
 
-    console.log("all", selectedStatuses);
+    // console.log("all", selectedStatuses);
   };
 
   const statuses = [
-    {
-      id: 0,
-      label: "New",
-      color: "#888888",
-      checked: checked[0],
-      onChange: handleChange(0),
-    },
+    // {
+    //   id: 0,
+    //   label: "New",
+    //   color: "#888888",
+    //   checked: checked[0],
+    //   onChange: handleChange(0),
+    // },
     {
       id: 1,
       label: "Accepted",
@@ -59,13 +59,13 @@ const StatusCheckboxGroup = ({ setRequestBody }) => {
       checked: checked[3],
       onChange: handleChange(3),
     },
-    {
-      id: 4,
-      label: "Rejected",
-      color: "#D94B44",
-      checked: checked[4],
-      onChange: handleChange(4),
-    },
+    // {
+    //   id: 4,
+    //   label: "Rejected",
+    //   color: "#D94B44",
+    //   checked: checked[4],
+    //   onChange: handleChange(4),
+    // },
     {
       id: 5,
       label: "Closed",

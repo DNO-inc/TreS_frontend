@@ -36,7 +36,7 @@ const FormActions = ({ reset, setQueue, setOption }) => {
           },
         }}
       >
-        Delete
+        Clear
       </Button>
     </Grid>
   );

@@ -12,11 +12,12 @@ import { TicketHeader } from "./components/TicketHeader";
 import { TicketBody } from "./components/TicketBody";
 import { TicketActions } from "./components/TicketActions/TicketActions";
 
-const Ticket = ({ ticket, ticketsPerRow, isAuth, isFullHeight = false }) => {
+const Ticket = ({ ticket, ticketsPerRow, isAuth }) => {
   const { t } = useTranslation();
   const { palette } = useTheme();
   const [isLiked, setIsLiked] = useState(ticket.is_liked);
   const [isBookmarked, setIsBookmarked] = useState(ticket.is_bookmarked);
+  const [isReported, setIsReported] = useState(false);
 
   const [toggleLike] = useToggleLikeMutation();
   const [toggleBookmark] = useToggleBookmarkMutation();
@@ -24,6 +25,10 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth, isFullHeight = false }) => {
   const { color, icon } = checkStatus(ticket.status.name);
   const formattedDate = ticket?.date && formatDate(ticket.date);
   const userId = ticket.creator?.user_id;
+
+  const handleToggleReported = () => {
+    setIsReported(prevIsReported => !prevIsReported);
+  };
 
   const handleToggleLike = () => {
     const option = !isLiked ? "like" : "unlike";
@@ -35,6 +40,10 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth, isFullHeight = false }) => {
 
     setIsLiked(prevIsLiked => !prevIsLiked);
   };
+
+  useEffect(() => {
+    setIsLiked(ticket.is_liked);
+  }, [ticket.is_liked]);
 
   const handleToggleBookmark = () => {
     const option = !isBookmarked ? "bookmark" : "unbookmark";
@@ -48,10 +57,6 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth, isFullHeight = false }) => {
   };
 
   useEffect(() => {
-    setIsLiked(ticket.is_liked);
-  }, [ticket.is_liked]);
-
-  useEffect(() => {
     setIsBookmarked(ticket.is_bookmarked);
   }, [ticket.is_bookmarked]);
 
@@ -62,7 +67,7 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth, isFullHeight = false }) => {
           ticketsPerRow - 1
         }) / ${ticketsPerRow})`,
         width: { xs: "100%" },
-        height: isFullHeight ? "auto" : 332,
+        height: 332,
         bgcolor: palette.grey.card,
         border: `2px solid ${palette.grey.border}`,
         "& > div > div": {
@@ -103,9 +108,12 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth, isFullHeight = false }) => {
         <TicketActions
           isAuth={isAuth}
           isLiked={isLiked}
+          isReported={isReported}
+          upvotes={ticket.upvotes}
           isBookmarked={isBookmarked}
           handleToggleLike={handleToggleLike}
           handleToggleBookmark={handleToggleBookmark}
+          handleToggleReported={handleToggleReported}
           formattedDate={formattedDate}
         />
       </Grid>

@@ -23,7 +23,7 @@ const Router = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    !isAuth && navigate(endpoints.base);
+    !isAuth && navigate(endpoints.generalTickets);
   }, [isAuth]);
 
   return (
