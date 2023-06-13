@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { FormControl, ListItemText, MenuItem, Select } from "@mui/material";
 import { useGetFacultiesQuery } from "../../../../../../../store/api/api";
 import { Loader } from "../../../../../../Loader";
-import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const FacultiesFilter = ({ setRequestBody }) => {
-  const { t } = useTranslation();
   const { palette } = useTheme();
   const [faculty, setFaculty] = useState("all");
 
@@ -40,7 +38,7 @@ const FacultiesFilter = ({ setRequestBody }) => {
         }}
       >
         <MenuItem value="all">
-          <ListItemText primary={t("generalTickets.facultyFilter")} />
+          <ListItemText primary="All faculties" />
         </MenuItem>
         {isLoading && <Loader />}
         {isSuccess &&

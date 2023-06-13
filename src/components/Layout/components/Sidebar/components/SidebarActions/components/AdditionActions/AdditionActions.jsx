@@ -5,7 +5,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { useContext, useEffect, useState } from "react";
 import { endpoints } from "../../../../../../../../constants";
 import { NavLink } from "react-router-dom";
@@ -114,11 +113,7 @@ const AdditionActions = ({ isAuth, selectedIndex, setSelectedIndex }) => {
             onClick={event => handleListItemClick(event, endpoints.settings)}
           >
             <ListItemIcon>
-              {selectedIndex === endpoints.settings ? (
-                <SettingsIcon />
-              ) : (
-                <SettingsOutlinedIcon />
-              )}
+              <SettingsOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary={t("sidebar.settings")} />
           </ListItemButton>

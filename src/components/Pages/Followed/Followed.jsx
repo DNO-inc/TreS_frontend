@@ -12,10 +12,9 @@ const Followed = () => {
   const matches = useMediaQuery("(min-width:600px)");
   const jwt = useJwtDecode();
 
-  const { data, isLoading, isSuccess, isError, refetch } =
-    useGetSavedTicketsQuery({
-      option: "liked",
-    });
+  const { data, isLoading, isSuccess, refetch } = useGetSavedTicketsQuery({
+    option: "liked",
+  });
 
   useEffect(() => {
     isSuccess && setTickets(data.ticket_list);
@@ -36,29 +35,18 @@ const Followed = () => {
           maxWidth: matches ? "100%" : "600px",
         }}
       >
-        {isError ? (
-          <Typography variant="h1">Error</Typography>
-        ) : (
-          <>
-            {isLoading && <Loader />}
-            {isSuccess && tickets.length ? (
-              [...tickets].map(ticket => {
-                return (
-                  <Ticket
-                    ticketsPerRow={matches ? 2 : 1}
-                    ticket={ticket}
-                    isAuth={!!jwt}
-                    key={ticket.ticket_id}
-                  />
-                );
-              })
-            ) : (
-              <Typography variant="h1" mt={6}>
-                Not found
-              </Typography>
-            )}
-          </>
-        )}
+        {isLoading && <Loader />}
+        {isSuccess &&
+          [...tickets].reverse().map(ticket => {
+            return (
+              <Ticket
+                ticketsPerRow={matches ? 2 : 1}
+                ticket={ticket}
+                isAuth={!!jwt}
+                key={ticket.ticket_id}
+              />
+            );
+          })}
       </Grid>
     </Grid>
   );

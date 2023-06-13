@@ -2,14 +2,7 @@ import { useTheme } from "@emotion/react";
 import { Box, Grid, Tooltip, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-const TicketHeader = ({
-  icon,
-  color,
-  tooltipText,
-  subject,
-  status,
-  assignee,
-}) => {
+const TicketHeader = ({ color, icon, subject, status, assignee }) => {
   const { t } = useTranslation();
   const { palette } = useTheme();
 
@@ -34,9 +27,9 @@ const TicketHeader = ({
               fontSize: "14px",
             }}
           >
-            {t(`ticketStatus.${status.toLowerCase()}`)}
+            {status.toLowerCase()}
           </Box>
-          <Tooltip title={tooltipText} arrow placement="bottom-end">
+          <Tooltip title="Some tooltip text" arrow>
             <Box
               sx={{
                 display: "flex",
@@ -54,7 +47,7 @@ const TicketHeader = ({
         </Grid>
       </Grid>
       <Typography color={palette.whiteAlpha[600]}>
-        {assignee ? assignee : t("common.noAssignee")}
+        {assignee ? assignee : "No assignee"}
       </Typography>
     </Box>
   );

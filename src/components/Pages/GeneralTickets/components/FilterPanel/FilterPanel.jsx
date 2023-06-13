@@ -24,7 +24,6 @@ const FilterPanel = ({ ticketsPerRow, setRequestBody, setTicketsPerRow }) => {
         <ViewOptions
           ticketsPerRow={ticketsPerRow}
           setTicketsPerRow={setTicketsPerRow}
-          setRequestBody={setRequestBody}
         />
         <Box>
           <FacultiesFilter setRequestBody={setRequestBody} />

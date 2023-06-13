@@ -114,18 +114,6 @@ const themeSettings = mode => {
           },
         },
       },
-      MuiTooltip: {
-        styleOverrides: {
-          tooltip: {
-            fontSize: 14,
-            padding: "8px 12px",
-            // backgroundColor: colors.grey[300],
-          },
-          arrow: {
-            // color: colors.grey[300],
-          },
-        },
-      },
     },
   };
 };

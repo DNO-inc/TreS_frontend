@@ -1,10 +1,16 @@
 import { useTheme } from "@emotion/react";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Typography, darken } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-const FormActions = ({ handleClear }) => {
+const FormActions = ({ reset, setQueue, setOption }) => {
   const { t } = useTranslation();
   const { palette } = useTheme();
+
+  const handleDelete = () => {
+    reset();
+    setQueue("none");
+    setOption(false);
+  };
 
   return (
     <Grid
@@ -17,21 +23,20 @@ const FormActions = ({ handleClear }) => {
       }}
     >
       <Button type="submit" variant="contained" sx={{ textTransform: "none" }}>
-        {t("createTicket.sentTicket")}
+        Sent ticket
       </Button>
       <Button
-        onClick={handleClear}
+        onClick={handleDelete}
         variant="contained"
         sx={{
           color: palette.semantic.error,
           bgcolor: palette.grey.button,
-          textTransform: "capitalize",
           "&:hover": {
             bgcolor: palette.grey.divider,
           },
         }}
       >
-        {t("createTicket.clear")}
+        Delete
       </Button>
     </Grid>
   );

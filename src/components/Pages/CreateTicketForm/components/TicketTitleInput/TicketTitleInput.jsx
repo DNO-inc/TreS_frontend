@@ -9,10 +9,10 @@ const TicketTitleInput = ({ register }) => {
 
   return (
     <Box>
-      <Typography variant="h3">{t("createTicket.ticketTitle")}</Typography>
+      <Typography variant="h3">Ticket title</Typography>
       <TextField
         id="ticket-title"
-        placeholder={t("createTicket.ticketTitlePlaceholder")}
+        placeholder="Enter ticket title"
         required
         variant="outlined"
         fullWidth

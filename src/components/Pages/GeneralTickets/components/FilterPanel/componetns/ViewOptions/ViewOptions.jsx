@@ -6,21 +6,15 @@ import ViewWeekIcon from "@mui/icons-material/ViewWeek";
 import ViewWeekOutlinedIcon from "@mui/icons-material/ViewWeekOutlined";
 import { VerticalDivider } from "../../../../../../VerticalDivider";
 
-const ViewOptions = ({ ticketsPerRow, setTicketsPerRow, setRequestBody }) => {
+const ViewOptions = ({ ticketsPerRow, setTicketsPerRow }) => {
   const { palette } = useTheme();
-
-  const handleClick = countPerRow => {
-    setTicketsPerRow(countPerRow);
-    setRequestBody(prevBody => ({
-      ...prevBody,
-      tickets_count: 3 * countPerRow,
-    }));
-  };
 
   return (
     <Grid container sx={{ alignItems: "center", gap: 1 }}>
       <Button
-        onClick={() => handleClick(2)}
+        onClick={() => {
+          setTicketsPerRow(2);
+        }}
         sx={{ transform: "rotate(90deg)" }}
       >
         {ticketsPerRow === 2 ? (
@@ -30,7 +24,11 @@ const ViewOptions = ({ ticketsPerRow, setTicketsPerRow, setRequestBody }) => {
         )}
       </Button>
       <VerticalDivider />
-      <Button onClick={() => handleClick(3)}>
+      <Button
+        onClick={() => {
+          setTicketsPerRow(3);
+        }}
+      >
         {ticketsPerRow === 3 ? (
           <ViewWeekIcon />
         ) : (

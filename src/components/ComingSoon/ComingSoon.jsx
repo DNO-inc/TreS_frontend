@@ -1,9 +1,6 @@
 import { Grid, Typography } from "@mui/material";
-import { useTranslation } from "react-i18next";
 
 const ComingSoon = () => {
-  const { t } = useTranslation();
-
   return (
     <Grid
       container
@@ -12,11 +9,13 @@ const ComingSoon = () => {
       <Typography
         sx={{
           textTransform: "capitalize",
-          fontSize: "40px",
+          fontSize: "90px",
           fontWeight: "bold",
         }}
       >
-        {t("common.comingSoon")}
+        <span>Coming</span>
+        <br />
+        <span>Soon...</span>
       </Typography>
     </Grid>
   );
