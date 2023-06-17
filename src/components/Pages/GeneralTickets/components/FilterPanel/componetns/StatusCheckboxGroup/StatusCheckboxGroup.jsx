@@ -1,83 +1,69 @@
-import { useTheme } from "@emotion/react";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
-import { useState } from "react";
 import { VerticalDivider } from "../../../../../../VerticalDivider";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { getStatusesFullObject, getStatusesName } from "./getStatuses";
+import { useEffect } from "react";
 
 const StatusCheckboxGroup = ({ setRequestBody }) => {
-  const { palette } = useTheme();
-  const [checked, setChecked] = useState([true, true, true, true, true, true]);
+  const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const statusesName = getStatusesName();
+  const statusesQueryParams = searchParams.get("statuses")?.split(",");
+
+  const checked = statusesQueryParams
+    ? statusesName.map(status => {
+        return statusesQueryParams.includes(status);
+      })
+    : [true, true, true, true];
+
+  useEffect(() => {
+    setRequestBody(prevBody => ({ ...prevBody, status: statusesQueryParams }));
+  }, []);
+
+  const processSelectStatus = updatedChecked => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    const selectedStatuses = statusesFullInfo
+      .filter(status => updatedChecked[status.id])
+      .map(status => status.label);
+
+    if (params.has("statuses")) {
+      params.set("statuses", selectedStatuses);
+    } else {
+      params.append("statuses", selectedStatuses);
+    }
+
+    if (params.has("current_page")) {
+      params.set("current_page", 1);
+    } else {
+      params.append("current_page", 1);
+    }
+
+    setSearchParams(params);
+
+    setRequestBody(prevBody => ({ ...prevBody, status: selectedStatuses }));
+  };
 
   const handleChange = index => event => {
     const updatedChecked = [...checked];
     updatedChecked[index] = event.target.checked;
-    setChecked(updatedChecked);
 
-    const selectedStatuses = statuses
-      .filter((status, i) => updatedChecked[i])
-      .map(status => status.label);
-
-    console.log("check", selectedStatuses);
+    processSelectStatus(updatedChecked);
   };
 
   const handleParentChange = event => {
     const updatedChecked = checked.map(() => event.target.checked);
-    setChecked(updatedChecked);
 
-    const selectedStatuses = statuses
-      .filter((status, i) => updatedChecked[i])
-      .map(status => status.label);
-
-    console.log("all", selectedStatuses);
+    processSelectStatus(updatedChecked);
   };
 
-  const statuses = [
-    {
-      id: 0,
-      label: "New",
-      color: "#888888",
-      checked: checked[0],
-      onChange: handleChange(0),
-    },
-    {
-      id: 1,
-      label: "Accepted",
-      color: "#E09C36",
-      checked: checked[1],
-      onChange: handleChange(1),
-    },
-    {
-      id: 2,
-      label: "Open",
-      color: "#2982D3",
-      checked: checked[2],
-      onChange: handleChange(2),
-    },
-    {
-      id: 3,
-      label: "Waiting",
-      color: "#9E3DFF",
-      checked: checked[3],
-      onChange: handleChange(3),
-    },
-    {
-      id: 4,
-      label: "Rejected",
-      color: "#D94B44",
-      checked: checked[4],
-      onChange: handleChange(4),
-    },
-    {
-      id: 5,
-      label: "Closed",
-      color: "#68B651",
-      checked: checked[5],
-      onChange: handleChange(5),
-    },
-  ];
+  const statusesFullInfo = getStatusesFullObject(checked, handleChange);
 
   const children = (
     <Box sx={{ display: "flex", flexWrap: "wrap", ml: 2 }}>
-      {statuses.map(status => {
+      {statusesFullInfo.map(status => {
         return (
           <FormControlLabel
             label={status.label}
@@ -116,13 +102,13 @@ const StatusCheckboxGroup = ({ setRequestBody }) => {
     </Box>
   );
 
-  const isAllChecked = checked.every(value => value);
+  const isAllChecked = !!checked && checked.every(value => value);
   const isSomeChecked = checked.some(value => value);
 
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <FormControlLabel
-        label="All"
+        label={t("statusesFilter.all")}
         control={
           <Checkbox
             checked={isAllChecked}

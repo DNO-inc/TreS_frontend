@@ -14,7 +14,7 @@ import { useCreateTicketMutation } from "../../../store/api/tickets/tickets.api"
 const CreateTicketForm = () => {
   const { t } = useTranslation();
   const { palette } = useTheme();
-  const [option, setOption] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [queue, setQueue] = useState("none");
 
   const { data, isSuccess } = useGetProfileQuery({ userId: null });
@@ -23,15 +23,21 @@ const CreateTicketForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
-    reset,
+    resetField,
     formState: { errors },
   } = useForm();
 
+  const handleClear = () => {
+    resetField("subject");
+    resetField("body");
+    setQueue("none");
+    setSelectedOptions([]);
+  };
+
   const onSubmit = data => {
     createTicket({ body: JSON.stringify(data) });
-    reset();
+    handleClear();
   };
 
   useEffect(() => {
@@ -40,9 +46,7 @@ const CreateTicketForm = () => {
 
   return (
     <Grid container>
-      <Grid item>
-        <Typography variant="h1">{t("createTicket.heading")}</Typography>
-      </Grid>
+      <Typography variant="h1">{t("createTicket.heading")}</Typography>
       <Grid container>
         <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
           <Grid
@@ -65,7 +69,7 @@ const CreateTicketForm = () => {
             }}
           >
             <QueueSelect
-              faculty={isSuccess && data.faculty}
+              faculty={isSuccess ? data.faculty : ""}
               register={register}
               setValue={setValue}
               queue={queue}
@@ -75,14 +79,10 @@ const CreateTicketForm = () => {
             <TicketBodyTextField register={register} />
             <TicketVisibilityOptions
               setValue={setValue}
-              option={option}
-              setOption={setOption}
+              selectedOptions={selectedOptions}
+              setSelectedOptions={setSelectedOptions}
             />
-            <FormActions
-              reset={reset}
-              setQueue={setQueue}
-              setOption={setOption}
-            />
+            <FormActions handleClear={handleClear} />
           </Grid>
         </form>
       </Grid>

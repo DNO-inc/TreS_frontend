@@ -1,6 +1,9 @@
 import { Grid, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const Loader = () => {
+  const { t } = useTranslation();
+
   return (
     <Grid
       container
@@ -11,7 +14,7 @@ const Loader = () => {
         justifyContent: "center",
       }}
     >
-      <Typography variant="h4">Loading...</Typography>
+      <Typography variant="h4">{t("common.loading")}</Typography>
     </Grid>
   );
 };

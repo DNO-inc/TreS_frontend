@@ -12,6 +12,13 @@ export const ticketsApi = api.injectEndpoints({
         },
         body,
       }),
+      providesTags: result =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Like", id })),
+              { type: "Like", id: "LIST" },
+            ]
+          : [{ type: "Like", id: "LIST" }],
     }),
     getSavedTickets: builder.query({
       query: ({ option }) => ({
@@ -53,6 +60,7 @@ export const ticketsApi = api.injectEndpoints({
         },
         body,
       }),
+      invalidatesTags: (result, error, id) => [{ type: "Post", id }],
     }),
     toggleBookmark: builder.mutation({
       query: ({ option, body }) => ({

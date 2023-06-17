@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { Layout } from "../components/Layout";
 import { endpoints } from "../constants";
 import { GeneralTickets } from "../components/Pages/GeneralTickets";
@@ -21,10 +27,16 @@ const Router = () => {
   const jwt = useJwtDecode();
   const [isAuth, setIsAuth] = useState(!!jwt);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
-    !isAuth && navigate(endpoints.base);
+    !isAuth && navigate(endpoints.generalTickets);
   }, [isAuth]);
+
+  useEffect(() => {
+    pathname !== "/" && setSearchParams(new URLSearchParams(search));
+  }, [pathname, search]);
 
   return (
     <Routes>
@@ -32,12 +44,13 @@ const Router = () => {
         path={endpoints.base}
         element={<Layout isAuth={isAuth} setIsAuth={setIsAuth} />}
       >
-        <Route index element={<GeneralTickets />}></Route>
+        <Route index element={<GeneralTickets />} />
         <Route
           path={`${endpoints.fullTicket}/:ticketId`}
           element={<FullTicketInfo />}
         />
         <Route path={endpoints.dashboard} element={<Dashboard />} />
+        <Route path={endpoints.generalTickets} element={<GeneralTickets />} />
         <Route path={endpoints.sent} element={<Sent />} />
         <Route path={endpoints.createTicket} element={<CreateTicketForm />} />
         <Route path={endpoints.received} element={<Received />} />
@@ -45,7 +58,6 @@ const Router = () => {
         <Route path={endpoints.bookmarks} element={<Bookmarks />} />
         <Route path={endpoints.deleted} element={<Deleted />} />
         <Route path={endpoints.notifications} element={<Notifications />} />
-        <Route path={endpoints.generalTickets} element={<GeneralTickets />} />
         <Route path={endpoints.settings} element={<Settings />} />
         <Route path={`${endpoints.profile}/:userId`} element={<Profile />} />
         <Route path={"*"} element={<ErrorPage />} />

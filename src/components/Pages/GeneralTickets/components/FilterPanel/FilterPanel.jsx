@@ -3,7 +3,7 @@ import { FacultiesFilter } from "./componetns/FacultiesFilter";
 import { StatusCheckboxGroup } from "./componetns/StatusCheckboxGroup";
 import { ViewOptions } from "./componetns/ViewOptions";
 
-const FilterPanel = ({ ticketsPerRow, setRequestBody, setTicketsPerRow }) => {
+const FilterPanel = ({ ticketsPerRow, setRequestBody }) => {
   return (
     <Grid
       container
@@ -23,7 +23,7 @@ const FilterPanel = ({ ticketsPerRow, setRequestBody, setTicketsPerRow }) => {
       >
         <ViewOptions
           ticketsPerRow={ticketsPerRow}
-          setTicketsPerRow={setTicketsPerRow}
+          setRequestBody={setRequestBody}
         />
         <Box>
           <FacultiesFilter setRequestBody={setRequestBody} />

@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import Divider from "@mui/material/Divider";
 import { GeneralActions } from "./components/GeneralActions";
 import { AdditionActions } from "./components/AdditionActions";
-import { Box, Button, Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@emotion/react";
 import { VerticalDivider } from "../../../../../VerticalDivider";
 import { useJwtDecode } from "../../../../../../shared/hooks";
+import { endpoints } from "../../../../../../constants";
 
 const SidebarActions = () => {
   const { pathname } = useLocation();
-  const [selectedIndex, setSelectedIndex] = useState("/general-reports");
+  const [selectedIndex, setSelectedIndex] = useState(endpoints.generalTickets);
   const { t, i18n } = useTranslation();
   const { palette } = useTheme();
   const jwt = useJwtDecode();

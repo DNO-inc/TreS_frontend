@@ -1,0 +1,1 @@
+export { CustomPagination } from "./CustomPagination";

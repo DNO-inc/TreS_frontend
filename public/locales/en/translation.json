@@ -1,9 +1,21 @@
 {
   "common": {
+    "comingSoon": "Coming Soon...",
+    "loading": "Loading...",
     "login": "Log in",
+    "loginInput": "Login",
+    "loginButton": "Log in",
+    "password": "Password",
+    "createButton": "Create ticket",
     "signup": "Sign Up",
     "profile": "Profile",
-    "error": "Error"
+    "error": "Error",
+    "noAssignee": "no assignee",
+    "tooltip": {
+      "report": "Report ticket",
+      "suggestion": "Suggestion ticket",
+      "question": "Question ticket"
+    }
   },
   "sidebar": {
     "dashboard": "Dashboard",
@@ -42,7 +54,8 @@
     "heading": "Notification"
   },
   "generalTickets": {
-    "heading": "General Tickets"
+    "heading": "General Tickets",
+    "facultyFilter": "All faculties"
   },
   "settings": {
     "heading": "Settings"
@@ -51,9 +64,46 @@
     "heading": "Profile"
   },
   "fullTicket": {
-    "heading": "Full ticket"
+    "additionalInfo": "Additional Information",
+    "author": "Author",
+    "faculty": "Faculty",
+    "dateOfCreation": "Date of creation"
   },
   "createTicket": {
-    "heading": "Ticket creation"
+    "heading": "Ticket creation",
+    "queue": "Queue",
+    "selectQueue": "Select queue",
+    "ticketTitle": "Ticket title",
+    "ticketTitlePlaceholder": "Enter ticket title",
+    "ticketBody": "Ticket body",
+    "ticketBodyPlaceholder": "Start typing...",
+    "ticketOptions": "Ticket options",
+    "anonymousTitle": "Become anonymous",
+    "anonymousPart1": "Your",
+    "anonymousPart2": "name will be hidden",
+    "anonymousPart3": "in general reports only",
+    "hiddenTitle": "Private report",
+    "hiddenPart1": "Your",
+    "hiddenPart2": "ticket will not be shown",
+    "hiddenPart3": "in general reports",
+    "sentTicket": "Sent ticket",
+    "clear": "Clear"
+  },
+  "statusesFilter": {
+    "all": "All",
+    "new": "New",
+    "accepted": "Accepted",
+    "open": "Open",
+    "waiting": "Waiting",
+    "rejected": "Rejected",
+    "close": "Close"
+  },
+  "ticketStatus": {
+    "new": "New",
+    "accepted": "Accepted",
+    "open": "Open",
+    "waiting": "Waiting",
+    "rejected": "Rejected",
+    "close": "Close"
   }
 }
