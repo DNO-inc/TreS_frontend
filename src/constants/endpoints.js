@@ -9,7 +9,7 @@ const endpoints = {
   bookmarks: "/bookmarks",
   deleted: "/deleted",
   notifications: "/notifications",
-  generalTickets: "/general-tickets",
+  generalTickets: "/general_tickets",
   settings: "/settings",
   profile: "/profile",
   createTicket: "/tickets/create",

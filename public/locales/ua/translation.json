@@ -1,14 +1,26 @@
 {
   "common": {
+    "comingSoon": "Незабаром...",
+    "loading": "Завантаження...",
     "login": "Авторизація",
+    "loginInput": "Логін",
+    "loginButton": "Увійти",
+    "password": "Пароль",
+    "createButton": "Створити тікет",
     "signup": "Реєстрація",
     "profile": "Профіль",
-    "error": "Помилка"
+    "error": "Помилка",
+    "noAssignee": "ніким не розглядається",
+    "tooltip": {
+      "report": "Тікет - скарга",
+      "suggestion": "Тікет - пропозиція",
+      "question": "Тікет - питання"
+    }
   },
   "sidebar": {
     "dashboard": "Панель приладів",
     "myTickets": {
-      "title": "Мої квитки",
+      "title": "Мої тікети",
       "sent": "Надіслані",
       "received": "Отримані",
       "followed": "Відстежувані",
@@ -16,7 +28,7 @@
       "deleted": "Видалені"
     },
     "notification": "Сповіщення",
-    "generalTickets": "Загальні квитки",
+    "generalTickets": "Всі тікети",
     "settings": "Налаштування",
     "lightMode": "Світлий режим"
   },
@@ -42,7 +54,8 @@
     "heading": "Сповіщення"
   },
   "generalTickets": {
-    "heading": "Загальні квитки"
+    "heading": "Всі тікети",
+    "facultyFilter": "Всі факультети"
   },
   "settings": {
     "heading": "Налаштування"
@@ -51,9 +64,46 @@
     "heading": "Профіль"
   },
   "fullTicket": {
-    "heading": "Повна інфа про тікет"
+    "additionalInfo": "Додаткова інформація",
+    "author": "Автор",
+    "faculty": "Факультет",
+    "dateOfCreation": "Дата створення"
   },
   "createTicket": {
-    "heading": "Створення квитка"
+    "heading": "Створення тікета",
+    "queue": "Черга",
+    "selectQueue": "Оберіть чергу",
+    "ticketTitle": "Назва тікета",
+    "ticketTitlePlaceholder": "Введіть назву тікета",
+    "ticketBody": "Опис тікета",
+    "ticketBodyPlaceholder": "Почніть друкувати...",
+    "ticketOptions": "Параметри квитка",
+    "anonymousTitle": "Зробити анонімом",
+    "anonymousPart1": "Ваше",
+    "anonymousPart2": "ім'я буде приховано",
+    "anonymousPart3": "лише в загальних тікетах",
+    "hiddenTitle": "Приватний звіт",
+    "hiddenPart1": "Ваш",
+    "hiddenPart2": "тікет не буде показано",
+    "hiddenPart3": "в загальних тікетах",
+    "sentTicket": "Надіслати квиток",
+    "clear": "Очистити"
+  },
+  "statusesFilter": {
+    "all": "Всі",
+    "new": "Нові",
+    "accepted": "Прийняті",
+    "open": "Відкриті",
+    "waiting": "Розглядаються",
+    "rejected": "Відхилені",
+    "close": "Вирішені"
+  },
+  "ticketStatus": {
+    "new": "Новий",
+    "accepted": "Прийнятий",
+    "open": "Відкритий",
+    "waiting": "Розглядається",
+    "rejected": "Відхилений",
+    "close": "Вирішений"
   }
 }

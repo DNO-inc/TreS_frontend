@@ -20,7 +20,7 @@ const Header = ({ isAuth, setIsAuth, drawerWidth, handleDrawerToggle }) => {
   const isNeedStepBack = isFullTicketInfo || isCreateTicket;
 
   const handleClick = () => {
-    navigate(-1);
+    navigate(-2);
   };
 
   return (
