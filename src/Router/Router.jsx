@@ -6,22 +6,22 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { Layout } from "../components/Layout";
 import { endpoints } from "../constants";
-import { GeneralTickets } from "../components/Pages/GeneralTickets";
-import { Dashboard } from "../components/Pages/Dashboard";
-import { Sent } from "../components/Pages/Sent";
-import { Received } from "../components/Pages/Received";
-import { Followed } from "../components/Pages/Followed";
-import { Bookmarks } from "../components/Pages/Bookmarks";
-import { Deleted } from "../components/Pages/Deleted";
-import { Notifications } from "../components/Pages/Notifications";
-import { Settings } from "../components/Pages/Settings";
-import { Profile } from "../components/Pages/Profile";
-import { ErrorPage } from "../components/Pages/ErrorPage/ErrorPage";
 import { useJwtDecode } from "../shared/hooks";
-import { FullTicketInfo } from "../components/Pages/FullTicketInfo";
-import { CreateTicketForm } from "../components/Pages/CreateTicketForm";
+import { Layout } from "../Pages/Layout";
+import { GeneralTickets } from "../Pages/GeneralTickets";
+import { Dashboard } from "../Pages/Dashboard";
+import { Sent } from "../Pages/Sent";
+import { Received } from "../Pages/Received";
+import { Followed } from "../Pages/Followed";
+import { Bookmarks } from "../Pages/Bookmarks";
+import { Deleted } from "../Pages/Deleted";
+import { Notifications } from "../Pages/Notifications";
+import { Settings } from "../Pages/Settings";
+import { Profile } from "../Pages/Profile";
+import { ErrorPage } from "../Pages/ErrorPage/ErrorPage";
+import { FullTicketInfo } from "../Pages/FullTicketInfo";
+import { CreateTicketForm } from "../Pages/CreateTicketForm";
 
 const Router = () => {
   const jwt = useJwtDecode();
