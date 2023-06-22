@@ -1,0 +1,1 @@
+type IPalette = any;
