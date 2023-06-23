@@ -1,25 +1,28 @@
-import { ReactElement } from "react";
-import { useTheme } from "@emotion/react";
-import { Box, Grid, Tooltip, Typography } from "@mui/material";
+import { ReactElement, FC } from "react";
+
+import { Box, Grid, Tooltip, Typography, useTheme } from "@mui/material";
+
 import { useTranslation } from "react-i18next";
 
-interface ITicketHeader {
+import IPalette from "../../../../theme/IPalette.interface";
+
+interface TicketHeaderProps {
   icon: ReactElement;
   color: string;
   tooltipText: string;
   subject: string;
   status: string;
-  assignee: string;
+  assignee: string | null;
 }
 
-const TicketHeader = ({
+const TicketHeader: FC<TicketHeaderProps> = ({
   icon,
   color,
   tooltipText,
   subject,
   status,
   assignee,
-}: ITicketHeader) => {
+}) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 

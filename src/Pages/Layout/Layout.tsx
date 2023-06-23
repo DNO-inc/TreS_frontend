@@ -1,18 +1,18 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, FC } from "react";
 import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
-import { useTheme } from "@emotion/react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, useTheme } from "@mui/material";
+import IPalette from "../../theme/IPalette.interface";
 
-interface ILayout {
+interface LayoutProps {
   isAuth: boolean;
   setIsAuth: Dispatch<SetStateAction<boolean>>;
 }
 
 const drawerWidth = 300;
 
-const Layout = ({ isAuth, setIsAuth }: ILayout) => {
+const Layout: FC<LayoutProps> = ({ isAuth, setIsAuth }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { palette }: IPalette = useTheme();
 

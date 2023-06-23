@@ -1,4 +1,12 @@
-import { FormEvent, useEffect, useState } from "react";
+import {
+  FormEvent,
+  useEffect,
+  useState,
+  FC,
+  Dispatch,
+  SetStateAction,
+} from "react";
+
 import {
   Button,
   Grid,
@@ -7,27 +15,31 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useTranslation } from "react-i18next";
-import { useLoginMutation } from "../../store/api/api";
 
-interface ILogInModal {
+import { useTranslation } from "react-i18next";
+
+import { useLoginMutation } from "../../store/api/api";
+import IPalette from "../../theme/IPalette.interface";
+
+interface LogInModalProps {
   open: boolean;
-  setOpen: (param: boolean) => void;
-  setIsAuth: (param: boolean) => void;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  setIsAuth: Dispatch<SetStateAction<boolean>>;
 }
 
-const LogInModal = ({ open, setOpen, setIsAuth }: ILogInModal) => {
+const LogInModal: FC<LogInModalProps> = ({ open, setOpen, setIsAuth }) => {
   const { t } = useTranslation();
-  const handleClose = () => setOpen(false);
   const { palette }: IPalette = useTheme();
-
-  const [loginPost, { data, isSuccess, isError }] = useLoginMutation();
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [hasError, setHasError] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const [loginPost, { data, isSuccess, isError }] = useLoginMutation();
+
+  const handleClose = (): void => setOpen(false);
+
+  const handleSubmit = (event: FormEvent): void => {
     event.preventDefault();
     loginPost({ body: JSON.stringify({ login, password }) });
   };
@@ -94,7 +106,5 @@ const LogInModal = ({ open, setOpen, setIsAuth }: ILogInModal) => {
     </Modal>
   );
 };
-
-LogInModal.propTypes = {};
 
 export { LogInModal };

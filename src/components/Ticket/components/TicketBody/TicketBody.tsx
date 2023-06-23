@@ -1,17 +1,17 @@
-import { Avatar, Box, Grid, Tooltip, Typography } from "@mui/material";
+import { FC } from "react";
 import { NavLink } from "react-router-dom";
+
+import { Avatar, Box, Grid, Tooltip, Typography } from "@mui/material";
+
 import { endpoints } from "../../../../constants";
 
-type ICreator = any;
-
-interface ITicketBody {
-  userId: number;
+interface TicketBodyProps extends Creator {
+  userId: number | null;
   body: string;
   faculty: string;
-  creator: ICreator;
 }
 
-const ProfileTooltip = ({ creator }: ICreator) => {
+const ProfileTooltip: FC<Creator> = ({ creator }) => {
   return (
     <Grid
       container
@@ -34,7 +34,12 @@ const ProfileTooltip = ({ creator }: ICreator) => {
   );
 };
 
-const TicketBody = ({ body, userId, creator, faculty }: ITicketBody) => {
+const TicketBody: FC<TicketBodyProps> = ({
+  body,
+  userId,
+  creator,
+  faculty,
+}) => {
   return (
     <Grid
       display={"flex"}

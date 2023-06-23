@@ -1,16 +1,18 @@
-import { FormEvent, useState } from "react";
-import { useTheme } from "@emotion/react";
-import { Button, Grid, Modal, TextField, Typography } from "@mui/material";
-import { useTranslation } from "react-i18next";
+import { FormEvent, useState, Dispatch, SetStateAction, FC } from "react";
 
-interface ISignUpModal {
+import { Button, Grid, Modal, TextField, Typography } from "@mui/material";
+import { useTheme } from "@mui/material";
+
+import { useTranslation } from "react-i18next";
+import IPalette from "../../theme/IPalette.interface";
+
+interface SignUpModalProps {
   open: boolean;
-  setOpen: (param: boolean) => void;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const SignUpModal = ({ open, setOpen }: ISignUpModal) => {
+const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen }) => {
   const { t } = useTranslation();
-  const handleClose = () => setOpen(false);
   const { palette }: IPalette = useTheme();
 
   const [login, setLogin] = useState("");
@@ -18,7 +20,9 @@ const SignUpModal = ({ open, setOpen }: ISignUpModal) => {
   const [faculty, setFaculty] = useState("");
   const [group, setGroup] = useState("");
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleClose = (): void => setOpen(false);
+
+  const handleSubmit = (event: FormEvent): void => {
     event.preventDefault();
   };
 

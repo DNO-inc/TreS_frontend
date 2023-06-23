@@ -1,34 +1,38 @@
-import { Grid, IconButton, Typography } from "@mui/material";
+import { FC } from "react";
+
+import { Grid, IconButton, Typography, useTheme } from "@mui/material";
+
 import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useTheme } from "@emotion/react";
 
-interface ITicketActions {
+import IPalette from "../../../../theme/IPalette.interface";
+
+interface TicketActionsProps {
   isAuth: boolean;
   isReported: boolean;
   isLiked: boolean;
   isBookmarked: boolean;
   upvotes: number;
+  formattedDate: string;
   handleToggleReported: () => void;
   handleToggleLike: () => void;
   handleToggleBookmark: () => void;
-  formattedDate: string;
 }
 
-const TicketActions = ({
+const TicketActions: FC<TicketActionsProps> = ({
   isAuth,
   isReported,
   isLiked,
   isBookmarked,
   upvotes,
+  formattedDate,
   handleToggleReported,
   handleToggleLike,
   handleToggleBookmark,
-  formattedDate,
-}: ITicketActions) => {
+}) => {
   const { palette }: IPalette = useTheme();
 
   return (
@@ -77,7 +81,7 @@ const TicketActions = ({
             //   bgcolor: isBookmarked && palette.semantic.info,
             // },
             "& > .MuiSvgIcon-root": {
-              color: isBookmarked && palette.semantic.info,
+              color: isBookmarked ? palette.semantic.info : "none",
             },
           }}
         >
@@ -100,7 +104,7 @@ const TicketActions = ({
             //   bgcolor: isLiked && palette.semantic.info,
             // },
             "& > .MuiSvgIcon-root": {
-              color: isLiked && palette.semantic.error,
+              color: isLiked ? palette.semantic.error : "none",
             },
           }}
         >

@@ -1,33 +1,36 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useState, FC } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { TicketHeader } from "./components/TicketHeader";
+import { TicketBody } from "./components/TicketBody";
+import { TicketActions } from "./components/TicketActions";
+
 import Card from "@mui/material/Card";
-import { useTheme } from "@emotion/react";
-import { Divider, Grid } from "@mui/material";
+import { Divider, Grid, useTheme } from "@mui/material";
+
 import { formatDate, checkStatus } from "../../shared/functions";
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from "../../store/api/tickets/tickets.api";
-import { TicketHeader } from "./components/TicketHeader";
-import { TicketBody } from "./components/TicketBody";
-import { TicketActions } from "./components/TicketActions/TicketActions";
-import { useNavigate } from "react-router-dom";
 import { endpoints } from "../../constants";
 import { useCheckScope } from "../../shared/hooks";
+import IPalette from "../../theme/IPalette.interface";
 
-type ticket = any;
-
-interface ITicket {
-  ticket: ticket;
+interface TicketProps {
+  ticket: ITicket;
   ticketsPerRow: number;
   isAuth: boolean;
 }
 
-const Ticket = ({ ticket, ticketsPerRow, isAuth }: ITicket) => {
+const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   const { palette }: IPalette = useTheme();
+
   const [isLiked, setIsLiked] = useState(ticket.is_liked);
   const [upvotes, setUpvotes] = useState(ticket.upvotes);
   const [isBookmarked, setIsBookmarked] = useState(ticket.is_bookmarked);
   const [isReported, setIsReported] = useState(false);
+
   const navigate = useNavigate();
 
   const [toggleLike] = useToggleLikeMutation();
@@ -38,11 +41,11 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }: ITicket) => {
   const formattedDate = ticket?.date && formatDate(ticket.date);
   const userId = ticket.creator?.user_id;
 
-  const handleToggleReported = () => {
+  const handleToggleReported = (): void => {
     setIsReported(prevIsReported => !prevIsReported);
   };
 
-  const handleToggleLike = () => {
+  const handleToggleLike = (): void => {
     const option = !isLiked ? "like" : "unlike";
 
     toggleLike({
@@ -56,7 +59,7 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }: ITicket) => {
     setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
   };
 
-  const handleToggleBookmark = () => {
+  const handleToggleBookmark = (): void => {
     const option = !isBookmarked ? "bookmark" : "unbookmark";
 
     toggleBookmark({
@@ -67,15 +70,14 @@ const Ticket = ({ ticket, ticketsPerRow, isAuth }: ITicket) => {
     setIsBookmarked((prevIsBookmarked: boolean) => !prevIsBookmarked);
   };
 
-  const handleClick = (event: MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleClick = (event: MouseEvent): void => {
     const { target } = event;
 
     if (
       target instanceof HTMLElement &&
-      (target.tagName === "path" || target.closest(".evadeItem"))
+      target.tagName !== "path" &&
+      !target.closest(".evadeItem")
     ) {
-      return;
-    } else {
       isAuth && navigate(`${endpoints.fullTicket}/${ticket.ticket_id}`);
     }
   };

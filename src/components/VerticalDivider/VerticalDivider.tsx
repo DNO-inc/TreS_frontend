@@ -1,5 +1,6 @@
-import { useTheme } from "@emotion/react";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
+
+import IPalette from "../../theme/IPalette.interface";
 
 const VerticalDivider = ({ height = 22 }) => {
   const { palette }: IPalette = useTheme();
