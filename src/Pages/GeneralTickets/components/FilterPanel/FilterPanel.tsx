@@ -14,9 +14,10 @@ const FilterPanel: FC<FilterPanelProps> = ({ ticketsPerRow }) => {
   return (
     <Grid
       container
-      justifyContent={"space-between"}
-      alignItems={"center"}
-      mb={3}
+      sx={{
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
     >
       <StatusCheckboxGroup />
       <Grid

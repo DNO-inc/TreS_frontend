@@ -1,1 +1,1 @@
-export { GeneralTickets } from "./GeneralTickets";
+export { GeneralTickets as default } from "./GeneralTickets";

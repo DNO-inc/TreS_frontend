@@ -1,1 +1,1 @@
-export { Deleted } from "./Deleted";
+export { Deleted as default } from "./Deleted";

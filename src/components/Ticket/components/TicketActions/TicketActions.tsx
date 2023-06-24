@@ -43,11 +43,11 @@ const TicketActions: FC<TicketActionsProps> = ({
       <Grid
         sx={{
           display: "flex",
-          gap: 1,
+          gap: 0.8,
           "& > .MuiIconButton-root": {
-            height: 28,
+            height: 26,
             "& > .MuiSvgIcon-root": {
-              fontSize: 22,
+              fontSize: 20,
             },
           },
         }}
@@ -57,7 +57,7 @@ const TicketActions: FC<TicketActionsProps> = ({
           disabled={!isAuth}
           className="evadeItem"
           sx={{
-            width: 28,
+            width: 26,
             // bgcolor: isReported && palette.semantic.error,
             // "&:hover": {
             //   bgcolor: isReported && palette.semantic.error,
@@ -74,7 +74,7 @@ const TicketActions: FC<TicketActionsProps> = ({
           disabled={!isAuth}
           className="evadeItem"
           sx={{
-            width: 28,
+            width: 26,
             mr: !upvotes ? 0 : -0.6,
             // bgcolor: isBookmarked && palette.semantic.info,
             // "&:hover": {
@@ -97,7 +97,7 @@ const TicketActions: FC<TicketActionsProps> = ({
           className="evadeItem"
           sx={{
             gap: 0.5,
-            width: !upvotes ? 28 : "auto",
+            width: !upvotes ? 26 : "auto",
             borderRadius: 4,
             // bgcolor: isLiked && palette.semantic.info,
             // "&:hover": {
@@ -114,7 +114,12 @@ const TicketActions: FC<TicketActionsProps> = ({
             <FavoriteBorderOutlinedIcon className="evadeItem" />
           )}
           {!!upvotes && (
-            <Typography className="evadeItem">{upvotes}</Typography>
+            <Typography
+              className="evadeItem"
+              sx={{ fontSize: 16, fontWeight: 300 }}
+            >
+              {upvotes}
+            </Typography>
           )}
         </IconButton>
       </Grid>

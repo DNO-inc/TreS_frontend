@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { SerializedError } from "@reduxjs/toolkit";
 
-import { Grid, Typography, useMediaQuery } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 import { FilterPanel } from "./components/FilterPanel";
 import { Ticket } from "../../components/Ticket/Ticket";
@@ -13,6 +13,7 @@ import { CustomPagination } from "./components/CustomPagination";
 
 import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../shared/hooks";
+import IPalette from "../../theme/IPalette.interface";
 
 interface GeneralTicketsPageInfo {
   data?: {
@@ -24,6 +25,7 @@ interface GeneralTicketsPageInfo {
 
 const GeneralTickets: FC = () => {
   const { t } = useTranslation();
+  const { palette }: IPalette = useTheme();
   const matches = useMediaQuery("(min-width:600px)");
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
@@ -78,42 +80,48 @@ const GeneralTickets: FC = () => {
 
   return (
     <Grid container flexDirection={"column"}>
-      <Typography variant="h1">{t("generalTickets.heading")}</Typography>
-      <FilterPanel ticketsPerRow={ticketsPerRow} />
-      {isLoading && <Loader />}
-      {isSuccess &&
-        (tickets.length ? (
-          <>
-            <Grid
-              container
-              gap={2}
-              sx={{
-                flexDirection: matches ? "row" : "column",
-                maxWidth: matches ? "100%" : "600px",
-              }}
-            >
-              {tickets.map(ticket => {
-                return (
-                  <Ticket
-                    ticketsPerRow={matches ? ticketsPerRow : 1}
-                    ticket={ticket}
-                    isAuth={!!jwt}
-                    key={ticket.ticket_id}
-                  />
-                );
-              })}
-            </Grid>
-            <CustomPagination
-              total={totalPage}
-              current={currentPage}
-              onChange={handlePageChange}
-            />
-          </>
-        ) : (
-          <Typography variant="h1" mt={6}>
-            Not found
-          </Typography>
-        ))}
+      <Box>
+        <Typography variant="h1" sx={{ mb: 3 }}>
+          {t("generalTickets.heading")}
+        </Typography>
+        <FilterPanel ticketsPerRow={ticketsPerRow} />
+      </Box>
+      <Box sx={{ pt: "168px !important" }}>
+        {isLoading && <Loader />}
+        {isSuccess &&
+          (tickets.length ? (
+            <>
+              <Grid
+                container
+                gap={2}
+                sx={{
+                  flexDirection: matches ? "row" : "column",
+                  maxWidth: matches ? "100%" : "600px",
+                }}
+              >
+                {tickets.map(ticket => {
+                  return (
+                    <Ticket
+                      ticketsPerRow={matches ? ticketsPerRow : 1}
+                      ticket={ticket}
+                      isAuth={!!jwt}
+                      key={ticket.ticket_id}
+                    />
+                  );
+                })}
+              </Grid>
+              <CustomPagination
+                total={totalPage}
+                current={currentPage}
+                onChange={handlePageChange}
+              />
+            </>
+          ) : (
+            <Typography variant="h1" mt={6}>
+              Not found
+            </Typography>
+          ))}
+      </Box>
     </Grid>
   );
 };

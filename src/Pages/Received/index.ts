@@ -1,1 +1,1 @@
-export { Received } from "./Received";
+export { Received as default } from "./Received";

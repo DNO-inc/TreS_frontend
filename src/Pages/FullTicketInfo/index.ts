@@ -1,1 +1,1 @@
-export { FullTicketInfo } from "./FullTicketInfo";
+export { FullTicketInfo as default } from "./FullTicketInfo";

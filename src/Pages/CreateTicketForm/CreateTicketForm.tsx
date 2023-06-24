@@ -49,8 +49,10 @@ const CreateTicketForm: FC = () => {
   }, [isSuccess, data?.faculty, setValue]);
 
   return (
-    <Grid container>
-      <Typography variant="h1">{t("createTicket.heading")}</Typography>
+    <Grid container sx={{ pb: 3 }}>
+      <Typography variant="h1" sx={{ pt: 3.5, pb: 3.5 }}>
+        {t("createTicket.heading")}
+      </Typography>
       <Grid container>
         <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
           <Grid

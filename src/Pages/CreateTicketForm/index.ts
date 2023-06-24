@@ -1,1 +1,1 @@
-export { CreateTicketForm } from "./CreateTicketForm";
+export { CreateTicketForm as default } from "./CreateTicketForm";

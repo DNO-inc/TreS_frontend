@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, lazy } from "react";
 import {
   Route,
   Routes,
@@ -8,22 +8,23 @@ import {
 } from "react-router-dom";
 
 import { Layout } from "../Pages/Layout";
-import { GeneralTickets } from "../Pages/GeneralTickets";
-import { Dashboard } from "../Pages/Dashboard";
-import { Sent } from "../Pages/Sent";
-import { Received } from "../Pages/Received";
-import { Followed } from "../Pages/Followed";
-import { Bookmarks } from "../Pages/Bookmarks";
-import { Deleted } from "../Pages/Deleted";
-import { Notifications } from "../Pages/Notifications";
-import { Settings } from "../Pages/Settings";
-import { Profile } from "../Pages/Profile";
-import { ErrorPage } from "../Pages/ErrorPage/ErrorPage";
-import { FullTicketInfo } from "../Pages/FullTicketInfo";
-import { CreateTicketForm } from "../Pages/CreateTicketForm";
 
 import { endpoints } from "../constants";
 import { useJwtDecode } from "../shared/hooks";
+
+const GeneralTickets = lazy(() => import("../Pages/GeneralTickets"));
+const Dashboard = lazy(() => import("../Pages/Dashboard"));
+const Sent = lazy(() => import("../Pages/Sent"));
+const Received = lazy(() => import("../Pages/Received"));
+const Followed = lazy(() => import("../Pages/Followed"));
+const Bookmarks = lazy(() => import("../Pages/Bookmarks"));
+const Deleted = lazy(() => import("../Pages/Deleted"));
+const Notifications = lazy(() => import("../Pages/Notifications"));
+const Settings = lazy(() => import("../Pages/Settings"));
+const Profile = lazy(() => import("../Pages/Profile"));
+const ErrorPage = lazy(() => import("../Pages/ErrorPage"));
+const FullTicketInfo = lazy(() => import("../Pages/FullTicketInfo"));
+const CreateTicketForm = lazy(() => import("../Pages/CreateTicketForm"));
 
 const Router: FC = () => {
   const jwt = useJwtDecode();

@@ -1,1 +1,1 @@
-export { Sent } from "./Sent";
+export { Sent as default } from "./Sent";

@@ -39,12 +39,20 @@ const Layout: FC<LayoutProps> = ({ isAuth, setIsAuth }) => {
         sx={{
           flex: "1 0 auto",
           minHeight: "100vh",
-          p: { xs: "100px 8px 8px", sm: "100px 24px 24px" },
+          p: { xs: "72px 8px 8px 32px", sm: "72px 24px 24px 32px" },
           width: { xs: "100%", sm: `calc(100% - ${drawerWidth}px)` },
           bgcolor: palette.grey.background,
           color: palette.common.white,
-          "& > div > h1": {
-            mb: 3,
+          "& > .MuiGrid-root > .MuiBox-root:first-of-type": {
+            position: "fixed",
+            left: { xs: 0, md: drawerWidth },
+            right: 0,
+            p: { xs: "24px 8px 8px", sm: "24px 24px 24px" },
+            bgcolor: palette.grey.background,
+            zIndex: 100,
+          },
+          "& > .MuiGrid-root > .MuiBox-root:nth-of-type(2)": {
+            pt: 12,
           },
         }}
       >
