@@ -122,6 +122,4 @@ const TicketActions: FC<TicketActionsProps> = ({
   );
 };
 
-TicketActions.propTypes = {};
-
 export { TicketActions };

@@ -1,6 +1,6 @@
-import { Grid, Typography } from "@mui/material";
-
 import { useTranslation } from "react-i18next";
+
+import { Grid, Typography } from "@mui/material";
 
 const ComingSoon = () => {
   const { t } = useTranslation();
@@ -22,7 +22,5 @@ const ComingSoon = () => {
     </Grid>
   );
 };
-
-ComingSoon.propTypes = {};
 
 export { ComingSoon };

@@ -1,17 +1,27 @@
-import { useTheme } from "@emotion/react";
-import { Box, TextField, Typography } from "@mui/material";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { UseFormRegister } from "react-hook-form";
 
-const TicketBodyTextField = ({ register }) => {
+import { Box, TextField, Typography, useTheme } from "@mui/material";
+
+import IPalette from "../../../../theme/IPalette.interface";
+
+interface TicketBodyTextFieldProps {
+  register: UseFormRegister<ICreateTicketRequestBody>;
+}
+
+const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({ register }) => {
   const { t } = useTranslation();
-  const { palette } = useTheme();
+  const { palette }: IPalette = useTheme();
+
+  const placeholderText: string = t("createTicket.ticketBodyPlaceholder");
 
   return (
     <Box>
       <Typography variant="h3">{t("createTicket.ticketBody")}</Typography>
       <TextField
         id="ticket-body"
-        placeholder={t("createTicket.ticketBodyPlaceholder")}
+        placeholder={placeholderText}
         required
         multiline
         rows={12}
@@ -41,7 +51,5 @@ const TicketBodyTextField = ({ register }) => {
     </Box>
   );
 };
-
-TicketBodyTextField.propTypes = {};
 
 export { TicketBodyTextField };

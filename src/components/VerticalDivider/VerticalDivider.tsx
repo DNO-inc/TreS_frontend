@@ -17,6 +17,4 @@ const VerticalDivider = ({ height = 22 }) => {
   );
 };
 
-VerticalDivider.propTypes = {};
-
 export { VerticalDivider };

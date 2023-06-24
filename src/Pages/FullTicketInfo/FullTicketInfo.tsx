@@ -1,28 +1,31 @@
-import { useEffect } from "react";
+import { useEffect, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useLocation } from "react-router-dom";
-import { useShowTicketMutation } from "../../store/api/tickets/tickets.api";
-import { Loader } from "../../components/Loader";
+
 import Typography from "@mui/material/Typography";
-import { Box, Grid } from "@mui/material";
-import { useTheme } from "@emotion/react";
-import { endpoints } from "../../constants";
-import { checkStatus, formatDate } from "../../shared/functions";
+import { Box, Grid, useTheme } from "@mui/material";
+
+import { Loader } from "../../components/Loader";
 import { ActionPanel } from "./components/ActionPanel";
 
-const FullTicketInfo = () => {
+import { endpoints } from "../../constants";
+import { useShowTicketMutation } from "../../store/api/tickets/tickets.api";
+import { checkStatus, formatDate } from "../../shared/functions";
+import IPalette from "../../theme/IPalette.interface";
+
+const FullTicketInfo: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
   const { pathname } = useLocation();
 
-  const ticketId = +pathname.split("/")[2];
+  const ticketId: number = parseInt(pathname.split("/")[2]);
 
   const [showTicket, { data: ticket, isSuccess, isLoading }] =
     useShowTicketMutation();
 
   useEffect(() => {
     showTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
-  }, []);
+  }, [showTicket, ticketId]);
 
   return (
     <Grid container>
@@ -125,7 +128,5 @@ const FullTicketInfo = () => {
     </Grid>
   );
 };
-
-FullTicketInfo.propTypes = {};
 
 export { FullTicketInfo };

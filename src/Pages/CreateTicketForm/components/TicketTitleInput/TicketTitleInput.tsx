@@ -1,18 +1,29 @@
-import { useTheme } from "@emotion/react";
-import TextField from "@mui/material/TextField";
-import { Box, Typography } from "@mui/material";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
-const TicketTitleInput = ({ register }) => {
+import TextField from "@mui/material/TextField";
+import { Box, Typography, useTheme } from "@mui/material";
+
+import IPalette from "../../../../theme/IPalette.interface";
+
+interface TicketTitleInputProps {
+  errors: FieldErrors<ICreateTicketRequestBody>;
+  register: UseFormRegister<ICreateTicketRequestBody>;
+}
+
+const TicketTitleInput: FC<TicketTitleInputProps> = ({ errors, register }) => {
   const { t } = useTranslation();
-  const { palette } = useTheme();
+  const { palette }: IPalette = useTheme();
+
+  const placeholderText: string = t("createTicket.ticketTitlePlaceholder");
 
   return (
     <Box>
       <Typography variant="h3">{t("createTicket.ticketTitle")}</Typography>
       <TextField
         id="ticket-title"
-        placeholder={t("createTicket.ticketTitlePlaceholder")}
+        placeholder={placeholderText}
         required
         variant="outlined"
         fullWidth

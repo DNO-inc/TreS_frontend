@@ -1,9 +1,20 @@
+import { ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
+
+interface StatusFullObject {
+  id: number;
+  label: string;
+  color: string;
+  checked: boolean;
+  onChange:
+    | ((event: ChangeEvent<HTMLInputElement>, checked: boolean) => void)
+    | undefined;
+}
 
 export const useGetStatusesFullObject = (
   checked: boolean[],
-  handleChange: (id: number) => void
-) => {
+  handleChange: (id: number) => (event: ChangeEvent<HTMLInputElement>) => void
+): StatusFullObject[] => {
   const { t } = useTranslation();
 
   return [
@@ -27,14 +38,14 @@ export const useGetStatusesFullObject = (
       label: t("statusesFilter.close"),
       color: "#68B651",
     },
-  ].map(obj => ({
-    ...obj,
-    checked: !!checked[obj.id],
-    onChange: handleChange(obj.id),
+  ].map(status => ({
+    ...status,
+    checked: !!checked[status.id],
+    onChange: handleChange(status.id),
   }));
 };
 
-export const useGetStatusesName = () => {
+export const useGetStatusesName = (): string[] => {
   const { t } = useTranslation();
 
   return [

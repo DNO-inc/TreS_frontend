@@ -1,5 +1,7 @@
-import { useEffect } from "react";
-import { useTheme } from "@emotion/react";
+import { useEffect, FC, Dispatch, SetStateAction, ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { UseFormSetValue } from "react-hook-form";
+
 import {
   Box,
   Checkbox,
@@ -7,18 +9,26 @@ import {
   FormControlLabel,
   FormGroup,
   Typography,
+  useTheme,
 } from "@mui/material";
-import { useTranslation } from "react-i18next";
 
-const TicketVisibilityOptions = ({
+import IPalette from "../../../../theme/IPalette.interface";
+
+interface TicketVisibilityOptionsProps {
+  selectedOptions: string[];
+  setValue: UseFormSetValue<ICreateTicketRequestBody>;
+  setSelectedOptions: Dispatch<SetStateAction<string[]>>;
+}
+
+const TicketVisibilityOptions: FC<TicketVisibilityOptionsProps> = ({
   setValue,
   selectedOptions,
   setSelectedOptions,
 }) => {
   const { t } = useTranslation();
-  const { palette } = useTheme();
+  const { palette }: IPalette = useTheme();
 
-  const handleClick = event => {
+  const handleClick = (event: ChangeEvent<HTMLInputElement>): void => {
     const selectedOption = event.target.value;
 
     if (selectedOptions.includes(selectedOption)) {
@@ -33,7 +43,7 @@ const TicketVisibilityOptions = ({
   useEffect(() => {
     setValue("hidden", selectedOptions.includes("hidden"));
     setValue("anonymous", selectedOptions.includes("anonymous"));
-  }, [selectedOptions]);
+  }, [selectedOptions, setValue]);
 
   return (
     <Box>
@@ -83,8 +93,9 @@ const TicketVisibilityOptions = ({
             }
             label={t("createTicket.anonymousTitle")}
             sx={{
-              bgcolor:
-                selectedOptions.includes("anonymous") && palette.grey.divider,
+              bgcolor: selectedOptions.includes("anonymous")
+                ? palette.grey.divider
+                : "",
             }}
           />
           <FormControlLabel
@@ -107,8 +118,9 @@ const TicketVisibilityOptions = ({
             }
             label={t("createTicket.hiddenTitle")}
             sx={{
-              bgcolor:
-                selectedOptions.includes("hidden") && palette.grey.divider,
+              bgcolor: selectedOptions.includes("hidden")
+                ? palette.grey.divider
+                : "",
             }}
           />
         </FormGroup>
@@ -116,7 +128,5 @@ const TicketVisibilityOptions = ({
     </Box>
   );
 };
-
-TicketVisibilityOptions.propTypes = {};
 
 export { TicketVisibilityOptions };

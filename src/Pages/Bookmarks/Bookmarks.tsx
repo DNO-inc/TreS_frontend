@@ -1,15 +1,20 @@
-import { Grid, Typography, useMediaQuery } from "@mui/material";
+import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Grid, Typography, useMediaQuery } from "@mui/material";
+
 import { Loader } from "../../components/Loader";
 import { Ticket } from "../../components/Ticket/Ticket";
-import { useEffect, useState } from "react";
+
 import { useJwtDecode } from "../../shared/hooks";
 import { useGetSavedTicketsQuery } from "../../store/api/tickets/tickets.api";
 
-const Bookmarks = () => {
+const Bookmarks: FC = () => {
   const { t } = useTranslation();
-  const [tickets, setTickets] = useState([]);
   const matches = useMediaQuery("(min-width:600px)");
+
+  const [tickets, setTickets] = useState<[]>([]);
+
   const jwt = useJwtDecode();
 
   const { data, isLoading, isSuccess, isError, refetch } =
@@ -42,7 +47,7 @@ const Bookmarks = () => {
           <>
             {isLoading && <Loader />}
             {isSuccess && tickets.length ? (
-              [...tickets].map(ticket => {
+              [...tickets].map((ticket: ITicket) => {
                 return (
                   <Ticket
                     ticketsPerRow={matches ? 2 : 1}
@@ -63,7 +68,5 @@ const Bookmarks = () => {
     </Grid>
   );
 };
-
-Bookmarks.propTypes = {};
 
 export { Bookmarks };

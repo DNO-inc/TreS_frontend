@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Route,
   Routes,
@@ -6,8 +6,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { endpoints } from "../constants";
-import { useJwtDecode } from "../shared/hooks";
+
 import { Layout } from "../Pages/Layout";
 import { GeneralTickets } from "../Pages/GeneralTickets";
 import { Dashboard } from "../Pages/Dashboard";
@@ -23,20 +22,28 @@ import { ErrorPage } from "../Pages/ErrorPage/ErrorPage";
 import { FullTicketInfo } from "../Pages/FullTicketInfo";
 import { CreateTicketForm } from "../Pages/CreateTicketForm";
 
-const Router = () => {
+import { endpoints } from "../constants";
+import { useJwtDecode } from "../shared/hooks";
+
+const Router: FC = () => {
   const jwt = useJwtDecode();
-  const [isAuth, setIsAuth] = useState(!!jwt);
   const navigate = useNavigate();
   const [, setSearchParams] = useSearchParams();
   const { pathname, search } = useLocation();
 
-  useEffect(() => {
-    !isAuth && navigate(endpoints.generalTickets);
-  }, [isAuth, navigate]);
+  const [isAuth, setIsAuth] = useState<boolean>(!!jwt);
 
   useEffect(() => {
-    pathname !== "/" && setSearchParams(new URLSearchParams(search));
-  }, [pathname, search, setSearchParams]);
+    pathname === endpoints.base && navigate(endpoints.generalTickets);
+  }, [pathname, navigate]);
+
+  useEffect(() => {
+    if (!isAuth && pathname !== endpoints.generalTickets) {
+      navigate(endpoints.generalTickets);
+    } else {
+      setSearchParams(new URLSearchParams(search));
+    }
+  }, [pathname, search, setSearchParams, isAuth, navigate]);
 
   return (
     <Routes>

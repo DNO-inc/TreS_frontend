@@ -1,20 +1,34 @@
-import { useState } from "react";
-import { useTheme } from "@emotion/react";
-import { FormControl, ListItemText, MenuItem, Select } from "@mui/material";
-import { useGetFacultiesQuery } from "../../../../../../store/api/api";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
-const FacultiesFilter = () => {
+import {
+  FormControl,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  useTheme,
+} from "@mui/material";
+
+import { useGetFacultiesQuery } from "../../../../../../store/api/api";
+import IPalette from "../../../../../../theme/IPalette.interface";
+
+interface IFaculty {
+  faculty_id: number;
+  name: string;
+}
+
+const FacultiesFilter: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const faculty = searchParams.get("faculty") || "all_faculties";
 
-  const { data, isSuccess } = useGetFacultiesQuery();
+  const { data, isSuccess } = useGetFacultiesQuery({});
 
-  const handleChange = event => {
+  const handleChange = (event: SelectChangeEvent<string>) => {
     const newFaculty = event.target.value;
     const params = new URLSearchParams(searchParams.toString());
 
@@ -25,9 +39,9 @@ const FacultiesFilter = () => {
     }
 
     if (params.has("current_page")) {
-      params.set("current_page", 1);
+      params.set("current_page", "1");
     } else {
-      params.append("current_page", 1);
+      params.append("current_page", "1");
     }
 
     setSearchParams(params);
@@ -49,10 +63,10 @@ const FacultiesFilter = () => {
               <ListItemText primary={t("generalTickets.facultyFilter")} />
             </MenuItem>
 
-            {data.faculties_list.map(item => {
+            {data.faculties_list.map((faculty: IFaculty) => {
               return (
-                <MenuItem value={item.name} key={item.faculty_id}>
-                  <ListItemText primary={item.name} />
+                <MenuItem value={faculty.name} key={faculty.faculty_id}>
+                  <ListItemText primary={faculty.name} />
                 </MenuItem>
               );
             })}
@@ -62,7 +76,5 @@ const FacultiesFilter = () => {
     </>
   );
 };
-
-FacultiesFilter.propTypes = {};
 
 export { FacultiesFilter };

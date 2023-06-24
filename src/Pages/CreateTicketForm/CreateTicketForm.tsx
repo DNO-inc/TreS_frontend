@@ -1,21 +1,25 @@
-import { Grid, Typography } from "@mui/material";
+import { useEffect, useState, FC } from "react";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+
+import { Grid, Typography, useTheme } from "@mui/material";
+
 import { QueueSelect } from "./components/QueueSelect";
 import { TicketTitleInput } from "./components/TicketTitleInput";
 import { TicketBodyTextField } from "./components/TicketBodyTextField";
 import { FormActions } from "./components/FormActions";
-import { useForm } from "react-hook-form";
-import { useTheme } from "@emotion/react";
 import { TicketVisibilityOptions } from "./components/TicketVisibilityOptions";
-import { useGetProfileQuery } from "../../store/api/profile/profile.api";
-import { useEffect, useState } from "react";
-import { useCreateTicketMutation } from "../../store/api/tickets/tickets.api";
 
-const CreateTicketForm = () => {
+import { useGetProfileQuery } from "../../store/api/profile/profile.api";
+import { useCreateTicketMutation } from "../../store/api/tickets/tickets.api";
+import IPalette from "../../theme/IPalette.interface";
+
+const CreateTicketForm: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [queue, setQueue] = useState("none");
+
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [queue, setQueue] = useState<number | "none">("none");
 
   const { data, isSuccess } = useGetProfileQuery({ userId: null });
   const [createTicket] = useCreateTicketMutation();
@@ -26,16 +30,16 @@ const CreateTicketForm = () => {
     setValue,
     resetField,
     formState: { errors },
-  } = useForm();
+  } = useForm<ICreateTicketRequestBody>();
 
-  const handleClear = () => {
+  const handleClear = (): void => {
     resetField("subject");
     resetField("body");
     setQueue("none");
     setSelectedOptions([]);
   };
 
-  const onSubmit = data => {
+  const onSubmit = (data: ICreateTicketRequestBody): void => {
     createTicket({ body: JSON.stringify(data) });
     handleClear();
   };
@@ -89,7 +93,5 @@ const CreateTicketForm = () => {
     </Grid>
   );
 };
-
-CreateTicketForm.propTypes = {};
 
 export { CreateTicketForm };

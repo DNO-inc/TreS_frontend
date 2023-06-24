@@ -1,7 +1,9 @@
-import { Grid, Typography } from "@mui/material";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
-const ErrorPage = () => {
+import { Grid, Typography } from "@mui/material";
+
+const ErrorPage: FC = () => {
   const { t } = useTranslation();
 
   return (
@@ -10,7 +12,5 @@ const ErrorPage = () => {
     </Grid>
   );
 };
-
-ErrorPage.propTypes = {};
 
 export { ErrorPage };

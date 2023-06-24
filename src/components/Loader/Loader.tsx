@@ -1,6 +1,6 @@
-import { Grid, Typography } from "@mui/material";
-
 import { useTranslation } from "react-i18next";
+
+import { Grid, Typography } from "@mui/material";
 
 const Loader = () => {
   const { t } = useTranslation();
@@ -19,7 +19,5 @@ const Loader = () => {
     </Grid>
   );
 };
-
-Loader.propTypes = {};
 
 export { Loader };

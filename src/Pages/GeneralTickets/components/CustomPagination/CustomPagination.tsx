@@ -1,13 +1,20 @@
-import { useTheme } from "@emotion/react";
-import { Grid, Pagination } from "@mui/material";
+import { FC } from "react";
 
-interface ICustomPagination {
+import { Grid, Pagination, useTheme } from "@mui/material";
+
+import IPalette from "../../../../theme/IPalette.interface";
+
+interface CustomPaginationProps {
   total: number;
   current: number;
-  onChange: (value: number) => void;
+  onChange: (page: number) => void;
 }
 
-const CustomPagination = ({ total, current, onChange }: ICustomPagination) => {
+const CustomPagination: FC<CustomPaginationProps> = ({
+  total,
+  current,
+  onChange,
+}) => {
   const { palette }: IPalette = useTheme();
 
   return (
@@ -21,7 +28,7 @@ const CustomPagination = ({ total, current, onChange }: ICustomPagination) => {
         shape="rounded"
         siblingCount={1}
         boundaryCount={1}
-        onChange={(e, value) => onChange(value)}
+        onChange={(event, value) => onChange(value)}
         sx={{
           "& > .MuiPagination-ul > li > .MuiPaginationItem-root": {
             border: `2px solid ${palette.grey.divider}`,
@@ -31,7 +38,5 @@ const CustomPagination = ({ total, current, onChange }: ICustomPagination) => {
     </Grid>
   );
 };
-
-CustomPagination.propTypes = {};
 
 export { CustomPagination };

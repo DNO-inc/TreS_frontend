@@ -1,13 +1,16 @@
-import { Box, Grid } from "@mui/material";
-import { FacultiesFilter } from "./componetns/FacultiesFilter";
-import { StatusCheckboxGroup } from "./componetns/StatusCheckboxGroup";
-import { ViewOptions } from "./componetns/ViewOptions";
+import { FC } from "react";
 
-interface IFilterPanel {
+import { Box, Grid } from "@mui/material";
+
+import { FacultiesFilter } from "./components/FacultiesFilter";
+import { StatusCheckboxGroup } from "./components/StatusCheckboxGroup";
+import { ViewOptions } from "./components/ViewOptions";
+
+interface FilterPanelProps {
   ticketsPerRow: number;
 }
 
-const FilterPanel = ({ ticketsPerRow }: IFilterPanel) => {
+const FilterPanel: FC<FilterPanelProps> = ({ ticketsPerRow }) => {
   return (
     <Grid
       container
@@ -33,7 +36,5 @@ const FilterPanel = ({ ticketsPerRow }: IFilterPanel) => {
     </Grid>
   );
 };
-
-FilterPanel.propTypes = {};
 
 export { FilterPanel };

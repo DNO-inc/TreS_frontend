@@ -6,6 +6,7 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   Button,
@@ -15,8 +16,6 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-
-import { useTranslation } from "react-i18next";
 
 import { useLoginMutation } from "../../store/api/api";
 import IPalette from "../../theme/IPalette.interface";
@@ -31,9 +30,9 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, setIsAuth }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [hasError, setHasError] = useState(false);
+  const [login, setLogin] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const [loginPost, { data, isSuccess, isError }] = useLoginMutation();
 

@@ -1,12 +1,15 @@
-import { useTheme } from "@emotion/react";
-import { Button, Grid } from "@mui/material";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
-interface IFormActions {
+import { Button, Grid, useTheme } from "@mui/material";
+
+import IPalette from "../../../../theme/IPalette.interface";
+
+interface FormActionsProps {
   handleClear: () => void;
 }
 
-const FormActions = ({ handleClear }: IFormActions) => {
+const FormActions: FC<FormActionsProps> = ({ handleClear }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
@@ -40,7 +43,5 @@ const FormActions = ({ handleClear }: IFormActions) => {
     </Grid>
   );
 };
-
-FormActions.propTypes = {};
 
 export { FormActions };

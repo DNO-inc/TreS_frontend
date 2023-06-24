@@ -1,12 +1,12 @@
 import { MouseEvent, useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
 
+import Card from "@mui/material/Card";
+import { Divider, Grid, useTheme } from "@mui/material";
+
 import { TicketHeader } from "./components/TicketHeader";
 import { TicketBody } from "./components/TicketBody";
 import { TicketActions } from "./components/TicketActions";
-
-import Card from "@mui/material/Card";
-import { Divider, Grid, useTheme } from "@mui/material";
 
 import { formatDate, checkStatus } from "../../shared/functions";
 import {
@@ -26,20 +26,23 @@ interface TicketProps {
 const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   const { palette }: IPalette = useTheme();
 
-  const [isLiked, setIsLiked] = useState(ticket.is_liked);
-  const [upvotes, setUpvotes] = useState(ticket.upvotes);
-  const [isBookmarked, setIsBookmarked] = useState(ticket.is_bookmarked);
-  const [isReported, setIsReported] = useState(false);
+  const [isLiked, setIsLiked] = useState<boolean>(ticket.is_liked);
+  const [upvotes, setUpvotes] = useState<number>(ticket.upvotes);
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(
+    ticket.is_bookmarked
+  );
+  const [isReported, setIsReported] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   const [toggleLike] = useToggleLikeMutation();
   const [toggleBookmark] = useToggleBookmarkMutation();
 
-  const color = checkStatus(ticket.status.name);
-  const { icon, tooltipText } = useCheckScope(ticket.queue.scope);
-  const formattedDate = ticket?.date && formatDate(ticket.date);
-  const userId = ticket.creator?.user_id;
+  const color: string = checkStatus(ticket.status.name);
+  const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
+    useCheckScope(ticket.queue.scope);
+  const formattedDate: string = ticket?.date && formatDate(ticket.date);
+  const userId: number | null = ticket.creator?.user_id;
 
   const handleToggleReported = (): void => {
     setIsReported(prevIsReported => !prevIsReported);
@@ -144,7 +147,5 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
     </Card>
   );
 };
-
-Ticket.propTypes = {};
 
 export { Ticket };

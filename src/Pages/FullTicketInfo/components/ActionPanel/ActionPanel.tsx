@@ -1,13 +1,22 @@
-import { useTheme } from "@emotion/react";
-import { Box, IconButton } from "@mui/material";
-import { VerticalDivider } from "../../../../components/VerticalDivider";
+import { FC } from "react";
+
+import { Box, IconButton, useTheme } from "@mui/material";
+
 import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
-// import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-// import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
-const ActionPanel = () => {
+import { VerticalDivider } from "../../../../components/VerticalDivider";
+
+import IPalette from "../../../../theme/IPalette.interface";
+
+// interface ActionPanelProps{
+
+// }
+
+const ActionPanel: FC = () => {
   const { palette }: IPalette = useTheme();
 
   return (
@@ -40,7 +49,5 @@ const ActionPanel = () => {
     </Box>
   );
 };
-
-ActionPanel.propTypes = {};
 
 export { ActionPanel };

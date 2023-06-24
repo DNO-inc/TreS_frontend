@@ -1,15 +1,20 @@
-import { Grid, Typography, useMediaQuery } from "@mui/material";
+import { useEffect, useState, FC } from "react";
 import { useTranslation } from "react-i18next";
-import { useGetSavedTicketsQuery } from "../../store/api/tickets/tickets.api";
+
+import { Grid, Typography, useMediaQuery } from "@mui/material";
+
 import { Loader } from "../../components/Loader";
 import { Ticket } from "../../components/Ticket/Ticket";
-import { useEffect, useState } from "react";
+
+import { useGetSavedTicketsQuery } from "../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../shared/hooks";
 
-const Followed = () => {
+const Followed: FC = () => {
   const { t } = useTranslation();
-  const [tickets, setTickets] = useState([]);
   const matches = useMediaQuery("(min-width:600px)");
+
+  const [tickets, setTickets] = useState<ITicket[]>([]);
+
   const jwt = useJwtDecode();
 
   const { data, isLoading, isSuccess, isError, refetch } =
@@ -19,11 +24,11 @@ const Followed = () => {
 
   useEffect(() => {
     isSuccess && setTickets(data.ticket_list);
-  }, [isSuccess]);
+  }, [isSuccess, data?.ticket_list]);
 
   useEffect(() => {
     refetch();
-  }, [data?.ticket_list]);
+  }, [data?.ticket_list, refetch]);
 
   return (
     <Grid container>
@@ -63,7 +68,5 @@ const Followed = () => {
     </Grid>
   );
 };
-
-Followed.propTypes = {};
 
 export { Followed };

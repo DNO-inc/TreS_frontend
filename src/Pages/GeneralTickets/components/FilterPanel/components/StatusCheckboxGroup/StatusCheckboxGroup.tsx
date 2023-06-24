@@ -1,23 +1,29 @@
-import { Box, Checkbox, FormControlLabel } from "@mui/material";
-import { VerticalDivider } from "../../../../../../components/VerticalDivider";
-import { useSearchParams } from "react-router-dom";
+import { ChangeEvent, FC } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
+
+import { Box, Checkbox, FormControlLabel } from "@mui/material";
+
+import { VerticalDivider } from "../../../../../../components/VerticalDivider";
+
 import { useGetStatusesFullObject, useGetStatusesName } from "./getStatuses";
 
-const StatusCheckboxGroup = () => {
+const StatusCheckboxGroup: FC = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const statusesName = useGetStatusesName();
-  const statusesQueryParams = searchParams.get("statuses")?.split(",");
+  const statusesName: string[] = useGetStatusesName();
+  const statusesQueryParams: string[] | undefined = searchParams
+    .get("statuses")
+    ?.split(",");
 
-  const checked = statusesQueryParams
+  const checked: boolean[] = statusesQueryParams
     ? statusesName.map(status => {
         return statusesQueryParams.includes(status);
       })
     : [true, true, true, true];
 
-  const processSelectStatus = (updatedChecked: boolean[]) => {
+  const processSelectStatus = (updatedChecked: boolean[]): void => {
     const params = new URLSearchParams(searchParams.toString());
 
     const selectedStatuses = statusesFullInfo
@@ -25,28 +31,30 @@ const StatusCheckboxGroup = () => {
       .map(status => status.label);
 
     if (params.has("statuses")) {
-      params.set("statuses", selectedStatuses);
+      params.set("statuses", selectedStatuses.join(","));
     } else {
-      params.append("statuses", selectedStatuses);
+      params.append("statuses", selectedStatuses.join(","));
     }
 
     if (params.has("current_page")) {
-      params.set("current_page", 1);
+      params.set("current_page", "1");
     } else {
-      params.append("current_page", 1);
+      params.append("current_page", "1");
     }
 
     setSearchParams(params);
   };
 
-  const handleChange = (index: number) => event => {
-    const updatedChecked = [...checked];
-    updatedChecked[index] = event.target.checked;
+  const handleChange =
+    (index: number) =>
+    (event: ChangeEvent<HTMLInputElement>): void => {
+      const updatedChecked = [...checked];
+      updatedChecked[index] = event.target.checked;
 
-    processSelectStatus(updatedChecked);
-  };
+      processSelectStatus(updatedChecked);
+    };
 
-  const handleParentChange = event => {
+  const handleParentChange = (event: ChangeEvent<HTMLInputElement>) => {
     const updatedChecked = checked.map(() => event.target.checked);
 
     processSelectStatus(updatedChecked);
@@ -54,7 +62,7 @@ const StatusCheckboxGroup = () => {
 
   const statusesFullInfo = useGetStatusesFullObject(checked, handleChange);
 
-  const children = (
+  const children: JSX.Element = (
     <Box sx={{ display: "flex", flexWrap: "wrap", ml: 2 }}>
       {statusesFullInfo.map(status => {
         return (
@@ -95,8 +103,8 @@ const StatusCheckboxGroup = () => {
     </Box>
   );
 
-  const isAllChecked = !!checked && checked.every(value => value);
-  const isSomeChecked = checked.some(value => value);
+  const isAllChecked: boolean = !!checked && checked.every(value => value);
+  const isSomeChecked: boolean = checked.some(value => value);
 
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -122,7 +130,5 @@ const StatusCheckboxGroup = () => {
     </Box>
   );
 };
-
-StatusCheckboxGroup.propTypes = {};
 
 export { StatusCheckboxGroup };

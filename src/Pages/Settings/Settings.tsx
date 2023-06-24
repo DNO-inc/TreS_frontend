@@ -1,8 +1,11 @@
-import { Grid, Typography } from "@mui/material";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Grid, Typography } from "@mui/material";
+
 import { ComingSoon } from "../../components/ComingSoon";
 
-const Settings = () => {
+const Settings: FC = () => {
   const { t } = useTranslation();
 
   return (
@@ -12,7 +15,5 @@ const Settings = () => {
     </Grid>
   );
 };
-
-Settings.propTypes = {};
 
 export { Settings };

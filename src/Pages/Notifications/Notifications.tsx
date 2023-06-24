@@ -1,8 +1,11 @@
-import { Grid, Typography } from "@mui/material";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Grid, Typography } from "@mui/material";
+
 import { ComingSoon } from "../../components/ComingSoon";
 
-const Notifications = () => {
+const Notifications: FC = () => {
   const { t } = useTranslation();
 
   return (
@@ -12,7 +15,5 @@ const Notifications = () => {
     </Grid>
   );
 };
-
-Notifications.propTypes = {};
 
 export { Notifications };

@@ -1,8 +1,7 @@
 import { ReactElement, FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Box, Grid, Tooltip, Typography, useTheme } from "@mui/material";
-
-import { useTranslation } from "react-i18next";
 
 import IPalette from "../../../../theme/IPalette.interface";
 
@@ -72,7 +71,5 @@ const TicketHeader: FC<TicketHeaderProps> = ({
     </Box>
   );
 };
-
-TicketHeader.propTypes = {};
 
 export { TicketHeader };

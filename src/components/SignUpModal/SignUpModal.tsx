@@ -1,9 +1,15 @@
 import { FormEvent, useState, Dispatch, SetStateAction, FC } from "react";
-
-import { Button, Grid, Modal, TextField, Typography } from "@mui/material";
-import { useTheme } from "@mui/material";
-
 import { useTranslation } from "react-i18next";
+
+import {
+  Button,
+  Grid,
+  Modal,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
+
 import IPalette from "../../theme/IPalette.interface";
 
 interface SignUpModalProps {
@@ -15,10 +21,10 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [faculty, setFaculty] = useState("");
-  const [group, setGroup] = useState("");
+  const [login, setLogin] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [faculty, setFaculty] = useState<string>("");
+  const [group, setGroup] = useState<string>("");
 
   const handleClose = (): void => setOpen(false);
 
@@ -85,7 +91,5 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen }) => {
     </Modal>
   );
 };
-
-SignUpModal.propTypes = {};
 
 export { SignUpModal };

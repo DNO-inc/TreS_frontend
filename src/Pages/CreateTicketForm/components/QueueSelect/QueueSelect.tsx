@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
-import { useTheme } from "@emotion/react";
+import { useEffect, useState, FC } from "react";
+import { useTranslation } from "react-i18next";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
+
 import {
   Box,
   FormControl,
@@ -8,35 +10,40 @@ import {
   MenuItem,
   Select,
   Typography,
+  useTheme,
+  SelectChangeEvent,
 } from "@mui/material";
-import { useTranslation } from "react-i18next";
-import { useGetQueueBuFacultyMutation } from "../../../../store/api/api";
+
 import { Loader } from "../../../../components/Loader";
 
-interface IQueueSelect {
+import { useGetQueueByFacultyMutation } from "../../../../store/api/api";
+import IPalette from "../../../../theme/IPalette.interface";
+
+interface QueueSelectProps {
   faculty: string;
-  queue: string;
-  register: any;
-  setValue: any;
-  setQueue: (param: string) => void;
+  queue: number | "none";
+  register: UseFormRegister<ICreateTicketRequestBody>;
+  setValue: UseFormSetValue<ICreateTicketRequestBody>;
+  setQueue: (queue: number) => void;
 }
 
-const QueueSelect = ({
+const QueueSelect: FC<QueueSelectProps> = ({
   faculty,
   register,
   setValue,
   queue,
   setQueue,
-}: IQueueSelect) => {
+}) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
-  const [sortedQueues, setSortedQueues] = useState([]);
+
+  const [sortedQueues, setSortedQueues] = useState<IQueueData[]>([]);
 
   const [getQueues, { data, isSuccess, isLoading }] =
-    useGetQueueBuFacultyMutation();
+    useGetQueueByFacultyMutation();
 
-  const handleChange = event => {
-    const selectedQueue = event.target.value;
+  const handleChange = (event: SelectChangeEvent): void => {
+    const selectedQueue: number = parseInt(event.target.value);
     setQueue(selectedQueue);
     setValue("queue", selectedQueue);
   };
@@ -47,7 +54,7 @@ const QueueSelect = ({
 
   useEffect(() => {
     if (isSuccess) {
-      const newSortedQueues = [...data.queues_list].sort((a, b) =>
+      const newSortedQueues: IQueueData[] = [...data.queues_list].sort((a, b) =>
         a.scope.localeCompare(b.scope)
       );
 
@@ -57,18 +64,20 @@ const QueueSelect = ({
 
   useEffect(() => {
     setValue("queue", null);
-  }, []);
+  }, [setValue]);
 
-  const menuItems = [];
-  let currentScope = null;
+  const menuItems: JSX.Element[] = [];
+  let currentScope: string | null = null;
 
   if (sortedQueues) {
     for (let i = 0; i < sortedQueues.length; i++) {
-      const item = sortedQueues[i];
-      const isFirstItemWithScope = item.scope !== currentScope;
+      const queue = sortedQueues[i];
+
+      const isFirstItemWithScope = queue.scope !== currentScope;
 
       if (isFirstItemWithScope) {
-        currentScope = item.scope;
+        currentScope = queue.scope;
+
         menuItems.push(
           <ListSubheader key={`subheader-${currentScope}`}>
             {currentScope}
@@ -77,12 +86,8 @@ const QueueSelect = ({
       }
 
       menuItems.push(
-        <MenuItem
-          value={item.queue_id}
-          key={`menuItem-${item.queue_id}`}
-          name={item.name}
-        >
-          <ListItemText primary={item.name} />
+        <MenuItem value={queue.queue_id} key={`menuItem-${queue.queue_id}`}>
+          <ListItemText primary={queue.name} />
         </MenuItem>
       );
     }
@@ -99,7 +104,7 @@ const QueueSelect = ({
         <Select
           id="queue-select"
           required
-          value={queue}
+          value={queue.toString()}
           onChange={handleChange}
         >
           <MenuItem value="none" disabled>

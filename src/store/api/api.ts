@@ -3,7 +3,7 @@ import { endpoints } from "../../constants";
 
 export const api = createApi({
   reducerPath: "api",
-  tagTypes: ["Like", "Bookmark"],
+  // tagTypes: ["Like", "Bookmark"],
   baseQuery: fetchBaseQuery({ baseUrl: endpoints.baseUrl }),
   endpoints: builder => ({
     getVersion: builder.query({
@@ -35,7 +35,7 @@ export const api = createApi({
         body,
       }),
     }),
-    getQueueBuFaculty: builder.mutation({
+    getQueueByFaculty: builder.mutation({
       query: ({ body }) => ({
         url: "/meta/get_queues",
         method: "POST",
@@ -54,5 +54,5 @@ export const {
   useGetUpdatesQuery,
   useLoginMutation,
   useGetFacultiesQuery,
-  useGetQueueBuFacultyMutation,
+  useGetQueueByFacultyMutation,
 } = api;

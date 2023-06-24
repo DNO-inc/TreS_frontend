@@ -1,47 +1,68 @@
-import { useEffect, useState } from "react";
-import { Grid, Typography, useMediaQuery } from "@mui/material";
+import { useEffect, useState, FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
+import { SerializedError } from "@reduxjs/toolkit";
+
+import { Grid, Typography, useMediaQuery } from "@mui/material";
+
+import { FilterPanel } from "./components/FilterPanel";
 import { Ticket } from "../../components/Ticket/Ticket";
+import { Loader } from "../../components/Loader";
+import { CustomPagination } from "./components/CustomPagination";
+
 import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../shared/hooks";
-import { Loader } from "../../components/Loader";
-import { FilterPanel } from "./components/FilterPanel";
-import { CustomPagination } from "./components/CustomPagination";
-import { useSearchParams } from "react-router-dom";
 
-const GeneralTickets = () => {
+interface GeneralTicketsPageInfo {
+  data?: {
+    ticket_list: ITicket[];
+    total_pages: number;
+  };
+  error?: FetchBaseQueryError | SerializedError;
+}
+
+const GeneralTickets: FC = () => {
   const { t } = useTranslation();
-  const [tickets, setTickets] = useState([]);
-  const jwt = useJwtDecode();
   const matches = useMediaQuery("(min-width:600px)");
+
+  const [tickets, setTickets] = useState<ITicket[]>([]);
+  const [totalPage, setTotalPage] = useState<number>(1);
+
+  const jwt = useJwtDecode();
   const [geTickets, { isLoading, isSuccess }] = useGetTicketsMutation();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const ticketsPerRow = +searchParams.get("ticket_per_row") || 2;
-  const currentPage = +searchParams.get("current_page") || 1;
-  const faculty =
+  const ticketsPerRow: number = Number(searchParams.get("ticket_per_row")) || 2;
+  const currentPage: number = Number(searchParams.get("current_page")) || 1;
+  const faculty: string | null =
     searchParams.get("faculty") !== "all_faculties"
       ? searchParams.get("faculty")
       : "";
-  const statuses = searchParams.get("statuses")?.split(",") || [];
-  const [totalPage, setTotalPage] = useState(1);
 
-  const option = jwt ? "tickets" : "anon";
-  const requestBody = {
-    start_page: currentPage,
-    tickets_count: 3 * ticketsPerRow,
-    faculty: faculty,
-    status: statuses,
-  };
+  const option: string = jwt ? "tickets" : "anon";
+
+  const requestBody = useMemo(() => {
+    const statuses: string[] = searchParams.get("statuses")?.split(",") || [];
+
+    return {
+      start_page: currentPage,
+      tickets_count: 3 * ticketsPerRow,
+      faculty: faculty,
+      status: statuses,
+    };
+  }, [currentPage, ticketsPerRow, faculty, searchParams]);
 
   useEffect(() => {
     geTickets({ option: option, body: JSON.stringify(requestBody) }).then(
-      res => {
-        setTickets(res.data.ticket_list);
-        setTotalPage(res.data.total_pages);
+      (res: GeneralTicketsPageInfo): void | PromiseLike<void> => {
+        if (res.data) {
+          setTickets(res.data.ticket_list);
+          setTotalPage(res.data.total_pages);
+        }
       }
     );
-  }, [option, searchParams, geTickets]);
+  }, [option, searchParams, geTickets, requestBody]);
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -96,7 +117,5 @@ const GeneralTickets = () => {
     </Grid>
   );
 };
-
-GeneralTickets.propTypes = {};
 
 export { GeneralTickets };

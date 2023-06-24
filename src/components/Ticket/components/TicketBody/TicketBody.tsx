@@ -78,6 +78,4 @@ const TicketBody: FC<TicketBodyProps> = ({
   );
 };
 
-TicketBody.propTypes = {};
-
 export { TicketBody };
