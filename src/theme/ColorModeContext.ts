@@ -1,11 +1,5 @@
 import { createContext } from "react";
 
-interface IColorModeContext {
-  toggleColorMode: () => void;
-}
-
-const ColorModeContext = createContext({
-  toggleColorMode: () => {},
-});
+const ColorModeContext = createContext({});
 
 export { ColorModeContext };

@@ -1,24 +1,31 @@
-import { Avatar, Button, ListItem, Tooltip, Typography } from "@mui/material";
+import { FC, Dispatch, SetStateAction, MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
+
+import { Avatar, Button, ListItem, Tooltip, Typography } from "@mui/material";
+
 import { VerticalDivider } from "../../../../../../../../components/VerticalDivider";
-import Logo from "../../../../../../../../assets/Logomark.svg";
+
 import { endpoints } from "../../../../../../../../constants";
 import { useJwtDecode } from "../../../../../../../../shared/hooks";
-import { useTranslation } from "react-i18next";
+import Logo from "../../../../../../../../assets/Logomark.svg";
 
-interface IAuthActions {
+interface AuthActionsProps {
   isAuth: boolean;
-  setIsAuth: (param: boolean) => void;
+  setIsAuth: Dispatch<SetStateAction<boolean>>;
 }
 
-const AuthActions = ({ isAuth, setIsAuth }: IAuthActions) => {
+const AuthActions: FC<AuthActionsProps> = ({ isAuth, setIsAuth }) => {
   const { t } = useTranslation();
-  const { data } = useJwtDecode();
-  const userId = isAuth && data && JSON.parse(data.sub)?.user_id;
-  const userName = localStorage.getItem("user-name");
+  const jwt = useJwtDecode();
 
-  const handleLogOut = e => {
-    e.preventDefault();
+  const userId: boolean | number =
+    isAuth && jwt && JSON.parse(jwt.sub)?.user_id;
+  const userName: string | null = localStorage.getItem("user-name");
+
+  const handleLogOut = (event: MouseEvent): void => {
+    event.preventDefault();
+
     localStorage.removeItem("jwt-token");
     localStorage.removeItem("user-name");
     setIsAuth(false);
@@ -50,7 +57,5 @@ const AuthActions = ({ isAuth, setIsAuth }: IAuthActions) => {
     </ListItem>
   );
 };
-
-AuthActions.propTypes = {};
 
 export { AuthActions };

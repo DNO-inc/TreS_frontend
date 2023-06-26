@@ -2,7 +2,7 @@ import { Theme } from "@mui/material";
 
 interface Palette {
   palette: {
-    mode: string;
+    mode: "dark" | "light";
     primary: {
       main: string;
     };
@@ -24,7 +24,7 @@ interface Palette {
       sidebar: string;
     };
     whiteAlpha: {
-      600: string;
+      default: string;
     };
     semantic: {
       info: string;
@@ -97,6 +97,6 @@ interface Palette {
   };
 }
 
-type IPalette = Theme & Palette;
+type IPalette = Palette & Theme;
 
 export default IPalette;

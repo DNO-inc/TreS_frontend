@@ -1,37 +1,48 @@
-import { AppBar, Box, Button, IconButton, Toolbar } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import PropTypes from "prop-types";
-import { AuthZone } from "./components/AuthZone";
-import { useTheme } from "@emotion/react";
+import { FC, Dispatch, SetStateAction } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { endpoints } from "../../../../constants";
+
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  Toolbar,
+  useTheme,
+} from "@mui/material";
+
+import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-interface IHeader {
+import { AuthZone } from "./components/AuthZone";
+
+import { endpoints } from "../../../../constants";
+import IPalette from "../../../../theme/IPalette.interface";
+
+interface HeaderProps {
   isAuth: boolean;
-  setIsAuth: (param: boolean) => void;
+  setIsAuth: Dispatch<SetStateAction<boolean>>;
   drawerWidth: number;
   handleDrawerToggle: () => void;
 }
 
-const Header = ({
+const Header: FC<HeaderProps> = ({
   isAuth,
   setIsAuth,
   drawerWidth,
   handleDrawerToggle,
-}: IHeader) => {
+}) => {
   const { palette }: IPalette = useTheme();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { ticketId } = useParams();
 
-  const isFullTicketInfo =
+  const isFullTicketInfo: boolean =
     pathname.includes("tickets") && ticketId !== undefined;
-  const isCreateTicket = pathname === endpoints.createTicket;
+  const isCreateTicket: boolean = pathname === endpoints.createTicket;
 
-  const isNeedStepBack = isFullTicketInfo || isCreateTicket;
+  const isNeedStepBack: boolean = isFullTicketInfo || isCreateTicket;
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     navigate(-2);
   };
 
@@ -91,11 +102,6 @@ const Header = ({
       </Toolbar>
     </AppBar>
   );
-};
-
-Header.propTypes = {
-  drawerWidth: PropTypes.number,
-  handleDrawerToggle: PropTypes.func,
 };
 
 export { Header };

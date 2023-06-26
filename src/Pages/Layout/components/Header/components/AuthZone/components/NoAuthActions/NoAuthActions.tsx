@@ -1,38 +1,24 @@
-import { useState } from "react";
-import { Box, Button, ListItem } from "@mui/material";
-import { LogInModal } from "../../../../../../../../components/LogInModal";
-import { SignUpModal } from "../../../../../../../../components/SignUpModal";
+import { useState, FC, Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 
-interface INoAuthActions {
-  setIsAuth: (param: boolean) => void;
+import { Box, Button, ListItem } from "@mui/material";
+
+import { LogInModal } from "../../../../../../../../components/LogInModal";
+
+interface NoAuthActionsProps {
+  setIsAuth: Dispatch<SetStateAction<boolean>>;
 }
 
-const NoAuthActions = ({ setIsAuth }: INoAuthActions) => {
+const NoAuthActions: FC<NoAuthActionsProps> = ({ setIsAuth }) => {
   const { t } = useTranslation();
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showLogIn, setShowLogIn] = useState(false);
+  const [showLogIn, setShowLogIn] = useState<boolean>(false);
 
-  const handleSignUp = () => {
-    setShowSignUp(true);
-  };
-
-  const handleLogIn = () => {
+  const handleLogIn = (): void => {
     setShowLogIn(true);
   };
 
   return (
     <Box sx={{ display: "flex" }}>
-      {/* <ListItem key={"Sign Up"}>
-        <Button
-          variant="contained"
-          onClick={handleSignUp}
-          sx={{ minWidth: "110%" }}
-        >
-          {t("common.signup")}
-        </Button>
-      </ListItem>
-      {showSignUp && <SignUpModal open={showSignUp} setOpen={setShowSignUp} />} */}
       <ListItem key={"Log In"}>
         <Button
           variant="contained"
@@ -52,7 +38,5 @@ const NoAuthActions = ({ setIsAuth }: INoAuthActions) => {
     </Box>
   );
 };
-
-NoAuthActions.propTypes = {};
 
 export { NoAuthActions };

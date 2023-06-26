@@ -44,7 +44,7 @@ const TicketBody: FC<TicketBodyProps> = ({
     <Grid
       display={"flex"}
       flexDirection={"column"}
-      sx={{ flexGrow: 1, maxHeight: "187px" }}
+      sx={{ flexGrow: 1, maxHeight: "190px" }}
     >
       <Box
         sx={{

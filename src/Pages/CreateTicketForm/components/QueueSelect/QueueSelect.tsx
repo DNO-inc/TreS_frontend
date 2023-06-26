@@ -111,7 +111,7 @@ const QueueSelect: FC<QueueSelectProps> = ({
             <ListItemText
               primary={t("createTicket.selectQueue")}
               primaryTypographyProps={{
-                style: { color: palette.whiteAlpha[600] },
+                style: { color: palette.whiteAlpha.default },
               }}
             />
           </MenuItem>

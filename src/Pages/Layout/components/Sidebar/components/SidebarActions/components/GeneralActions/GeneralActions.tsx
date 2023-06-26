@@ -1,9 +1,16 @@
-import { useEffect, useState } from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+import { useEffect, useState, FC, Dispatch, SetStateAction } from "react";
+import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Badge,
+  IconButton,
+} from "@mui/material";
 
 import SourceOutlinedIcon from "@mui/icons-material/SourceOutlined";
 import SourceRoundedIcon from "@mui/icons-material/SourceRounded";
@@ -17,35 +24,35 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import { NestedList } from "./components/NestedList";
-import { endpoints } from "../../../../../../../../constants";
-import { NavLink } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { Badge, IconButton } from "@mui/material";
 
-interface IGeneralActions {
+import { endpoints } from "../../../../../../../../constants";
+
+interface GeneralActionsProps {
   isAuth: boolean;
-  selectedIndex: string;
-  setSelectedIndex: (param: string) => void;
+  selectedKey: string;
+  setSelectedKey: Dispatch<SetStateAction<string>>;
 }
 
-const GeneralActions = ({
+const GeneralActions: FC<GeneralActionsProps> = ({
   isAuth,
-  selectedIndex,
-  setSelectedIndex,
-}: IGeneralActions) => {
-  const countOfNotification = 0;
-  const [open, setOpen] = useState(false);
+  selectedKey,
+  setSelectedKey,
+}) => {
   const { t } = useTranslation();
 
-  const handleClick = () => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  const countOfNotification = 0;
+
+  const handleClick = (): void => {
     setOpen(!open);
   };
 
-  const handleListItemClick = (event, index: string) => {
-    setSelectedIndex(index);
+  const handleListItemClick = (key: string): void => {
+    setSelectedKey(key);
   };
 
-  function notificationsLabel(count: number) {
+  function notificationsLabel(count: number): string {
     if (count === 0) {
       return "no notifications";
     }
@@ -76,11 +83,11 @@ const GeneralActions = ({
           >
             <ListItemButton
               disabled={!isAuth}
-              selected={selectedIndex === endpoints.dashboard}
-              onClick={event => handleListItemClick(event, endpoints.dashboard)}
+              selected={selectedKey === endpoints.dashboard}
+              onClick={() => handleListItemClick(endpoints.dashboard)}
             >
               <ListItemIcon>
-                {selectedIndex === endpoints.dashboard ? (
+                {selectedKey === endpoints.dashboard ? (
                   <GridViewSharpIcon />
                 ) : (
                   <GridViewIcon />
@@ -102,7 +109,7 @@ const GeneralActions = ({
         <NestedList
           open={open}
           isAuth={isAuth}
-          selectedIndex={selectedIndex}
+          selectedKey={selectedKey}
           handleListItemClick={handleListItemClick}
         />
         <ListItem key={"Notifications"} disablePadding>
@@ -112,13 +119,11 @@ const GeneralActions = ({
           >
             <ListItemButton
               disabled={!isAuth}
-              selected={selectedIndex === endpoints.notifications}
-              onClick={event =>
-                handleListItemClick(event, endpoints.notifications)
-              }
+              selected={selectedKey === endpoints.notifications}
+              onClick={() => handleListItemClick(endpoints.notifications)}
             >
               <ListItemIcon>
-                {selectedIndex === endpoints.notifications ? (
+                {selectedKey === endpoints.notifications ? (
                   <NotificationsIcon />
                 ) : (
                   <NotificationsOutlinedIcon />
@@ -142,13 +147,11 @@ const GeneralActions = ({
         <ListItem key={"General tickets"} disablePadding>
           <NavLink to={endpoints.generalTickets}>
             <ListItemButton
-              selected={selectedIndex === endpoints.generalTickets}
-              onClick={event =>
-                handleListItemClick(event, endpoints.generalTickets)
-              }
+              selected={selectedKey === endpoints.generalTickets}
+              onClick={() => handleListItemClick(endpoints.generalTickets)}
             >
               <ListItemIcon>
-                {selectedIndex === endpoints.generalTickets ? (
+                {selectedKey === endpoints.generalTickets ? (
                   <ArticleIcon />
                 ) : (
                   <ArticleOutlinedIcon />
@@ -162,7 +165,5 @@ const GeneralActions = ({
     </>
   );
 };
-
-GeneralActions.propTypes = {};
 
 export { GeneralActions };

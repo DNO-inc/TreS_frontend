@@ -58,6 +58,9 @@ const TicketHeader: FC<TicketHeaderProps> = ({
                 height: 24,
                 bgcolor: palette.grey.active,
                 borderRadius: 1,
+                "& > .MuiSvgIcon-root": {
+                  fontSize: 16,
+                },
               }}
             >
               {icon}
@@ -65,7 +68,7 @@ const TicketHeader: FC<TicketHeaderProps> = ({
           </Tooltip>
         </Grid>
       </Grid>
-      <Typography color={palette.whiteAlpha[600]}>
+      <Typography color={palette.whiteAlpha.default}>
         {assignee ? assignee : t("common.noAssignee")}
       </Typography>
     </Box>

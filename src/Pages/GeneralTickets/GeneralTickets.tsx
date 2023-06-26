@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { SerializedError } from "@reduxjs/toolkit";
 
-import { Box, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 
 import { FilterPanel } from "./components/FilterPanel";
 import { Ticket } from "../../components/Ticket/Ticket";
@@ -13,7 +13,6 @@ import { CustomPagination } from "./components/CustomPagination";
 
 import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../shared/hooks";
-import IPalette from "../../theme/IPalette.interface";
 
 interface GeneralTicketsPageInfo {
   data?: {
@@ -25,7 +24,6 @@ interface GeneralTicketsPageInfo {
 
 const GeneralTickets: FC = () => {
   const { t } = useTranslation();
-  const { palette }: IPalette = useTheme();
   const matches = useMediaQuery("(min-width:600px)");
 
   const [tickets, setTickets] = useState<ITicket[]>([]);

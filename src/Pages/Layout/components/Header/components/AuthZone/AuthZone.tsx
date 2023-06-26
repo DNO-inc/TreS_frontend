@@ -1,13 +1,16 @@
-import List from "@mui/material/List";
+import { FC, Dispatch, SetStateAction } from "react";
+
+import { List } from "@mui/material";
+
 import { AuthActions } from "./components/AuthActions";
 import { NoAuthActions } from "./components/NoAuthActions";
 
-interface IAuthZone {
+interface AuthZoneProps {
   isAuth: boolean;
-  setIsAuth: (param: boolean) => void;
+  setIsAuth: Dispatch<SetStateAction<boolean>>;
 }
 
-const AuthZone = ({ isAuth, setIsAuth }: IAuthZone) => {
+const AuthZone: FC<AuthZoneProps> = ({ isAuth, setIsAuth }) => {
   return (
     <List
       sx={{
@@ -24,7 +27,5 @@ const AuthZone = ({ isAuth, setIsAuth }: IAuthZone) => {
     </List>
   );
 };
-
-AuthZone.propTypes = {};
 
 export { AuthZone };

@@ -1,10 +1,10 @@
-import { Suspense } from "react";
-import "./App.css";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+
 import { Router } from "./Router";
+
 import { ColorModeContext } from "./theme";
 import { useMode } from "./theme/hooks";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Loader } from "./components/Loader";
+import "./App.css";
 
 const App = () => {
   const [theme, colorMode] = useMode();
@@ -13,9 +13,7 @@ const App = () => {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Suspense fallback={<Loader />}>
-          <Router />
-        </Suspense>
+        <Router />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

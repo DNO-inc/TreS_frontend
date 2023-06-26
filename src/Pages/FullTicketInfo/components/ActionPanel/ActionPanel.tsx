@@ -4,9 +4,9 @@ import { Box, IconButton, useTheme } from "@mui/material";
 
 import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
+// import BookmarkIcon from "@mui/icons-material/Bookmark";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+// import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import { VerticalDivider } from "../../../../components/VerticalDivider";
 

@@ -1,6 +1,6 @@
 import { getColors } from ".";
 
-const themeSettings = (mode: string) => {
+const themeSettings = (mode: string): any => {
   const colors = getColors(mode);
 
   return {
@@ -29,7 +29,7 @@ const themeSettings = (mode: string) => {
               sidebar: colors.grey[800],
             },
             whiteAlpha: {
-              600: colors.whiteAlpha[600],
+              default: colors.whiteAlpha[600],
             },
             semantic: {
               info: colors.semantic.info,

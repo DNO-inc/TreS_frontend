@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 
 import TextField from "@mui/material/TextField";
 import { Box, Typography, useTheme } from "@mui/material";
@@ -8,11 +8,10 @@ import { Box, Typography, useTheme } from "@mui/material";
 import IPalette from "../../../../theme/IPalette.interface";
 
 interface TicketTitleInputProps {
-  errors: FieldErrors<ICreateTicketRequestBody>;
   register: UseFormRegister<ICreateTicketRequestBody>;
 }
 
-const TicketTitleInput: FC<TicketTitleInputProps> = ({ errors, register }) => {
+const TicketTitleInput: FC<TicketTitleInputProps> = ({ register }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
@@ -33,7 +32,5 @@ const TicketTitleInput: FC<TicketTitleInputProps> = ({ errors, register }) => {
     </Box>
   );
 };
-
-TicketTitleInput.propTypes = {};
 
 export { TicketTitleInput };

@@ -24,7 +24,7 @@ interface TicketActionsProps {
 
 const TicketActions: FC<TicketActionsProps> = ({
   isAuth,
-  isReported,
+  // isReported,
   isLiked,
   isBookmarked,
   upvotes,

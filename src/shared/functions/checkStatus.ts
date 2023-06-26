@@ -1,4 +1,4 @@
-const checkStatus = (status: string) => {
+const checkStatus = (status: string): string => {
   switch (status) {
     case "NEW":
       return "#888888";

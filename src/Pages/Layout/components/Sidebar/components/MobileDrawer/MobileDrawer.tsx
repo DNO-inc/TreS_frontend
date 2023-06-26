@@ -1,23 +1,33 @@
-import Drawer from "@mui/material/Drawer";
-import { SidebarActions } from "../SidebarActions";
-import { useTheme } from "@emotion/react";
-import { Avatar, Grid, Toolbar, Typography } from "@mui/material";
-import Logo from "../../../../../../assets/Logomark.svg";
-import { EllipsisMenu } from "../EllipsisMenu";
+import { FC } from "react";
 
-interface IMobileDrawer {
-  container: any;
+import {
+  Drawer,
+  Avatar,
+  Grid,
+  Toolbar,
+  Typography,
+  useTheme,
+} from "@mui/material";
+
+import { EllipsisMenu } from "../EllipsisMenu";
+import { SidebarActions } from "../SidebarActions";
+
+import Logo from "../../../../../../assets/Logomark.svg";
+import IPalette from "../../../../../../theme/IPalette.interface";
+
+interface MobileDrawerProps {
+  container: (() => HTMLElement) | undefined;
   mobileOpen: boolean;
   drawerWidth: number;
   handleDrawerToggle: () => void;
 }
 
-const MobileDrawer = ({
+const MobileDrawer: FC<MobileDrawerProps> = ({
   container,
   mobileOpen,
   handleDrawerToggle,
   drawerWidth,
-}: IMobileDrawer) => {
+}) => {
   const { palette }: IPalette = useTheme();
 
   return (
@@ -43,7 +53,7 @@ const MobileDrawer = ({
             backgroundColor: "inherit",
           },
           "&::-webkit-scrollbar-thumb": {
-            backgroundColor: palette.whiteAlpha[400],
+            backgroundColor: palette.whiteAlpha.default,
             borderRadius: 2,
           },
         },
@@ -70,7 +80,6 @@ const MobileDrawer = ({
               TreS
             </Typography>
           </Grid>
-
           <EllipsisMenu />
         </Grid>
       </Toolbar>

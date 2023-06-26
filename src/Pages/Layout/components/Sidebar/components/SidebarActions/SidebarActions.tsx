@@ -1,28 +1,33 @@
-import { useEffect, useState } from "react";
-import Divider from "@mui/material/Divider";
-import { GeneralActions } from "./components/GeneralActions";
-import { AdditionActions } from "./components/AdditionActions";
-import { Button, Grid } from "@mui/material";
+import { useEffect, useState, FC } from "react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "@emotion/react";
+
+import { Button, Grid, Divider, useTheme } from "@mui/material";
+
+import { GeneralActions } from "./components/GeneralActions";
+import { AdditionActions } from "./components/AdditionActions";
 import { VerticalDivider } from "../../../../../../components/VerticalDivider";
+
 import { useJwtDecode } from "../../../../../../shared/hooks";
 import { endpoints } from "../../../../../../constants";
+import IPalette from "../../../../../../theme/IPalette.interface";
 
-const SidebarActions = () => {
+const SidebarActions: FC = () => {
   const { pathname } = useLocation();
-  const [selectedIndex, setSelectedIndex] = useState(endpoints.generalTickets);
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const { palette }: IPalette = useTheme();
+
+  const [selectedKey, setSelectedKey] = useState<string>(
+    endpoints.generalTickets
+  );
   const jwt = useJwtDecode();
 
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
+  const changeLanguage = (language: string): void => {
+    i18n.changeLanguage(language);
   };
 
   useEffect(() => {
-    setSelectedIndex(pathname);
+    setSelectedKey(pathname);
   }, [pathname]);
 
   return (
@@ -36,14 +41,14 @@ const SidebarActions = () => {
       <Grid flex={"1 0 auto"}>
         <GeneralActions
           isAuth={!!jwt}
-          selectedIndex={selectedIndex}
-          setSelectedIndex={setSelectedIndex}
+          selectedKey={selectedKey}
+          setSelectedKey={setSelectedKey}
         />
         <Divider sx={{ width: "100%" }} />
         <AdditionActions
           isAuth={!!jwt}
-          selectedIndex={selectedIndex}
-          setSelectedIndex={setSelectedIndex}
+          selectedKey={selectedKey}
+          setSelectedKey={setSelectedKey}
         />
       </Grid>
       <Grid
@@ -85,7 +90,5 @@ const SidebarActions = () => {
     </Grid>
   );
 };
-
-SidebarActions.propTypes = {};
 
 export { SidebarActions };

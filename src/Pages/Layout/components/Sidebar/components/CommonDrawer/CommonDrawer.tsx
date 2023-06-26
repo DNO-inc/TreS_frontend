@@ -1,15 +1,25 @@
-import Drawer from "@mui/material/Drawer";
+import { FC } from "react";
+
+import {
+  Drawer,
+  Avatar,
+  Grid,
+  Toolbar,
+  Typography,
+  useTheme,
+} from "@mui/material";
+
 import { SidebarActions } from "../SidebarActions";
-import { useTheme } from "@emotion/react";
-import { Avatar, Grid, Toolbar, Typography } from "@mui/material";
-import Logo from "../../../../../../assets/Logomark.svg";
 import { EllipsisMenu } from "../EllipsisMenu";
 
-interface ICommonDrawer {
+import Logo from "../../../../../../assets/Logomark.svg";
+import IPalette from "../../../../../../theme/IPalette.interface";
+
+interface CommonDrawerProps {
   drawerWidth: number;
 }
 
-const CommonDrawer = ({ drawerWidth }: ICommonDrawer) => {
+const CommonDrawer: FC<CommonDrawerProps> = ({ drawerWidth }) => {
   const { palette }: IPalette = useTheme();
 
   return (
@@ -63,7 +73,6 @@ const CommonDrawer = ({ drawerWidth }: ICommonDrawer) => {
               TreS
             </Typography>
           </Grid>
-
           <EllipsisMenu />
         </Grid>
       </Toolbar>

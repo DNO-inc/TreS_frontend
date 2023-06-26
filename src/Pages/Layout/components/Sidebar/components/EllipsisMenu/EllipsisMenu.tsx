@@ -1,22 +1,32 @@
-import { useState } from "react";
+import { useState, FC, MouseEvent } from "react";
+
+import { Menu, MenuItem, useTheme, PopoverVirtualElement } from "@mui/material";
+
 import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useTheme } from "@emotion/react";
 
-const options = ["Report"];
+import IPalette from "../../../../../../theme/IPalette.interface";
 
-const EllipsisMenu = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+const options: string[] = ["Report"];
+
+const EllipsisMenu: FC = () => {
   const { palette }: IPalette = useTheme();
 
-  const handleClick = event => {
+  const [anchorEl, setAnchorEl] = useState<
+    | Element
+    | (() => Element)
+    | PopoverVirtualElement
+    | (() => PopoverVirtualElement)
+    | null
+    | undefined
+  >(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: MouseEvent): void => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setAnchorEl(null);
   };
 
@@ -40,11 +50,9 @@ const EllipsisMenu = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        PaperProps={{
-          style: {
-            maxHeight: 150,
-            width: "20ch",
-          },
+        sx={{
+          maxHeight: 150,
+          width: "20ch",
         }}
       >
         {options.map(option => (

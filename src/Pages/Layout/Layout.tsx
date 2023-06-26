@@ -1,9 +1,13 @@
-import { Dispatch, SetStateAction, useState, FC } from "react";
+import { Dispatch, SetStateAction, useState, FC, Suspense } from "react";
+import { Outlet } from "react-router-dom";
+
+import { Box, Grid, useTheme } from "@mui/material";
+
 import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
-import { Outlet } from "react-router-dom";
-import { Box, Grid, useTheme } from "@mui/material";
+
 import IPalette from "../../theme/IPalette.interface";
+import { Loader } from "../../components/Loader";
 
 interface LayoutProps {
   isAuth: boolean;
@@ -13,10 +17,10 @@ interface LayoutProps {
 const drawerWidth = 300;
 
 const Layout: FC<LayoutProps> = ({ isAuth, setIsAuth }) => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const { palette }: IPalette = useTheme();
 
-  const handleDrawerToggle = () => {
+  const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen);
   };
 
@@ -56,7 +60,9 @@ const Layout: FC<LayoutProps> = ({ isAuth, setIsAuth }) => {
           },
         }}
       >
-        <Outlet />
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
       </Box>
     </Grid>
   );

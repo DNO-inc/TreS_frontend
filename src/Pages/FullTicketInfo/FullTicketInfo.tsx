@@ -2,8 +2,7 @@ import { useEffect, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useLocation } from "react-router-dom";
 
-import Typography from "@mui/material/Typography";
-import { Box, Grid, useTheme } from "@mui/material";
+import { Box, Grid, useTheme, Typography } from "@mui/material";
 
 import { Loader } from "../../components/Loader";
 import { ActionPanel } from "./components/ActionPanel";

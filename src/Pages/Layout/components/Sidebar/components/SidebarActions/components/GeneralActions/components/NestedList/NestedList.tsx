@@ -1,11 +1,8 @@
-import Collapse from "@mui/material/Collapse";
-import FolderIcon from "@mui/icons-material/Folder";
-import FolderOpenIcon from "@mui/icons-material/FolderOpen";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import DeleteIcon from "@mui/icons-material/Delete";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { FC } from "react";
+import { NavLink } from "react-router-dom";
+
 import {
+  Collapse,
   Badge,
   List,
   ListItem,
@@ -13,73 +10,23 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { endpoints } from "../../../../../../../../../../constants";
-import { NavLink } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
-interface INestedList {
+import useGetListItemsArray from "./useGetListItemArray";
+
+interface NestedListProps {
   open: boolean;
   isAuth: boolean;
-  selectedIndex: string;
-  handleListItemClick: (event: any, param: string) => void;
+  selectedKey: string;
+  handleListItemClick: (key: string) => void;
 }
 
-const NestedList = ({
+const NestedList: FC<NestedListProps> = ({
   open,
   isAuth,
-  selectedIndex,
+  selectedKey,
   handleListItemClick,
-}: INestedList) => {
-  const { t } = useTranslation();
-
-  const listItemsArray = [
-    {
-      text: t("sidebar.myTickets.sent"),
-      icon:
-        selectedIndex === endpoints.sent ? <FolderIcon /> : <FolderOpenIcon />,
-      endpoint: endpoints.sent,
-      isHaveNewMessage: false,
-    },
-    // {
-    //   text: t("sidebar.myTickets.received"),
-    //   icon: <FolderOpenIcon />,
-    //   endpoint: endpoints.received,
-    //   isHaveNewMessage: true,
-    // },
-    {
-      text: t("sidebar.myTickets.followed"),
-      icon:
-        selectedIndex === endpoints.followed ? (
-          <FolderIcon />
-        ) : (
-          <FolderOpenIcon />
-        ),
-      endpoint: endpoints.followed,
-      isHaveNewMessage: false,
-    },
-    {
-      text: t("sidebar.myTickets.bookmarks"),
-      icon:
-        selectedIndex === endpoints.bookmarks ? (
-          <BookmarkIcon />
-        ) : (
-          <BookmarkBorderIcon />
-        ),
-      endpoint: endpoints.bookmarks,
-      isHaveNewMessage: false,
-    },
-    {
-      text: t("sidebar.myTickets.deleted"),
-      icon:
-        selectedIndex === endpoints.deleted ? (
-          <DeleteIcon />
-        ) : (
-          <DeleteOutlineIcon />
-        ),
-      endpoint: endpoints.deleted,
-      isHaveNewMessage: false,
-    },
-  ];
+}) => {
+  const listItemsArray = useGetListItemsArray(selectedKey);
 
   return (
     <Collapse in={open} timeout="auto" unmountOnExit>
@@ -101,10 +48,8 @@ const NestedList = ({
                 <ListItemButton
                   sx={{ pl: 4 }}
                   disabled={!isAuth}
-                  selected={selectedIndex === listItem.endpoint}
-                  onClick={event =>
-                    handleListItemClick(event, listItem.endpoint)
-                  }
+                  selected={selectedKey === listItem.endpoint}
+                  onClick={() => handleListItemClick(listItem.endpoint)}
                 >
                   <ListItemIcon>{listItem.icon}</ListItemIcon>
                   <ListItemText primary={listItem.text} />
@@ -120,7 +65,5 @@ const NestedList = ({
     </Collapse>
   );
 };
-
-NestedList.propTypes = {};
 
 export { NestedList };

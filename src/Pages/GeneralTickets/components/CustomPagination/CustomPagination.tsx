@@ -28,7 +28,7 @@ const CustomPagination: FC<CustomPaginationProps> = ({
         shape="rounded"
         siblingCount={1}
         boundaryCount={1}
-        onChange={(event, value) => onChange(value)}
+        onChange={(_event, value) => onChange(value)}
         sx={{
           "& > .MuiPagination-ul > li > .MuiPaginationItem-root": {
             border: `2px solid ${palette.grey.divider}`,

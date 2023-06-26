@@ -1,19 +1,5 @@
-import axios from "axios";
-import { endpoints } from "../../constants";
-
-interface IAxiosBaseQueryProps {
-  url: any;
-  method: string;
-  data: object;
-  auth: any;
-}
-
-const axiosInstance = axios.create({
-  baseURL: endpoints.baseUrl,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+// import axios from "axios";
+// import { endpoints } from "../../constants";
 
 // export const axiosBaseQuery =
 //   ({ baseUrl } = {}) =>

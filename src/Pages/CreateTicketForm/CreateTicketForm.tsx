@@ -29,7 +29,7 @@ const CreateTicketForm: FC = () => {
     handleSubmit,
     setValue,
     resetField,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<ICreateTicketRequestBody>();
 
   const handleClear = (): void => {
@@ -81,7 +81,7 @@ const CreateTicketForm: FC = () => {
               queue={queue}
               setQueue={setQueue}
             />
-            <TicketTitleInput errors={errors} register={register} />
+            <TicketTitleInput register={register} />
             <TicketBodyTextField register={register} />
             <TicketVisibilityOptions
               setValue={setValue}
