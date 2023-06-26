@@ -1,1 +1,0 @@
-export { Followed } from "./Followed";

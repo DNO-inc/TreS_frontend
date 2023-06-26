@@ -1,1 +1,0 @@
-export { GeneralTickets } from "./GeneralTickets";

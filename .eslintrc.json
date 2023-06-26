@@ -1,40 +1,49 @@
-// {
-//     "env": {
-//         "browser": true,
-//         "es2021": true
-//     },
-//     "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
-//     "settings": {
-//         "react": {
-//             "version": "detect"
-//         }
-//     },
-//     "overrides": [],
-//     "parserOptions": {
-//         "ecmaVersion": "latest",
-//         "sourceType": "module"
-//     },
-//     "plugins": ["react", "react-hooks"],
-//     "rules": {
-//         "no-dupe-else-if": "warn",
-//         "max-lines": ["warn", 200],
-//         "max-depth": ["warn", 2],
-//         "no-restricted-syntax": ["warn", "FunctionExpression", "FunctionDeclaration"],
-//         "no-unused-vars": "warn",
-//         "react-hooks/rules-of-hooks": "warn",
-//         "react-hooks/exhaustive-deps": "warn",
-//         "key-spacing": [
-//             "warn",
-//             {
-//                 "beforeColon": false,
-//                 "mode": "strict"
-//             }
-//         ],
-//         "no-var": "error",
-//         "quotes": ["warn", "double", {"avoidEscape": true}],
-//         "eqeqeq": ["warn", "always"],
-//         "no-console": ["warn", {"allow": ["warn", "error"]}],
-//         "no-debugger": "warn",
-//         "react/prop-types": "off"
-//     }
-// }
+{
+  // rules: {
+  //   "react-refresh/only-export-components": "warn",
+  // },
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  // "settings": {
+  //     "react": {
+  //         "version": "detect"
+  //     }
+  // },
+  // "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react", "react-hooks", "eslint-plugin-react"]
+  // "rules": {
+  //     "no-dupe-else-if": "warn",
+  //     "max-lines": ["warn", 200],
+  //     "max-depth": ["warn", 2],
+  //     "no-restricted-syntax": ["warn", "FunctionExpression", "FunctionDeclaration"],
+  //     "no-unused-vars": "warn",
+  //     "react-hooks/rules-of-hooks": "warn",
+  //     "react-hooks/exhaustive-deps": "warn",
+  //     "key-spacing": [
+  //         "warn",
+  //         {
+  //             "beforeColon": false,
+  //             "mode": "strict"
+  //         }
+  //     ],
+  //     "no-var": "error",
+  //     "quotes": ["warn", "double", {"avoidEscape": true}],
+  //     "eqeqeq": ["warn", "always"],
+  //     "no-console": ["warn", {"allow": ["warn", "error"]}],
+  //     "no-debugger": "warn",
+  //     "react/prop-types": "off"
+  // }
+}
