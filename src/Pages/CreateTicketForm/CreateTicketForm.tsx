@@ -45,7 +45,7 @@ const CreateTicketForm: FC = () => {
   };
 
   useEffect(() => {
-    isSuccess && setValue("faculty", data.faculty);
+    isSuccess && setValue("faculty", data.faculty.faculty_id);
   }, [isSuccess, data?.faculty, setValue]);
 
   return (
@@ -75,7 +75,7 @@ const CreateTicketForm: FC = () => {
             }}
           >
             <QueueSelect
-              faculty={isSuccess ? data.faculty : ""}
+              faculty={isSuccess ? data.faculty.faculty_id : null}
               register={register}
               setValue={setValue}
               queue={queue}

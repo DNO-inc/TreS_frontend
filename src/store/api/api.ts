@@ -15,6 +15,9 @@ export const api = createApi({
     getFaculties: builder.query({
       query: () => "/meta/get_faculties",
     }),
+    getStatuses: builder.query({
+      query: () => "/meta/get_statuses",
+    }),
     // signup: builder.mutation({
     //   query: ({ body }) => ({
     //     url: "/registration/",
@@ -54,5 +57,6 @@ export const {
   useGetUpdatesQuery,
   useLoginMutation,
   useGetFacultiesQuery,
+  useGetStatusesQuery,
   useGetQueueByFacultyMutation,
 } = api;

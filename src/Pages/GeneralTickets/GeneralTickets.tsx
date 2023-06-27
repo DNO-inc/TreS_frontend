@@ -13,6 +13,7 @@ import { CustomPagination } from "./components/CustomPagination";
 
 import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../shared/hooks";
+import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
 
 interface GeneralTicketsPageInfo {
   data?: {
@@ -28,30 +29,57 @@ const GeneralTickets: FC = () => {
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [totalPage, setTotalPage] = useState<number>(1);
+  const [facultyId, setFacultyId] = useState<number | null>(null);
 
   const jwt = useJwtDecode();
-  const [geTickets, { isLoading, isSuccess }] = useGetTicketsMutation();
+  const [geTickets, { isLoading, isSuccess: isTicketsSuccess }] =
+    useGetTicketsMutation();
+  const faculties = useGetFacultiesQuery({});
+  const statuses = useGetStatusesQuery({});
 
   const [searchParams, setSearchParams] = useSearchParams();
   const ticketsPerRow: number = Number(searchParams.get("ticket_per_row")) || 2;
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
-  const faculty: string | null =
-    searchParams.get("faculty") !== "all_faculties"
-      ? searchParams.get("faculty")
-      : "";
+  const facultyQuery: string | null = searchParams.get("faculty");
 
   const option: string = jwt ? "tickets" : "anon";
 
   const requestBody = useMemo(() => {
-    const statuses: string[] = searchParams.get("statuses")?.split(",") || [];
+    const matchingStatusesId = [];
+
+    if (statuses.isSuccess) {
+      const statusList = statuses.data?.statuses_list;
+      const statusesQuery = searchParams
+        .get("statuses")
+        ?.split(",")
+        .map((status: string) => status.toUpperCase());
+
+      for (const status of statusList) {
+        if (statusesQuery && statusesQuery.includes(status.name)) {
+          matchingStatusesId.push(status.status_id);
+        }
+      }
+    }
+
+    if (faculties.isSuccess) {
+      if (facultyQuery === "all") {
+        setFacultyId(null);
+      } else {
+        setFacultyId(
+          faculties.data.faculties_list.find(
+            (faculty: IFaculty) => faculty.name === facultyQuery
+          )?.faculty_id
+        );
+      }
+    }
 
     return {
       start_page: currentPage,
       tickets_count: 3 * ticketsPerRow,
-      faculty: faculty,
-      status: statuses,
+      faculty: facultyId,
+      status: matchingStatusesId,
     };
-  }, [currentPage, ticketsPerRow, faculty, searchParams]);
+  }, [currentPage, ticketsPerRow, facultyId, searchParams, statuses.isSuccess]);
 
   useEffect(() => {
     geTickets({ option: option, body: JSON.stringify(requestBody) }).then(
@@ -86,7 +114,7 @@ const GeneralTickets: FC = () => {
       </Box>
       <Box sx={{ pt: "168px !important" }}>
         {isLoading && <Loader />}
-        {isSuccess &&
+        {isTicketsSuccess &&
           (tickets.length ? (
             <>
               <Grid

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 interface StatusFullObject {
   id: number;
+  query: string;
   label: string;
   color: string;
   checked: boolean;
@@ -20,21 +21,25 @@ export const useGetStatusesFullObject = (
   return [
     {
       id: 0,
+      query: "accepted",
       label: t("statusesFilter.accepted"),
       color: "#E09C36",
     },
     {
       id: 1,
+      query: "open",
       label: t("statusesFilter.open"),
       color: "#2982D3",
     },
     {
       id: 2,
+      query: "waiting",
       label: t("statusesFilter.waiting"),
       color: "#9E3DFF",
     },
     {
       id: 3,
+      query: "close",
       label: t("statusesFilter.close"),
       color: "#68B651",
     },
@@ -46,12 +51,5 @@ export const useGetStatusesFullObject = (
 };
 
 export const useGetStatusesName = (): string[] => {
-  const { t } = useTranslation();
-
-  return [
-    t("statusesFilter.accepted"),
-    t("statusesFilter.open"),
-    t("statusesFilter.waiting"),
-    t("statusesFilter.close"),
-  ];
+  return ["accepted", "open", "waiting", "close"];
 };

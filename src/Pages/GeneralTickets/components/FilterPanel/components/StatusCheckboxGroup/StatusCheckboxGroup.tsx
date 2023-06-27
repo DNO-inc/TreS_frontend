@@ -28,7 +28,7 @@ const StatusCheckboxGroup: FC = () => {
 
     const selectedStatuses = statusesFullInfo
       .filter(status => updatedChecked[status.id])
-      .map(status => status.label);
+      .map(status => status.query);
 
     if (params.has("statuses")) {
       params.set("statuses", selectedStatuses.join(","));

@@ -43,7 +43,7 @@ const Header: FC<HeaderProps> = ({
   const isNeedStepBack: boolean = isFullTicketInfo || isCreateTicket;
 
   const handleClick = (): void => {
-    navigate(-2);
+    navigate(-1);
   };
 
   return (
