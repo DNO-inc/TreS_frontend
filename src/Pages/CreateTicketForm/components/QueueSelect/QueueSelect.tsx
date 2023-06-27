@@ -20,7 +20,7 @@ import { useGetQueueByFacultyMutation } from "../../../../store/api/api";
 import IPalette from "../../../../theme/IPalette.interface";
 
 interface QueueSelectProps {
-  faculty: string;
+  faculty: number | null;
   queue: number | "none";
   register: UseFormRegister<ICreateTicketRequestBody>;
   setValue: UseFormSetValue<ICreateTicketRequestBody>;

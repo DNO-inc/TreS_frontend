@@ -11,22 +11,17 @@ import {
   useTheme,
 } from "@mui/material";
 
-import { useGetFacultiesQuery } from "../../../../../../store/api/api";
 import IPalette from "../../../../../../theme/IPalette.interface";
-
-interface IFaculty {
-  faculty_id: number;
-  name: string;
-}
+import { useGetFacultiesQuery } from "../../../../../../store/api/api";
 
 const FacultiesFilter: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const faculty = searchParams.get("faculty") || "all_faculties";
-
   const { data, isSuccess } = useGetFacultiesQuery({});
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const faculty = searchParams.get("faculty") || "all";
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     const newFaculty = event.target.value;
@@ -59,7 +54,7 @@ const FacultiesFilter: FC = () => {
               "& .MuiInputBase-input": { pt: 1, pb: 1, width: 150 },
             }}
           >
-            <MenuItem value="all_faculties">
+            <MenuItem value="all">
               <ListItemText primary={t("generalTickets.facultyFilter")} />
             </MenuItem>
 

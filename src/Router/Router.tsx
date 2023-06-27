@@ -41,8 +41,6 @@ const Router: FC = () => {
   useEffect(() => {
     if (!isAuth && pathname !== endpoints.generalTickets) {
       navigate(endpoints.generalTickets);
-    } else {
-      setSearchParams(new URLSearchParams(search));
     }
   }, [pathname, search, setSearchParams, isAuth, navigate]);
 

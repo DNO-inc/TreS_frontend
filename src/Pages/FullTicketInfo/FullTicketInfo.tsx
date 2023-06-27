@@ -34,6 +34,8 @@ const FullTicketInfo: FC = () => {
           container
           gap={3}
           sx={{
+            pt: 6,
+            pb: 10,
             "& > .MuiGrid-root > .MuiTypography-root:not(:first-of-type)": {
               fontSize: 20,
             },
