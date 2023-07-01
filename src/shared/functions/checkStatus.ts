@@ -1,7 +1,7 @@
 const checkStatus = (status: string): string => {
   switch (status) {
     case "NEW":
-      return "#888888";
+      return "#FFFFFF";
     case "ACCEPTED":
       return "#E09C36";
     case "OPEN":

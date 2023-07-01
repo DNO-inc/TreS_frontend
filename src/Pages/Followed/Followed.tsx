@@ -20,6 +20,10 @@ const Followed: FC = () => {
   const { data, isLoading, isSuccess, isError, refetch } =
     useGetSavedTicketsQuery({
       option: "liked",
+      body: JSON.stringify({
+        start_page: 1,
+        tickets_count: 2,
+      }),
     });
 
   useEffect(() => {

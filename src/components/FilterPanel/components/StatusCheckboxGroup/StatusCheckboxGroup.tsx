@@ -4,11 +4,17 @@ import { useSearchParams } from "react-router-dom";
 
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
 
-import { VerticalDivider } from "../../../../../../components/VerticalDivider";
+import { VerticalDivider } from "../../../VerticalDivider";
 
 import { useGetStatusesFullObject, useGetStatusesName } from "./getStatuses";
 
-const StatusCheckboxGroup: FC = () => {
+interface StatusCheckboxGroupProps {
+  isAllStatuses: boolean;
+}
+
+const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
+  isAllStatuses,
+}) => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 

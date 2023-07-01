@@ -63,6 +63,10 @@ const FullTicketInfo: FC = () => {
                   textAlign: "center",
                   p: "4px 12px",
                   bgcolor: checkStatus(ticket.status.name),
+                  color:
+                    checkStatus(ticket.status.name) === "#FFFFFF"
+                      ? palette.common.black
+                      : palette.common.white,
                   borderRadius: 1,
                   textTransform: "capitalize",
                   fontSize: "16px",

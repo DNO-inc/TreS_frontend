@@ -8,9 +8,9 @@ import ViewAgendaOutlinedIcon from "@mui/icons-material/ViewAgendaOutlined";
 import ViewWeekIcon from "@mui/icons-material/ViewWeek";
 import ViewWeekOutlinedIcon from "@mui/icons-material/ViewWeekOutlined";
 
-import { VerticalDivider } from "../../../../../../components/VerticalDivider";
+import { VerticalDivider } from "../../../VerticalDivider";
 
-import IPalette from "../../../../../../theme/IPalette.interface";
+import IPalette from "../../../../theme/IPalette.interface";
 
 interface ViewOptionsProps {
   ticketsPerRow: number;

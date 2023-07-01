@@ -14,8 +14,9 @@ export const ticketsApi = api.injectEndpoints({
       }),
     }),
     getSavedTickets: builder.query({
-      query: ({ option }) => ({
+      query: ({ option, body }) => ({
         url: `/tickets/${option}`,
+        // body,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
         },
