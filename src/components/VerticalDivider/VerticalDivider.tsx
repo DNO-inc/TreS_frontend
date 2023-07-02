@@ -1,8 +1,14 @@
+import { FC } from "react";
+
 import { Box, useTheme } from "@mui/material";
 
 import IPalette from "../../theme/IPalette.interface";
 
-const VerticalDivider = ({ height = 22 }) => {
+interface VerticalDividerProps {
+  height?: number;
+}
+
+const VerticalDivider: FC<VerticalDividerProps> = ({ height = 22 }) => {
   const { palette }: IPalette = useTheme();
 
   return (
@@ -10,7 +16,7 @@ const VerticalDivider = ({ height = 22 }) => {
       sx={{
         width: 2,
         height: height,
-        backgroundColor: palette.grey.divider,
+        backgroundColor: palette.whiteAlpha.default,
         borderRadius: 1,
       }}
     ></Box>

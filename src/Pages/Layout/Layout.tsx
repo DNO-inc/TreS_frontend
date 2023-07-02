@@ -54,9 +54,12 @@ const Layout: FC<LayoutProps> = ({ isAuth, setIsAuth }) => {
             p: { xs: "24px 8px 8px", sm: "24px 24px 24px" },
             bgcolor: palette.grey.background,
             zIndex: 100,
+            "& > .MuiTypography-h1": {
+              mb: 3,
+            },
           },
           "& > .MuiGrid-root > .MuiBox-root:nth-of-type(2)": {
-            pt: 12,
+            pt: 21,
           },
         }}
       >

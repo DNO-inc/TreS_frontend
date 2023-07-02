@@ -35,6 +35,8 @@ const getColors = (mode: string) => ({
           success: "#68B651",
           warning: "#E09C36",
           error: "#D94B44",
+          waiting: "#9E3DFF",
+          new: "#FFFFFF",
         },
       }
     : {

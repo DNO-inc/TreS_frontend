@@ -6,10 +6,10 @@ import { SerializedError } from "@reduxjs/toolkit";
 
 import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 
-import { FilterPanel } from "./components/FilterPanel";
 import { Ticket } from "../../components/Ticket/Ticket";
 import { Loader } from "../../components/Loader";
-import { CustomPagination } from "./components/CustomPagination";
+import { FilterPanel } from "../../components/FilterPanel";
+import { CustomPagination } from "../../components/CustomPagination";
 
 import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../shared/hooks";
@@ -107,12 +107,10 @@ const GeneralTickets: FC = () => {
   return (
     <Grid container flexDirection={"column"}>
       <Box>
-        <Typography variant="h1" sx={{ mb: 3 }}>
-          {t("generalTickets.heading")}
-        </Typography>
-        <FilterPanel ticketsPerRow={ticketsPerRow} />
+        <Typography variant="h1">{t("generalTickets.heading")}</Typography>
+        <FilterPanel ticketsPerRow={ticketsPerRow} isOneColumn={false} />
       </Box>
-      <Box sx={{ pt: "168px !important" }}>
+      <Box>
         {isLoading && <Loader />}
         {isTicketsSuccess &&
           (tickets.length ? (

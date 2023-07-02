@@ -7,10 +7,16 @@ import { StatusCheckboxGroup } from "./components/StatusCheckboxGroup";
 import { ViewOptions } from "./components/ViewOptions";
 
 interface FilterPanelProps {
-  ticketsPerRow: number;
+  ticketsPerRow?: number;
+  isOneColumn?: boolean;
+  isAllStatuses?: boolean;
 }
 
-const FilterPanel: FC<FilterPanelProps> = ({ ticketsPerRow }) => {
+const FilterPanel: FC<FilterPanelProps> = ({
+  ticketsPerRow = 1,
+  isOneColumn = true,
+  isAllStatuses = false,
+}) => {
   return (
     <Grid
       container
@@ -19,7 +25,7 @@ const FilterPanel: FC<FilterPanelProps> = ({ ticketsPerRow }) => {
         alignItems: "center",
       }}
     >
-      <StatusCheckboxGroup />
+      <StatusCheckboxGroup isAllStatuses={isAllStatuses} />
       <Grid
         item
         sx={{
@@ -29,7 +35,7 @@ const FilterPanel: FC<FilterPanelProps> = ({ ticketsPerRow }) => {
           gap: 3,
         }}
       >
-        <ViewOptions ticketsPerRow={ticketsPerRow} />
+        {!isOneColumn && <ViewOptions ticketsPerRow={ticketsPerRow} />}
         <Box>
           <FacultiesFilter />
         </Box>

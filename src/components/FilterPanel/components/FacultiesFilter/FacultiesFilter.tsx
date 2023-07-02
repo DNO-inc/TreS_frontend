@@ -11,8 +11,8 @@ import {
   useTheme,
 } from "@mui/material";
 
-import IPalette from "../../../../../../theme/IPalette.interface";
-import { useGetFacultiesQuery } from "../../../../../../store/api/api";
+import IPalette from "../../../../theme/IPalette.interface";
+import { useGetFacultiesQuery } from "../../../../store/api/api";
 
 const FacultiesFilter: FC = () => {
   const { t } = useTranslation();

@@ -25,12 +25,15 @@ interface Palette {
     };
     whiteAlpha: {
       default: string;
+      text: string;
     };
     semantic: {
       info: string;
       success: string;
       warning: string;
       error: string;
+      waiting: string;
+      new: string;
     };
 
     typography: {

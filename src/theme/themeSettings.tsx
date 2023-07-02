@@ -30,12 +30,15 @@ const themeSettings = (mode: string): any => {
             },
             whiteAlpha: {
               default: colors.whiteAlpha[600],
+              text: colors.whiteAlpha[800],
             },
             semantic: {
               info: colors.semantic.info,
               success: colors.semantic.success,
               warning: colors.semantic.warning,
               error: colors.semantic.error,
+              waiting: colors.semantic.waiting,
+              new: colors.semantic.new,
             },
           }
         : {
@@ -64,6 +67,8 @@ const themeSettings = (mode: string): any => {
               success: colors.semantic.success,
               warning: colors.semantic.warning,
               error: colors.semantic.error,
+              waiting: colors.semantic.waiting,
+              new: colors.semantic.new,
             },
           }),
     },
