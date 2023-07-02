@@ -11,6 +11,7 @@ import { endpoints } from "../../constants";
 import { useShowTicketMutation } from "../../store/api/tickets/tickets.api";
 import { checkStatus, formatDate } from "../../shared/functions";
 import IPalette from "../../theme/IPalette.interface";
+import { VerticalDivider } from "../../components/VerticalDivider";
 
 const FullTicketInfo: FC = () => {
   const { t } = useTranslation();
@@ -76,7 +77,20 @@ const FullTicketInfo: FC = () => {
                 {t(`ticketStatus.${ticket.status.name.toLowerCase()}`)}
               </Box>
             </Grid>
-            <Typography>{ticket.queue.name}</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1,
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Typography>{ticket.queue.scope}</Typography>
+              <VerticalDivider height={16} />
+              <Typography sx={{ color: palette.whiteAlpha.default }}>
+                {ticket.queue.name}
+              </Typography>
+            </Box>
           </Grid>
           <Grid container>
             <Grid

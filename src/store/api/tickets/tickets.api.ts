@@ -13,13 +13,26 @@ export const ticketsApi = api.injectEndpoints({
         body,
       }),
     }),
-    getSavedTickets: builder.query({
+    getSavedTickets: builder.mutation({
       query: ({ option, body }) => ({
         url: `/tickets/${option}`,
-        // body,
+        method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
         },
+        body,
+      }),
+    }),
+    getDeletedTickets: builder.mutation({
+      query: ({ body }) => ({
+        url: "/tickets/deleted",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+        },
+        body,
       }),
     }),
     createTicket: builder.mutation({
@@ -71,7 +84,8 @@ export const ticketsApi = api.injectEndpoints({
 
 export const {
   useGetTicketsMutation,
-  useGetSavedTicketsQuery,
+  useGetSavedTicketsMutation,
+  useGetDeletedTicketsMutation,
   useCreateTicketMutation,
   useShowTicketMutation,
   useToggleLikeMutation,

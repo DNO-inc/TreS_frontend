@@ -18,7 +18,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const statusesName: string[] = useGetStatusesName();
+  const statusesName: string[] = useGetStatusesName(isAllStatuses);
   const statusesQueryParams: string[] | undefined = searchParams
     .get("statuses")
     ?.split(",");
@@ -27,7 +27,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
     ? statusesName.map(status => {
         return statusesQueryParams.includes(status);
       })
-    : [true, true, true, true];
+    : statusesName.map(() => true);
 
   const processSelectStatus = (updatedChecked: boolean[]): void => {
     const params = new URLSearchParams(searchParams.toString());
@@ -66,7 +66,11 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
     processSelectStatus(updatedChecked);
   };
 
-  const statusesFullInfo = useGetStatusesFullObject(checked, handleChange);
+  const statusesFullInfo = useGetStatusesFullObject(
+    checked,
+    isAllStatuses,
+    handleChange
+  );
 
   const children: JSX.Element = (
     <Box sx={{ display: "flex", flexWrap: "wrap", ml: 2 }}>
@@ -95,7 +99,8 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
                       left: "50%",
                       width: 13,
                       height: 13,
-                      bgcolor: "#ffffff",
+                      bgcolor:
+                        status.color === "#FFFFFF" ? "#000000" : "#ffffff",
                       transform: "translate(-50%, -50%)",
                     }}
                   ></Box>

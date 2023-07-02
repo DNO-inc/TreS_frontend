@@ -31,13 +31,12 @@ const Sent: FC = () => {
   const [facultyId, setFacultyId] = useState<number | null>(null);
 
   const jwt = useJwtDecode();
-  const [geTickets, { isLoading, isSuccess: isTicketsSuccess }] =
+  const [getTickets, { isLoading, isSuccess: isTicketsSuccess }] =
     useGetTicketsMutation();
   const faculties = useGetFacultiesQuery({});
   const statuses = useGetStatusesQuery({});
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const ticketsPerRow: number = 10;
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
 
@@ -82,7 +81,7 @@ const Sent: FC = () => {
   }, [currentPage, facultyId, searchParams, statuses.isSuccess]);
 
   useEffect(() => {
-    geTickets({ option: option, body: JSON.stringify(requestBody) }).then(
+    getTickets({ option: option, body: JSON.stringify(requestBody) }).then(
       (res: SentPageInfo): void | PromiseLike<void> => {
         if (res.data) {
           setTickets(res.data.ticket_list);
@@ -90,7 +89,7 @@ const Sent: FC = () => {
         }
       }
     );
-  }, [option, searchParams, geTickets, requestBody]);
+  }, [option, searchParams, requestBody]);
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -108,7 +107,7 @@ const Sent: FC = () => {
     <Grid container flexDirection={"column"}>
       <Box>
         <Typography variant="h1">{t("sent.heading")}</Typography>
-        <FilterPanel />
+        <FilterPanel isAllStatuses={true} />
       </Box>
       <Box>
         {isLoading && <Loader />}
