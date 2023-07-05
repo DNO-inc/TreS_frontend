@@ -58,10 +58,6 @@ const TicketActions: FC<TicketActionsProps> = ({
           className="evadeItem"
           sx={{
             width: 26,
-            // bgcolor: isReported && palette.semantic.error,
-            // "&:hover": {
-            //   bgcolor: isReported && palette.semantic.error,
-            // },
             "& > .MuiSvgIcon-root": {
               fontSize: 18,
             },
@@ -76,10 +72,6 @@ const TicketActions: FC<TicketActionsProps> = ({
           sx={{
             width: 26,
             mr: !upvotes ? 0 : -0.6,
-            // bgcolor: isBookmarked && palette.semantic.info,
-            // "&:hover": {
-            //   bgcolor: isBookmarked && palette.semantic.info,
-            // },
             "& > .MuiSvgIcon-root": {
               color: isBookmarked ? palette.semantic.info : "none",
             },
@@ -99,10 +91,6 @@ const TicketActions: FC<TicketActionsProps> = ({
             gap: 0.5,
             width: !upvotes ? 26 : "auto",
             borderRadius: 4,
-            // bgcolor: isLiked && palette.semantic.info,
-            // "&:hover": {
-            //   bgcolor: isLiked && palette.semantic.info,
-            // },
             "& > .MuiSvgIcon-root": {
               color: isLiked ? palette.semantic.error : "none",
             },

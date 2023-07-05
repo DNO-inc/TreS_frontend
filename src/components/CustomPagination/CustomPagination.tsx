@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import { Grid, Pagination, useTheme } from "@mui/material";
 
-import IPalette from "../../../../theme/IPalette.interface";
+import IPalette from "../../theme/IPalette.interface";
 
 interface CustomPaginationProps {
   total: number;
