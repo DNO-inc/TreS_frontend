@@ -4,15 +4,21 @@ import { useSearchParams } from "react-router-dom";
 
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
 
-import { VerticalDivider } from "../../../../../../components/VerticalDivider";
+import { VerticalDivider } from "../../../VerticalDivider";
 
 import { useGetStatusesFullObject, useGetStatusesName } from "./getStatuses";
 
-const StatusCheckboxGroup: FC = () => {
+interface StatusCheckboxGroupProps {
+  isAllStatuses: boolean;
+}
+
+const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
+  isAllStatuses,
+}) => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const statusesName: string[] = useGetStatusesName();
+  const statusesName: string[] = useGetStatusesName(isAllStatuses);
   const statusesQueryParams: string[] | undefined = searchParams
     .get("statuses")
     ?.split(",");
@@ -21,7 +27,7 @@ const StatusCheckboxGroup: FC = () => {
     ? statusesName.map(status => {
         return statusesQueryParams.includes(status);
       })
-    : [true, true, true, true];
+    : statusesName.map(() => true);
 
   const processSelectStatus = (updatedChecked: boolean[]): void => {
     const params = new URLSearchParams(searchParams.toString());
@@ -60,7 +66,11 @@ const StatusCheckboxGroup: FC = () => {
     processSelectStatus(updatedChecked);
   };
 
-  const statusesFullInfo = useGetStatusesFullObject(checked, handleChange);
+  const statusesFullInfo = useGetStatusesFullObject(
+    checked,
+    isAllStatuses,
+    handleChange
+  );
 
   const children: JSX.Element = (
     <Box sx={{ display: "flex", flexWrap: "wrap", ml: 2 }}>
@@ -89,7 +99,8 @@ const StatusCheckboxGroup: FC = () => {
                       left: "50%",
                       width: 13,
                       height: 13,
-                      bgcolor: "#ffffff",
+                      bgcolor:
+                        status.color === "#FFFFFF" ? "#000000" : "#ffffff",
                       transform: "translate(-50%, -50%)",
                     }}
                   ></Box>

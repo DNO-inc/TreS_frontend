@@ -1,21 +1,50 @@
 import { useEffect, useState, FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
+import { useLocation, useSearchParams } from "react-router-dom";
+import {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+  FetchBaseQueryMeta,
+  MutationDefinition,
+} from "@reduxjs/toolkit/query/react";
 import { SerializedError } from "@reduxjs/toolkit";
+import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 
-import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
+import { Box, Grid, Typography, FormGroup } from "@mui/material";
 
-import { Ticket } from "../../components/Ticket/Ticket";
 import { Loader } from "../../components/Loader";
 import { FilterPanel } from "../../components/FilterPanel";
 import { CustomPagination } from "../../components/CustomPagination";
+import { TicketRow } from "../../components/TicketRow/TicketRow";
 
-import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../shared/hooks";
 import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
+import { useDeleteTicketMutation } from "../../store/api/tickets/tickets.api";
 
-interface GeneralTicketsPageInfo {
+interface MyTicketPageProps {
+  useGetQuery: MutationTrigger<
+    MutationDefinition<
+      any,
+      BaseQueryFn<
+        string | FetchArgs,
+        unknown,
+        FetchBaseQueryError,
+        {},
+        FetchBaseQueryMeta
+      >,
+      never,
+      any,
+      "api"
+    >
+  >;
+  isLoading: boolean;
+  isSuccess: boolean;
+  option?: string;
+  userId?: boolean | number;
+}
+
+interface MyTicketPageInfo {
   data?: {
     ticket_list: ITicket[];
     total_pages: number;
@@ -23,26 +52,30 @@ interface GeneralTicketsPageInfo {
   error?: FetchBaseQueryError | SerializedError;
 }
 
-const GeneralTickets: FC = () => {
+const MyTicketPage: FC<MyTicketPageProps> = ({
+  useGetQuery,
+  isLoading,
+  isSuccess,
+  option,
+  userId,
+}) => {
   const { t } = useTranslation();
-  const matches = useMediaQuery("(min-width:600px)");
+  const { pathname } = useLocation();
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [facultyId, setFacultyId] = useState<number | null>(null);
 
   const jwt = useJwtDecode();
-  const [geTickets, { isLoading, isSuccess: isTicketsSuccess }] =
-    useGetTicketsMutation();
   const faculties = useGetFacultiesQuery({});
   const statuses = useGetStatusesQuery({});
+  const [deleteTicket, { isSuccess: isDeleteSuccess }] =
+    useDeleteTicketMutation();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const ticketsPerRow: number = Number(searchParams.get("ticket_per_row")) || 2;
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
-
-  const option: string = jwt ? "tickets" : "anon";
+  const isSentPage = pathname === "/sent";
 
   const requestBody = useMemo(() => {
     const matchingStatusesId = [];
@@ -73,24 +106,42 @@ const GeneralTickets: FC = () => {
       }
     }
 
-    return {
+    const data: {
+      creator?: number | boolean | undefined;
+      start_page: number;
+      faculty: number | null;
+      status: number[];
+    } = {
       start_page: currentPage,
-      tickets_count: 3 * ticketsPerRow,
       faculty: facultyId,
       status: matchingStatusesId,
     };
-  }, [currentPage, ticketsPerRow, facultyId, searchParams, statuses.isSuccess]);
+
+    if (option) {
+      data.creator = userId;
+    }
+
+    return data;
+  }, [currentPage, facultyId, searchParams, statuses.isSuccess]);
 
   useEffect(() => {
-    geTickets({ option: option, body: JSON.stringify(requestBody) }).then(
-      (res: GeneralTicketsPageInfo): void | PromiseLike<void> => {
+    const requestProps: { body: string; option?: string } = {
+      body: JSON.stringify(requestBody),
+    };
+
+    if (option) {
+      requestProps.option = option;
+    }
+
+    useGetQuery(requestProps).then(
+      (res: MyTicketPageInfo): void | PromiseLike<void> => {
         if (res.data) {
           setTickets(res.data.ticket_list);
           setTotalPage(res.data.total_pages);
         }
       }
     );
-  }, [option, searchParams, geTickets, requestBody]);
+  }, [searchParams, requestBody, isDeleteSuccess]);
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -104,41 +155,47 @@ const GeneralTickets: FC = () => {
     setSearchParams(params);
   };
 
+  const handleDelete = (ticketId: number): void => {
+    deleteTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
+  };
+
   return (
     <Grid container flexDirection={"column"}>
       <Box>
-        <Typography variant="h1">{t("generalTickets.heading")}</Typography>
-        <FilterPanel ticketsPerRow={ticketsPerRow} isOneColumn={false} />
+        <Typography variant="h1">{t("bookmarks.heading")}</Typography>
+        <FilterPanel isAllStatuses={isSentPage || pathname === "/deleted"} />
       </Box>
       <Box>
         {isLoading && <Loader />}
-        {isTicketsSuccess &&
+        {isSuccess &&
           (tickets.length ? (
             <>
-              <Grid
-                container
-                gap={2}
+              <FormGroup
                 sx={{
-                  flexDirection: matches ? "row" : "column",
-                  maxWidth: matches ? "100%" : "600px",
+                  display: "flex",
+                  gap: 1,
+                  flexDirection: "row",
                 }}
               >
                 {tickets.map(ticket => {
                   return (
-                    <Ticket
-                      ticketsPerRow={matches ? ticketsPerRow : 1}
+                    <TicketRow
                       ticket={ticket}
                       isAuth={!!jwt}
+                      isCanDelete={isSentPage}
+                      handleDelete={isSentPage ? handleDelete : null}
                       key={ticket.ticket_id}
                     />
                   );
                 })}
-              </Grid>
-              <CustomPagination
-                total={totalPage}
-                current={currentPage}
-                onChange={handlePageChange}
-              />
+              </FormGroup>
+              {totalPage > 1 && (
+                <CustomPagination
+                  total={totalPage}
+                  current={currentPage}
+                  onChange={handlePageChange}
+                />
+              )}
             </>
           ) : (
             <Typography variant="h1" mt={6}>
@@ -150,4 +207,4 @@ const GeneralTickets: FC = () => {
   );
 };
 
-export { GeneralTickets };
+export { MyTicketPage };

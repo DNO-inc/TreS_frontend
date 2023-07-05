@@ -1,21 +1,18 @@
 import { FC } from "react";
-import { useTranslation } from "react-i18next";
 
-import { Box, Grid, Typography } from "@mui/material";
+import { MyTicketPage } from "../MyTicketPage";
 
-import { ComingSoon } from "../../components/ComingSoon";
+import { useGetDeletedTicketsMutation } from "../../store/api/tickets/tickets.api";
 
 const Deleted: FC = () => {
-  const { t } = useTranslation();
+  const [getTickets, { isLoading, isSuccess }] = useGetDeletedTicketsMutation();
 
   return (
-    <Grid container>
-      <Box>
-        <Typography variant="h1">{t("deleted.heading")}</Typography>
-      </Box>
-      <Box></Box>
-      <ComingSoon />
-    </Grid>
+    <MyTicketPage
+      useGetQuery={getTickets}
+      isLoading={isLoading}
+      isSuccess={isSuccess}
+    />
   );
 };
 

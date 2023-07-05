@@ -1,21 +1,24 @@
 import { FC } from "react";
-import { useTranslation } from "react-i18next";
 
-import { Box, Grid, Typography } from "@mui/material";
+import { MyTicketPage } from "../MyTicketPage";
 
-import { ComingSoon } from "../../components/ComingSoon";
+import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
+import { useJwtDecode } from "../../shared/hooks";
 
 const Sent: FC = () => {
-  const { t } = useTranslation();
+  const [getTickets, { isLoading, isSuccess }] = useGetTicketsMutation();
+
+  const jwt = useJwtDecode();
+  const userId: boolean | number = jwt && JSON.parse(jwt.sub)?.user_id;
 
   return (
-    <Grid container>
-      <Box>
-        <Typography variant="h1">{t("sent.heading")}</Typography>
-      </Box>
-      <Box></Box>
-      <ComingSoon />
-    </Grid>
+    <MyTicketPage
+      useGetQuery={getTickets}
+      isLoading={isLoading}
+      isSuccess={isSuccess}
+      option={"tickets"}
+      userId={userId}
+    />
   );
 };
 
