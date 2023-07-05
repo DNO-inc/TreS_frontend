@@ -1,8 +1,6 @@
 import { FC } from "react";
 
-import { Snackbar, useTheme } from "@mui/material";
-
-import IPalette from "../../theme/IPalette.interface";
+import { Snackbar } from "@mui/material";
 
 interface SnackbarNotificationProps {
   variant: any;
@@ -12,14 +10,11 @@ interface SnackbarNotificationProps {
 }
 
 const SnackbarNotification: FC<SnackbarNotificationProps> = ({
-  variant,
+  // variant,
   open,
   handleClose,
   transition,
 }) => {
-  const { palette }: IPalette = useTheme();
-  // debugger;
-
   return (
     <Snackbar
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
