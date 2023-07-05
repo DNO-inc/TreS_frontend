@@ -7,6 +7,7 @@ import { Divider, Grid, useTheme } from "@mui/material";
 import { TicketHeader } from "./components/TicketHeader";
 import { TicketBody } from "./components/TicketBody";
 import { TicketActions } from "./components/TicketActions";
+import { SnackbarNotification } from "../SnackbarNotification";
 
 import { formatDate, checkStatus } from "../../shared/functions";
 import {
@@ -17,6 +18,8 @@ import { endpoints } from "../../constants";
 import { useCheckScope } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 
+import { Slide, SlideProps } from "@mui/material";
+
 interface TicketProps {
   ticket: ITicket;
   ticketsPerRow: number;
@@ -25,6 +28,32 @@ interface TicketProps {
 
 const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   const { palette }: IPalette = useTheme();
+
+  ////////////////////////////////////////
+  type TransitionProps = Omit<SlideProps, "direction">;
+
+  function TransitionRight(props: TransitionProps) {
+    return <Slide {...props} direction="left" />;
+  }
+
+  const [open, setOpen] = useState(false);
+  const [transition, setTransition] = useState<
+    React.ComponentType<TransitionProps> | undefined
+  >(undefined);
+
+  const handleSnackbarClick = (
+    Transition: React.ComponentType<TransitionProps>
+  ) => {
+    setTransition(() => Transition);
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+    }, 3000);
+  };
+
+  const handleClose = () => {};
+
+  ////////////////////////////////////////
 
   const [isLiked, setIsLiked] = useState<boolean>(ticket.is_liked);
   const [upvotes, setUpvotes] = useState<number>(ticket.upvotes);
@@ -46,6 +75,8 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
 
   const handleToggleReported = (): void => {
     setIsReported(prevIsReported => !prevIsReported);
+
+    handleSnackbarClick(TransitionRight);
   };
 
   const handleToggleLike = (): void => {
@@ -59,6 +90,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
     setUpvotes((prevUpvote: number) =>
       option === "like" ? prevUpvote + 1 : prevUpvote - 1
     );
+
     setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
   };
 
@@ -142,6 +174,12 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
           handleToggleBookmark={handleToggleBookmark}
           handleToggleReported={handleToggleReported}
           formattedDate={formattedDate}
+        />
+        <SnackbarNotification
+          variant={"like"}
+          open={open}
+          handleClose={handleClose}
+          transition={transition}
         />
       </Grid>
     </Card>

@@ -15,7 +15,7 @@ import {
 
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 import { formatDate, checkStatus } from "../../shared/functions";
 import { endpoints } from "../../constants";
@@ -25,9 +25,16 @@ import IPalette from "../../theme/IPalette.interface";
 interface TicketRowProps {
   ticket: ITicket;
   isAuth: boolean;
+  isCanDelete: boolean;
+  handleDelete: ((ticketId: number) => void) | null;
 }
 
-const TicketRow: FC<TicketRowProps> = ({ ticket, isAuth }) => {
+const TicketRow: FC<TicketRowProps> = ({
+  ticket,
+  isAuth,
+  isCanDelete,
+  handleDelete,
+}) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
   const navigate = useNavigate();
@@ -79,7 +86,7 @@ const TicketRow: FC<TicketRowProps> = ({ ticket, isAuth }) => {
     >
       <Grid
         sx={{
-          width: "calc(100% - 40px)",
+          width: `calc(100% ${isCanDelete ? "- 40px" : ""} )`,
 
           cursor: "pointer",
         }}
@@ -187,16 +194,19 @@ const TicketRow: FC<TicketRowProps> = ({ ticket, isAuth }) => {
           </Typography>
         </Box>
       </Grid>
-      <Button
-        color="inherit"
-        sx={{
-          color: palette.common.white,
-          p: 0,
-          minWidth: 32,
-        }}
-      >
-        <MoreVertIcon />
-      </Button>
+      {isCanDelete && (
+        <Button
+          color="inherit"
+          onClick={() => handleDelete && handleDelete(ticket.ticket_id)}
+          sx={{
+            color: palette.common.white,
+            p: 0,
+            minWidth: 32,
+          }}
+        >
+          <DeleteForeverIcon />
+        </Button>
+      )}
     </Grid>
   );
 };

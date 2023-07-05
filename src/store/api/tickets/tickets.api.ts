@@ -79,6 +79,17 @@ export const ticketsApi = api.injectEndpoints({
         body,
       }),
     }),
+    deleteTicket: builder.mutation({
+      query: ({ body }) => ({
+        url: "/tickets/delete",
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+        },
+        body,
+      }),
+    }),
   }),
 });
 
@@ -90,4 +101,5 @@ export const {
   useShowTicketMutation,
   useToggleLikeMutation,
   useToggleBookmarkMutation,
+  useDeleteTicketMutation,
 } = ticketsApi;
