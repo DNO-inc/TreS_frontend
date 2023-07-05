@@ -1,6 +1,6 @@
 import { useEffect, useState, FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import {
   BaseQueryFn,
   FetchArgs,
@@ -20,6 +20,7 @@ import { TicketRow } from "../../components/TicketRow/TicketRow";
 
 import { useJwtDecode } from "../../shared/hooks";
 import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
+import { useDeleteTicketMutation } from "../../store/api/tickets/tickets.api";
 
 interface MyTicketPageProps {
   useGetQuery: MutationTrigger<
@@ -39,6 +40,8 @@ interface MyTicketPageProps {
   >;
   isLoading: boolean;
   isSuccess: boolean;
+  option?: string;
+  userId?: boolean | number;
 }
 
 interface MyTicketPageInfo {
@@ -53,8 +56,11 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   useGetQuery,
   isLoading,
   isSuccess,
+  option,
+  userId,
 }) => {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [totalPage, setTotalPage] = useState<number>(1);
@@ -63,10 +69,13 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   const jwt = useJwtDecode();
   const faculties = useGetFacultiesQuery({});
   const statuses = useGetStatusesQuery({});
+  const [deleteTicket, { isSuccess: isDeleteSuccess }] =
+    useDeleteTicketMutation();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
+  const isSentPage = pathname === "/sent";
 
   const requestBody = useMemo(() => {
     const matchingStatusesId = [];
@@ -97,24 +106,42 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
       }
     }
 
-    return {
+    const data: {
+      creator?: number | boolean | undefined;
+      start_page: number;
+      faculty: number | null;
+      status: number[];
+    } = {
       start_page: currentPage,
       faculty: facultyId,
       status: matchingStatusesId,
     };
+
+    if (option) {
+      data.creator = userId;
+    }
+
+    return data;
   }, [currentPage, facultyId, searchParams, statuses.isSuccess]);
 
   useEffect(() => {
-    useGetQuery({
-      option: "bookmarked",
+    const requestProps: { body: string; option?: string } = {
       body: JSON.stringify(requestBody),
-    }).then((res: MyTicketPageInfo): void | PromiseLike<void> => {
-      if (res.data) {
-        setTickets(res.data.ticket_list);
-        setTotalPage(res.data.total_pages);
+    };
+
+    if (option) {
+      requestProps.option = option;
+    }
+
+    useGetQuery(requestProps).then(
+      (res: MyTicketPageInfo): void | PromiseLike<void> => {
+        if (res.data) {
+          setTickets(res.data.ticket_list);
+          setTotalPage(res.data.total_pages);
+        }
       }
-    });
-  }, [searchParams, requestBody]);
+    );
+  }, [searchParams, requestBody, isDeleteSuccess]);
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -128,11 +155,15 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
     setSearchParams(params);
   };
 
+  const handleDelete = (ticketId: number): void => {
+    deleteTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
+  };
+
   return (
     <Grid container flexDirection={"column"}>
       <Box>
         <Typography variant="h1">{t("bookmarks.heading")}</Typography>
-        <FilterPanel />
+        <FilterPanel isAllStatuses={isSentPage || pathname === "/deleted"} />
       </Box>
       <Box>
         {isLoading && <Loader />}
@@ -151,16 +182,20 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
                     <TicketRow
                       ticket={ticket}
                       isAuth={!!jwt}
+                      isCanDelete={isSentPage}
+                      handleDelete={isSentPage ? handleDelete : null}
                       key={ticket.ticket_id}
                     />
                   );
                 })}
               </FormGroup>
-              <CustomPagination
-                total={totalPage}
-                current={currentPage}
-                onChange={handlePageChange}
-              />
+              {totalPage > 1 && (
+                <CustomPagination
+                  total={totalPage}
+                  current={currentPage}
+                  onChange={handlePageChange}
+                />
+              )}
             </>
           ) : (
             <Typography variant="h1" mt={6}>

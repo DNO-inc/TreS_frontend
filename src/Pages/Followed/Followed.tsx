@@ -12,6 +12,7 @@ const Followed: FC = () => {
       useGetQuery={getTickets}
       isLoading={isLoading}
       isSuccess={isSuccess}
+      option={"liked"}
     />
   );
 };

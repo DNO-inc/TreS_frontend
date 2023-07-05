@@ -33,7 +33,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   type TransitionProps = Omit<SlideProps, "direction">;
 
   function TransitionRight(props: TransitionProps) {
-    return <Slide {...props} direction="right" />;
+    return <Slide {...props} direction="left" />;
   }
 
   const [open, setOpen] = useState(false);
@@ -46,11 +46,12 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   ) => {
     setTransition(() => Transition);
     setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+    }, 3000);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => {};
 
   ////////////////////////////////////////
 

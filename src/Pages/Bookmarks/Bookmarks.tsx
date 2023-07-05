@@ -12,6 +12,7 @@ const Bookmarks: FC = () => {
       useGetQuery={getTickets}
       isLoading={isLoading}
       isSuccess={isSuccess}
+      option={"bookmarked"}
     />
   );
 };

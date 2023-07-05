@@ -1,9 +1,14 @@
-import { Slide, SlideProps, Snackbar, useTheme } from "@mui/material";
+import { FC } from "react";
+
+import { Snackbar, useTheme } from "@mui/material";
+
 import IPalette from "../../theme/IPalette.interface";
-import { FC, useState } from "react";
 
 interface SnackbarNotificationProps {
-  children: any;
+  variant: any;
+  open: any;
+  handleClose: any;
+  transition: any;
 }
 
 const SnackbarNotification: FC<SnackbarNotificationProps> = ({
@@ -17,10 +22,11 @@ const SnackbarNotification: FC<SnackbarNotificationProps> = ({
 
   return (
     <Snackbar
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       open={open}
       onClose={handleClose}
       TransitionComponent={transition}
-      message="I love snacks"
+      message="Version 2.0"
       key={transition ? transition.name : ""}
     />
   );
