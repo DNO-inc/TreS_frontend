@@ -1,7 +1,11 @@
 import { ReactElement, FC } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Box, Grid, Tooltip, Typography, useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
 

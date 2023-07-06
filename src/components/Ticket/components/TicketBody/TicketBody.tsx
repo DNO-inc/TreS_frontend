@@ -1,7 +1,11 @@
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
 
-import { Avatar, Box, Grid, Tooltip, Typography } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 
 import { endpoints } from "../../../../constants";
 

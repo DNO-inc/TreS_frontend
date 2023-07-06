@@ -2,7 +2,9 @@ import { useEffect, useState, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 
-import { Grid, Typography, useTheme } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { QueueSelect } from "./components/QueueSelect";
 import { TicketTitleInput } from "./components/TicketTitleInput";

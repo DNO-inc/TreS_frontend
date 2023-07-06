@@ -2,7 +2,9 @@ import { ChangeEvent, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
-import { Box, Checkbox, FormControlLabel } from "@mui/material";
+import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 import { VerticalDivider } from "../../../VerticalDivider";
 

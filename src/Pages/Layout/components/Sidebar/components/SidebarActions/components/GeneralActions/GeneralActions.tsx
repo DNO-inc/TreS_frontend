@@ -1,16 +1,14 @@
-import { useEffect, useState, FC, Dispatch, SetStateAction } from "react";
+import { useEffect, useState, FC, Dispatch, SetStateAction, lazy } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Badge,
-  IconButton,
-} from "@mui/material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Badge from "@mui/material/Badge";
+import IconButton from "@mui/material/IconButton";
 
 import SourceOutlinedIcon from "@mui/icons-material/SourceOutlined";
 import SourceRoundedIcon from "@mui/icons-material/SourceRounded";
@@ -23,9 +21,9 @@ import GridViewSharpIcon from "@mui/icons-material/GridViewSharp";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-import { NestedList } from "./components/NestedList";
-
 import { endpoints } from "../../../../../../../../constants";
+
+const NestedList = lazy(() => import("./components/NestedList"));
 
 interface GeneralActionsProps {
   isAuth: boolean;

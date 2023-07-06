@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
-import { Grid, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 const Loader = () => {
   const { t } = useTranslation();

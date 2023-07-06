@@ -1,8 +1,10 @@
 import { MouseEvent, useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
 
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { Divider, Grid, useTheme } from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { TicketHeader } from "./components/TicketHeader";
 import { TicketBody } from "./components/TicketBody";

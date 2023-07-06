@@ -2,7 +2,11 @@ import { useEffect, useState, FC } from "react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { Button, Grid, Divider, useTheme } from "@mui/material";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
+import Box from "@mui/material/Box";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { GeneralActions } from "./components/GeneralActions";
 import { AdditionActions } from "./components/AdditionActions";
@@ -38,7 +42,7 @@ const SidebarActions: FC = () => {
       flexWrap={"nowrap"}
       padding={" 0px 12px 16px"}
     >
-      <Grid flex={"1 0 auto"}>
+      <Box flex={"1 0 auto"}>
         <GeneralActions
           isAuth={!!jwt}
           selectedKey={selectedKey}
@@ -50,8 +54,8 @@ const SidebarActions: FC = () => {
           selectedKey={selectedKey}
           setSelectedKey={setSelectedKey}
         />
-      </Grid>
-      <Grid
+      </Box>
+      <Box
         sx={{
           display: "flex",
           alignItems: "center",
@@ -86,7 +90,7 @@ const SidebarActions: FC = () => {
         >
           UA
         </Button>
-      </Grid>
+      </Box>
     </Grid>
   );
 };

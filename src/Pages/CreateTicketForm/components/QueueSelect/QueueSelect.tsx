@@ -2,17 +2,15 @@ import { useEffect, useState, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
-import {
-  Box,
-  FormControl,
-  ListItemText,
-  ListSubheader,
-  MenuItem,
-  Select,
-  Typography,
-  useTheme,
-  SelectChangeEvent,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from "@mui/material/ListSubheader";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import Typography from "@mui/material/Typography";
+import { SelectChangeEvent } from "@mui/material/Select";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { Loader } from "../../../../components/Loader";
 

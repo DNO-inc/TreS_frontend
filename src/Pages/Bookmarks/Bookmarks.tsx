@@ -9,6 +9,7 @@ const Bookmarks: FC = () => {
 
   return (
     <MyTicketPage
+      title={"bookmarks"}
       useGetQuery={getTickets}
       isLoading={isLoading}
       isSuccess={isSuccess}

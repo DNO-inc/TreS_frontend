@@ -1,6 +1,9 @@
 import { useState, FC, MouseEvent } from "react";
 
-import { Menu, MenuItem, useTheme, PopoverVirtualElement } from "@mui/material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { PopoverVirtualElement } from "@mui/material/Popover";
+import useTheme from "@mui/material/styles/useTheme";
 
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";

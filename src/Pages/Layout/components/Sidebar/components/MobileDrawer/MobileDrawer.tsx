@@ -1,24 +1,22 @@
 import { FC } from "react";
 
-import {
-  Drawer,
-  Avatar,
-  Grid,
-  Toolbar,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import Drawer from "@mui/material/Drawer";
+import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { EllipsisMenu } from "../EllipsisMenu";
 import { SidebarActions } from "../SidebarActions";
 
 import Logo from "../../../../../../assets/Logomark.svg";
 import IPalette from "../../../../../../theme/IPalette.interface";
+import { dimensions } from "../../../../../../constants";
 
 interface MobileDrawerProps {
   container: (() => HTMLElement) | undefined;
   mobileOpen: boolean;
-  drawerWidth: number;
   handleDrawerToggle: () => void;
 }
 
@@ -26,9 +24,9 @@ const MobileDrawer: FC<MobileDrawerProps> = ({
   container,
   mobileOpen,
   handleDrawerToggle,
-  drawerWidth,
 }) => {
   const { palette }: IPalette = useTheme();
+  const drawerWidth = dimensions.drawerWidth;
 
   return (
     <Drawer
@@ -68,7 +66,7 @@ const MobileDrawer: FC<MobileDrawerProps> = ({
       >
         <Grid container justifyContent={"space-between"}>
           <Grid display={"flex"} flexDirection={"row"} alignItems={"center"}>
-            <Avatar alt="Logo" src={Logo} sx={{ width: 40, height: 40 }} />
+            <Avatar alt="Logo" src={Logo} sizes="40" />
             <Typography
               sx={{
                 ml: 1,

@@ -1,46 +1,39 @@
 import { FC, Dispatch, SetStateAction } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import {
-  AppBar,
-  Box,
-  Button,
-  IconButton,
-  Toolbar,
-  useTheme,
-} from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import useTheme from "@mui/material/styles/useTheme";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { AuthZone } from "./components/AuthZone";
 
-import { endpoints } from "../../../../constants";
+import { dimensions, endpoints } from "../../../../constants";
 import IPalette from "../../../../theme/IPalette.interface";
 
 interface HeaderProps {
   isAuth: boolean;
   setIsAuth: Dispatch<SetStateAction<boolean>>;
-  drawerWidth: number;
   handleDrawerToggle: () => void;
 }
 
-const Header: FC<HeaderProps> = ({
-  isAuth,
-  setIsAuth,
-  drawerWidth,
-  handleDrawerToggle,
-}) => {
+const Header: FC<HeaderProps> = ({ isAuth, setIsAuth, handleDrawerToggle }) => {
   const { palette }: IPalette = useTheme();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { ticketId } = useParams();
 
-  const isFullTicketInfo: boolean =
-    pathname.includes("tickets") && ticketId !== undefined;
+  const drawerWidth = dimensions.drawerWidth;
+
+  const isFullTicketInfo: boolean = !!ticketId;
   const isCreateTicket: boolean = pathname === endpoints.createTicket;
 
-  const isNeedStepBack: boolean = isFullTicketInfo || isCreateTicket;
+  const isDrawStepBackAction: boolean = isFullTicketInfo || isCreateTicket;
 
   const handleClick = (): void => {
     navigate(-1);
@@ -78,7 +71,7 @@ const Header: FC<HeaderProps> = ({
         >
           <MenuIcon />
         </IconButton>
-        {isNeedStepBack && (
+        {isDrawStepBackAction && (
           <Box
             sx={{
               position: "absolute",

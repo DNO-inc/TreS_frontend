@@ -1,8 +1,11 @@
 import { FC, Dispatch, SetStateAction, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { Avatar, Button, ListItem, Tooltip, Typography } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import Box from "@mui/material/Box";
 
 import { VerticalDivider } from "../../../../../../../../components/VerticalDivider";
 
@@ -32,29 +35,31 @@ const AuthActions: FC<AuthActionsProps> = ({ isAuth, setIsAuth }) => {
   };
 
   return (
-    <ListItem key={"Log out"} sx={{ display: "flex", gap: 2 }}>
-      <Typography>{userName}</Typography>
-      <NavLink to={`${endpoints.profile}/${userId}`}>
-        <Tooltip
-          title={
-            <Button sx={{ color: "#ffffff" }} onClick={handleLogOut}>
-              log out
-            </Button>
-          }
-        >
-          <Avatar alt="Avatar" src={Logo} sizes="40" sx={{ mr: 1 }} />
-        </Tooltip>
-      </NavLink>
+    <>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <span>{userName}</span>
+        <Link to={`${endpoints.profile}/${userId}`}>
+          <Tooltip
+            title={
+              <Button sx={{ color: "#ffffff" }} onClick={handleLogOut}>
+                log out
+              </Button>
+            }
+          >
+            <Avatar alt="Avatar" src={Logo} sizes="40" />
+          </Tooltip>
+        </Link>
+      </Box>
       <VerticalDivider />
-      <NavLink to={endpoints.createTicket}>
+      <Link to={endpoints.createTicket}>
         <Button
           variant={"contained"}
           sx={{ fontSize: 14, textTransform: "none" }}
         >
           {t("common.createButton")}
         </Button>
-      </NavLink>
-    </ListItem>
+      </Link>
+    </>
   );
 };
 

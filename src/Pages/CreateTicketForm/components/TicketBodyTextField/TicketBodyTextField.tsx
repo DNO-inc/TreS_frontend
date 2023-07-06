@@ -2,7 +2,10 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { UseFormRegister } from "react-hook-form";
 
-import { Box, TextField, Typography, useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
 

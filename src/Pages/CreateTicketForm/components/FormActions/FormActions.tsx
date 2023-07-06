@@ -1,7 +1,9 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Button, Grid, useTheme } from "@mui/material";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
 

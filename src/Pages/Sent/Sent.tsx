@@ -13,6 +13,7 @@ const Sent: FC = () => {
 
   return (
     <MyTicketPage
+      title={"sent"}
       useGetQuery={getTickets}
       isLoading={isLoading}
       isSuccess={isSuccess}
