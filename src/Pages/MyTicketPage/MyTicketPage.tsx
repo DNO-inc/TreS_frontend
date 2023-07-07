@@ -11,7 +11,10 @@ import {
 import { SerializedError } from "@reduxjs/toolkit";
 import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 
-import { Box, Grid, Typography, FormGroup } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import FormGroup from "@mui/material/FormGroup";
 
 import { Loader } from "../../components/Loader";
 import { FilterPanel } from "../../components/FilterPanel";
@@ -21,8 +24,10 @@ import { TicketRow } from "../../components/TicketRow/TicketRow";
 import { useJwtDecode } from "../../shared/hooks";
 import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
 import { useDeleteTicketMutation } from "../../store/api/tickets/tickets.api";
+import { ITicket } from "../../components/Ticket/ticket.interface";
 
 interface MyTicketPageProps {
+  title: string;
   useGetQuery: MutationTrigger<
     MutationDefinition<
       any,
@@ -53,13 +58,14 @@ interface MyTicketPageInfo {
 }
 
 const MyTicketPage: FC<MyTicketPageProps> = ({
+  title,
   useGetQuery,
   isLoading,
   isSuccess,
   option,
   userId,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
@@ -72,7 +78,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   const [deleteTicket, { isSuccess: isDeleteSuccess }] =
     useDeleteTicketMutation();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
   const isSentPage = pathname === "/sent";
@@ -143,26 +149,14 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
     );
   }, [searchParams, requestBody, isDeleteSuccess]);
 
-  const handlePageChange = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (params.has("current_page")) {
-      params.set("current_page", page.toString());
-    } else {
-      params.append("current_page", page.toString());
-    }
-
-    setSearchParams(params);
-  };
-
-  const handleDelete = (ticketId: number): void => {
-    deleteTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
+  const handleDelete = (ticketIdList: number[]): void => {
+    deleteTicket({ body: JSON.stringify({ ticket_id_list: ticketIdList }) });
   };
 
   return (
     <Grid container flexDirection={"column"}>
       <Box>
-        <Typography variant="h1">{t("bookmarks.heading")}</Typography>
+        <Typography variant="h1">{t(`${title}.heading`)}</Typography>
         <FilterPanel isAllStatuses={isSentPage || pathname === "/deleted"} />
       </Box>
       <Box>
@@ -182,6 +176,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
                     <TicketRow
                       ticket={ticket}
                       isAuth={!!jwt}
+                      lang={i18n.language}
                       isCanDelete={isSentPage}
                       handleDelete={isSentPage ? handleDelete : null}
                       key={ticket.ticket_id}
@@ -190,11 +185,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
                 })}
               </FormGroup>
               {totalPage > 1 && (
-                <CustomPagination
-                  total={totalPage}
-                  current={currentPage}
-                  onChange={handlePageChange}
-                />
+                <CustomPagination total={totalPage} current={currentPage} />
               )}
             </>
           ) : (

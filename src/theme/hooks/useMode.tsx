@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 
-import { createTheme, Theme } from "@mui/material";
+import createTheme from "@mui/material/styles/createTheme";
+import { Theme } from "@mui/material/styles";
 
 import { themeSettings } from "../index";
 

@@ -1,7 +1,8 @@
 import { useState, FC, Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Box, Button, ListItem } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 import { LogInModal } from "../../../../../../../../components/LogInModal";
 
@@ -18,8 +19,8 @@ const NoAuthActions: FC<NoAuthActionsProps> = ({ setIsAuth }) => {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <ListItem key={"Log In"}>
+    <>
+      <Box>
         <Button
           variant="contained"
           onClick={handleLogIn}
@@ -27,7 +28,7 @@ const NoAuthActions: FC<NoAuthActionsProps> = ({ setIsAuth }) => {
         >
           {t("common.login")}
         </Button>
-      </ListItem>
+      </Box>
       {showLogIn && (
         <LogInModal
           open={showLogIn}
@@ -35,7 +36,7 @@ const NoAuthActions: FC<NoAuthActionsProps> = ({ setIsAuth }) => {
           setIsAuth={setIsAuth}
         />
       )}
-    </Box>
+    </>
   );
 };
 

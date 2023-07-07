@@ -1,6 +1,7 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 
-import { Box, Grid } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 import { FacultiesFilter } from "./components/FacultiesFilter";
 import { StatusCheckboxGroup } from "./components/StatusCheckboxGroup";
@@ -12,36 +13,34 @@ interface FilterPanelProps {
   isAllStatuses?: boolean;
 }
 
-const FilterPanel: FC<FilterPanelProps> = ({
-  ticketsPerRow = 1,
-  isOneColumn = true,
-  isAllStatuses = false,
-}) => {
-  return (
-    <Grid
-      container
-      sx={{
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <StatusCheckboxGroup isAllStatuses={isAllStatuses} />
+const FilterPanel: FC<FilterPanelProps> = memo(
+  ({ ticketsPerRow = 1, isOneColumn = true, isAllStatuses = false }) => {
+    return (
       <Grid
-        item
+        container
         sx={{
-          display: "flex",
-
-          "& > .MuiGrid-root > .MuiButton-root": { minWidth: 20 },
-          gap: 3,
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        {!isOneColumn && <ViewOptions ticketsPerRow={ticketsPerRow} />}
-        <Box>
-          <FacultiesFilter />
-        </Box>
+        <StatusCheckboxGroup isAllStatuses={isAllStatuses} />
+        <Grid
+          item
+          sx={{
+            display: "flex",
+
+            "& > .MuiGrid-root > .MuiButton-root": { minWidth: 20 },
+            gap: 3,
+          }}
+        >
+          {!isOneColumn && <ViewOptions ticketsPerRow={ticketsPerRow} />}
+          <Box>
+            <FacultiesFilter />
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
-  );
-};
+    );
+  }
+);
 
 export { FilterPanel };

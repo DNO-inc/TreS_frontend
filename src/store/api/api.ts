@@ -18,16 +18,6 @@ export const api = createApi({
     getStatuses: builder.query({
       query: () => "/meta/get_statuses",
     }),
-    // signup: builder.mutation({
-    //   query: ({ body }) => ({
-    //     url: "/registration/",
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body,
-    //   }),
-    // }),
     login: builder.mutation({
       query: ({ body }) => ({
         url: "/auth/password/login",

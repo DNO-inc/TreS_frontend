@@ -4,7 +4,10 @@ import { useSearchParams } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { SerializedError } from "@reduxjs/toolkit";
 
-import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { Ticket } from "../../components/Ticket/Ticket";
 import { Loader } from "../../components/Loader";
@@ -14,6 +17,7 @@ import { CustomPagination } from "../../components/CustomPagination";
 import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../shared/hooks";
 import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
+import { ITicket } from "../../components/Ticket/ticket.interface";
 
 interface GeneralTicketsPageInfo {
   data?: {
@@ -37,7 +41,7 @@ const GeneralTickets: FC = () => {
   const faculties = useGetFacultiesQuery({});
   const statuses = useGetStatusesQuery({});
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const ticketsPerRow: number = Number(searchParams.get("ticket_per_row")) || 2;
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
@@ -75,34 +79,23 @@ const GeneralTickets: FC = () => {
 
     return {
       start_page: currentPage,
-      tickets_count: 3 * ticketsPerRow,
+      items_count: 3 * ticketsPerRow,
       faculty: facultyId,
       status: matchingStatusesId,
     };
-  }, [currentPage, ticketsPerRow, facultyId, searchParams, statuses.isSuccess]);
+  }, [option, searchParams]);
 
   useEffect(() => {
-    geTickets({ option: option, body: JSON.stringify(requestBody) }).then(
-      (res: GeneralTicketsPageInfo): void | PromiseLike<void> => {
-        if (res.data) {
-          setTickets(res.data.ticket_list);
-          setTotalPage(res.data.total_pages);
-        }
+    geTickets({
+      option: option,
+      body: JSON.stringify(requestBody),
+    }).then((res: GeneralTicketsPageInfo): void | PromiseLike<void> => {
+      if (res.data) {
+        setTickets(res.data.ticket_list);
+        setTotalPage(res.data.total_pages);
       }
-    );
-  }, [option, searchParams, geTickets, requestBody]);
-
-  const handlePageChange = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (params.has("current_page")) {
-      params.set("current_page", page.toString());
-    } else {
-      params.append("current_page", page.toString());
-    }
-
-    setSearchParams(params);
-  };
+    });
+  }, [requestBody]);
 
   return (
     <Grid container flexDirection={"column"}>
@@ -134,11 +127,7 @@ const GeneralTickets: FC = () => {
                   );
                 })}
               </Grid>
-              <CustomPagination
-                total={totalPage}
-                current={currentPage}
-                onChange={handlePageChange}
-              />
+              <CustomPagination total={totalPage} current={currentPage} />
             </>
           ) : (
             <Typography variant="h1" mt={6}>
