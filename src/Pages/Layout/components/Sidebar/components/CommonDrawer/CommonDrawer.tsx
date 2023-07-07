@@ -1,26 +1,19 @@
 import { FC } from "react";
 
-import {
-  Drawer,
-  Avatar,
-  Grid,
-  Toolbar,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Drawer, Avatar, Grid, Toolbar, Typography } from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { SidebarActions } from "../SidebarActions";
 import { EllipsisMenu } from "../EllipsisMenu";
 
 import Logo from "../../../../../../assets/Logomark.svg";
 import IPalette from "../../../../../../theme/IPalette.interface";
+import { dimensions } from "../../../../../../constants";
 
-interface CommonDrawerProps {
-  drawerWidth: number;
-}
-
-const CommonDrawer: FC<CommonDrawerProps> = ({ drawerWidth }) => {
+const CommonDrawer: FC = () => {
   const { palette }: IPalette = useTheme();
+
+  const drawerWidth = dimensions.drawerWidth;
 
   return (
     <Drawer
@@ -61,7 +54,7 @@ const CommonDrawer: FC<CommonDrawerProps> = ({ drawerWidth }) => {
       >
         <Grid container justifyContent={"space-between"}>
           <Grid display={"flex"} flexDirection={"row"} alignItems={"center"}>
-            <Avatar alt="Logo" src={Logo} sx={{ width: 40, height: 40 }} />
+            <Avatar alt="Logo" src={Logo} sizes="40" />
             <Typography
               sx={{
                 ml: 1,

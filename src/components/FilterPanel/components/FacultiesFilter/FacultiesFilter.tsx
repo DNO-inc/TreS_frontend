@@ -2,14 +2,12 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
-import {
-  FormControl,
-  ListItemText,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  useTheme,
-} from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
+import FormControl from "@mui/material/FormControl";
+import ListItemText from "@mui/material/ListItemText";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import { useGetFacultiesQuery } from "../../../../store/api/api";
@@ -57,7 +55,6 @@ const FacultiesFilter: FC = () => {
             <MenuItem value="all">
               <ListItemText primary={t("generalTickets.facultyFilter")} />
             </MenuItem>
-
             {data.faculties_list.map((faculty: IFaculty) => {
               return (
                 <MenuItem value={faculty.name} key={faculty.faculty_id}>

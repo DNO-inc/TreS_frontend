@@ -9,6 +9,7 @@ const Followed: FC = () => {
 
   return (
     <MyTicketPage
+      title={"followed"}
       useGetQuery={getTickets}
       isLoading={isLoading}
       isSuccess={isSuccess}

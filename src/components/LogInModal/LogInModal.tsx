@@ -8,14 +8,12 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 
-import {
-  Button,
-  Grid,
-  Modal,
-  TextField,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
 import { useLoginMutation } from "../../store/api/api";
 import IPalette from "../../theme/IPalette.interface";

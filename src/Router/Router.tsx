@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, lazy } from "react";
+import { FC, useEffect, useState, lazy, Suspense } from "react";
 import {
   Route,
   Routes,
@@ -7,11 +7,12 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-import { Layout } from "../Pages/Layout";
+import { Loader } from "../components/Loader";
 
 import { endpoints } from "../constants";
 import { useJwtDecode } from "../shared/hooks";
 
+const Layout = lazy(() => import("../Pages/Layout"));
 const GeneralTickets = lazy(() => import("../Pages/GeneralTickets"));
 const Dashboard = lazy(() => import("../Pages/Dashboard"));
 const Sent = lazy(() => import("../Pages/Sent"));
@@ -48,7 +49,11 @@ const Router: FC = () => {
     <Routes>
       <Route
         path={endpoints.base}
-        element={<Layout isAuth={isAuth} setIsAuth={setIsAuth} />}
+        element={
+          <Suspense fallback={<Loader />}>
+            <Layout isAuth={isAuth} setIsAuth={setIsAuth} />
+          </Suspense>
+        }
       >
         <Route index element={<GeneralTickets />} />
         <Route

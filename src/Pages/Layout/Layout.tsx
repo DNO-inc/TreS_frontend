@@ -1,41 +1,41 @@
 import { Dispatch, SetStateAction, useState, FC, Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
-import { Box, Grid, useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
 
 import IPalette from "../../theme/IPalette.interface";
 import { Loader } from "../../components/Loader";
+import { dimensions } from "../../constants";
 
 interface LayoutProps {
   isAuth: boolean;
   setIsAuth: Dispatch<SetStateAction<boolean>>;
 }
 
-const drawerWidth = 300;
-
 const Layout: FC<LayoutProps> = ({ isAuth, setIsAuth }) => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const { palette }: IPalette = useTheme();
+
+  const drawerWidth = dimensions.drawerWidth;
 
   const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen);
   };
 
   return (
-    <Grid sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }}>
       <Header
         isAuth={isAuth}
         setIsAuth={setIsAuth}
-        drawerWidth={drawerWidth}
         handleDrawerToggle={handleDrawerToggle}
       />
 
       <Sidebar
         mobileOpen={mobileOpen}
-        drawerWidth={drawerWidth}
         handleDrawerToggle={handleDrawerToggle}
       />
       <Box
@@ -67,7 +67,7 @@ const Layout: FC<LayoutProps> = ({ isAuth, setIsAuth }) => {
           <Outlet />
         </Suspense>
       </Box>
-    </Grid>
+    </Box>
   );
 };
 

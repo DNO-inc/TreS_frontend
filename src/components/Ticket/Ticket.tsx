@@ -1,8 +1,10 @@
 import { MouseEvent, useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
 
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { Divider, Grid, useTheme } from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { TicketHeader } from "./components/TicketHeader";
 import { TicketBody } from "./components/TicketBody";
@@ -19,6 +21,7 @@ import { useCheckScope } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 
 import { Slide, SlideProps } from "@mui/material";
+import { ITicket } from "./ticket.interface";
 
 interface TicketProps {
   ticket: ITicket;
@@ -71,7 +74,6 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
     useCheckScope(ticket.queue.scope);
   const formattedDate: string = ticket?.date && formatDate(ticket.date);
-  const userId: number | null = ticket.creator?.user_id;
 
   const handleToggleReported = (): void => {
     setIsReported(prevIsReported => !prevIsReported);
@@ -149,6 +151,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
         }}
       >
         <TicketHeader
+          isAuth={isAuth}
           icon={icon}
           tooltipText={tooltipText}
           color={color}
@@ -159,7 +162,6 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
         <Divider />
         <TicketBody
           body={ticket.body}
-          userId={userId}
           creator={ticket.creator}
           faculty={ticket.faculty.name}
         />

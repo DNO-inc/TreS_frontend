@@ -1,20 +1,35 @@
 import { ReactElement, FC } from "react";
 import { useTranslation } from "react-i18next";
+import { NavLink } from "react-router-dom";
 
-import { Box, Grid, Tooltip, Typography, useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
+import { endpoints } from "../../../../constants";
 
 interface TicketHeaderProps {
+  isAuth: boolean;
   icon: ReactElement;
   color: string;
   tooltipText: string;
   subject: string;
   status: string;
-  assignee: string | null;
+  assignee: {
+    faculty: { faculty_id: number; name: string };
+    firstname: string;
+    group: { group_id: number; name: string };
+    lastname: string;
+    login: string;
+    user_id: number;
+  };
 }
 
 const TicketHeader: FC<TicketHeaderProps> = ({
+  isAuth,
   icon,
   color,
   tooltipText,
@@ -24,6 +39,7 @@ const TicketHeader: FC<TicketHeaderProps> = ({
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
+  const assigneeId = assignee?.user_id;
 
   return (
     <Box maxHeight={80}>
@@ -69,7 +85,30 @@ const TicketHeader: FC<TicketHeaderProps> = ({
         </Grid>
       </Grid>
       <Typography color={palette.whiteAlpha.default}>
-        {assignee ? assignee : t("common.noAssignee")}
+        {assignee ? (
+          isAuth ? (
+            <NavLink
+              to={assigneeId ? `${endpoints.profile}/${assigneeId}` : ""}
+              style={{ cursor: assigneeId ? "pointer" : "default" }}
+            >
+              <Typography color="text.secondary" className="evadeItem">
+                {assignee?.firstname && assignee.lastname
+                  ? `${assignee.firstname} ${assignee.lastname}`
+                  : t("common.noAssignee")}
+              </Typography>
+            </NavLink>
+          ) : (
+            <Typography color="text.secondary" className="evadeItem">
+              {assignee?.firstname && assignee.lastname
+                ? `${assignee.firstname} ${assignee.lastname}`
+                : t("common.noAssignee")}
+            </Typography>
+          )
+        ) : (
+          <Typography color="text.secondary" className="evadeItem">
+            @anonymous
+          </Typography>
+        )}
       </Typography>
     </Box>
   );

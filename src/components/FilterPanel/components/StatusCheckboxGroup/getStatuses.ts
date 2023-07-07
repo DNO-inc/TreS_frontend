@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useTheme } from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
 
@@ -49,6 +49,12 @@ export const useGetStatusesFullObject = (
         query: "close",
         label: t("statusesFilter.close"),
         color: palette.semantic.success,
+      },
+      {
+        id: 4,
+        query: "rejected",
+        label: t("statusesFilter.rejected"),
+        color: palette.semantic.error,
       },
     ].map(status => ({
       ...status,
@@ -103,7 +109,7 @@ export const useGetStatusesFullObject = (
 
 export const useGetStatusesName = (isAllStatuses: boolean): string[] => {
   if (!isAllStatuses) {
-    return ["accepted", "open", "waiting", "close"];
+    return ["accepted", "open", "waiting", "close", "rejected"];
   }
 
   return ["accepted", "open", "waiting", "close", "new", "rejected"];

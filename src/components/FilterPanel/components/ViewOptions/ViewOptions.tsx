@@ -1,7 +1,9 @@
 import { FC } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { Button, Grid, useTheme } from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 
 import ViewAgendaIcon from "@mui/icons-material/ViewAgenda";
 import ViewAgendaOutlinedIcon from "@mui/icons-material/ViewAgendaOutlined";

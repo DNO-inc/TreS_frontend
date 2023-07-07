@@ -9,6 +9,7 @@ const Deleted: FC = () => {
 
   return (
     <MyTicketPage
+      title={"deleted"}
       useGetQuery={getTickets}
       isLoading={isLoading}
       isSuccess={isSuccess}

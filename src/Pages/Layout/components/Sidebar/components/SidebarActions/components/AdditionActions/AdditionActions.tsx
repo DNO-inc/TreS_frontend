@@ -2,14 +2,12 @@ import { useEffect, useState, FC } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  useTheme,
-} from "@mui/material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import useTheme from "@mui/material/styles/useTheme";
 // import styled from "@emotion/styled";
 
 // import LightModeIcon from "@mui/icons-material/LightMode";
