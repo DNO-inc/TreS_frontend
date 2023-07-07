@@ -24,6 +24,7 @@ import { TicketRow } from "../../components/TicketRow/TicketRow";
 import { useJwtDecode } from "../../shared/hooks";
 import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
 import { useDeleteTicketMutation } from "../../store/api/tickets/tickets.api";
+import { ITicket } from "../../components/Ticket/ticket.interface";
 
 interface MyTicketPageProps {
   title: string;
@@ -64,7 +65,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   option,
   userId,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
@@ -77,7 +78,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   const [deleteTicket, { isSuccess: isDeleteSuccess }] =
     useDeleteTicketMutation();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
   const isSentPage = pathname === "/sent";
@@ -148,8 +149,8 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
     );
   }, [searchParams, requestBody, isDeleteSuccess]);
 
-  const handleDelete = (ticketId: number): void => {
-    deleteTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
+  const handleDelete = (ticketIdList: number[]): void => {
+    deleteTicket({ body: JSON.stringify({ ticket_id_list: ticketIdList }) });
   };
 
   return (
@@ -175,6 +176,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
                     <TicketRow
                       ticket={ticket}
                       isAuth={!!jwt}
+                      lang={i18n.language}
                       isCanDelete={isSentPage}
                       handleDelete={isSentPage ? handleDelete : null}
                       key={ticket.ticket_id}

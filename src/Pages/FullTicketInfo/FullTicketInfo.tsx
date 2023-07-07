@@ -128,10 +128,14 @@ const FullTicketInfo: FC = () => {
               <Grid>
                 <Typography>{t("fullTicket.author")}</Typography>
                 <NavLink
-                  to={`${endpoints.profile}/${ticket.creator.user_id}`}
+                  to={
+                    !ticket.creator
+                      ? ""
+                      : `${endpoints.profile}/${ticket.creator.user_id}`
+                  }
                   style={{ color: palette.semantic.info }}
                 >
-                  @{ticket.creator.login}
+                  @{!ticket.creator ? "anonymous" : ticket.creator.login}
                 </NavLink>
               </Grid>
               <Grid>

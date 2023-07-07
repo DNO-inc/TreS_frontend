@@ -17,6 +17,7 @@ import { CustomPagination } from "../../components/CustomPagination";
 import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../shared/hooks";
 import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
+import { ITicket } from "../../components/Ticket/ticket.interface";
 
 interface GeneralTicketsPageInfo {
   data?: {
@@ -78,7 +79,7 @@ const GeneralTickets: FC = () => {
 
     return {
       start_page: currentPage,
-      tickets_count: 3 * ticketsPerRow,
+      items_count: 3 * ticketsPerRow,
       faculty: facultyId,
       status: matchingStatusesId,
     };

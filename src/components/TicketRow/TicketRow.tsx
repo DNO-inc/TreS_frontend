@@ -19,17 +19,20 @@ import { formatDate, checkStatus } from "../../shared/functions";
 import { endpoints } from "../../constants";
 import { useCheckScope } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
+import { ITicket } from "./ticket.interface";
 
 interface TicketRowProps {
   ticket: ITicket;
   isAuth: boolean;
+  lang: string;
   isCanDelete: boolean;
-  handleDelete: ((ticketId: number) => void) | null;
+  handleDelete: ((ticketId: number[]) => void) | null;
 }
 
 const TicketRow: FC<TicketRowProps> = ({
   ticket,
   isAuth,
+  lang,
   isCanDelete,
   handleDelete,
 }) => {
@@ -95,7 +98,9 @@ const TicketRow: FC<TicketRowProps> = ({
             display: "grid",
             alignItems: "center",
             gridTemplateColumns:
-              "48px minmax(20px, 0.8fr) minmax(40px, 4fr) 90px 24px 40px 90px",
+              lang === "en"
+                ? "48px minmax(20px, 0.8fr) minmax(40px, 4fr) 90px 24px 40px 90px"
+                : "48px minmax(20px, 0.8fr) minmax(40px, 4fr) 130px 24px 40px 90px",
             gap: 2,
             borderLeft: `8px solid ${color}`,
             "& .MuiTypography-root": {
@@ -146,7 +151,7 @@ const TicketRow: FC<TicketRowProps> = ({
             sx={{
               textAlign: "center",
               lineHeight: "24px",
-              width: 90,
+              width: lang === "en" ? 90 : 130,
               p: "0px 12px",
               bgcolor: color,
               color:
@@ -195,7 +200,7 @@ const TicketRow: FC<TicketRowProps> = ({
       {isCanDelete && (
         <Button
           color="inherit"
-          onClick={() => handleDelete && handleDelete(ticket.ticket_id)}
+          onClick={() => handleDelete && handleDelete([ticket.ticket_id])}
           sx={{
             color: palette.common.white,
             p: 0,

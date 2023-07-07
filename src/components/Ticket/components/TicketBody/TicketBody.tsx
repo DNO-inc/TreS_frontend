@@ -8,10 +8,18 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 
 import { endpoints } from "../../../../constants";
+import { Creator } from "../../ticket.interface";
 
 interface TicketBodyProps extends Creator {
-  userId: number | null;
   body: string;
+  creator: {
+    faculty: { faculty_id: number; name: string };
+    firstname: string;
+    group?: { group_id: number; name: string } | undefined;
+    lastname: string;
+    login: string;
+    user_id: number | null;
+  };
   faculty: string;
 }
 
@@ -38,12 +46,9 @@ const ProfileTooltip: FC<Creator> = ({ creator }) => {
   );
 };
 
-const TicketBody: FC<TicketBodyProps> = ({
-  body,
-  userId,
-  creator,
-  faculty,
-}) => {
+const TicketBody: FC<TicketBodyProps> = ({ body, creator, faculty }) => {
+  const userId: number | null = creator?.user_id;
+
   return (
     <Grid
       display={"flex"}
@@ -66,16 +71,25 @@ const TicketBody: FC<TicketBodyProps> = ({
         </Typography>
       </Box>
       <Grid sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-        <NavLink
-          to={!userId ? "" : `${endpoints.profile}/${userId}`}
-          style={{ cursor: !userId ? "default" : "pointer" }}
-        >
-          <Tooltip title={<ProfileTooltip creator={creator} />} placement="top">
-            <Typography color="text.secondary" className="evadeItem">
-              {creator?.login ? `@${creator.login}` : "@anonymous"}
-            </Typography>
-          </Tooltip>
-        </NavLink>
+        {creator ? (
+          <NavLink
+            to={!userId ? "" : `${endpoints.profile}/${userId}`}
+            style={{ cursor: !userId ? "default" : "pointer" }}
+          >
+            <Tooltip
+              title={<ProfileTooltip creator={creator} />}
+              placement="top"
+            >
+              <Typography color="text.secondary" className="evadeItem">
+                {creator?.login ? `@${creator.login}` : "not found"}
+              </Typography>
+            </Tooltip>
+          </NavLink>
+        ) : (
+          <Typography color="text.secondary" className="evadeItem">
+            @anonymous
+          </Typography>
+        )}
         <Typography color="text.secondary">{faculty}</Typography>
       </Grid>
     </Grid>

@@ -97,7 +97,9 @@ const QueueSelect: FC<QueueSelectProps> = ({
       <FormControl
         fullWidth
         sx={{ bgcolor: palette.grey.card }}
-        {...register("queue")}
+        {...register("queue", {
+          required: "This is required.",
+        })}
       >
         <Select
           id="queue-select"

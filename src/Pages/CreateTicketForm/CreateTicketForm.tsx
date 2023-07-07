@@ -42,8 +42,10 @@ const CreateTicketForm: FC = () => {
   };
 
   const onSubmit = (data: ICreateTicketRequestBody): void => {
-    createTicket({ body: JSON.stringify(data) });
-    handleClear();
+    if (data.queue) {
+      createTicket({ body: JSON.stringify(data) });
+      handleClear();
+    }
   };
 
   useEffect(() => {

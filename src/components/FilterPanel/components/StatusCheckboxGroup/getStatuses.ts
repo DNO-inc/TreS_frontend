@@ -50,6 +50,12 @@ export const useGetStatusesFullObject = (
         label: t("statusesFilter.close"),
         color: palette.semantic.success,
       },
+      {
+        id: 4,
+        query: "rejected",
+        label: t("statusesFilter.rejected"),
+        color: palette.semantic.error,
+      },
     ].map(status => ({
       ...status,
       checked: !!checked[status.id],
@@ -103,7 +109,7 @@ export const useGetStatusesFullObject = (
 
 export const useGetStatusesName = (isAllStatuses: boolean): string[] => {
   if (!isAllStatuses) {
-    return ["accepted", "open", "waiting", "close"];
+    return ["accepted", "open", "waiting", "close", "rejected"];
   }
 
   return ["accepted", "open", "waiting", "close", "new", "rejected"];
