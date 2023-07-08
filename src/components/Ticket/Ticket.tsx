@@ -11,13 +11,13 @@ import { TicketBody } from "./components/TicketBody";
 import { TicketActions } from "./components/TicketActions";
 import { SnackbarNotification } from "../SnackbarNotification";
 
-import { formatDate, checkStatus } from "../../shared/functions";
+import { checkStatus } from "../../shared/functions";
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from "../../store/api/tickets/tickets.api";
 import { endpoints } from "../../constants";
-import { useCheckScope } from "../../shared/hooks";
+import { useCheckScope, useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 
 import { Slide, SlideProps } from "@mui/material";
@@ -73,7 +73,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   const color: string = checkStatus(ticket.status.name);
   const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
     useCheckScope(ticket.queue.scope);
-  const formattedDate: string = ticket?.date && formatDate(ticket.date);
+  const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   const handleToggleReported = (): void => {
     setIsReported(prevIsReported => !prevIsReported);
@@ -161,6 +161,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
         />
         <Divider />
         <TicketBody
+          isAuth={isAuth}
           body={ticket.body}
           creator={ticket.creator}
           faculty={ticket.faculty.name}

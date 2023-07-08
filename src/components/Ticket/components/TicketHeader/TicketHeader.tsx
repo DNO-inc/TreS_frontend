@@ -28,6 +28,23 @@ interface TicketHeaderProps {
   };
 }
 
+interface AssigneeLabelProps {
+  assigneeName: string;
+}
+
+const AssigneeLabel: FC<AssigneeLabelProps> = ({ assigneeName }) => {
+  const { palette }: IPalette = useTheme();
+
+  return (
+    <Typography
+      className="evadeItem"
+      sx={{ color: palette.whiteAlpha.default }}
+    >
+      {assigneeName}
+    </Typography>
+  );
+};
+
 const TicketHeader: FC<TicketHeaderProps> = ({
   isAuth,
   icon,
@@ -40,6 +57,21 @@ const TicketHeader: FC<TicketHeaderProps> = ({
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
   const assigneeId = assignee?.user_id;
+  const assigneeFirstname = assignee?.firstname;
+  const assigneeLastname = assignee?.lastname;
+  let assigneeName = t("common.noAssignee");
+
+  if (assignee) {
+    if (assigneeFirstname && assigneeLastname) {
+      assigneeName = `${assigneeFirstname} ${assigneeLastname}`;
+    } else if (assigneeFirstname) {
+      assigneeName = `${assigneeFirstname} Lastname`;
+    } else if (assigneeLastname) {
+      assigneeName = `Firstname ${assigneeLastname}`;
+    } else {
+      assigneeName = "have a assignee";
+    }
+  }
 
   return (
     <Box maxHeight={80}>
@@ -84,32 +116,16 @@ const TicketHeader: FC<TicketHeaderProps> = ({
           </Tooltip>
         </Grid>
       </Grid>
-      <Typography color={palette.whiteAlpha.default}>
-        {assignee ? (
-          isAuth ? (
-            <NavLink
-              to={assigneeId ? `${endpoints.profile}/${assigneeId}` : ""}
-              style={{ cursor: assigneeId ? "pointer" : "default" }}
-            >
-              <Typography color="text.secondary" className="evadeItem">
-                {assignee?.firstname && assignee.lastname
-                  ? `${assignee.firstname} ${assignee.lastname}`
-                  : t("common.noAssignee")}
-              </Typography>
-            </NavLink>
-          ) : (
-            <Typography color="text.secondary" className="evadeItem">
-              {assignee?.firstname && assignee.lastname
-                ? `${assignee.firstname} ${assignee.lastname}`
-                : t("common.noAssignee")}
-            </Typography>
-          )
-        ) : (
-          <Typography color="text.secondary" className="evadeItem">
-            @anonymous
-          </Typography>
-        )}
-      </Typography>
+      {isAuth ? (
+        <NavLink
+          to={assigneeId ? `${endpoints.profile}/${assigneeId}` : ""}
+          style={{ cursor: assigneeId ? "pointer" : "default" }}
+        >
+          <AssigneeLabel assigneeName={assigneeName} />
+        </NavLink>
+      ) : (
+        <AssigneeLabel assigneeName={assigneeName} />
+      )}
     </Box>
   );
 };

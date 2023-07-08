@@ -42,7 +42,7 @@ const GeneralTickets: FC = () => {
   const statuses = useGetStatusesQuery({});
 
   const [searchParams] = useSearchParams();
-  const ticketsPerRow: number = Number(searchParams.get("ticket_per_row")) || 2;
+  const ticketsPerRow: number = Number(searchParams.get("ticket_per_row")) || 3;
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
 
@@ -83,7 +83,7 @@ const GeneralTickets: FC = () => {
       faculty: facultyId,
       status: matchingStatusesId,
     };
-  }, [option, searchParams]);
+  }, [option, facultyId, searchParams]);
 
   useEffect(() => {
     geTickets({

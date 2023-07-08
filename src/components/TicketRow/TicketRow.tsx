@@ -15,9 +15,9 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-import { formatDate, checkStatus } from "../../shared/functions";
+import { checkStatus } from "../../shared/functions";
 import { endpoints } from "../../constants";
-import { useCheckScope } from "../../shared/hooks";
+import { useCheckScope, useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
 
@@ -47,7 +47,7 @@ const TicketRow: FC<TicketRowProps> = ({
   const color: string = checkStatus(ticket.status.name);
   const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
     useCheckScope(ticket.queue.scope);
-  const formattedDate: string = ticket?.date && formatDate(ticket.date);
+  const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   const handleClick = (event: MouseEvent): void => {
     const { target } = event;
@@ -99,8 +99,8 @@ const TicketRow: FC<TicketRowProps> = ({
             alignItems: "center",
             gridTemplateColumns:
               lang === "en"
-                ? "48px minmax(20px, 0.8fr) minmax(40px, 4fr) 90px 24px 40px 90px"
-                : "48px minmax(20px, 0.8fr) minmax(40px, 4fr) 130px 24px 40px 90px",
+                ? "48px minmax(20px, 0.8fr) minmax(40px, 4fr) 90px 24px 40px 100px"
+                : "48px minmax(20px, 0.8fr) minmax(40px, 4fr) 130px 24px 40px 115px",
             gap: 2,
             borderLeft: `8px solid ${color}`,
             "& .MuiTypography-root": {

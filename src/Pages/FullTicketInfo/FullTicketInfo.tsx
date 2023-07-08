@@ -28,7 +28,7 @@ const FullTicketInfo: FC = () => {
 
   useEffect(() => {
     showTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
-  }, [showTicket, ticketId]);
+  }, [ticketId]);
 
   return (
     <Grid container>
@@ -48,16 +48,17 @@ const FullTicketInfo: FC = () => {
           <Grid container sx={{ flexDirection: "column" }}>
             <Grid
               container
-              sx={{ alignItems: "center", justifyContent: "space-between" }}
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
               <Typography
                 variant="h1"
                 sx={{
                   fontSize: 36,
                   mb: "12px",
-                  maxWidth: "70%",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
+                  maxWidth: "80%",
                 }}
               >
                 {ticket.subject}

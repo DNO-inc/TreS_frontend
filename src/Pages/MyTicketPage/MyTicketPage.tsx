@@ -128,7 +128,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
     }
 
     return data;
-  }, [currentPage, facultyId, searchParams, statuses.isSuccess]);
+  }, [facultyId, searchParams]);
 
   useEffect(() => {
     const requestProps: { body: string; option?: string } = {
