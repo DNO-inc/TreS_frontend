@@ -9,7 +9,7 @@ const Sent: FC = () => {
   const [getTickets, { isLoading, isSuccess }] = useGetTicketsMutation();
 
   const jwt = useJwtDecode();
-  const userId: boolean | number = jwt && JSON.parse(jwt.sub)?.user_id;
+  const userId: boolean | number = jwt && jwt?.user_id;
 
   return (
     <MyTicketPage

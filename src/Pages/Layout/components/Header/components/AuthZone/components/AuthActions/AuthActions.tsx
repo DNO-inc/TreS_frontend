@@ -22,15 +22,15 @@ const AuthActions: FC<AuthActionsProps> = ({ isAuth, setIsAuth }) => {
   const { t } = useTranslation();
   const jwt = useJwtDecode();
 
-  const userId: boolean | number =
-    isAuth && jwt && JSON.parse(jwt.sub)?.user_id;
+  const userId: boolean | number = isAuth && jwt && jwt?.user_id;
   const userName: string | null = localStorage.getItem("user-name");
 
   const handleLogOut = (event: MouseEvent): void => {
     event.preventDefault();
 
-    localStorage.removeItem("jwt-token");
+    localStorage.removeItem("access-token");
     localStorage.removeItem("user-name");
+
     setIsAuth(false);
   };
 

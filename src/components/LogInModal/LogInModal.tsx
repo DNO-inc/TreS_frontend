@@ -43,7 +43,7 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, setIsAuth }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      localStorage.setItem("jwt-token", data.access_token);
+      localStorage.setItem("access-token", data.access_token);
       localStorage.setItem("user-name", data.login);
       setIsAuth(true);
       setOpen(false);

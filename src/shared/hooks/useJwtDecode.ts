@@ -1,28 +1,27 @@
 import jwt_decode from "jwt-decode";
 
 interface IJwtDecodeData {
-  exp: number;
-  fresh: boolean;
-  iat: number;
-  jti: string;
-  nbf: number;
-  sub: string;
-  type: string;
+  role: string;
+  token_id: string;
+  token_type: string;
+  user_id: number;
 }
 
 const useJwtDecode = () => {
-  const localJwt: string | null = localStorage.getItem("jwt-token");
+  const localJwt: string | null = localStorage.getItem("access-token");
 
   const jwtDecodeData: "" | IJwtDecodeData | null =
     localJwt && jwt_decode(localJwt);
 
   if (!jwtDecodeData) {
-    localStorage.removeItem("jwt-token");
+    localStorage.removeItem("access-token");
     return false;
-  } else if (Date.now() >= jwtDecodeData.exp * 1000) {
-    localStorage.removeItem("jwt-token");
-    return false;
-  } else {
+  }
+  // else if (Date.now() >= jwtDecodeData.exp * 1000) {
+  //   localStorage.removeItem("access-token");
+  //   return false;
+  // }
+  else {
     return jwtDecodeData;
   }
 };
