@@ -1,21 +1,20 @@
-import { ReactElement, FC } from "react";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import { endpoints } from "../../../../constants";
+import { ScopeLabel } from "../../../ScopeLabel";
 
 interface TicketHeaderProps {
   isAuth: boolean;
-  icon: ReactElement;
+  scope: string;
   color: string;
-  tooltipText: string;
   subject: string;
   status: string;
   assignee: {
@@ -47,15 +46,13 @@ const AssigneeLabel: FC<AssigneeLabelProps> = ({ assigneeName }) => {
 
 const TicketHeader: FC<TicketHeaderProps> = ({
   isAuth,
-  icon,
   color,
-  tooltipText,
+  scope,
   subject,
   status,
   assignee,
 }) => {
   const { t } = useTranslation();
-  const { palette }: IPalette = useTheme();
   const assigneeId = assignee?.user_id;
   const assigneeFirstname = assignee?.firstname;
   const assigneeLastname = assignee?.lastname;
@@ -96,24 +93,7 @@ const TicketHeader: FC<TicketHeaderProps> = ({
           >
             {t(`ticketStatus.${status.toLowerCase()}`)}
           </Box>
-          <Tooltip title={tooltipText} arrow placement="bottom-end">
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 24,
-                height: 24,
-                bgcolor: palette.grey.active,
-                borderRadius: 1,
-                "& > .MuiSvgIcon-root": {
-                  fontSize: 16,
-                },
-              }}
-            >
-              {icon}
-            </Box>
-          </Tooltip>
+          <ScopeLabel scope={scope} isShowTooltip={true} />
         </Grid>
       </Grid>
       {isAuth ? (

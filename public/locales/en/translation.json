@@ -31,7 +31,7 @@
     }
   },
   "sidebar": {
-    "dashboard": "Dashboard",
+    "queue": "Queue",
     "myTickets": {
       "title": "My Tickets",
       "sent": "Sent",
@@ -45,8 +45,13 @@
     "settings": "Settings",
     "lightMode": "Light Mode"
   },
-  "dashboard": {
-    "heading": "Dashboard"
+  "queue": {
+    "heading": "Queue",
+    "scopes": {
+      "reportTitle": "Report Tickets",
+      "questionTitle": "Question Tickets",
+      "suggestionTitle": "Suggestion Tickets"
+    }
   },
   "sent": {
     "heading": "Sent"

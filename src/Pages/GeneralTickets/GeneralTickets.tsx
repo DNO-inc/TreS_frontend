@@ -7,7 +7,6 @@ import { SerializedError } from "@reduxjs/toolkit";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { Ticket } from "../../components/Ticket/Ticket";
 import { Loader } from "../../components/Loader";
@@ -29,7 +28,6 @@ interface GeneralTicketsPageInfo {
 
 const GeneralTickets: FC = () => {
   const { t } = useTranslation();
-  const matches = useMediaQuery("(min-width:600px)");
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [totalPage, setTotalPage] = useState<number>(1);
@@ -42,11 +40,11 @@ const GeneralTickets: FC = () => {
   const statuses = useGetStatusesQuery({});
 
   const [searchParams] = useSearchParams();
-  const ticketsPerRow: number = Number(searchParams.get("ticket_per_row")) || 3;
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
 
   const option: string = jwt ? "tickets" : "anon";
+  const ticketsPerRow: number = Math.round(window.innerWidth / 600);
 
   const requestBody = useMemo(() => {
     const matchingStatusesId = [];
@@ -79,7 +77,7 @@ const GeneralTickets: FC = () => {
 
     return {
       start_page: currentPage,
-      items_count: 3 * ticketsPerRow,
+      items_count: ticketsPerRow * 4,
       faculty: facultyId,
       status: matchingStatusesId,
     };
@@ -100,26 +98,21 @@ const GeneralTickets: FC = () => {
   return (
     <Grid container flexDirection={"column"}>
       <Box>
-        <Typography variant="h1">{t("generalTickets.heading")}</Typography>
-        <FilterPanel ticketsPerRow={ticketsPerRow} isOneColumn={false} />
+        <Typography variant="h1" sx={{ mb: 2 }}>
+          {t("generalTickets.heading")}
+        </Typography>
+        <FilterPanel />
       </Box>
-      <Box>
+      <Box sx={{ pt: 20 }}>
         {isLoading && <Loader />}
         {isTicketsSuccess &&
           (tickets.length ? (
             <>
-              <Grid
-                container
-                gap={2}
-                sx={{
-                  flexDirection: matches ? "row" : "column",
-                  maxWidth: matches ? "100%" : "600px",
-                }}
-              >
+              <Grid container gap={2}>
                 {tickets.map(ticket => {
                   return (
                     <Ticket
-                      ticketsPerRow={matches ? ticketsPerRow : 1}
+                      ticketsPerRow={ticketsPerRow}
                       ticket={ticket}
                       isAuth={!!jwt}
                       key={ticket.ticket_id}

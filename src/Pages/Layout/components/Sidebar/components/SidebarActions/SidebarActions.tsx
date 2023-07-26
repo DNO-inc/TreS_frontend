@@ -15,6 +15,7 @@ import { VerticalDivider } from "../../../../../../components/VerticalDivider";
 import { useJwtDecode } from "../../../../../../shared/hooks";
 import { endpoints } from "../../../../../../constants";
 import IPalette from "../../../../../../theme/IPalette.interface";
+import { EllipsisMenu } from "../../../../../../components/EllipsisMenu";
 
 const SidebarActions: FC = () => {
   const { pathname } = useLocation();
@@ -55,41 +56,44 @@ const SidebarActions: FC = () => {
           setSelectedKey={setSelectedKey}
         />
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-          "& > button": { minWidth: 24 },
-        }}
-      >
-        <Button
-          onClick={() => {
-            changeLanguage("en");
-          }}
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box
           sx={{
-            color:
-              i18n.language === "en"
-                ? palette.primary.main
-                : palette.common.white,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            "& > button": { minWidth: 24 },
           }}
         >
-          EN
-        </Button>
-        <VerticalDivider />
-        <Button
-          onClick={() => {
-            changeLanguage("ua");
-          }}
-          sx={{
-            color:
-              i18n.language === "ua"
-                ? palette.primary.main
-                : palette.common.white,
-          }}
-        >
-          UA
-        </Button>
+          <Button
+            onClick={() => {
+              changeLanguage("en");
+            }}
+            sx={{
+              color:
+                i18n.language === "en" || !i18n.language
+                  ? palette.primary.main
+                  : palette.common.white,
+            }}
+          >
+            EN
+          </Button>
+          <VerticalDivider />
+          <Button
+            onClick={() => {
+              changeLanguage("ua");
+            }}
+            sx={{
+              color:
+                i18n.language === "ua"
+                  ? palette.primary.main
+                  : palette.common.white,
+            }}
+          >
+            UA
+          </Button>
+        </Box>
+        <EllipsisMenu />
       </Box>
     </Grid>
   );

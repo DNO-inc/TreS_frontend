@@ -31,7 +31,7 @@
     }
   },
   "sidebar": {
-    "dashboard": "Панель приладів",
+    "queue": "Черга",
     "myTickets": {
       "title": "Мої тікети",
       "sent": "Надіслані",
@@ -45,8 +45,13 @@
     "settings": "Налаштування",
     "lightMode": "Світлий режим"
   },
-  "dashboard": {
-    "heading": "Панель приладів"
+  "queue": {
+    "heading": "Черга",
+    "scopes": {
+      "reportTitle": "Тікети - скарги",
+      "questionTitle": "Тікети - питання",
+      "suggestionTitle": "Тікети - пропозиції"
+    }
   },
   "sent": {
     "heading": "Надіслані"

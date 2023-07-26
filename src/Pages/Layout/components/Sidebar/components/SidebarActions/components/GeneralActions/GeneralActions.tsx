@@ -74,27 +74,29 @@ const GeneralActions: FC<GeneralActionsProps> = ({
           },
         }}
       >
-        <ListItem key={"Dashboard"} disablePadding>
-          <NavLink
-            to={!isAuth ? "" : endpoints.dashboard}
-            style={{ cursor: !isAuth ? "default" : "pointer" }}
-          >
-            <ListItemButton
-              disabled={!isAuth}
-              selected={selectedKey === endpoints.dashboard}
-              onClick={() => handleListItemClick(endpoints.dashboard)}
+        {localStorage.getItem("is-admin") && (
+          <ListItem key={"Queue"} disablePadding>
+            <NavLink
+              to={!isAuth ? "" : endpoints.queue}
+              style={{ cursor: !isAuth ? "default" : "pointer" }}
             >
-              <ListItemIcon>
-                {selectedKey === endpoints.dashboard ? (
-                  <GridViewSharpIcon />
-                ) : (
-                  <GridViewIcon />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={t("sidebar.dashboard")} />
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
+              <ListItemButton
+                disabled={!isAuth}
+                selected={selectedKey === endpoints.queue}
+                onClick={() => handleListItemClick(endpoints.queue)}
+              >
+                <ListItemIcon>
+                  {selectedKey === endpoints.queue ? (
+                    <GridViewSharpIcon />
+                  ) : (
+                    <GridViewIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={t("sidebar.queue")} />
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+        )}
         <ListItem key={"My Tickets"} disablePadding>
           <ListItemButton disabled={!isAuth} onClick={handleClick}>
             <ListItemIcon>

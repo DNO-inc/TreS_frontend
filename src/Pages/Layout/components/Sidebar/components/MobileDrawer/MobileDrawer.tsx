@@ -7,7 +7,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { EllipsisMenu } from "../EllipsisMenu";
 import { SidebarActions } from "../SidebarActions";
 
 import Logo from "../../../../../../assets/Logomark.svg";
@@ -78,7 +77,6 @@ const MobileDrawer: FC<MobileDrawerProps> = ({
               TreS
             </Typography>
           </Grid>
-          <EllipsisMenu />
         </Grid>
       </Toolbar>
       <SidebarActions />

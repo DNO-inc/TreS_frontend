@@ -17,7 +17,7 @@ import {
   useToggleLikeMutation,
 } from "../../store/api/tickets/tickets.api";
 import { endpoints } from "../../constants";
-import { useCheckScope, useFormatDate } from "../../shared/hooks";
+import { useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 
 import { Slide, SlideProps } from "@mui/material";
@@ -71,8 +71,6 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   const [toggleBookmark] = useToggleBookmarkMutation();
 
   const color: string = checkStatus(ticket.status.name);
-  const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
-    useCheckScope(ticket.queue.scope);
   const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   const handleToggleReported = (): void => {
@@ -125,7 +123,6 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
         flexBasis: `calc((100% - 16px * ${
           ticketsPerRow - 1
         }) / ${ticketsPerRow})`,
-        width: { xs: "100%" },
         height: 332,
         bgcolor: palette.grey.card,
         cursor: isAuth ? "pointer" : "default",
@@ -152,9 +149,8 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
       >
         <TicketHeader
           isAuth={isAuth}
-          icon={icon}
-          tooltipText={tooltipText}
           color={color}
+          scope={ticket.queue.scope}
           subject={ticket.subject}
           status={ticket.status.name}
           assignee={ticket.assignee}
