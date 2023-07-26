@@ -1,21 +1,20 @@
-import { ReactElement, FC } from "react";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import { endpoints } from "../../../../constants";
+import { ScopeLabel } from "../../../ScopeLabel";
 
 interface TicketHeaderProps {
   isAuth: boolean;
-  icon: ReactElement;
+  scope: string;
   color: string;
-  tooltipText: string;
   subject: string;
   status: string;
   assignee: {
@@ -28,18 +27,48 @@ interface TicketHeaderProps {
   };
 }
 
+interface AssigneeLabelProps {
+  assigneeName: string;
+}
+
+const AssigneeLabel: FC<AssigneeLabelProps> = ({ assigneeName }) => {
+  const { palette }: IPalette = useTheme();
+
+  return (
+    <Typography
+      className="evadeItem"
+      sx={{ color: palette.whiteAlpha.default }}
+    >
+      {assigneeName}
+    </Typography>
+  );
+};
+
 const TicketHeader: FC<TicketHeaderProps> = ({
   isAuth,
-  icon,
   color,
-  tooltipText,
+  scope,
   subject,
   status,
   assignee,
 }) => {
   const { t } = useTranslation();
-  const { palette }: IPalette = useTheme();
   const assigneeId = assignee?.user_id;
+  const assigneeFirstname = assignee?.firstname;
+  const assigneeLastname = assignee?.lastname;
+  let assigneeName = t("common.noAssignee");
+
+  if (assignee) {
+    if (assigneeFirstname && assigneeLastname) {
+      assigneeName = `${assigneeFirstname} ${assigneeLastname}`;
+    } else if (assigneeFirstname) {
+      assigneeName = `${assigneeFirstname} Lastname`;
+    } else if (assigneeLastname) {
+      assigneeName = `Firstname ${assigneeLastname}`;
+    } else {
+      assigneeName = "have a assignee";
+    }
+  }
 
   return (
     <Box maxHeight={80}>
@@ -64,52 +93,19 @@ const TicketHeader: FC<TicketHeaderProps> = ({
           >
             {t(`ticketStatus.${status.toLowerCase()}`)}
           </Box>
-          <Tooltip title={tooltipText} arrow placement="bottom-end">
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 24,
-                height: 24,
-                bgcolor: palette.grey.active,
-                borderRadius: 1,
-                "& > .MuiSvgIcon-root": {
-                  fontSize: 16,
-                },
-              }}
-            >
-              {icon}
-            </Box>
-          </Tooltip>
+          <ScopeLabel scope={scope} isShowTooltip={true} />
         </Grid>
       </Grid>
-      <Typography color={palette.whiteAlpha.default}>
-        {assignee ? (
-          isAuth ? (
-            <NavLink
-              to={assigneeId ? `${endpoints.profile}/${assigneeId}` : ""}
-              style={{ cursor: assigneeId ? "pointer" : "default" }}
-            >
-              <Typography color="text.secondary" className="evadeItem">
-                {assignee?.firstname && assignee.lastname
-                  ? `${assignee.firstname} ${assignee.lastname}`
-                  : t("common.noAssignee")}
-              </Typography>
-            </NavLink>
-          ) : (
-            <Typography color="text.secondary" className="evadeItem">
-              {assignee?.firstname && assignee.lastname
-                ? `${assignee.firstname} ${assignee.lastname}`
-                : t("common.noAssignee")}
-            </Typography>
-          )
-        ) : (
-          <Typography color="text.secondary" className="evadeItem">
-            @anonymous
-          </Typography>
-        )}
-      </Typography>
+      {isAuth ? (
+        <NavLink
+          to={assigneeId ? `${endpoints.profile}/${assigneeId}` : ""}
+          style={{ cursor: assigneeId ? "pointer" : "default" }}
+        >
+          <AssigneeLabel assigneeName={assigneeName} />
+        </NavLink>
+      ) : (
+        <AssigneeLabel assigneeName={assigneeName} />
+      )}
     </Box>
   );
 };

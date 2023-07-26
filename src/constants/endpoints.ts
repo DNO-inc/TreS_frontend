@@ -2,7 +2,7 @@ const endpoints = {
   baseUrl: import.meta.env.VITE_API_URL,
   base: "/",
   fullTicket: "/tickets",
-  dashboard: "/dashboard",
+  queue: "/queue",
   sent: "/sent",
   received: "/received",
   followed: "/followed",
@@ -13,6 +13,7 @@ const endpoints = {
   settings: "/settings",
   profile: "/profile",
   createTicket: "/tickets/create",
+  error: "/error",
 };
 
 export { endpoints };

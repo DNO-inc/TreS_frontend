@@ -15,9 +15,9 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-import { formatDate, checkStatus } from "../../shared/functions";
+import { checkStatus } from "../../shared/functions";
 import { endpoints } from "../../constants";
-import { useCheckScope } from "../../shared/hooks";
+import { useCheckScope, useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
 
@@ -25,7 +25,8 @@ interface TicketRowProps {
   ticket: ITicket;
   isAuth: boolean;
   lang: string;
-  isCanDelete: boolean;
+  isCanDelete?: boolean;
+  isHaveBookmarks?: boolean;
   handleDelete: ((ticketId: number[]) => void) | null;
 }
 
@@ -33,7 +34,8 @@ const TicketRow: FC<TicketRowProps> = ({
   ticket,
   isAuth,
   lang,
-  isCanDelete,
+  isCanDelete = false,
+  isHaveBookmarks = false,
   handleDelete,
 }) => {
   const { t } = useTranslation();
@@ -47,7 +49,7 @@ const TicketRow: FC<TicketRowProps> = ({
   const color: string = checkStatus(ticket.status.name);
   const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
     useCheckScope(ticket.queue.scope);
-  const formattedDate: string = ticket?.date && formatDate(ticket.date);
+  const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   const handleClick = (event: MouseEvent): void => {
     const { target } = event;
@@ -99,8 +101,12 @@ const TicketRow: FC<TicketRowProps> = ({
             alignItems: "center",
             gridTemplateColumns:
               lang === "en"
-                ? "48px minmax(20px, 0.8fr) minmax(40px, 4fr) 90px 24px 40px 90px"
-                : "48px minmax(20px, 0.8fr) minmax(40px, 4fr) 130px 24px 40px 90px",
+                ? `${
+                    isHaveBookmarks ? "48px" : "24px"
+                  } minmax(20px, 0.8fr) minmax(40px, 4fr) 90px 24px 40px 100px`
+                : `${
+                    isHaveBookmarks ? "48px" : "24px"
+                  } minmax(20px, 0.8fr) minmax(40px, 4fr) 130px 24px 40px 115px`,
             gap: 2,
             borderLeft: `8px solid ${color}`,
             "& .MuiTypography-root": {
@@ -126,18 +132,23 @@ const TicketRow: FC<TicketRowProps> = ({
                 color: palette.common.white,
               }}
             />
-
-            <IconButton
-              onClick={handleToggleBookmark}
-              className="evadeItem"
-              sx={{
-                p: 0,
-                border: "none !important",
-                "& > .MuiSvgIcon-root": { fontSize: "20px" },
-              }}
-            >
-              {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderOutlinedIcon />}
-            </IconButton>
+            {isHaveBookmarks && (
+              <IconButton
+                onClick={handleToggleBookmark}
+                className="evadeItem"
+                sx={{
+                  p: 0,
+                  border: "none !important",
+                  "& > .MuiSvgIcon-root": { fontSize: "20px" },
+                }}
+              >
+                {isBookmarked ? (
+                  <BookmarkIcon />
+                ) : (
+                  <BookmarkBorderOutlinedIcon />
+                )}
+              </IconButton>
+            )}
           </Box>
           <Box>
             <Typography component={"p"}>{ticket.subject}</Typography>

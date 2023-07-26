@@ -8,7 +8,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import IPalette from "../../../../../../theme/IPalette.interface";
+import IPalette from "../../theme/IPalette.interface";
 
 const options: string[] = ["Report"];
 

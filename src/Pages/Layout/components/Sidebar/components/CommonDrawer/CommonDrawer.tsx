@@ -4,7 +4,6 @@ import { Drawer, Avatar, Grid, Toolbar, Typography } from "@mui/material";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { SidebarActions } from "../SidebarActions";
-import { EllipsisMenu } from "../EllipsisMenu";
 
 import Logo from "../../../../../../assets/Logomark.svg";
 import IPalette from "../../../../../../theme/IPalette.interface";
@@ -66,7 +65,6 @@ const CommonDrawer: FC = () => {
               TreS
             </Typography>
           </Grid>
-          <EllipsisMenu />
         </Grid>
       </Toolbar>
       <SidebarActions />
