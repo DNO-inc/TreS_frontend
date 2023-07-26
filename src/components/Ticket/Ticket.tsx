@@ -11,13 +11,13 @@ import { TicketBody } from "./components/TicketBody";
 import { TicketActions } from "./components/TicketActions";
 import { SnackbarNotification } from "../SnackbarNotification";
 
-import { formatDate, checkStatus } from "../../shared/functions";
+import { checkStatus } from "../../shared/functions";
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from "../../store/api/tickets/tickets.api";
 import { endpoints } from "../../constants";
-import { useCheckScope } from "../../shared/hooks";
+import { useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 
 import { Slide, SlideProps } from "@mui/material";
@@ -71,9 +71,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   const [toggleBookmark] = useToggleBookmarkMutation();
 
   const color: string = checkStatus(ticket.status.name);
-  const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
-    useCheckScope(ticket.queue.scope);
-  const formattedDate: string = ticket?.date && formatDate(ticket.date);
+  const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   const handleToggleReported = (): void => {
     setIsReported(prevIsReported => !prevIsReported);
@@ -125,7 +123,6 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
         flexBasis: `calc((100% - 16px * ${
           ticketsPerRow - 1
         }) / ${ticketsPerRow})`,
-        width: { xs: "100%" },
         height: 332,
         bgcolor: palette.grey.card,
         cursor: isAuth ? "pointer" : "default",
@@ -152,15 +149,15 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
       >
         <TicketHeader
           isAuth={isAuth}
-          icon={icon}
-          tooltipText={tooltipText}
           color={color}
+          scope={ticket.queue.scope}
           subject={ticket.subject}
           status={ticket.status.name}
           assignee={ticket.assignee}
         />
         <Divider />
         <TicketBody
+          isAuth={isAuth}
           body={ticket.body}
           creator={ticket.creator}
           faculty={ticket.faculty.name}

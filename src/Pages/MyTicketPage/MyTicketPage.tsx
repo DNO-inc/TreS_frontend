@@ -128,7 +128,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
     }
 
     return data;
-  }, [currentPage, facultyId, searchParams, statuses.isSuccess]);
+  }, [facultyId, searchParams]);
 
   useEffect(() => {
     const requestProps: { body: string; option?: string } = {
@@ -156,13 +156,15 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   return (
     <Grid container flexDirection={"column"}>
       <Box>
-        <Typography variant="h1">{t(`${title}.heading`)}</Typography>
+        <Typography variant="h1" sx={{ mb: 2 }}>
+          {t(`${title}.heading`)}
+        </Typography>
         <FilterPanel isAllStatuses={isSentPage || pathname === "/deleted"} />
       </Box>
-      <Box>
+      <Box sx={{ pt: 20 }}>
         {isLoading && <Loader />}
         {isSuccess &&
-          (tickets.length ? (
+          (tickets && tickets.length ? (
             <>
               <FormGroup
                 sx={{
@@ -178,6 +180,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
                       isAuth={!!jwt}
                       lang={i18n.language}
                       isCanDelete={isSentPage}
+                      isHaveBookmarks={isSentPage}
                       handleDelete={isSentPage ? handleDelete : null}
                       key={ticket.ticket_id}
                     />

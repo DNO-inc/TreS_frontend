@@ -11,6 +11,7 @@ import { endpoints } from "../../../../constants";
 import { Creator } from "../../ticket.interface";
 
 interface TicketBodyProps extends Creator {
+  isAuth: boolean;
   body: string;
   creator: {
     faculty: { faculty_id: number; name: string };
@@ -24,6 +25,24 @@ interface TicketBodyProps extends Creator {
 }
 
 const ProfileTooltip: FC<Creator> = ({ creator }) => {
+  const creatorFirstname = creator?.firstname;
+  const creatorLastname = creator?.lastname;
+  let creatorName = "Firstname Lastname";
+  const creatorFaculty = creator?.faculty?.name || "Faculty ";
+  const creatorGroup = creator?.group?.name || "Group";
+
+  if (creator) {
+    if (creatorFirstname && creatorLastname) {
+      creatorName = `${creatorFirstname} ${creatorLastname}`;
+    } else if (creatorFirstname) {
+      creatorName = `${creatorFirstname} Lastname`;
+    } else if (creatorLastname) {
+      creatorName = `Firstname ${creatorLastname}`;
+    } else {
+      creatorName = "have a assignee";
+    }
+  }
+
   return (
     <Grid
       container
@@ -33,21 +52,30 @@ const ProfileTooltip: FC<Creator> = ({ creator }) => {
         <Avatar sizes="10" />
       </Box>
       <Grid sx={{ display: "flex", gap: 0.5, flexDirection: "column" }}>
-        <Box>
-          {`${creator.firstname || "Noname"} ${
-            creator.lastname || "Nonamovich"
-          }`}
-        </Box>
-        <Box>{`${creator.faculty ? creator.faculty.name : ""}${
-          creator.group ? `,  ${creator.group.name}` : ""
-        }`}</Box>
+        <Box>{creatorName}</Box>
+        <Box>{`${creatorFaculty}, ${creatorGroup}`}</Box>
       </Grid>
     </Grid>
   );
 };
 
-const TicketBody: FC<TicketBodyProps> = ({ body, creator, faculty }) => {
+const TicketBody: FC<TicketBodyProps> = ({
+  isAuth,
+  body,
+  creator,
+  faculty,
+}) => {
   const userId: number | null = creator?.user_id;
+  const creatorLogin = creator?.login;
+  let userLogin = "anonymous";
+
+  if (creator) {
+    if (creatorLogin) {
+      userLogin = `@${creatorLogin}`;
+    } else {
+      userLogin = "@login";
+    }
+  }
 
   return (
     <Grid
@@ -71,7 +99,7 @@ const TicketBody: FC<TicketBodyProps> = ({ body, creator, faculty }) => {
         </Typography>
       </Box>
       <Grid sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-        {creator ? (
+        {isAuth && creator ? (
           <NavLink
             to={!userId ? "" : `${endpoints.profile}/${userId}`}
             style={{ cursor: !userId ? "default" : "pointer" }}
@@ -81,13 +109,13 @@ const TicketBody: FC<TicketBodyProps> = ({ body, creator, faculty }) => {
               placement="top"
             >
               <Typography color="text.secondary" className="evadeItem">
-                {creator?.login ? `@${creator.login}` : "not found"}
+                {userLogin}
               </Typography>
             </Tooltip>
           </NavLink>
         ) : (
           <Typography color="text.secondary" className="evadeItem">
-            @anonymous
+            {userLogin}
           </Typography>
         )}
         <Typography color="text.secondary">{faculty}</Typography>

@@ -6,6 +6,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 
 import { endpoints } from "../../../../../../../../../../constants";
 
@@ -19,7 +21,7 @@ interface ListItem {
 const useGetListItemsArray = (selectedKey: string): ListItem[] => {
   const { t } = useTranslation();
 
-  return [
+  const listItemsArrayForUser = [
     {
       text: t("sidebar.myTickets.sent"),
       icon:
@@ -27,20 +29,10 @@ const useGetListItemsArray = (selectedKey: string): ListItem[] => {
       endpoint: endpoints.sent,
       isHaveNewMessage: false,
     },
-    // {
-    //   text: t("sidebar.myTickets.received"),
-    //   icon: <FolderOpenIcon />,
-    //   endpoint: endpoints.received,
-    //   isHaveNewMessage: true,
-    // },
     {
       text: t("sidebar.myTickets.followed"),
       icon:
-        selectedKey === endpoints.followed ? (
-          <FolderIcon />
-        ) : (
-          <FolderOpenIcon />
-        ),
+        selectedKey === endpoints.followed ? <StarIcon /> : <StarBorderIcon />,
       endpoint: endpoints.followed,
       isHaveNewMessage: false,
     },
@@ -67,6 +59,41 @@ const useGetListItemsArray = (selectedKey: string): ListItem[] => {
       isHaveNewMessage: false,
     },
   ];
+
+  const listItemsArrayForAdmin = [
+    {
+      text: t("sidebar.myTickets.received"),
+      icon: <FolderOpenIcon />,
+      endpoint: endpoints.received,
+      isHaveNewMessage: true,
+    },
+    {
+      text: t("sidebar.myTickets.followed"),
+      icon:
+        selectedKey === endpoints.followed ? (
+          <FolderIcon />
+        ) : (
+          <FolderOpenIcon />
+        ),
+      endpoint: endpoints.followed,
+      isHaveNewMessage: false,
+    },
+    {
+      text: t("sidebar.myTickets.bookmarks"),
+      icon:
+        selectedKey === endpoints.bookmarks ? (
+          <BookmarkIcon />
+        ) : (
+          <BookmarkBorderIcon />
+        ),
+      endpoint: endpoints.bookmarks,
+      isHaveNewMessage: false,
+    },
+  ];
+
+  return localStorage.getItem("is-admin")
+    ? listItemsArrayForAdmin
+    : listItemsArrayForUser;
 };
 
 export default useGetListItemsArray;

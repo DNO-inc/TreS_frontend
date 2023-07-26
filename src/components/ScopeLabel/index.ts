@@ -1,0 +1,1 @@
+export { ScopeLabel } from "./ScopeLabel";

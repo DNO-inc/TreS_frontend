@@ -6,10 +6,10 @@ import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
 import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
-import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 
 import IPalette from "../../../../theme/IPalette.interface";
 
@@ -55,19 +55,21 @@ const TicketActions: FC<TicketActionsProps> = ({
           },
         }}
       >
-        <IconButton
-          onClick={handleToggleReported}
-          disabled={!isAuth}
-          className="evadeItem"
-          sx={{
-            width: 26,
-            "& > .MuiSvgIcon-root": {
-              fontSize: 18,
-            },
-          }}
-        >
-          <DoNotDisturbAltOutlinedIcon className="evadeItem" />
-        </IconButton>
+        {localStorage.getItem("is-admin") && (
+          <IconButton
+            onClick={handleToggleReported}
+            disabled={!isAuth}
+            className="evadeItem"
+            sx={{
+              width: 26,
+              "& > .MuiSvgIcon-root": {
+                fontSize: 18,
+              },
+            }}
+          >
+            <DoNotDisturbAltOutlinedIcon className="evadeItem" />
+          </IconButton>
+        )}
         <IconButton
           onClick={handleToggleBookmark}
           disabled={!isAuth}
@@ -77,13 +79,14 @@ const TicketActions: FC<TicketActionsProps> = ({
             mr: !upvotes ? 0 : -0.6,
             "& > .MuiSvgIcon-root": {
               color: isBookmarked ? palette.semantic.info : "none",
+              fontSize: "24px !important",
             },
           }}
         >
           {isAuth && isBookmarked ? (
-            <BookmarkIcon className="evadeItem" />
+            <StarIcon className="evadeItem" />
           ) : (
-            <BookmarkBorderOutlinedIcon className="evadeItem" />
+            <StarBorderIcon className="evadeItem" />
           )}
         </IconButton>
         <IconButton
