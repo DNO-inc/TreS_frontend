@@ -84,6 +84,7 @@ const Header: FC<HeaderProps> = ({ isAuth, setIsAuth, handleDrawerToggle }) => {
             }}
           >
             <Button
+              color="inherit"
               onClick={handleClick}
               sx={{ minWidth: "100%", minHeight: "100%" }}
             >

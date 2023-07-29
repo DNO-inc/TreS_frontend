@@ -6,9 +6,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material";
 
 import { endpoints } from "../../../../constants";
 import { Creator } from "../../ticket.interface";
+import IPalette from "../../../../theme/IPalette.interface";
 
 interface TicketBodyProps extends Creator {
   isAuth: boolean;
@@ -65,6 +67,8 @@ const TicketBody: FC<TicketBodyProps> = ({
   creator,
   faculty,
 }) => {
+  const { palette }: IPalette = useTheme();
+
   const userId: number | null = creator?.user_id;
   const creatorLogin = creator?.login;
   let userLogin = "anonymous";
@@ -81,24 +85,32 @@ const TicketBody: FC<TicketBodyProps> = ({
     <Grid
       display={"flex"}
       flexDirection={"column"}
-      sx={{ flexGrow: 1, maxHeight: "190px" }}
+      sx={{ position: "relative", flexGrow: 1, maxHeight: "190px" }}
     >
       <Box
         sx={{
           overflow: "hidden",
           flexGrow: 1,
-          wordWrap: "break-word",
+          "&::after": {
+            content: `""`,
+            position: "absolute",
+            bottom: 48,
+            left: 0,
+            width: "100%",
+            height: "56px",
+            background: `linear-gradient(transparent, ${palette.grey.card})`,
+          },
         }}
       >
         <Typography
           variant="body2"
           color="text.secondary"
-          whiteSpace={"pre-line"}
+          whiteSpace="pre-line"
         >
           {body}
         </Typography>
       </Box>
-      <Grid sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+      <Grid sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
         {isAuth && creator ? (
           <NavLink
             to={!userId ? "" : `${endpoints.profile}/${userId}`}

@@ -25,6 +25,7 @@ interface Palette {
     };
     whiteAlpha: {
       default: string;
+      border: string;
       text: string;
     };
     semantic: {

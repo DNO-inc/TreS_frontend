@@ -49,7 +49,7 @@ const FullTicketInfo: FC = () => {
             <Grid
               container
               sx={{
-                alignItems: "center",
+                alignItems: "start",
                 justifyContent: "space-between",
               }}
             >
@@ -102,6 +102,7 @@ const FullTicketInfo: FC = () => {
                 width: "100%",
                 p: 2,
                 bgcolor: palette.grey.card,
+                borderRadius: 1,
                 whiteSpace: "pre-line",
               }}
             >
@@ -120,6 +121,7 @@ const FullTicketInfo: FC = () => {
                   display: "flex",
                   justifyContent: "space-between",
                   bgcolor: palette.grey.card,
+                  borderRadius: 1,
                   "& > *": {
                     color: "rgba(255, 255,255, 0.8)",
                   },
