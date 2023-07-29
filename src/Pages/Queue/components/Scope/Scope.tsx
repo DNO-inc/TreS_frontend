@@ -63,17 +63,23 @@ const Scope: FC<ScopeProps> = ({
       onDrop={e => handleDrop(e)}
       draggable={true}
       sx={{
-        minWidth: "460px",
+        minWidth: "468px",
+        flexBasis: "33.333%",
         height: "calc(100vh - 216px)",
         bgcolor: palette.grey.card,
         border: `2px solid ${palette.grey.border}`,
         "& > .MuiBox-root": {
           p: "20px 16px",
         },
-        cursor: "grab",
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          cursor: "grab",
+        }}
+      >
         <Box sx={{ display: "flex", gap: 3, flexGrow: 1 }}>
           <ScopeLabel scope={scope.name} />
           <Typography variant="h2">{scope.title}</Typography>
@@ -85,7 +91,7 @@ const Scope: FC<ScopeProps> = ({
       <Divider />
       <Box sx={{ pt: 3, pb: 3 }}>
         <QueueButtonsList />
-        <ScopeTicketList />
+        <ScopeTicketList filter={scope.id + 1} />
       </Box>
     </Card>
   );

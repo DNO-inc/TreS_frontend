@@ -10,6 +10,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import IPalette from "../../../../theme/IPalette.interface";
 import { endpoints } from "../../../../constants";
 import { ScopeLabel } from "../../../ScopeLabel";
+import { Badge } from "../../../Badge";
 
 interface TicketHeaderProps {
   isAuth: boolean;
@@ -80,19 +81,10 @@ const TicketHeader: FC<TicketHeaderProps> = ({
       >
         <Typography noWrap={true}>{subject}</Typography>
         <Grid gap={1} display={"flex"}>
-          <Box
-            sx={{
-              textAlign: "center",
-              lineHeight: "24px",
-              p: "0px 12px",
-              bgcolor: color,
-              borderRadius: 1,
-              textTransform: "capitalize",
-              fontSize: "14px",
-            }}
-          >
-            {t(`ticketStatus.${status.toLowerCase()}`)}
-          </Box>
+          <Badge
+            customStyle={{ bgcolor: color }}
+            text={t(`ticketStatus.${status.toLowerCase()}`)}
+          />
           <ScopeLabel scope={scope} isShowTooltip={true} />
         </Grid>
       </Grid>
