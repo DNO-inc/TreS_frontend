@@ -34,7 +34,7 @@ const GeneralTickets: FC = () => {
   const [facultyId, setFacultyId] = useState<number | null>(null);
 
   const jwt = useJwtDecode();
-  const [geTickets, { isLoading, isSuccess: isTicketsSuccess }] =
+  const [getTickets, { isLoading, isSuccess: isTicketsSuccess }] =
     useGetTicketsMutation();
   const faculties = useGetFacultiesQuery({});
   const statuses = useGetStatusesQuery({});
@@ -84,7 +84,7 @@ const GeneralTickets: FC = () => {
   }, [option, facultyId, searchParams]);
 
   useEffect(() => {
-    geTickets({
+    getTickets({
       option: option,
       body: JSON.stringify(requestBody),
     }).then((res: GeneralTicketsPageInfo): void | PromiseLike<void> => {

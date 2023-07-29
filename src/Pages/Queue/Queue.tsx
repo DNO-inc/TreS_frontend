@@ -4,7 +4,11 @@ import { useTranslation } from "react-i18next";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
+
+import EditIcon from "@mui/icons-material/Edit";
+
+import { EditQueuesPopup } from "./components/EditQueuesPopup";
 
 import { Scope } from "./components/Scope";
 import IPalette from "../../theme/IPalette.interface";
@@ -20,6 +24,8 @@ const Queue: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
+  const [open, setOpen] = useState(false);
+  const [currentScope, setCurrentScope] = useState<IScope | null>(null);
   const [scopesList, setScopesList] = useState([
     {
       id: 1,
@@ -41,17 +47,30 @@ const Queue: FC = () => {
     },
   ]);
 
-  console.log(scopesList);
-
-  const [currentScope, setCurrentScope] = useState<IScope | null>(null);
-
   const sortCards = (a: { order: number }, b: { order: number }) =>
     a.order - b.order;
 
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
   return (
     <Grid container>
-      <Box>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h1">{t("queue.heading")}</Typography>
+        <Button
+          color="inherit"
+          variant="contained"
+          onClick={handleOpenDialog}
+          startIcon={<EditIcon sx={{ color: palette.common.black }} />}
+          sx={{
+            bgcolor: palette.common.white,
+            color: palette.common.black,
+            borderRadius: 4,
+          }}
+        >
+          Queue management
+        </Button>
       </Box>
       <Box
         sx={{
@@ -83,6 +102,7 @@ const Queue: FC = () => {
           />
         ))}
       </Box>
+      <EditQueuesPopup open={open} setOpen={setOpen} />
     </Grid>
   );
 };

@@ -5,6 +5,7 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import useTheme from "@mui/material/styles/useTheme";
+import { Slide, SlideProps } from "@mui/material";
 
 import { TicketHeader } from "./components/TicketHeader";
 import { TicketBody } from "./components/TicketBody";
@@ -20,7 +21,6 @@ import { endpoints } from "../../constants";
 import { useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 
-import { Slide, SlideProps } from "@mui/material";
 import { ITicket } from "./ticket.interface";
 
 interface TicketProps {
@@ -126,12 +126,14 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
         height: 332,
         bgcolor: palette.grey.card,
         cursor: isAuth ? "pointer" : "default",
+        backgroundImage: "none",
         border: `2px solid ${palette.grey.border}`,
         "& > div > div": {
           p: 2,
         },
         "& > div > hr": {
-          bgcolor: palette.grey.border,
+          borderRadius: 2,
+          border: `1px solid ${palette.grey.border}`,
           ml: 2,
           mr: 2,
         },
@@ -162,7 +164,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
           creator={ticket.creator}
           faculty={ticket.faculty.name}
         />
-        <Divider />
+        <hr />
         <TicketActions
           isAuth={isAuth}
           isLiked={isLiked}

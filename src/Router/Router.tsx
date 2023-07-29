@@ -41,6 +41,7 @@ const Router: FC = () => {
 
   useEffect(() => {
     if (!isAuth && pathname !== endpoints.generalTickets) {
+      localStorage.removeItem("access-token");
       navigate(endpoints.generalTickets);
     }
   }, [pathname, search, setSearchParams, isAuth, navigate]);
