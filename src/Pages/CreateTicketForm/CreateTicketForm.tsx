@@ -15,21 +15,25 @@ import { TicketVisibilityOptions } from "./components/TicketVisibilityOptions";
 import { useGetProfileQuery } from "../../store/api/profile/profile.api";
 import { useCreateTicketMutation } from "../../store/api/tickets/tickets.api";
 import IPalette from "../../theme/IPalette.interface";
+import { useJwtDecode } from "../../shared/hooks";
 
 const CreateTicketForm: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
+  const jwt = useJwtDecode();
+  const userId = jwt && jwt.user_id;
 
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [queue, setQueue] = useState<number | "none">("none");
 
-  const { data, isSuccess } = useGetProfileQuery({ userId: null });
+  const { data, isSuccess } = useGetProfileQuery({ userId: userId });
   const [createTicket] = useCreateTicketMutation();
 
   const {
     register,
     handleSubmit,
     setValue,
+    getValues,
     resetField,
     // formState: { errors },
   } = useForm<ICreateTicketRequestBody>();
@@ -86,7 +90,7 @@ const CreateTicketForm: FC = () => {
               setQueue={setQueue}
             />
             <TicketTitleInput register={register} />
-            <TicketBodyTextField register={register} />
+            <TicketBodyTextField register={register} getValues={getValues} />
             <TicketVisibilityOptions
               setValue={setValue}
               selectedOptions={selectedOptions}

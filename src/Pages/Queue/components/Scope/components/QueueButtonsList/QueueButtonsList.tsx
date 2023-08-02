@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useRef, useState, WheelEvent } from "react";
 
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
@@ -8,10 +8,21 @@ import { useTheme } from "@mui/material";
 import { useGetQueuesFullObject, useGetQueuesName } from "./getQueues";
 import IPalette from "../../../../../../theme/IPalette.interface";
 
-const QueueButtonsList: FC = () => {
+interface IQueue {
+  queue_id: number;
+  faculty: number;
+  name: string;
+  scope: string;
+}
+interface QueueButtonsListProps {
+  queues: IQueue[];
+}
+
+const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues }) => {
+  const containerRef = useRef<HTMLInputElement | null>(null);
   const { palette }: IPalette = useTheme();
 
-  const queuesName: string[] = useGetQueuesName();
+  const queuesName: string[] = useGetQueuesName(queues);
 
   const [checked, setChecked] = useState(queuesName.map(() => true));
 
@@ -30,14 +41,14 @@ const QueueButtonsList: FC = () => {
     setChecked(updatedChecked);
   };
 
-  const queuesFullInfo = useGetQueuesFullObject(checked, handleChange);
+  const queuesFullInfo = useGetQueuesFullObject(queues, checked, handleChange);
 
   const children: JSX.Element = (
     <Box sx={{ display: "flex", gap: 1.5, ml: 2 }}>
       {queuesFullInfo.map(queue => {
         return (
           <FormControlLabel
-            label={queue.label}
+            label={queue.name}
             sx={{
               bgcolor: queue.checked
                 ? palette.semantic.info
@@ -54,7 +65,7 @@ const QueueButtonsList: FC = () => {
                 />
               </Box>
             }
-            key={queue.id}
+            key={queue.queue_id}
           />
         );
       })}
@@ -63,8 +74,17 @@ const QueueButtonsList: FC = () => {
 
   const isAllChecked: boolean = !!checked && checked.every(value => value);
 
+  const handleWheelScroll = (event: WheelEvent<HTMLInputElement>) => {
+    const container = containerRef.current;
+    if (container) {
+      container.scrollLeft -= event.deltaY;
+    }
+  };
+
   return (
     <Box
+      ref={containerRef}
+      onWheel={handleWheelScroll}
       sx={{
         display: "flex",
         alignItems: "center",

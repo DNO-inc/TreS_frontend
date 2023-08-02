@@ -1,6 +1,8 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -79,7 +81,9 @@ const TicketHeader: FC<TicketHeaderProps> = ({
         justifyContent={"space-between"}
         gap={10}
       >
-        <Typography noWrap={true}>{subject}</Typography>
+        <Typography component="div" noWrap={true}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{subject}</ReactMarkdown>
+        </Typography>
         <Grid gap={1} display={"flex"}>
           <Badge
             customStyle={{ bgcolor: color }}

@@ -7,7 +7,8 @@ import { SidebarActions } from "../SidebarActions";
 
 import Logo from "../../../../../../assets/Logomark.svg";
 import IPalette from "../../../../../../theme/IPalette.interface";
-import { dimensions } from "../../../../../../constants";
+import { dimensions, endpoints } from "../../../../../../constants";
+import { Link } from "react-router-dom";
 
 const CommonDrawer: FC = () => {
   const { palette }: IPalette = useTheme();
@@ -52,19 +53,21 @@ const CommonDrawer: FC = () => {
         }}
       >
         <Grid container justifyContent={"space-between"}>
-          <Grid display={"flex"} flexDirection={"row"} alignItems={"center"}>
-            <Avatar alt="Logo" src={Logo} sizes="40" />
-            <Typography
-              sx={{
-                ml: 1,
-                textTransform: "uppercase",
-                fontSize: "24px",
-                fontWeight: "bold",
-              }}
-            >
-              TreS
-            </Typography>
-          </Grid>
+          <Link to={endpoints.generalTickets}>
+            <Grid display={"flex"} flexDirection={"row"} alignItems={"center"}>
+              <Avatar alt="Logo" src={Logo} sizes="40" />
+              <Typography
+                sx={{
+                  ml: 1,
+                  textTransform: "uppercase",
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                }}
+              >
+                TreS
+              </Typography>
+            </Grid>
+          </Link>
         </Grid>
       </Toolbar>
       <SidebarActions />

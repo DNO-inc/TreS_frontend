@@ -14,6 +14,7 @@ import StarIcon from "@mui/icons-material/Star";
 import IPalette from "../../../../theme/IPalette.interface";
 
 interface TicketActionsProps {
+  isMyTicket: boolean;
   isAuth: boolean;
   isReported: boolean;
   isLiked: boolean;
@@ -26,6 +27,7 @@ interface TicketActionsProps {
 }
 
 const TicketActions: FC<TicketActionsProps> = ({
+  isMyTicket,
   isAuth,
   // isReported,
   isLiked,
@@ -83,11 +85,12 @@ const TicketActions: FC<TicketActionsProps> = ({
             },
           }}
         >
-          {isAuth && isBookmarked ? (
-            <StarIcon className="evadeItem" />
-          ) : (
-            <StarBorderIcon className="evadeItem" />
-          )}
+          {!isMyTicket &&
+            (isAuth && isBookmarked ? (
+              <StarIcon className="evadeItem" />
+            ) : (
+              <StarBorderIcon className="evadeItem" />
+            ))}
         </IconButton>
         <IconButton
           onClick={handleToggleLike}
