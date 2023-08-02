@@ -1,24 +1,27 @@
 import { MouseEvent, useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
 
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { Divider, Grid, useTheme } from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
+import { Slide, SlideProps } from "@mui/material";
 
 import { TicketHeader } from "./components/TicketHeader";
 import { TicketBody } from "./components/TicketBody";
 import { TicketActions } from "./components/TicketActions";
 import { SnackbarNotification } from "../SnackbarNotification";
 
-import { formatDate, checkStatus } from "../../shared/functions";
+import { checkStatus } from "../../shared/functions";
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from "../../store/api/tickets/tickets.api";
 import { endpoints } from "../../constants";
-import { useCheckScope } from "../../shared/hooks";
+import { useFormatDate, useJwtDecode } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 
-import { Slide, SlideProps } from "@mui/material";
+import { ITicket } from "./ticket.interface";
 
 interface TicketProps {
   ticket: ITicket;
@@ -28,6 +31,12 @@ interface TicketProps {
 
 const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   const { palette }: IPalette = useTheme();
+
+  ////////////////////////////////////////////
+  const jwt = useJwtDecode();
+  const userId = jwt && jwt.user_id;
+  const creatorId = ticket?.creator && ticket?.creator.user_id;
+  const isMyTicket = userId === creatorId;
 
   ////////////////////////////////////////
   type TransitionProps = Omit<SlideProps, "direction">;
@@ -68,10 +77,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   const [toggleBookmark] = useToggleBookmarkMutation();
 
   const color: string = checkStatus(ticket.status.name);
-  const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
-    useCheckScope(ticket.queue.scope);
-  const formattedDate: string = ticket?.date && formatDate(ticket.date);
-  const userId: number | null = ticket.creator?.user_id;
+  const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   const handleToggleReported = (): void => {
     setIsReported(prevIsReported => !prevIsReported);
@@ -123,16 +129,17 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
         flexBasis: `calc((100% - 16px * ${
           ticketsPerRow - 1
         }) / ${ticketsPerRow})`,
-        width: { xs: "100%" },
         height: 332,
         bgcolor: palette.grey.card,
         cursor: isAuth ? "pointer" : "default",
+        backgroundImage: "none",
         border: `2px solid ${palette.grey.border}`,
         "& > div > div": {
           p: 2,
         },
         "& > div > hr": {
-          bgcolor: palette.grey.border,
+          borderRadius: 2,
+          border: `1px solid ${palette.grey.border}`,
           ml: 2,
           mr: 2,
         },
@@ -146,24 +153,28 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
           width: "100%",
           height: "100%",
           borderLeft: `12px solid ${color}`,
+          background: isMyTicket
+            ? "linear-gradient(to right, #462523 0, #cb9b51 22%, #f6e27a 45%, #f6f2c0 50%, #f6e27a 55%, #cb9b51 78%, #462523 100%)"
+            : "",
         }}
       >
         <TicketHeader
-          icon={icon}
-          tooltipText={tooltipText}
+          isAuth={isAuth}
           color={color}
+          scope={ticket.queue.scope}
           subject={ticket.subject}
           status={ticket.status.name}
           assignee={ticket.assignee}
         />
         <Divider />
         <TicketBody
+          isMyTicket={isMyTicket}
+          isAuth={isAuth}
           body={ticket.body}
-          userId={userId}
           creator={ticket.creator}
           faculty={ticket.faculty.name}
         />
-        <Divider />
+        <hr />
         <TicketActions
           isAuth={isAuth}
           isLiked={isLiked}
@@ -174,6 +185,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
           handleToggleBookmark={handleToggleBookmark}
           handleToggleReported={handleToggleReported}
           formattedDate={formattedDate}
+          isMyTicket={isMyTicket}
         />
         <SnackbarNotification
           variant={"like"}

@@ -1,22 +1,25 @@
 import { FC } from "react";
-import { useTranslation } from "react-i18next";
 
-import { Box, Grid, Typography } from "@mui/material";
+import { MyTicketPage } from "../MyTicketPage";
 
-import { ComingSoon } from "../../components/ComingSoon";
+import { useJwtDecode } from "../../shared/hooks";
+import { useGetAdminTicketsMutation } from "../../store/api/admin/admin.api";
 
 const Received: FC = () => {
-  const { t } = useTranslation();
+  const [getTickets, { isLoading, isSuccess }] = useGetAdminTicketsMutation();
+
+  const jwt = useJwtDecode();
+  const userId: boolean | number = jwt && jwt?.user_id;
 
   return (
-    <Grid container>
-      <Box>
-        <Typography variant="h1">{t("received.heading")}</Typography>
-      </Box>
-      <Box></Box>
-
-      <ComingSoon />
-    </Grid>
+    <MyTicketPage
+      title={"received"}
+      useGetQuery={getTickets}
+      isLoading={isLoading}
+      isSuccess={isSuccess}
+      option={"tickets"}
+      userId={userId}
+    />
   );
 };
 

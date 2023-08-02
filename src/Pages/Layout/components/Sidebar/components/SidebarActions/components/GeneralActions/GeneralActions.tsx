@@ -1,16 +1,14 @@
-import { useEffect, useState, FC, Dispatch, SetStateAction } from "react";
+import { useEffect, useState, FC, Dispatch, SetStateAction, lazy } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Badge,
-  IconButton,
-} from "@mui/material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Badge from "@mui/material/Badge";
+import IconButton from "@mui/material/IconButton";
 
 import SourceOutlinedIcon from "@mui/icons-material/SourceOutlined";
 import SourceRoundedIcon from "@mui/icons-material/SourceRounded";
@@ -23,9 +21,9 @@ import GridViewSharpIcon from "@mui/icons-material/GridViewSharp";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-import { NestedList } from "./components/NestedList";
-
 import { endpoints } from "../../../../../../../../constants";
+
+const NestedList = lazy(() => import("./components/NestedList"));
 
 interface GeneralActionsProps {
   isAuth: boolean;
@@ -76,27 +74,29 @@ const GeneralActions: FC<GeneralActionsProps> = ({
           },
         }}
       >
-        <ListItem key={"Dashboard"} disablePadding>
-          <NavLink
-            to={!isAuth ? "" : endpoints.dashboard}
-            style={{ cursor: !isAuth ? "default" : "pointer" }}
-          >
-            <ListItemButton
-              disabled={!isAuth}
-              selected={selectedKey === endpoints.dashboard}
-              onClick={() => handleListItemClick(endpoints.dashboard)}
+        {localStorage.getItem("is-admin") && (
+          <ListItem key={"Queue"} disablePadding>
+            <NavLink
+              to={!isAuth ? "" : endpoints.queue}
+              style={{ cursor: !isAuth ? "default" : "pointer" }}
             >
-              <ListItemIcon>
-                {selectedKey === endpoints.dashboard ? (
-                  <GridViewSharpIcon />
-                ) : (
-                  <GridViewIcon />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={t("sidebar.dashboard")} />
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
+              <ListItemButton
+                disabled={!isAuth}
+                selected={selectedKey === endpoints.queue}
+                onClick={() => handleListItemClick(endpoints.queue)}
+              >
+                <ListItemIcon>
+                  {selectedKey === endpoints.queue ? (
+                    <GridViewSharpIcon />
+                  ) : (
+                    <GridViewIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={t("sidebar.queue")} />
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+        )}
         <ListItem key={"My Tickets"} disablePadding>
           <ListItemButton disabled={!isAuth} onClick={handleClick}>
             <ListItemIcon>

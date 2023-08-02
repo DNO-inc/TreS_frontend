@@ -2,15 +2,13 @@ import { useEffect, FC, Dispatch, SetStateAction, ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { UseFormSetValue } from "react-hook-form";
 
-import {
-  Box,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import Typography from "@mui/material/Typography";
+import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
 

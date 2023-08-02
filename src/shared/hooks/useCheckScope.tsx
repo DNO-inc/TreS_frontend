@@ -1,4 +1,4 @@
-import { SvgIcon } from "@mui/material";
+import SvgIcon from "@mui/material/SvgIcon";
 
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";

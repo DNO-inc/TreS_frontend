@@ -30,6 +30,7 @@ const themeSettings = (mode: string): any => {
             },
             whiteAlpha: {
               default: colors.whiteAlpha[600],
+              border: colors.whiteAlpha[700],
               text: colors.whiteAlpha[800],
             },
             semantic: {
@@ -60,7 +61,8 @@ const themeSettings = (mode: string): any => {
               background: colors.grey[50],
             },
             whiteAlpha: {
-              600: colors.whiteAlpha[600],
+              default: colors.whiteAlpha[600],
+              border: colors.whiteAlpha[700],
             },
             semantic: {
               info: colors.semantic.info,
@@ -129,6 +131,20 @@ const themeSettings = (mode: string): any => {
           },
           arrow: {
             // color: colors.grey[300],
+          },
+        },
+      },
+      MuiGrid: {
+        styleOverrides: {
+          root: {
+            backgroundImage: "none",
+          },
+        },
+      },
+      MuiCard: {
+        styleOverrides: {
+          root: {
+            backgroundImage: "none",
           },
         },
       },

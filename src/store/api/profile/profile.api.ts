@@ -7,7 +7,7 @@ export const profileApi = api.injectEndpoints({
         url: `/profile/${userId || ""}`,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
       }),
     }),

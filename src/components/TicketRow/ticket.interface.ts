@@ -1,4 +1,4 @@
-interface Creator {
+export interface Creator {
   creator: {
     faculty: { faculty_id: number; name: string };
     firstname: string;
@@ -9,8 +9,18 @@ interface Creator {
   };
 }
 
-interface ITicket extends Creator {
-  assignee: string | null;
+export interface Assignee {
+  assignee: {
+    faculty: { faculty_id: number; name: string };
+    firstname: string;
+    group: { group_id: number; name: string };
+    lastname: string;
+    login: string;
+    user_id: number;
+  };
+}
+
+export interface ITicket extends Creator, Assignee {
   body: string;
   date: string;
   faculty: {

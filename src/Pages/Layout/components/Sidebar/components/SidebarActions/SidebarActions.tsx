@@ -2,7 +2,11 @@ import { useEffect, useState, FC } from "react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { Button, Grid, Divider, useTheme } from "@mui/material";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
+import Box from "@mui/material/Box";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { GeneralActions } from "./components/GeneralActions";
 import { AdditionActions } from "./components/AdditionActions";
@@ -11,6 +15,7 @@ import { VerticalDivider } from "../../../../../../components/VerticalDivider";
 import { useJwtDecode } from "../../../../../../shared/hooks";
 import { endpoints } from "../../../../../../constants";
 import IPalette from "../../../../../../theme/IPalette.interface";
+import { EllipsisMenu } from "../../../../../../components/EllipsisMenu";
 
 const SidebarActions: FC = () => {
   const { pathname } = useLocation();
@@ -38,7 +43,7 @@ const SidebarActions: FC = () => {
       flexWrap={"nowrap"}
       padding={" 0px 12px 16px"}
     >
-      <Grid flex={"1 0 auto"}>
+      <Box flex={"1 0 auto"}>
         <GeneralActions
           isAuth={!!jwt}
           selectedKey={selectedKey}
@@ -50,43 +55,46 @@ const SidebarActions: FC = () => {
           selectedKey={selectedKey}
           setSelectedKey={setSelectedKey}
         />
-      </Grid>
-      <Grid
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-          "& > button": { minWidth: 24 },
-        }}
-      >
-        <Button
-          onClick={() => {
-            changeLanguage("en");
-          }}
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box
           sx={{
-            color:
-              i18n.language === "en"
-                ? palette.primary.main
-                : palette.common.white,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            "& > button": { minWidth: 24 },
           }}
         >
-          EN
-        </Button>
-        <VerticalDivider />
-        <Button
-          onClick={() => {
-            changeLanguage("ua");
-          }}
-          sx={{
-            color:
-              i18n.language === "ua"
-                ? palette.primary.main
-                : palette.common.white,
-          }}
-        >
-          UA
-        </Button>
-      </Grid>
+          <Button
+            onClick={() => {
+              changeLanguage("en");
+            }}
+            sx={{
+              color:
+                i18n.language === "en" || !i18n.language
+                  ? palette.primary.main
+                  : palette.common.white,
+            }}
+          >
+            EN
+          </Button>
+          <VerticalDivider />
+          <Button
+            onClick={() => {
+              changeLanguage("ua");
+            }}
+            sx={{
+              color:
+                i18n.language === "ua"
+                  ? palette.primary.main
+                  : palette.common.white,
+            }}
+          >
+            UA
+          </Button>
+        </Box>
+        <EllipsisMenu />
+      </Box>
     </Grid>
   );
 };

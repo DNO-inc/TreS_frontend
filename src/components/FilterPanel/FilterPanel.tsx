@@ -1,22 +1,16 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 
-import { Box, Grid } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 import { FacultiesFilter } from "./components/FacultiesFilter";
 import { StatusCheckboxGroup } from "./components/StatusCheckboxGroup";
-import { ViewOptions } from "./components/ViewOptions";
 
 interface FilterPanelProps {
-  ticketsPerRow?: number;
-  isOneColumn?: boolean;
   isAllStatuses?: boolean;
 }
 
-const FilterPanel: FC<FilterPanelProps> = ({
-  ticketsPerRow = 1,
-  isOneColumn = true,
-  isAllStatuses = false,
-}) => {
+const FilterPanel: FC<FilterPanelProps> = memo(({ isAllStatuses = false }) => {
   return (
     <Grid
       container
@@ -35,13 +29,12 @@ const FilterPanel: FC<FilterPanelProps> = ({
           gap: 3,
         }}
       >
-        {!isOneColumn && <ViewOptions ticketsPerRow={ticketsPerRow} />}
         <Box>
           <FacultiesFilter />
         </Box>
       </Grid>
     </Grid>
   );
-};
+});
 
 export { FilterPanel };

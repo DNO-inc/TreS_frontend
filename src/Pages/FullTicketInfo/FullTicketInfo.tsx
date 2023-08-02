@@ -1,8 +1,13 @@
 import { useEffect, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useLocation } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
-import { Box, Grid, useTheme, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { Loader } from "../../components/Loader";
 import { ActionPanel } from "./components/ActionPanel";
@@ -25,7 +30,7 @@ const FullTicketInfo: FC = () => {
 
   useEffect(() => {
     showTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
-  }, [showTicket, ticketId]);
+  }, [ticketId]);
 
   return (
     <Grid container>
@@ -45,19 +50,23 @@ const FullTicketInfo: FC = () => {
           <Grid container sx={{ flexDirection: "column" }}>
             <Grid
               container
-              sx={{ alignItems: "center", justifyContent: "space-between" }}
+              sx={{
+                alignItems: "start",
+                justifyContent: "space-between",
+              }}
             >
               <Typography
                 variant="h1"
+                component="div"
                 sx={{
                   fontSize: 36,
                   mb: "12px",
-                  maxWidth: "70%",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
+                  maxWidth: "80%",
                 }}
               >
-                {ticket.subject}
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {ticket.subject}
+                </ReactMarkdown>
               </Typography>
               <Box
                 sx={{
@@ -98,10 +107,13 @@ const FullTicketInfo: FC = () => {
                 width: "100%",
                 p: 2,
                 bgcolor: palette.grey.card,
+                borderRadius: 1,
                 whiteSpace: "pre-line",
               }}
             >
-              {ticket.body}
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {ticket.body}
+              </ReactMarkdown>
             </Grid>
           </Grid>
           <Grid container>
@@ -116,6 +128,7 @@ const FullTicketInfo: FC = () => {
                   display: "flex",
                   justifyContent: "space-between",
                   bgcolor: palette.grey.card,
+                  borderRadius: 1,
                   "& > *": {
                     color: "rgba(255, 255,255, 0.8)",
                   },
@@ -125,10 +138,14 @@ const FullTicketInfo: FC = () => {
               <Grid>
                 <Typography>{t("fullTicket.author")}</Typography>
                 <NavLink
-                  to={`${endpoints.profile}/${ticket.creator.user_id}`}
+                  to={
+                    !ticket.creator
+                      ? ""
+                      : `${endpoints.profile}/${ticket.creator.user_id}`
+                  }
                   style={{ color: palette.semantic.info }}
                 >
-                  @{ticket.creator.login}
+                  @{!ticket.creator ? "anonymous" : ticket.creator.login}
                 </NavLink>
               </Grid>
               <Grid>

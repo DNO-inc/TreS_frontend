@@ -4,7 +4,9 @@ import { useSearchParams } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { SerializedError } from "@reduxjs/toolkit";
 
-import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 import { Ticket } from "../../components/Ticket/Ticket";
 import { Loader } from "../../components/Loader";
@@ -14,6 +16,7 @@ import { CustomPagination } from "../../components/CustomPagination";
 import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
 import { useJwtDecode } from "../../shared/hooks";
 import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
+import { ITicket } from "../../components/Ticket/ticket.interface";
 
 interface GeneralTicketsPageInfo {
   data?: {
@@ -25,24 +28,23 @@ interface GeneralTicketsPageInfo {
 
 const GeneralTickets: FC = () => {
   const { t } = useTranslation();
-  const matches = useMediaQuery("(min-width:600px)");
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [facultyId, setFacultyId] = useState<number | null>(null);
 
   const jwt = useJwtDecode();
-  const [geTickets, { isLoading, isSuccess: isTicketsSuccess }] =
+  const [getTickets, { isLoading, isSuccess: isTicketsSuccess }] =
     useGetTicketsMutation();
   const faculties = useGetFacultiesQuery({});
   const statuses = useGetStatusesQuery({});
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const ticketsPerRow: number = Number(searchParams.get("ticket_per_row")) || 2;
+  const [searchParams] = useSearchParams();
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
 
   const option: string = jwt ? "tickets" : "anon";
+  const ticketsPerRow: number = Math.round(window.innerWidth / 600);
 
   const requestBody = useMemo(() => {
     const matchingStatusesId = [];
@@ -75,58 +77,42 @@ const GeneralTickets: FC = () => {
 
     return {
       start_page: currentPage,
-      tickets_count: 3 * ticketsPerRow,
+      items_count: ticketsPerRow * 4,
       faculty: facultyId,
       status: matchingStatusesId,
     };
-  }, [currentPage, ticketsPerRow, facultyId, searchParams, statuses.isSuccess]);
+  }, [option, facultyId, searchParams]);
 
   useEffect(() => {
-    geTickets({ option: option, body: JSON.stringify(requestBody) }).then(
-      (res: GeneralTicketsPageInfo): void | PromiseLike<void> => {
-        if (res.data) {
-          setTickets(res.data.ticket_list);
-          setTotalPage(res.data.total_pages);
-        }
+    getTickets({
+      option: option,
+      body: JSON.stringify(requestBody),
+    }).then((res: GeneralTicketsPageInfo): void | PromiseLike<void> => {
+      if (res.data) {
+        setTickets(res.data.ticket_list);
+        setTotalPage(res.data.total_pages);
       }
-    );
-  }, [option, searchParams, geTickets, requestBody]);
-
-  const handlePageChange = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (params.has("current_page")) {
-      params.set("current_page", page.toString());
-    } else {
-      params.append("current_page", page.toString());
-    }
-
-    setSearchParams(params);
-  };
+    });
+  }, [requestBody]);
 
   return (
     <Grid container flexDirection={"column"}>
       <Box>
-        <Typography variant="h1">{t("generalTickets.heading")}</Typography>
-        <FilterPanel ticketsPerRow={ticketsPerRow} isOneColumn={false} />
+        <Typography variant="h1" sx={{ mb: 2 }}>
+          {t("generalTickets.heading")}
+        </Typography>
+        <FilterPanel />
       </Box>
-      <Box>
+      <Box sx={{ pt: 20 }}>
         {isLoading && <Loader />}
         {isTicketsSuccess &&
           (tickets.length ? (
             <>
-              <Grid
-                container
-                gap={2}
-                sx={{
-                  flexDirection: matches ? "row" : "column",
-                  maxWidth: matches ? "100%" : "600px",
-                }}
-              >
+              <Grid container gap={2}>
                 {tickets.map(ticket => {
                   return (
                     <Ticket
-                      ticketsPerRow={matches ? ticketsPerRow : 1}
+                      ticketsPerRow={ticketsPerRow}
                       ticket={ticket}
                       isAuth={!!jwt}
                       key={ticket.ticket_id}
@@ -134,11 +120,7 @@ const GeneralTickets: FC = () => {
                   );
                 })}
               </Grid>
-              <CustomPagination
-                total={totalPage}
-                current={currentPage}
-                onChange={handlePageChange}
-              />
+              <CustomPagination total={totalPage} current={currentPage} />
             </>
           ) : (
             <Typography variant="h1" mt={6}>

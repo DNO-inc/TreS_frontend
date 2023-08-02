@@ -1,4 +1,18 @@
 {
+  "month": {
+    "01": "Jan.",
+    "02": "Feb.",
+    "03": "Mar.",
+    "04": "Apr.",
+    "05": "May.",
+    "06": "Jun.",
+    "07": "Jul.",
+    "08": "Aug.",
+    "09": "Sep.",
+    "10": "Oct.",
+    "11": "Nov.",
+    "12": "Dec."
+  },
   "common": {
     "comingSoon": "Coming Soon...",
     "loading": "Loading...",
@@ -7,7 +21,6 @@
     "loginButton": "Log in",
     "password": "Password",
     "createButton": "Create ticket",
-    "signup": "Sign Up",
     "profile": "Profile",
     "error": "Error",
     "noAssignee": "no assignee",
@@ -18,7 +31,7 @@
     }
   },
   "sidebar": {
-    "dashboard": "Dashboard",
+    "queue": "Queue",
     "myTickets": {
       "title": "My Tickets",
       "sent": "Sent",
@@ -32,8 +45,13 @@
     "settings": "Settings",
     "lightMode": "Light Mode"
   },
-  "dashboard": {
-    "heading": "Dashboard"
+  "queue": {
+    "heading": "Queue",
+    "scopes": {
+      "reportTitle": "Report Tickets",
+      "questionTitle": "Question Tickets",
+      "suggestionTitle": "Suggestion Tickets"
+    }
   },
   "sent": {
     "heading": "Sent"

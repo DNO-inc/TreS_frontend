@@ -8,14 +8,12 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 
-import {
-  Button,
-  Grid,
-  Modal,
-  TextField,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
 import { useLoginMutation } from "../../store/api/api";
 import IPalette from "../../theme/IPalette.interface";
@@ -45,7 +43,7 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, setIsAuth }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      localStorage.setItem("jwt-token", data.access_token);
+      localStorage.setItem("access-token", data.access_token);
       localStorage.setItem("user-name", data.login);
       setIsAuth(true);
       setOpen(false);

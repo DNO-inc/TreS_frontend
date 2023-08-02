@@ -8,7 +8,7 @@ export const ticketsApi = api.injectEndpoints({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
         body,
       }),
@@ -19,7 +19,7 @@ export const ticketsApi = api.injectEndpoints({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
         body,
       }),
@@ -30,7 +30,7 @@ export const ticketsApi = api.injectEndpoints({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
         body,
       }),
@@ -41,7 +41,7 @@ export const ticketsApi = api.injectEndpoints({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
         body,
       }),
@@ -52,7 +52,7 @@ export const ticketsApi = api.injectEndpoints({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
         body,
       }),
@@ -63,7 +63,7 @@ export const ticketsApi = api.injectEndpoints({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
         body,
       }),
@@ -74,7 +74,7 @@ export const ticketsApi = api.injectEndpoints({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
         body,
       }),
@@ -85,7 +85,7 @@ export const ticketsApi = api.injectEndpoints({
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
         body,
       }),

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, lazy } from "react";
+import { FC, useEffect, useState, lazy, Suspense } from "react";
 import {
   Route,
   Routes,
@@ -7,13 +7,14 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-import { Layout } from "../Pages/Layout";
+import { Loader } from "../components/Loader";
 
 import { endpoints } from "../constants";
 import { useJwtDecode } from "../shared/hooks";
 
+const Layout = lazy(() => import("../Pages/Layout"));
 const GeneralTickets = lazy(() => import("../Pages/GeneralTickets"));
-const Dashboard = lazy(() => import("../Pages/Dashboard"));
+const Queue = lazy(() => import("../Pages/Queue"));
 const Sent = lazy(() => import("../Pages/Sent"));
 const Received = lazy(() => import("../Pages/Received"));
 const Followed = lazy(() => import("../Pages/Followed"));
@@ -39,8 +40,12 @@ const Router: FC = () => {
   }, [pathname, navigate]);
 
   useEffect(() => {
-    if (!isAuth && pathname !== endpoints.generalTickets) {
-      navigate(endpoints.generalTickets);
+    if (!isAuth) {
+      localStorage.removeItem("access-token");
+
+      if (pathname !== endpoints.generalTickets) {
+        navigate(endpoints.generalTickets);
+      }
     }
   }, [pathname, search, setSearchParams, isAuth, navigate]);
 
@@ -48,18 +53,26 @@ const Router: FC = () => {
     <Routes>
       <Route
         path={endpoints.base}
-        element={<Layout isAuth={isAuth} setIsAuth={setIsAuth} />}
+        element={
+          <Suspense fallback={<Loader />}>
+            <Layout isAuth={isAuth} setIsAuth={setIsAuth} />
+          </Suspense>
+        }
       >
         <Route index element={<GeneralTickets />} />
         <Route
           path={`${endpoints.fullTicket}/:ticketId`}
           element={<FullTicketInfo />}
         />
-        <Route path={endpoints.dashboard} element={<Dashboard />} />
+        {localStorage.getItem("is-admin") && (
+          <>
+            <Route path={endpoints.queue} element={<Queue />} />
+            <Route path={endpoints.received} element={<Received />} />
+          </>
+        )}
         <Route path={endpoints.generalTickets} element={<GeneralTickets />} />
         <Route path={endpoints.sent} element={<Sent />} />
         <Route path={endpoints.createTicket} element={<CreateTicketForm />} />
-        <Route path={endpoints.received} element={<Received />} />
         <Route path={endpoints.followed} element={<Followed />} />
         <Route path={endpoints.bookmarks} element={<Bookmarks />} />
         <Route path={endpoints.deleted} element={<Deleted />} />
@@ -68,7 +81,7 @@ const Router: FC = () => {
         <Route path={`${endpoints.profile}/:userId`} element={<Profile />} />
         <Route path={"*"} element={<ErrorPage />} />
       </Route>
-      <Route path={"*"} element={<ErrorPage />} />
+      <Route path={"*" || "/error"} element={<ErrorPage />} />
     </Routes>
   );
 };

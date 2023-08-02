@@ -2,15 +2,23 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { UseFormRegister } from "react-hook-form";
 
-import { Box, TextField, Typography, useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
+import { MarkdownControls } from "./components/MarkdownControls";
 
 interface TicketBodyTextFieldProps {
   register: UseFormRegister<ICreateTicketRequestBody>;
+  getValues: any;
 }
 
-const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({ register }) => {
+const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
+  register,
+  getValues,
+}) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
@@ -48,6 +56,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({ register }) => {
           },
         }}
       />
+      {/* <MarkdownControls getValues={getValues} /> */}
     </Box>
   );
 };
