@@ -1,5 +1,7 @@
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -13,6 +15,7 @@ import { Creator } from "../../ticket.interface";
 import IPalette from "../../../../theme/IPalette.interface";
 
 interface TicketBodyProps extends Creator {
+  isMyTicket: boolean;
   isAuth: boolean;
   body: string;
   creator: {
@@ -66,6 +69,7 @@ const TicketBody: FC<TicketBodyProps> = ({
   body,
   creator,
   faculty,
+  isMyTicket,
 }) => {
   const { palette }: IPalette = useTheme();
 
@@ -91,23 +95,26 @@ const TicketBody: FC<TicketBodyProps> = ({
         sx={{
           overflow: "hidden",
           flexGrow: 1,
-          "&::after": {
-            content: `""`,
-            position: "absolute",
-            bottom: 48,
-            left: 0,
-            width: "100%",
-            height: "56px",
-            background: `linear-gradient(transparent, ${palette.grey.card})`,
-          },
+          "&::after": !isMyTicket
+            ? {
+                content: `""`,
+                position: "absolute",
+                bottom: 48,
+                left: 0,
+                width: "100%",
+                height: "56px",
+                background: `linear-gradient(transparent, ${palette.grey.card})`,
+              }
+            : {},
         }}
       >
         <Typography
           variant="body2"
+          component="div"
           color="text.secondary"
           whiteSpace="pre-line"
         >
-          {body}
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
         </Typography>
       </Box>
       <Grid sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>

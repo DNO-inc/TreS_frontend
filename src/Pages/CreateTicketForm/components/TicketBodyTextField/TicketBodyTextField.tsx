@@ -8,12 +8,17 @@ import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
+import { MarkdownControls } from "./components/MarkdownControls";
 
 interface TicketBodyTextFieldProps {
   register: UseFormRegister<ICreateTicketRequestBody>;
+  getValues: any;
 }
 
-const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({ register }) => {
+const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
+  register,
+  getValues,
+}) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
@@ -51,6 +56,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({ register }) => {
           },
         }}
       />
+      {/* <MarkdownControls getValues={getValues} /> */}
     </Box>
   );
 };

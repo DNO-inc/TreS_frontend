@@ -24,10 +24,10 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({ filter }) => {
     if (isFetching) {
       axios
         .post(
-          "https://burrito.tres.cyberbydlo.com/admin/tickets/ticket_list",
+          "https://burrito.tres.cyberbydlo.com/tickets/ticket_list",
           {
             status: [filter],
-            items_count: 3,
+            items_count: Math.floor(window.innerHeight / 200),
             start_page: currentPage,
           },
           {
