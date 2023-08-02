@@ -1,6 +1,8 @@
 import { useEffect, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useLocation } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -55,13 +57,16 @@ const FullTicketInfo: FC = () => {
             >
               <Typography
                 variant="h1"
+                component="div"
                 sx={{
                   fontSize: 36,
                   mb: "12px",
                   maxWidth: "80%",
                 }}
               >
-                {ticket.subject}
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {ticket.subject}
+                </ReactMarkdown>
               </Typography>
               <Box
                 sx={{
@@ -106,7 +111,9 @@ const FullTicketInfo: FC = () => {
                 whiteSpace: "pre-line",
               }}
             >
-              {ticket.body}
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {ticket.body}
+              </ReactMarkdown>
             </Grid>
           </Grid>
           <Grid container>

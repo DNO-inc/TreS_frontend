@@ -1,6 +1,6 @@
 import { useEffect, useState, FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {
   BaseQueryFn,
   FetchArgs,
@@ -66,7 +66,6 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   userId,
 }) => {
   const { t, i18n } = useTranslation();
-  const { pathname } = useLocation();
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [totalPage, setTotalPage] = useState<number>(1);
@@ -81,7 +80,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   const [searchParams] = useSearchParams();
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
-  const isSentPage = pathname === "/sent";
+  const isSentPage = title === "sent";
 
   const requestBody = useMemo(() => {
     const matchingStatusesId = [];
@@ -117,6 +116,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
       start_page: number;
       faculty: number | null;
       status: number[];
+      bookmarks_type?: string;
     } = {
       start_page: currentPage,
       faculty: facultyId,
@@ -125,6 +125,12 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
 
     if (option) {
       data.creator = userId;
+    }
+
+    if (title === "followed") {
+      data.bookmarks_type = "strangers";
+    } else if (title === "bookmarks") {
+      data.bookmarks_type = "my";
     }
 
     return data;
@@ -159,7 +165,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
         <Typography variant="h1" sx={{ mb: 2 }}>
           {t(`${title}.heading`)}
         </Typography>
-        <FilterPanel isAllStatuses={isSentPage || pathname === "/deleted"} />
+        <FilterPanel isAllStatuses={isSentPage || option === "deleted"} />
       </Box>
       <Box sx={{ pt: 20 }}>
         {isLoading && <Loader />}

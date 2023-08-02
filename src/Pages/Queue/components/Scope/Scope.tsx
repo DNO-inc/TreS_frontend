@@ -90,7 +90,7 @@ const Scope: FC<ScopeProps> = ({
       </Box>
       <Divider />
       <Box sx={{ pt: 3, pb: 3 }}>
-        <QueueButtonsList />
+        {!!scope.queues.length && <QueueButtonsList queues={scope.queues} />}
         <ScopeTicketList filter={scope.id + 1} />
       </Box>
     </Card>

@@ -18,7 +18,7 @@ import {
   useToggleLikeMutation,
 } from "../../store/api/tickets/tickets.api";
 import { endpoints } from "../../constants";
-import { useFormatDate } from "../../shared/hooks";
+import { useFormatDate, useJwtDecode } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 
 import { ITicket } from "./ticket.interface";
@@ -31,6 +31,12 @@ interface TicketProps {
 
 const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   const { palette }: IPalette = useTheme();
+
+  ////////////////////////////////////////////
+  const jwt = useJwtDecode();
+  const userId = jwt && jwt.user_id;
+  const creatorId = ticket?.creator && ticket?.creator.user_id;
+  const isMyTicket = userId === creatorId;
 
   ////////////////////////////////////////
   type TransitionProps = Omit<SlideProps, "direction">;
@@ -147,6 +153,9 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
           width: "100%",
           height: "100%",
           borderLeft: `12px solid ${color}`,
+          background: isMyTicket
+            ? "linear-gradient(to right, #462523 0, #cb9b51 22%, #f6e27a 45%, #f6f2c0 50%, #f6e27a 55%, #cb9b51 78%, #462523 100%)"
+            : "",
         }}
       >
         <TicketHeader
@@ -159,6 +168,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
         />
         <Divider />
         <TicketBody
+          isMyTicket={isMyTicket}
           isAuth={isAuth}
           body={ticket.body}
           creator={ticket.creator}
@@ -175,6 +185,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
           handleToggleBookmark={handleToggleBookmark}
           handleToggleReported={handleToggleReported}
           formattedDate={formattedDate}
+          isMyTicket={isMyTicket}
         />
         <SnackbarNotification
           variant={"like"}

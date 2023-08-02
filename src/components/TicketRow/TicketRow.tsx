@@ -20,6 +20,7 @@ import { endpoints } from "../../constants";
 import { useCheckScope, useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
+import { useToggleBookmarkMutation } from "../../store/api/tickets/tickets.api";
 
 interface TicketRowProps {
   ticket: ITicket;
@@ -46,6 +47,8 @@ const TicketRow: FC<TicketRowProps> = ({
     ticket.is_bookmarked
   );
 
+  const [toggleBookmark] = useToggleBookmarkMutation();
+
   const color: string = checkStatus(ticket.status.name);
   const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
     useCheckScope(ticket.queue.scope);
@@ -64,7 +67,14 @@ const TicketRow: FC<TicketRowProps> = ({
   };
 
   const handleToggleBookmark = (): void => {
-    setIsBookmarked((prevState: boolean) => !prevState);
+    const option = !isBookmarked ? "bookmark" : "unbookmark";
+
+    toggleBookmark({
+      option: option,
+      body: JSON.stringify({ ticket_id: ticket.ticket_id }),
+    });
+
+    setIsBookmarked((prevIsBookmarked: boolean) => !prevIsBookmarked);
   };
 
   return (
