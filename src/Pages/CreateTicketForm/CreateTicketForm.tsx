@@ -1,4 +1,4 @@
-import { useEffect, useState, FC } from "react";
+import { useState, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 
@@ -12,28 +12,29 @@ import { TicketBodyTextField } from "./components/TicketBodyTextField";
 import { FormActions } from "./components/FormActions";
 import { TicketVisibilityOptions } from "./components/TicketVisibilityOptions";
 
-import { useGetProfileQuery } from "../../store/api/profile/profile.api";
 import { useCreateTicketMutation } from "../../store/api/tickets/tickets.api";
 import IPalette from "../../theme/IPalette.interface";
-import { useJwtDecode } from "../../shared/hooks";
+import {
+  getUserFacultyId,
+  getUserId,
+} from "../../shared/functions/getLocalStorageData";
 
 const CreateTicketForm: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
-  const jwt = useJwtDecode();
-  const userId = jwt && jwt.user_id;
+
+  const userId = getUserId();
+  const facultyId = getUserFacultyId();
 
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [queue, setQueue] = useState<number | "none">("none");
 
-  const { data, isSuccess } = useGetProfileQuery({ userId: userId });
   const [createTicket] = useCreateTicketMutation();
 
   const {
     register,
     handleSubmit,
     setValue,
-    getValues,
     resetField,
     // formState: { errors },
   } = useForm<ICreateTicketRequestBody>();
@@ -51,10 +52,6 @@ const CreateTicketForm: FC = () => {
       handleClear();
     }
   };
-
-  useEffect(() => {
-    isSuccess && setValue("faculty", data.faculty.faculty_id);
-  }, [isSuccess, data?.faculty, setValue]);
 
   return (
     <Grid container sx={{ pb: 3 }}>
@@ -74,7 +71,7 @@ const CreateTicketForm: FC = () => {
                 mb: 1,
               },
               "& > div > div > div > fieldset": {
-                border: `2px solid ${palette.grey.divider}`,
+                border: `3px solid ${palette.grey.divider}`,
               },
               "& > div > div > .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
                 {
@@ -83,14 +80,14 @@ const CreateTicketForm: FC = () => {
             }}
           >
             <QueueSelect
-              faculty={isSuccess ? data.faculty.faculty_id : null}
+              faculty={facultyId}
               register={register}
               setValue={setValue}
               queue={queue}
               setQueue={setQueue}
             />
             <TicketTitleInput register={register} />
-            <TicketBodyTextField register={register} getValues={getValues} />
+            <TicketBodyTextField register={register} />
             <TicketVisibilityOptions
               setValue={setValue}
               selectedOptions={selectedOptions}

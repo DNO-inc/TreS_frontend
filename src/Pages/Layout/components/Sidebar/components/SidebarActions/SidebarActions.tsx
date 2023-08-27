@@ -12,7 +12,6 @@ import { GeneralActions } from "./components/GeneralActions";
 import { AdditionActions } from "./components/AdditionActions";
 import { VerticalDivider } from "../../../../../../components/VerticalDivider";
 
-import { useJwtDecode } from "../../../../../../shared/hooks";
 import { endpoints } from "../../../../../../constants";
 import IPalette from "../../../../../../theme/IPalette.interface";
 import { EllipsisMenu } from "../../../../../../components/EllipsisMenu";
@@ -25,7 +24,6 @@ const SidebarActions: FC = () => {
   const [selectedKey, setSelectedKey] = useState<string>(
     endpoints.generalTickets
   );
-  const jwt = useJwtDecode();
 
   const changeLanguage = (language: string): void => {
     i18n.changeLanguage(language);
@@ -45,13 +43,11 @@ const SidebarActions: FC = () => {
     >
       <Box flex={"1 0 auto"}>
         <GeneralActions
-          isAuth={!!jwt}
           selectedKey={selectedKey}
           setSelectedKey={setSelectedKey}
         />
         <Divider sx={{ width: "100%" }} />
         <AdditionActions
-          isAuth={!!jwt}
           selectedKey={selectedKey}
           setSelectedKey={setSelectedKey}
         />

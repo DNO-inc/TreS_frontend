@@ -55,7 +55,8 @@ const TicketVisibilityOptions: FC<TicketVisibilityOptionsProps> = ({
             "& > label": {
               position: "relative",
               cursor: "pointer",
-              border: `2px solid ${palette.grey.divider}`,
+              borderRadius: 1,
+              border: `3px solid ${palette.grey.divider}`,
               m: 0,
               p: "16px 16px 44px 8px",
               width: "100%",

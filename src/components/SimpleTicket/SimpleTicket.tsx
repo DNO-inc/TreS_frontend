@@ -1,4 +1,10 @@
-import { FC } from "react";
+import {
+  FC,
+  ForwardRefExoticComponent,
+  Ref,
+  RefAttributes,
+  forwardRef,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
@@ -16,7 +22,9 @@ interface SimpleTicketProps {
   ticket: ITicket;
 }
 
-const SimpleTicket: FC<SimpleTicketProps> = ({ ticket }) => {
+const SimpleTicket: ForwardRefExoticComponent<
+  Omit<SimpleTicketProps, "ref"> & RefAttributes<HTMLDivElement>
+> = forwardRef(({ ticket }, ref) => {
   const { palette }: IPalette = useTheme();
   const navigate = useNavigate();
 
@@ -28,6 +36,7 @@ const SimpleTicket: FC<SimpleTicketProps> = ({ ticket }) => {
 
   return (
     <Grid
+      ref={ref}
       container
       sx={{
         position: "relative",
@@ -101,6 +110,6 @@ const SimpleTicket: FC<SimpleTicketProps> = ({ ticket }) => {
       </Box>
     </Grid>
   );
-};
+});
 
 export { SimpleTicket };

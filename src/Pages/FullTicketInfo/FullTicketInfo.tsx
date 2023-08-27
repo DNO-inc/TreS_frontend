@@ -1,8 +1,6 @@
-import { useEffect, FC } from "react";
+import { useEffect, FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useLocation } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -11,12 +9,20 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { Loader } from "../../components/Loader";
 import { ActionPanel } from "./components/ActionPanel";
+import { MarkdownWithStyles } from "../../utils/markdown";
+
+import { VerticalDivider } from "../../components/VerticalDivider";
 
 import { endpoints } from "../../constants";
 import { useShowTicketMutation } from "../../store/api/tickets/tickets.api";
-import { checkStatus, formatDate } from "../../shared/functions";
+import { checkIsAdmin, checkStatus, formatDate } from "../../shared/functions";
 import IPalette from "../../theme/IPalette.interface";
-import { VerticalDivider } from "../../components/VerticalDivider";
+import { useAdminShowTicketMutation } from "../../store/api/admin/admin.api";
+import { getUserId } from "../../shared/functions/getLocalStorageData";
+import {
+  useToggleBookmarkMutation,
+  useToggleLikeMutation,
+} from "../../store/api/tickets/tickets.api";
 
 const FullTicketInfo: FC = () => {
   const { t } = useTranslation();
@@ -24,13 +30,67 @@ const FullTicketInfo: FC = () => {
   const { pathname } = useLocation();
 
   const ticketId: number = parseInt(pathname.split("/")[2]);
+  const isAdmin = checkIsAdmin();
 
-  const [showTicket, { data: ticket, isSuccess, isLoading }] =
-    useShowTicketMutation();
+  const [showTicket, { data: ticket, isSuccess, isLoading }] = isAdmin
+    ? useAdminShowTicketMutation()
+    : useShowTicketMutation();
+
+  const userId = Number(getUserId());
+  const creatorId = ticket?.creator && ticket?.creator.user_id;
+  const isMyTicket = userId == creatorId;
 
   useEffect(() => {
     showTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
   }, [ticketId]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIsLiked(ticket?.is_liked);
+      setUpvotes(ticket?.upvotes);
+      setIsFollowed(ticket?.is_followed);
+    }
+  }, [isSuccess]);
+
+  // ======================================
+  const [isLiked, setIsLiked] = useState<boolean>(ticket?.is_liked);
+  const [upvotes, setUpvotes] = useState<number>(ticket?.upvotes);
+  const [isFollowed, setIsFollowed] = useState<boolean>(ticket?.is_followed);
+  const [isReported, setIsReported] = useState<boolean>(false);
+
+  const [toggleLike] = useToggleLikeMutation();
+  const [toggleBookmark] = useToggleBookmarkMutation();
+
+  const handleToggleReported = (): void => {
+    setIsReported(prevIsReported => !prevIsReported);
+  };
+
+  const handleToggleLike = (): void => {
+    const option = !isLiked ? "like" : "unlike";
+
+    toggleLike({
+      option: option,
+      body: JSON.stringify({ ticket_id: ticket.ticket_id }),
+    });
+
+    setUpvotes((prevUpvote: number) =>
+      option === "like" ? prevUpvote + 1 : prevUpvote - 1
+    );
+
+    setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
+  };
+
+  const handleToggleFollowed = (): void => {
+    const option = !isFollowed ? "bookmark" : "unbookmark";
+
+    toggleBookmark({
+      option: option,
+      body: JSON.stringify({ ticket_id: ticket.ticket_id }),
+    });
+
+    setIsFollowed((prevIsBookmarked: boolean) => !prevIsBookmarked);
+  };
+  // ======================================
 
   return (
     <Grid container>
@@ -64,9 +124,7 @@ const FullTicketInfo: FC = () => {
                   maxWidth: "80%",
                 }}
               >
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {ticket.subject}
-                </ReactMarkdown>
+                <MarkdownWithStyles innerText={ticket.subject} />
               </Typography>
               <Box
                 sx={{
@@ -105,15 +163,13 @@ const FullTicketInfo: FC = () => {
             <Grid
               sx={{
                 width: "100%",
-                p: 2,
+                p: "16px 20px",
                 bgcolor: palette.grey.card,
                 borderRadius: 1,
                 whiteSpace: "pre-line",
               }}
             >
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {ticket.body}
-              </ReactMarkdown>
+              <MarkdownWithStyles innerText={ticket.body} />
             </Grid>
           </Grid>
           <Grid container>
@@ -158,7 +214,16 @@ const FullTicketInfo: FC = () => {
               </Grid>
             </Grid>
           </Grid>
-          <ActionPanel />
+          <ActionPanel
+            isLiked={isLiked}
+            isReported={isReported}
+            upvotes={upvotes}
+            isFollowed={isFollowed}
+            handleToggleLike={handleToggleLike}
+            handleToggleFollowed={handleToggleFollowed}
+            handleToggleReported={handleToggleReported}
+            isMyTicket={isMyTicket}
+          />
         </Grid>
       )}
     </Grid>

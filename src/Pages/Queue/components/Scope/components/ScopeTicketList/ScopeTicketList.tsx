@@ -1,4 +1,11 @@
-import { FC, useEffect, useState, UIEvent } from "react";
+import {
+  FC,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  MutableRefObject,
+} from "react";
 
 import { Box, Grid, Typography, useTheme } from "@mui/material";
 
@@ -9,67 +16,94 @@ import IPalette from "../../../../../../theme/IPalette.interface";
 import axios from "axios";
 
 interface ScopeTicketListProps {
-  filter: number;
+  scope: string;
+  queues: number[];
 }
 
-const ScopeTicketList: FC<ScopeTicketListProps> = ({ filter }) => {
+const ScopeTicketList: FC<ScopeTicketListProps> = ({ scope, queues }) => {
   const { palette }: IPalette = useTheme();
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
+  const [prevQueues, setPrevQueues] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isFetching, setIsFetching] = useState<boolean>(true);
-  const [totalCount, setTotalCount] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(false);
+
+  const containerRef = useRef<HTMLInputElement | null>(null);
+  const observer: MutableRefObject<undefined | IntersectionObserver> = useRef();
+
+  const lastTicketElementRef = useCallback(
+    (node: HTMLElement) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && hasMore) {
+          setCurrentPage(prevPage => prevPage + 1);
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, hasMore]
+  );
 
   useEffect(() => {
-    if (isFetching) {
-      axios
-        .post(
-          "https://burrito.tres.cyberbydlo.com/tickets/ticket_list",
-          {
-            status: [filter],
-            items_count: Math.floor(window.innerHeight / 200),
-            start_page: currentPage,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-            },
-          }
-        )
-        .then(function (response) {
-          setTickets([...tickets, ...response.data.ticket_list]);
-          setCurrentPage(prevState => prevState + 1);
-          setTotalCount(response.data.total_pages);
+    setIsLoading(true);
+
+    const isQueuesChanged = prevQueues.toString() !== queues.toString();
+    setPrevQueues(queues);
+
+    if (isQueuesChanged && currentPage !== 1) {
+      setCurrentPage(1);
+
+      const container = containerRef.current;
+
+      if (isQueuesChanged && container) {
+        container.scrollTop = 0;
+      }
+    } else {
+      const requestParams = {
+        scope: scope,
+        queue: queues,
+        items_count: Math.floor(window.innerHeight / 200),
+        start_page: isQueuesChanged ? 1 : currentPage,
+      };
+
+      axios({
+        method: "POST",
+        url: "https://burrito.tres.cyberbydlo.com/admin/tickets/ticket_list",
+        data: requestParams,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
+      })
+        .then(response => {
+          setTickets(prevTickets =>
+            currentPage === 1
+              ? [...response.data.ticket_list]
+              : [...prevTickets, ...response.data.ticket_list]
+          );
+          setHasMore(currentPage < response.data.total_pages);
+          setIsLoading(false);
         })
-        .catch(function (error) {
+        .catch(error => {
           console.log(error);
-        })
-        .finally(() => setIsFetching(false));
+        });
     }
-  }, [isFetching]);
-
-  const handleScroll = (event: UIEvent<EventTarget>) => {
-    const target = event.target as HTMLInputElement;
-
-    if (
-      target.scrollHeight - (target.scrollTop + window.innerHeight - 450) <
-        100 &&
-      currentPage <= totalCount
-    ) {
-      setIsFetching(true);
-    }
-  };
+  }, [queues, currentPage]);
 
   return (
     <Box sx={{ mt: 1 }}>
       {tickets.length ? (
         <>
           <Grid
+            ref={containerRef}
             container
-            onScroll={handleScroll}
             gap={2}
             sx={{
+              scrollBehavior: "smooth",
               alignContent: "start",
               height: "calc(100vh - 380px)",
               overflowY: "auto",
@@ -85,7 +119,17 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({ filter }) => {
               },
             }}
           >
-            {tickets.map(ticket => {
+            {tickets.map((ticket, index) => {
+              if (tickets.length === index + 1) {
+                return (
+                  <SimpleTicket
+                    ref={lastTicketElementRef}
+                    ticket={ticket}
+                    key={ticket.ticket_id}
+                  />
+                );
+              }
+
               return <SimpleTicket ticket={ticket} key={ticket.ticket_id} />;
             })}
           </Grid>

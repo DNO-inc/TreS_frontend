@@ -3,13 +3,12 @@ import { FC } from "react";
 import { MyTicketPage } from "../MyTicketPage";
 
 import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
-import { useJwtDecode } from "../../shared/hooks";
+import { getUserId } from "../../shared/functions/getLocalStorageData";
 
 const Sent: FC = () => {
   const [getTickets, { isLoading, isSuccess }] = useGetTicketsMutation();
 
-  const jwt = useJwtDecode();
-  const userId: boolean | number = jwt && jwt?.user_id;
+  const userId: null | number = getUserId();
 
   return (
     <MyTicketPage

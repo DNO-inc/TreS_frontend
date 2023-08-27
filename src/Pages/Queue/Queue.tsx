@@ -1,5 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 
@@ -15,6 +16,7 @@ import { EditQueuesPopup } from "./components/EditQueuesPopup";
 import { Scope } from "./components/Scope";
 import IPalette from "../../theme/IPalette.interface";
 import { useGetQueueByFacultyMutation } from "../../store/api/api";
+import { getUserFacultyId } from "../../shared/functions/getLocalStorageData";
 
 type ApiResponse = {
   data?: { queues_list: IQueue[] };
@@ -38,26 +40,35 @@ const Queue: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
+  const facultyId = getUserFacultyId();
+
+  const [searchParams] = useSearchParams();
+  const searchParamOrder = searchParams.get("order");
+
+  const queue: number[] = searchParamOrder
+    ? searchParamOrder.split(",").map(item => Number(item))
+    : [];
+
   const [open, setOpen] = useState(false);
   const [currentScope, setCurrentScope] = useState<IScope | null>(null);
   const [scopesList, setScopesList] = useState<IScope[]>([
     {
       id: 1,
-      order: 1,
+      order: queue[0] || 1,
       name: "Reports",
       title: t("queue.scopes.reportTitle"),
       queues: [],
     },
     {
       id: 2,
-      order: 2,
+      order: queue[1] || 2,
       name: "Q/A",
       title: t("queue.scopes.questionTitle"),
       queues: [],
     },
     {
       id: 3,
-      order: 3,
+      order: queue[2] || 3,
       name: "Suggestion",
       title: t("queue.scopes.suggestionTitle"),
       queues: [],
@@ -73,15 +84,16 @@ const Queue: FC = () => {
   const [getQueues] = useGetQueueByFacultyMutation({});
 
   useEffect(() => {
-    getQueues({ body: JSON.stringify({ faculty: 1 }) }).then(
+    getQueues({ body: JSON.stringify({ faculty: facultyId }) }).then(
       (res: ApiResponse) => {
         const queuesData = res.data && res.data.queues_list;
 
         if (queuesData) {
-          const newScopeList = [...scopesList];
+          const newScopeList = [...scopesList].sort((a, b) => a.id - b.id);
 
           queuesData.forEach((queue: IQueue) => {
             const scopeIndex = mapScopeToIndex[queue.scope];
+
             if (typeof scopeIndex === "number") {
               newScopeList[scopeIndex].queues.push(queue);
             }
@@ -93,8 +105,9 @@ const Queue: FC = () => {
     );
   }, []);
 
-  const sortCards = (a: { order: number }, b: { order: number }) =>
-    a.order - b.order;
+  const sortCards = (a: { order: number }, b: { order: number }) => {
+    return a.order - b.order;
+  };
 
   const handleOpenDialog = () => {
     setOpen(true);
@@ -137,7 +150,7 @@ const Queue: FC = () => {
           },
         }}
       >
-        {scopesList.sort(sortCards).map(scope => (
+        {scopesList.sort(sortCards).map((scope: IScope) => (
           <Scope
             scope={scope}
             currentScope={currentScope}

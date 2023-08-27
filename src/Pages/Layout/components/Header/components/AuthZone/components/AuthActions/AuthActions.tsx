@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction, MouseEvent } from "react";
+import { FC, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -10,28 +10,25 @@ import Box from "@mui/material/Box";
 import { VerticalDivider } from "../../../../../../../../components/VerticalDivider";
 
 import { endpoints } from "../../../../../../../../constants";
-import { useJwtDecode } from "../../../../../../../../shared/hooks";
 import Logo from "../../../../../../../../assets/Logomark.svg";
+import {
+  getUserId,
+  getUserLogin,
+} from "../../../../../../../../shared/functions/getLocalStorageData";
+import { useAuth } from "../../../../../../../../context/AuthContext";
 
-interface AuthActionsProps {
-  isAuth: boolean;
-  setIsAuth: Dispatch<SetStateAction<boolean>>;
-}
-
-const AuthActions: FC<AuthActionsProps> = ({ isAuth, setIsAuth }) => {
+const AuthActions: FC = () => {
   const { t } = useTranslation();
-  const jwt = useJwtDecode();
 
-  const userId: boolean | number = isAuth && jwt && jwt?.user_id;
-  const userName: string | null = localStorage.getItem("user-name");
+  const { logoutUser } = useAuth();
+
+  const userId: number | null = getUserId();
+  const userName: string | null = getUserLogin();
 
   const handleLogOut = (event: MouseEvent): void => {
     event.preventDefault();
 
-    localStorage.removeItem("access-token");
-    localStorage.removeItem("user-name");
-
-    setIsAuth(false);
+    logoutUser();
   };
 
   return (
