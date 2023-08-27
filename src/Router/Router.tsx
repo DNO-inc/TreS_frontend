@@ -1,16 +1,12 @@
-import { FC, useEffect, useState, lazy, Suspense } from "react";
-import {
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { FC, useEffect, lazy, Suspense } from "react";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import { Loader } from "../components/Loader";
 
 import { endpoints } from "../constants";
-import { useJwtDecode } from "../shared/hooks";
+import { useAuth } from "../context/AuthContext";
+import { getAccessToken } from "../shared/functions/getLocalStorageData";
+import { checkIsAdmin } from "../shared/functions";
 
 const Layout = lazy(() => import("../Pages/Layout"));
 const GeneralTickets = lazy(() => import("../Pages/GeneralTickets"));
@@ -28,26 +24,25 @@ const FullTicketInfo = lazy(() => import("../Pages/FullTicketInfo"));
 const CreateTicketForm = lazy(() => import("../Pages/CreateTicketForm"));
 
 const Router: FC = () => {
-  const jwt = useJwtDecode();
-  const navigate = useNavigate();
-  const [, setSearchParams] = useSearchParams();
-  const { pathname, search } = useLocation();
+  const { isAuth } = useAuth();
+  const isAdmin = checkIsAdmin();
 
-  const [isAuth, setIsAuth] = useState<boolean>(!!jwt);
+  const navigate = useNavigate();
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
     pathname === endpoints.base && navigate(endpoints.generalTickets);
-  }, [pathname, navigate]);
+  }, [pathname]);
 
   useEffect(() => {
-    if (!isAuth) {
+    if (!getAccessToken()) {
       localStorage.removeItem("access-token");
 
       if (pathname !== endpoints.generalTickets) {
         navigate(endpoints.generalTickets);
       }
     }
-  }, [pathname, search, setSearchParams, isAuth, navigate]);
+  }, [pathname, search, isAuth]);
 
   return (
     <Routes>
@@ -55,30 +50,39 @@ const Router: FC = () => {
         path={endpoints.base}
         element={
           <Suspense fallback={<Loader />}>
-            <Layout isAuth={isAuth} setIsAuth={setIsAuth} />
+            <Layout />
           </Suspense>
         }
       >
-        <Route index element={<GeneralTickets />} />
-        <Route
-          path={`${endpoints.fullTicket}/:ticketId`}
-          element={<FullTicketInfo />}
-        />
-        {localStorage.getItem("is-admin") && (
+        <Route path={endpoints.generalTickets} element={<GeneralTickets />} />
+        {isAuth && (
           <>
-            <Route path={endpoints.queue} element={<Queue />} />
-            <Route path={endpoints.received} element={<Received />} />
+            <Route
+              path={`${endpoints.fullTicket}/:ticketId`}
+              element={<FullTicketInfo />}
+            />
+            <Route
+              path={endpoints.createTicket}
+              element={<CreateTicketForm />}
+            />
+            <Route path={endpoints.sent} element={<Sent />} />
+            <Route path={endpoints.followed} element={<Followed />} />
+            <Route path={endpoints.bookmarks} element={<Bookmarks />} />
+            <Route path={endpoints.deleted} element={<Deleted />} />
+            <Route path={endpoints.notifications} element={<Notifications />} />
+            <Route path={endpoints.settings} element={<Settings />} />
+            <Route
+              path={`${endpoints.profile}/:userId`}
+              element={<Profile />}
+            />
+            {isAdmin && (
+              <>
+                <Route path={endpoints.queue} element={<Queue />} />
+                <Route path={endpoints.received} element={<Received />} />
+              </>
+            )}
           </>
         )}
-        <Route path={endpoints.generalTickets} element={<GeneralTickets />} />
-        <Route path={endpoints.sent} element={<Sent />} />
-        <Route path={endpoints.createTicket} element={<CreateTicketForm />} />
-        <Route path={endpoints.followed} element={<Followed />} />
-        <Route path={endpoints.bookmarks} element={<Bookmarks />} />
-        <Route path={endpoints.deleted} element={<Deleted />} />
-        <Route path={endpoints.notifications} element={<Notifications />} />
-        <Route path={endpoints.settings} element={<Settings />} />
-        <Route path={`${endpoints.profile}/:userId`} element={<Profile />} />
         <Route path={"*"} element={<ErrorPage />} />
       </Route>
       <Route path={"*" || "/error"} element={<ErrorPage />} />

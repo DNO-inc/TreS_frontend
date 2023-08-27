@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction } from "react";
+import { FC } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
@@ -17,12 +17,10 @@ import { dimensions, endpoints } from "../../../../constants";
 import IPalette from "../../../../theme/IPalette.interface";
 
 interface HeaderProps {
-  isAuth: boolean;
-  setIsAuth: Dispatch<SetStateAction<boolean>>;
   handleDrawerToggle: () => void;
 }
 
-const Header: FC<HeaderProps> = ({ isAuth, setIsAuth, handleDrawerToggle }) => {
+const Header: FC<HeaderProps> = ({ handleDrawerToggle }) => {
   const { palette }: IPalette = useTheme();
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -92,7 +90,7 @@ const Header: FC<HeaderProps> = ({ isAuth, setIsAuth, handleDrawerToggle }) => {
             </Button>
           </Box>
         )}
-        <AuthZone isAuth={isAuth} setIsAuth={setIsAuth} />
+        <AuthZone />
       </Toolbar>
     </AppBar>
   );

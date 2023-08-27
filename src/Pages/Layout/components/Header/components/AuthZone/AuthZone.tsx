@@ -1,16 +1,14 @@
-import { FC, Dispatch, SetStateAction } from "react";
+import { FC } from "react";
 
 import Box from "@mui/material/Box";
 
 import { AuthActions } from "./components/AuthActions";
 import { NoAuthActions } from "./components/NoAuthActions";
+import { useAuth } from "../../../../../../context/AuthContext";
 
-interface AuthZoneProps {
-  isAuth: boolean;
-  setIsAuth: Dispatch<SetStateAction<boolean>>;
-}
+const AuthZone: FC = () => {
+  const { isAuth } = useAuth();
 
-const AuthZone: FC<AuthZoneProps> = ({ isAuth, setIsAuth }) => {
   return (
     <Box
       sx={{
@@ -20,11 +18,7 @@ const AuthZone: FC<AuthZoneProps> = ({ isAuth, setIsAuth }) => {
         padding: { xs: 0, md: "8px 16px" },
       }}
     >
-      {isAuth ? (
-        <AuthActions isAuth={isAuth} setIsAuth={setIsAuth} />
-      ) : (
-        <NoAuthActions setIsAuth={setIsAuth} />
-      )}
+      {isAuth ? <AuthActions /> : <NoAuthActions />}
     </Box>
   );
 };

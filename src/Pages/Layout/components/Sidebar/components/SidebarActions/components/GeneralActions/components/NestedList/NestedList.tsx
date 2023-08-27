@@ -10,20 +10,21 @@ import Badge from "@mui/material/Badge";
 import Collapse from "@mui/material/Collapse";
 
 import useGetListItemsArray from "./useGetListItemArray";
+import { useAuth } from "../../../../../../../../../../context/AuthContext";
 
 interface NestedListProps {
   open: boolean;
-  isAuth: boolean;
   selectedKey: string;
   handleListItemClick: (key: string) => void;
 }
 
 const NestedList: FC<NestedListProps> = ({
   open,
-  isAuth,
   selectedKey,
   handleListItemClick,
 }) => {
+  const { isAuth } = useAuth();
+
   const listItemsArray = useGetListItemsArray(selectedKey);
 
   return (

@@ -12,33 +12,36 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 
 import IPalette from "../../../../theme/IPalette.interface";
+import { useAuth } from "../../../../context/AuthContext";
+import { checkIsAdmin } from "../../../../shared/functions";
 
 interface TicketActionsProps {
   isMyTicket: boolean;
-  isAuth: boolean;
   isReported: boolean;
   isLiked: boolean;
-  isBookmarked: boolean;
+  isFollowed: boolean;
   upvotes: number;
   formattedDate: string;
   handleToggleReported: () => void;
   handleToggleLike: () => void;
-  handleToggleBookmark: () => void;
+  handleToggleFollowed: () => void;
 }
 
 const TicketActions: FC<TicketActionsProps> = ({
   isMyTicket,
-  isAuth,
   // isReported,
   isLiked,
-  isBookmarked,
+  isFollowed,
   upvotes,
   formattedDate,
   handleToggleReported,
   handleToggleLike,
-  handleToggleBookmark,
+  handleToggleFollowed,
 }) => {
   const { palette }: IPalette = useTheme();
+
+  const { isAuth } = useAuth();
+  const isAdmin = checkIsAdmin();
 
   return (
     <Grid container justifyContent={"space-between"} alignItems={"center"}>
@@ -57,7 +60,7 @@ const TicketActions: FC<TicketActionsProps> = ({
           },
         }}
       >
-        {localStorage.getItem("is-admin") && (
+        {isAdmin && (
           <IconButton
             onClick={handleToggleReported}
             disabled={!isAuth}
@@ -72,31 +75,33 @@ const TicketActions: FC<TicketActionsProps> = ({
             <DoNotDisturbAltOutlinedIcon className="evadeItem" />
           </IconButton>
         )}
-        <IconButton
-          onClick={handleToggleBookmark}
-          disabled={!isAuth}
-          className="evadeItem"
-          sx={{
-            width: 26,
-            mr: !upvotes ? 0 : -0.6,
-            "& > .MuiSvgIcon-root": {
-              color: isBookmarked ? palette.semantic.info : "none",
-              fontSize: "24px !important",
-            },
-          }}
-        >
-          {!isMyTicket &&
-            (isAuth && isBookmarked ? (
+        {!isMyTicket && (
+          <IconButton
+            onClick={handleToggleFollowed}
+            disabled={!isAuth}
+            className="evadeItem"
+            sx={{
+              width: 26,
+              mr: !upvotes ? 0 : -0.6,
+              "& > .MuiSvgIcon-root": {
+                color: isFollowed ? palette.semantic.info : "none",
+                fontSize: "24px !important",
+              },
+            }}
+          >
+            {isAuth && isFollowed ? (
               <StarIcon className="evadeItem" />
             ) : (
               <StarBorderIcon className="evadeItem" />
-            ))}
-        </IconButton>
+            )}
+          </IconButton>
+        )}
         <IconButton
           onClick={handleToggleLike}
           disabled={!isAuth}
           className="evadeItem"
           sx={{
+            pt: "10px",
             gap: 0.5,
             width: !upvotes ? 26 : "auto",
             borderRadius: 4,

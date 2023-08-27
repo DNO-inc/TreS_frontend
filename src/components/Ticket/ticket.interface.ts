@@ -29,6 +29,7 @@ export interface ITicket extends Creator, Assignee {
   };
 
   is_bookmarked: boolean;
+  is_followed: boolean;
   is_liked: boolean;
   queue: {
     faculty: number;

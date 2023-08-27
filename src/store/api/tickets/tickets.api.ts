@@ -6,10 +6,6 @@ export const ticketsApi = api.injectEndpoints({
       query: ({ option, body }) => ({
         url: `/${option}/ticket_list`,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
         body,
       }),
     }),
@@ -17,10 +13,6 @@ export const ticketsApi = api.injectEndpoints({
       query: ({ option, body }) => ({
         url: `/tickets/${option}`,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
         body,
       }),
     }),
@@ -28,10 +20,6 @@ export const ticketsApi = api.injectEndpoints({
       query: ({ body }) => ({
         url: "/tickets/deleted",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
         body,
       }),
     }),
@@ -39,10 +27,6 @@ export const ticketsApi = api.injectEndpoints({
       query: ({ body }) => ({
         url: "/tickets/create",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
         body,
       }),
     }),
@@ -50,10 +34,6 @@ export const ticketsApi = api.injectEndpoints({
       query: ({ body }) => ({
         url: "/tickets/show",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
         body,
       }),
     }),
@@ -61,10 +41,6 @@ export const ticketsApi = api.injectEndpoints({
       query: ({ option, body }) => ({
         url: `/tickets/${option}`,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
         body,
       }),
     }),
@@ -72,10 +48,6 @@ export const ticketsApi = api.injectEndpoints({
       query: ({ option, body }) => ({
         url: `/tickets/${option}`,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
         body,
       }),
     }),
@@ -83,10 +55,13 @@ export const ticketsApi = api.injectEndpoints({
       query: ({ body }) => ({
         url: "/tickets/delete",
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
+        body,
+      }),
+    }),
+    undeleteTicket: builder.mutation({
+      query: ({ body }) => ({
+        url: "/tickets/undelete",
+        method: "POST",
         body,
       }),
     }),
@@ -102,4 +77,5 @@ export const {
   useToggleLikeMutation,
   useToggleBookmarkMutation,
   useDeleteTicketMutation,
+  useUndeleteTicketMutation,
 } = ticketsApi;

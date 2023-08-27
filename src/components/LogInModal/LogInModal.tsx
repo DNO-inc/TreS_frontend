@@ -1,11 +1,4 @@
-import {
-  FormEvent,
-  useEffect,
-  useState,
-  FC,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { FormEvent, useState, FC, Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 
 import useTheme from "@mui/material/styles/useTheme";
@@ -15,44 +8,33 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 
-import { useLoginMutation } from "../../store/api/api";
 import IPalette from "../../theme/IPalette.interface";
+import { useAuth } from "../../context/AuthContext";
 
 interface LogInModalProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  setIsAuth: Dispatch<SetStateAction<boolean>>;
 }
 
-const LogInModal: FC<LogInModalProps> = ({ open, setOpen, setIsAuth }) => {
+const LogInModal: FC<LogInModalProps> = ({ open, setOpen }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
+
+  const { loginUser } = useAuth();
 
   const [login, setLogin] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [hasError, setHasError] = useState<boolean>(false);
 
-  const [loginPost, { data, isSuccess, isError }] = useLoginMutation();
-
   const handleClose = (): void => setOpen(false);
 
-  const handleSubmit = (event: FormEvent): void => {
+  const handleSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
-    loginPost({ body: JSON.stringify({ login, password }) });
+
+    loginUser({ login, password })
+      .then(() => setOpen(false))
+      .catch(() => setHasError(true));
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      localStorage.setItem("access-token", data.access_token);
-      localStorage.setItem("user-name", data.login);
-      setIsAuth(true);
-      setOpen(false);
-    }
-
-    if (isError) {
-      setHasError(true);
-    }
-  }, [isSuccess, isError, data?.access_token, data?.login, setIsAuth, setOpen]);
 
   return (
     <Modal
