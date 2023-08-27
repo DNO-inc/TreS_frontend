@@ -10,7 +10,6 @@ import useTheme from "@mui/material/styles/useTheme";
 import { MarkdownWithStyles } from "../../../../utils/markdown";
 
 import IPalette from "../../../../theme/IPalette.interface";
-import { MarkdownControls } from "./components/MarkdownControls";
 
 interface TicketBodyTextFieldProps {
   register: UseFormRegister<ICreateTicketRequestBody>;
