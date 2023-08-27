@@ -1,74 +1,74 @@
-import { MouseEvent, useState, FC } from "react";
+import { MouseEvent, useState, FC, ComponentType } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import useTheme from "@mui/material/styles/useTheme";
-import { Slide, SlideProps } from "@mui/material";
+import { SlideProps } from "@mui/material";
 
 import { TicketHeader } from "./components/TicketHeader";
 import { TicketBody } from "./components/TicketBody";
 import { TicketActions } from "./components/TicketActions";
 import { SnackbarNotification } from "../SnackbarNotification";
+import { SlideNotification } from "../SlideNotification";
 
-import { checkStatus } from "../../shared/functions";
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from "../../store/api/tickets/tickets.api";
 import { endpoints } from "../../constants";
-import { useFormatDate, useJwtDecode } from "../../shared/hooks";
+import { useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 
 import { ITicket } from "./ticket.interface";
+import { getUserId } from "../../shared/functions/getLocalStorageData";
+import { checkStatus } from "../../shared/functions";
+import { useAuth } from "../../context/AuthContext";
 
 interface TicketProps {
   ticket: ITicket;
   ticketsPerRow: number;
-  isAuth: boolean;
 }
 
-const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
+const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
   const { palette }: IPalette = useTheme();
 
+  const { isAuth } = useAuth();
+
   ////////////////////////////////////////////
-  const jwt = useJwtDecode();
-  const userId = jwt && jwt.user_id;
+  const userId = Number(getUserId());
   const creatorId = ticket?.creator && ticket?.creator.user_id;
-  const isMyTicket = userId === creatorId;
+  const isMyTicket = userId == creatorId;
 
   ////////////////////////////////////////
-  type TransitionProps = Omit<SlideProps, "direction">;
-
-  function TransitionRight(props: TransitionProps) {
-    return <Slide {...props} direction="left" />;
-  }
-
   const [open, setOpen] = useState(false);
   const [transition, setTransition] = useState<
-    React.ComponentType<TransitionProps> | undefined
+    ComponentType<TransitionProps> | undefined
   >(undefined);
 
-  const handleSnackbarClick = (
-    Transition: React.ComponentType<TransitionProps>
-  ) => {
+  type TransitionProps = Omit<SlideProps, "direction">;
+
+  function TransitionRight(props: TransitionProps, variant: string) {
+    return <SlideNotification props={props} variant={variant} />;
+  }
+
+  const handleSnackbarClick = (Transition: ComponentType<TransitionProps>) => {
     setTransition(() => Transition);
     setOpen(true);
-    setTimeout(() => {
-      setOpen(false);
-    }, 3000);
   };
 
-  const handleClose = () => {};
+  const handleClose = (reason: string) => {
+    if (reason === "timeout") {
+      setOpen(false);
+    }
+  };
 
   ////////////////////////////////////////
 
   const [isLiked, setIsLiked] = useState<boolean>(ticket.is_liked);
   const [upvotes, setUpvotes] = useState<number>(ticket.upvotes);
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(
-    ticket.is_bookmarked
-  );
+  const [isFollowed, setIsFollowed] = useState<boolean>(ticket.is_followed);
   const [isReported, setIsReported] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -82,7 +82,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
   const handleToggleReported = (): void => {
     setIsReported(prevIsReported => !prevIsReported);
 
-    handleSnackbarClick(TransitionRight);
+    handleSnackbarClick(props => TransitionRight(props, "report"));
   };
 
   const handleToggleLike = (): void => {
@@ -98,17 +98,22 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
     );
 
     setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
+
+    handleSnackbarClick(props => TransitionRight(props, option));
   };
 
-  const handleToggleBookmark = (): void => {
-    const option = !isBookmarked ? "bookmark" : "unbookmark";
+  const handleToggleFollowed = (): void => {
+    const option = !isFollowed ? "bookmark" : "unbookmark";
+    const notiOption = !isFollowed ? "follow" : "unfollow";
 
     toggleBookmark({
       option: option,
       body: JSON.stringify({ ticket_id: ticket.ticket_id }),
     });
 
-    setIsBookmarked((prevIsBookmarked: boolean) => !prevIsBookmarked);
+    setIsFollowed((prevIsBookmarked: boolean) => !prevIsBookmarked);
+
+    handleSnackbarClick(props => TransitionRight(props, notiOption));
   };
 
   const handleClick = (event: MouseEvent): void => {
@@ -153,13 +158,9 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
           width: "100%",
           height: "100%",
           borderLeft: `12px solid ${color}`,
-          background: isMyTicket
-            ? "linear-gradient(to right, #462523 0, #cb9b51 22%, #f6e27a 45%, #f6f2c0 50%, #f6e27a 55%, #cb9b51 78%, #462523 100%)"
-            : "",
         }}
       >
         <TicketHeader
-          isAuth={isAuth}
           color={color}
           scope={ticket.queue.scope}
           subject={ticket.subject}
@@ -169,26 +170,23 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow, isAuth }) => {
         <Divider />
         <TicketBody
           isMyTicket={isMyTicket}
-          isAuth={isAuth}
           body={ticket.body}
           creator={ticket.creator}
           faculty={ticket.faculty.name}
         />
         <hr />
         <TicketActions
-          isAuth={isAuth}
           isLiked={isLiked}
           isReported={isReported}
           upvotes={upvotes}
-          isBookmarked={isBookmarked}
+          isFollowed={isFollowed}
           handleToggleLike={handleToggleLike}
-          handleToggleBookmark={handleToggleBookmark}
+          handleToggleFollowed={handleToggleFollowed}
           handleToggleReported={handleToggleReported}
           formattedDate={formattedDate}
           isMyTicket={isMyTicket}
         />
         <SnackbarNotification
-          variant={"like"}
           open={open}
           handleClose={handleClose}
           transition={transition}

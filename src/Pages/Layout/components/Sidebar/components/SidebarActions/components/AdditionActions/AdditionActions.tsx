@@ -15,21 +15,22 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 import { endpoints } from "../../../../../../../../constants";
+import { useAuth } from "../../../../../../../../context/AuthContext";
 // import { ColorModeContext } from "../../../../../../../../theme";
 
 interface AdditionActionsProps {
-  isAuth: boolean;
   selectedKey: string;
   setSelectedKey: (key: string) => void;
 }
 
 const AdditionActions: FC<AdditionActionsProps> = ({
-  isAuth,
   selectedKey,
   setSelectedKey,
 }) => {
   const theme = useTheme();
   const { t } = useTranslation();
+
+  const { isAuth } = useAuth();
 
   // const { toggleColorMode } = useContext(ColorModeContext);
   const [checked, setChecked] = useState<boolean>(

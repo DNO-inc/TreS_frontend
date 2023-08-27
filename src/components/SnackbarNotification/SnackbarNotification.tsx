@@ -3,14 +3,12 @@ import { FC } from "react";
 import Snackbar from "@mui/material/Snackbar";
 
 interface SnackbarNotificationProps {
-  variant: any;
   open: any;
   handleClose: any;
   transition: any;
 }
 
 const SnackbarNotification: FC<SnackbarNotificationProps> = ({
-  // variant,
   open,
   handleClose,
   transition,
@@ -20,8 +18,8 @@ const SnackbarNotification: FC<SnackbarNotificationProps> = ({
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       open={open}
       onClose={handleClose}
+      autoHideDuration={3000}
       TransitionComponent={transition}
-      message="Version 2.0"
       key={transition ? transition.name : ""}
     />
   );

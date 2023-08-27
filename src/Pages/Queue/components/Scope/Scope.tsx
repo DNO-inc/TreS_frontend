@@ -1,4 +1,12 @@
-import { FC, Dispatch, SetStateAction, DragEvent } from "react";
+import {
+  FC,
+  useState,
+  Dispatch,
+  SetStateAction,
+  DragEvent,
+  useEffect,
+} from "react";
+import { useSearchParams } from "react-router-dom";
 
 import { Card, Divider, useTheme, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -29,6 +37,10 @@ const Scope: FC<ScopeProps> = ({
 }) => {
   const { palette }: IPalette = useTheme();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [queues, setQueues] = useState<number[]>([]);
+
   const handleDragStart = () => {
     setCurrentScope(scope);
   };
@@ -55,6 +67,23 @@ const Scope: FC<ScopeProps> = ({
       })
     );
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    const newOrder = scopesList
+      .sort((a, b) => a.id - b.id)
+      .map(item => item.order)
+      .join(",");
+
+    if (params.has("order")) {
+      params.set("order", newOrder);
+    } else {
+      params.append("order", newOrder);
+    }
+
+    setSearchParams(params);
+  }, scopesList);
 
   return (
     <Card
@@ -90,8 +119,10 @@ const Scope: FC<ScopeProps> = ({
       </Box>
       <Divider />
       <Box sx={{ pt: 3, pb: 3 }}>
-        {!!scope.queues.length && <QueueButtonsList queues={scope.queues} />}
-        <ScopeTicketList filter={scope.id + 1} />
+        {!!scope.queues.length && (
+          <QueueButtonsList queues={scope.queues} setQueues={setQueues} />
+        )}
+        <ScopeTicketList scope={scope.name} queues={queues} />
       </Box>
     </Card>
   );

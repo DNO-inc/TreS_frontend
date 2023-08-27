@@ -6,14 +6,18 @@ export const adminApi = api.injectEndpoints({
       query: ({ body }) => ({
         url: `/admin/tickets/ticket_list`,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
+        body,
+      }),
+    }),
+    adminShowTicket: builder.mutation({
+      query: ({ body }) => ({
+        url: "admin/tickets/show",
+        method: "POST",
         body,
       }),
     }),
   }),
 });
 
-export const { useGetAdminTicketsMutation } = adminApi;
+export const { useGetAdminTicketsMutation, useAdminShowTicketMutation } =
+  adminApi;

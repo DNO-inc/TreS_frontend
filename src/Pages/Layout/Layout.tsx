@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState, FC, Suspense } from "react";
+import { useState, FC, Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -12,12 +12,7 @@ import { Loader } from "../../components/Loader";
 import { dimensions } from "../../constants";
 import { ErrorBoundary } from "../../components/ErrorBoundary";
 
-interface LayoutProps {
-  isAuth: boolean;
-  setIsAuth: Dispatch<SetStateAction<boolean>>;
-}
-
-const Layout: FC<LayoutProps> = ({ isAuth, setIsAuth }) => {
+const Layout: FC = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const { palette }: IPalette = useTheme();
 
@@ -30,16 +25,13 @@ const Layout: FC<LayoutProps> = ({ isAuth, setIsAuth }) => {
   return (
     <Box sx={{ display: "flex" }}>
       <ErrorBoundary>
-        <Header
-          isAuth={isAuth}
-          setIsAuth={setIsAuth}
-          handleDrawerToggle={handleDrawerToggle}
-        />
+        <Header handleDrawerToggle={handleDrawerToggle} />
 
         <Sidebar
           mobileOpen={mobileOpen}
           handleDrawerToggle={handleDrawerToggle}
         />
+
         <Box
           component="main"
           sx={{
@@ -53,7 +45,7 @@ const Layout: FC<LayoutProps> = ({ isAuth, setIsAuth }) => {
               position: "fixed",
               left: { xs: 0, md: drawerWidth },
               right: 0,
-              p: { xs: "24px 8px 8px", sm: "24px 24px 24px" },
+              p: { xs: "24px 8px 8px", sm: "24px 24px 24px 32px" },
               bgcolor: palette.grey.background,
               zIndex: 100,
             },

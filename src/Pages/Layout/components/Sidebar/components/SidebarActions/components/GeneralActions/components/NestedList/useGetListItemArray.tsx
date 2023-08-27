@@ -10,6 +10,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 
 import { endpoints } from "../../../../../../../../../../constants";
+import { checkIsAdmin } from "../../../../../../../../../../shared/functions";
 
 interface ListItem {
   text: string;
@@ -20,6 +21,8 @@ interface ListItem {
 
 const useGetListItemsArray = (selectedKey: string): ListItem[] => {
   const { t } = useTranslation();
+
+  const isAdmin = checkIsAdmin();
 
   const listItemsArrayForUser = [
     {
@@ -67,33 +70,10 @@ const useGetListItemsArray = (selectedKey: string): ListItem[] => {
       endpoint: endpoints.received,
       isHaveNewMessage: true,
     },
-    {
-      text: t("sidebar.myTickets.followed"),
-      icon:
-        selectedKey === endpoints.followed ? (
-          <FolderIcon />
-        ) : (
-          <FolderOpenIcon />
-        ),
-      endpoint: endpoints.followed,
-      isHaveNewMessage: false,
-    },
-    {
-      text: t("sidebar.myTickets.bookmarks"),
-      icon:
-        selectedKey === endpoints.bookmarks ? (
-          <BookmarkIcon />
-        ) : (
-          <BookmarkBorderIcon />
-        ),
-      endpoint: endpoints.bookmarks,
-      isHaveNewMessage: false,
-    },
+    ...listItemsArrayForUser,
   ];
 
-  return localStorage.getItem("is-admin")
-    ? listItemsArrayForAdmin
-    : listItemsArrayForUser;
+  return isAdmin ? listItemsArrayForAdmin : listItemsArrayForUser;
 };
 
 export default useGetListItemsArray;

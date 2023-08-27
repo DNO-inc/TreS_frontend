@@ -13,7 +13,7 @@ const Followed: FC = () => {
       useGetQuery={getTickets}
       isLoading={isLoading}
       isSuccess={isSuccess}
-      option={"bookmarked"}
+      option={"followed"}
     />
   );
 };
