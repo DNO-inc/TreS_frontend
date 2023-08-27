@@ -14,9 +14,10 @@ import { FilterPanel } from "../../components/FilterPanel";
 import { CustomPagination } from "../../components/CustomPagination";
 
 import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
-import { useJwtDecode } from "../../shared/hooks";
 import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
 import { ITicket } from "../../components/Ticket/ticket.interface";
+import { useAuth } from "../../context/AuthContext";
+import { useWindowWidth } from "../../shared/hooks";
 
 interface GeneralTicketsPageInfo {
   data?: {
@@ -29,11 +30,13 @@ interface GeneralTicketsPageInfo {
 const GeneralTickets: FC = () => {
   const { t } = useTranslation();
 
+  const width = useWindowWidth();
+
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [facultyId, setFacultyId] = useState<number | null>(null);
+  const [ticketsPerRow, setTicketsPerRow] = useState(Math.round(width / 600));
 
-  const jwt = useJwtDecode();
   const [getTickets, { isLoading, isSuccess: isTicketsSuccess }] =
     useGetTicketsMutation();
   const faculties = useGetFacultiesQuery({});
@@ -43,8 +46,8 @@ const GeneralTickets: FC = () => {
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
 
-  const option: string = jwt ? "tickets" : "anon";
-  const ticketsPerRow: number = Math.round(window.innerWidth / 600);
+  const { isAuth } = useAuth();
+  const option: string = isAuth ? "tickets" : "anon";
 
   const requestBody = useMemo(() => {
     const matchingStatusesId = [];
@@ -81,7 +84,7 @@ const GeneralTickets: FC = () => {
       faculty: facultyId,
       status: matchingStatusesId,
     };
-  }, [option, facultyId, searchParams]);
+  }, [option, facultyId, searchParams, ticketsPerRow]);
 
   useEffect(() => {
     getTickets({
@@ -93,7 +96,16 @@ const GeneralTickets: FC = () => {
         setTotalPage(res.data.total_pages);
       }
     });
-  }, [requestBody]);
+  }, [requestBody, ticketsPerRow]);
+
+  useEffect(() => {
+    setTicketsPerRow(prevRowsCount => {
+      const newCount = Math.round(width / 600);
+      if (prevRowsCount === newCount) return prevRowsCount;
+
+      return newCount;
+    });
+  }, [width]);
 
   return (
     <Grid container flexDirection={"column"}>
@@ -114,7 +126,6 @@ const GeneralTickets: FC = () => {
                     <Ticket
                       ticketsPerRow={ticketsPerRow}
                       ticket={ticket}
-                      isAuth={!!jwt}
                       key={ticket.ticket_id}
                     />
                   );

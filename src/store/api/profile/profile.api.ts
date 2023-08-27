@@ -2,16 +2,13 @@ import { api } from "../api";
 
 export const profileApi = api.injectEndpoints({
   endpoints: builder => ({
-    getProfile: builder.query({
+    getProfile: builder.mutation({
       query: ({ userId }) => ({
         url: `/profile/${userId || ""}`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
+        method: "GET",
       }),
     }),
   }),
 });
 
-export const { useGetProfileQuery } = profileApi;
+export const { useGetProfileMutation } = profileApi;

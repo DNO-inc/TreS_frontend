@@ -1,4 +1,4 @@
-import { MouseEvent, FC, useState } from "react";
+import { MouseEvent, FC, useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -14,6 +14,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
 
 import { checkStatus } from "../../shared/functions";
 import { endpoints } from "../../constants";
@@ -24,20 +25,22 @@ import { useToggleBookmarkMutation } from "../../store/api/tickets/tickets.api";
 
 interface TicketRowProps {
   ticket: ITicket;
-  isAuth: boolean;
   lang: string;
-  isCanDelete?: boolean;
+  additionalAction?: string;
   isHaveBookmarks?: boolean;
   handleDelete: ((ticketId: number[]) => void) | null;
+  handleRestore: ((ticketId: number) => void) | null;
+  setDeletedList: Dispatch<SetStateAction<number[]>> | null;
 }
 
 const TicketRow: FC<TicketRowProps> = ({
   ticket,
-  isAuth,
   lang,
-  isCanDelete = false,
+  additionalAction = "",
   isHaveBookmarks = false,
   handleDelete,
+  handleRestore,
+  setDeletedList,
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
@@ -48,6 +51,9 @@ const TicketRow: FC<TicketRowProps> = ({
   );
 
   const [toggleBookmark] = useToggleBookmarkMutation();
+
+  const isSent = additionalAction === "sent";
+  const isDeleted = additionalAction === "deleted";
 
   const color: string = checkStatus(ticket.status.name);
   const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
@@ -62,7 +68,7 @@ const TicketRow: FC<TicketRowProps> = ({
       target.tagName !== "path" &&
       !target.closest(".evadeItem")
     ) {
-      isAuth && navigate(`${endpoints.fullTicket}/${ticket.ticket_id}`);
+      navigate(`${endpoints.fullTicket}/${ticket.ticket_id}`);
     }
   };
 
@@ -77,6 +83,22 @@ const TicketRow: FC<TicketRowProps> = ({
     setIsBookmarked((prevIsBookmarked: boolean) => !prevIsBookmarked);
   };
 
+  const handleSetDeleted = () => {
+    if (setDeletedList) {
+      setDeletedList(prevState => {
+        let newDeletedList = [...prevState];
+
+        if (newDeletedList.includes(ticket.ticket_id)) {
+          newDeletedList = newDeletedList.filter(id => id !== ticket.ticket_id);
+        } else {
+          newDeletedList.push(ticket.ticket_id);
+        }
+
+        return newDeletedList;
+      });
+    }
+  };
+
   return (
     <Grid
       container
@@ -89,7 +111,6 @@ const TicketRow: FC<TicketRowProps> = ({
               ? palette.grey.divider
               : palette.grey.card,
           border: `2px solid ${palette.grey.border}`,
-          borderRadius: 1,
           overflow: "hidden",
         },
         "& > .MuiGrid-root > .MuiBox-root": {
@@ -99,8 +120,7 @@ const TicketRow: FC<TicketRowProps> = ({
     >
       <Grid
         sx={{
-          width: `calc(100% ${isCanDelete ? "- 40px" : ""} )`,
-
+          width: `calc(100% ${isSent || isDeleted ? "- 40px" : ""} )`,
           cursor: "pointer",
         }}
         onClick={handleClick}
@@ -112,10 +132,10 @@ const TicketRow: FC<TicketRowProps> = ({
             gridTemplateColumns:
               lang === "en"
                 ? `${
-                    isHaveBookmarks ? "48px" : "24px"
+                    isHaveBookmarks ? "48px" : "0px"
                   } minmax(20px, 0.8fr) minmax(40px, 4fr) 90px 24px 40px 100px`
                 : `${
-                    isHaveBookmarks ? "48px" : "24px"
+                    isHaveBookmarks ? "48px" : "0px"
                   } minmax(20px, 0.8fr) minmax(40px, 4fr) 130px 24px 40px 115px`,
             gap: 2,
             borderLeft: `8px solid ${color}`,
@@ -133,20 +153,29 @@ const TicketRow: FC<TicketRowProps> = ({
               gap: 1,
             }}
           >
-            <Checkbox
-              color="default"
-              className="evadeItem"
-              sx={{
-                "& > .MuiSvgIcon-root": { fontSize: "20px" },
-                p: 0,
-                color: palette.common.white,
-              }}
-            />
+            {isSent && (
+              <Checkbox
+                onClick={handleSetDeleted}
+                color="default"
+                className="evadeItem"
+                sx={{
+                  width: 32,
+                  height: 32,
+                  m: "-6px",
+                  "& > .MuiSvgIcon-root": { fontSize: "20px" },
+                  p: 0,
+                  color: palette.common.white,
+                }}
+              />
+            )}
             {isHaveBookmarks && (
               <IconButton
                 onClick={handleToggleBookmark}
                 className="evadeItem"
                 sx={{
+                  width: 32,
+                  height: 32,
+                  m: "-6px",
                   p: 0,
                   border: "none !important",
                   "& > .MuiSvgIcon-root": { fontSize: "20px" },
@@ -218,7 +247,7 @@ const TicketRow: FC<TicketRowProps> = ({
           </Typography>
         </Box>
       </Grid>
-      {isCanDelete && (
+      {isSent && (
         <Button
           color="inherit"
           onClick={() => handleDelete && handleDelete([ticket.ticket_id])}
@@ -229,6 +258,19 @@ const TicketRow: FC<TicketRowProps> = ({
           }}
         >
           <DeleteForeverIcon />
+        </Button>
+      )}
+      {isDeleted && (
+        <Button
+          color="inherit"
+          onClick={() => handleRestore && handleRestore(ticket.ticket_id)}
+          sx={{
+            color: palette.common.white,
+            p: 0,
+            minWidth: 32,
+          }}
+        >
+          <RestoreFromTrashIcon />
         </Button>
       )}
     </Grid>

@@ -1,7 +1,5 @@
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -10,13 +8,15 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
 
+import { MarkdownWithStyles } from "../../../../utils/markdown";
+
 import { endpoints } from "../../../../constants";
 import { Creator } from "../../ticket.interface";
 import IPalette from "../../../../theme/IPalette.interface";
+import { useAuth } from "../../../../context/AuthContext";
 
 interface TicketBodyProps extends Creator {
   isMyTicket: boolean;
-  isAuth: boolean;
   body: string;
   creator: {
     faculty: { faculty_id: number; name: string };
@@ -64,14 +64,10 @@ const ProfileTooltip: FC<Creator> = ({ creator }) => {
   );
 };
 
-const TicketBody: FC<TicketBodyProps> = ({
-  isAuth,
-  body,
-  creator,
-  faculty,
-  isMyTicket,
-}) => {
+const TicketBody: FC<TicketBodyProps> = ({ body, creator, faculty }) => {
   const { palette }: IPalette = useTheme();
+
+  const { isAuth } = useAuth();
 
   const userId: number | null = creator?.user_id;
   const creatorLogin = creator?.login;
@@ -89,23 +85,21 @@ const TicketBody: FC<TicketBodyProps> = ({
     <Grid
       display={"flex"}
       flexDirection={"column"}
-      sx={{ position: "relative", flexGrow: 1, maxHeight: "190px" }}
+      sx={{ position: "relative", flexGrow: 1, maxHeight: "188px" }}
     >
       <Box
         sx={{
           overflow: "hidden",
           flexGrow: 1,
-          "&::after": !isMyTicket
-            ? {
-                content: `""`,
-                position: "absolute",
-                bottom: 48,
-                left: 0,
-                width: "100%",
-                height: "56px",
-                background: `linear-gradient(transparent, ${palette.grey.card})`,
-              }
-            : {},
+          "&::after": {
+            content: `""`,
+            position: "absolute",
+            bottom: 48,
+            left: 0,
+            width: "100%",
+            height: "56px",
+            background: `linear-gradient(transparent, ${palette.grey.card})`,
+          },
         }}
       >
         <Typography
@@ -114,7 +108,7 @@ const TicketBody: FC<TicketBodyProps> = ({
           color="text.secondary"
           whiteSpace="pre-line"
         >
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
+          <MarkdownWithStyles innerText={body} />
         </Typography>
       </Box>
       <Grid sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>

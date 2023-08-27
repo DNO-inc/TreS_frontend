@@ -5,7 +5,6 @@ import {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
-  FetchBaseQueryMeta,
   MutationDefinition,
 } from "@reduxjs/toolkit/query/react";
 import { SerializedError } from "@reduxjs/toolkit";
@@ -21,23 +20,20 @@ import { FilterPanel } from "../../components/FilterPanel";
 import { CustomPagination } from "../../components/CustomPagination";
 import { TicketRow } from "../../components/TicketRow/TicketRow";
 
-import { useJwtDecode } from "../../shared/hooks";
 import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
-import { useDeleteTicketMutation } from "../../store/api/tickets/tickets.api";
+import {
+  useDeleteTicketMutation,
+  useUndeleteTicketMutation,
+} from "../../store/api/tickets/tickets.api";
 import { ITicket } from "../../components/Ticket/ticket.interface";
+import { Button } from "@mui/material";
 
 interface MyTicketPageProps {
   title: string;
   useGetQuery: MutationTrigger<
     MutationDefinition<
       any,
-      BaseQueryFn<
-        string | FetchArgs,
-        unknown,
-        FetchBaseQueryError,
-        {},
-        FetchBaseQueryMeta
-      >,
+      BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>,
       never,
       any,
       "api"
@@ -70,17 +66,22 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [facultyId, setFacultyId] = useState<number | null>(null);
+  const [deletedList, setDeletedList] = useState<number[]>([]);
 
-  const jwt = useJwtDecode();
   const faculties = useGetFacultiesQuery({});
   const statuses = useGetStatusesQuery({});
   const [deleteTicket, { isSuccess: isDeleteSuccess }] =
     useDeleteTicketMutation();
+  const [undeleteTicket, { isSuccess: isUndeleteSuccess }] =
+    useUndeleteTicketMutation();
 
   const [searchParams] = useSearchParams();
   const currentPage: number = Number(searchParams.get("current_page")) || 1;
   const facultyQuery: string | null = searchParams.get("faculty");
+
   const isSentPage = title === "sent";
+  const isDeletedPage = title === "deleted";
+  const isReceivedPage = title === "received";
 
   const requestBody = useMemo(() => {
     const matchingStatusesId = [];
@@ -123,14 +124,8 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
       status: matchingStatusesId,
     };
 
-    if (option) {
+    if (option === "tickets") {
       data.creator = userId;
-    }
-
-    if (title === "followed") {
-      data.bookmarks_type = "strangers";
-    } else if (title === "bookmarks") {
-      data.bookmarks_type = "my";
     }
 
     return data;
@@ -153,10 +148,14 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
         }
       }
     );
-  }, [searchParams, requestBody, isDeleteSuccess]);
+  }, [searchParams, requestBody, isDeleteSuccess, isUndeleteSuccess]);
 
   const handleDelete = (ticketIdList: number[]): void => {
     deleteTicket({ body: JSON.stringify({ ticket_id_list: ticketIdList }) });
+  };
+
+  const handleRestore = (ticketId: number): void => {
+    undeleteTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
   };
 
   return (
@@ -165,9 +164,20 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
         <Typography variant="h1" sx={{ mb: 2 }}>
           {t(`${title}.heading`)}
         </Typography>
-        <FilterPanel isAllStatuses={isSentPage || option === "deleted"} />
+        <FilterPanel
+          isAllStatuses={isSentPage || isDeletedPage || isReceivedPage}
+        />
       </Box>
-      <Box sx={{ pt: 20 }}>
+      {isSentPage && deletedList.length > 0 && (
+        <Button
+          onClick={() => handleDelete(deletedList)}
+          variant="outlined"
+          sx={{ mt: 20 }}
+        >
+          Delete All selected tickets
+        </Button>
+      )}
+      <Box sx={{ pt: isSentPage && deletedList.length ? 1 : 20 }}>
         {isLoading && <Loader />}
         {isSuccess &&
           (tickets && tickets.length ? (
@@ -183,11 +193,12 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
                   return (
                     <TicketRow
                       ticket={ticket}
-                      isAuth={!!jwt}
                       lang={i18n.language}
-                      isCanDelete={isSentPage}
+                      additionalAction={title}
                       isHaveBookmarks={isSentPage}
                       handleDelete={isSentPage ? handleDelete : null}
+                      handleRestore={isDeletedPage ? handleRestore : null}
+                      setDeletedList={isSentPage ? setDeletedList : null}
                       key={ticket.ticket_id}
                     />
                   );

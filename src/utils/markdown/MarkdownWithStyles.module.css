@@ -1,0 +1,38 @@
+.markdown ol,
+ul {
+  padding-left: 18px;
+}
+
+.markdown code {
+  color: rgba(255, 255, 255, 0.5);
+  padding-left: 15px;
+  border-left: 5px solid rgba(255, 255, 255, 0.3);
+}
+
+.markdown a {
+  color: #2f81f7;
+}
+
+.markdown a:hover {
+  text-decoration: underline;
+}
+
+.markdown input[type="checkbox"] {
+  margin-left: -16px;
+}
+
+.markdown table {
+  border-collapse: collapse;
+}
+
+.markdown th,
+td {
+  text-align: center;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.markdown th,
+td > * {
+  margin: 0 auto;
+}

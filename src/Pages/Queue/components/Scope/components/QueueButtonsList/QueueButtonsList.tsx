@@ -1,4 +1,14 @@
-import { ChangeEvent, FC, useRef, useState, WheelEvent } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+  WheelEvent,
+} from "react";
+import { useSearchParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
@@ -16,15 +26,56 @@ interface IQueue {
 }
 interface QueueButtonsListProps {
   queues: IQueue[];
+  setQueues: Dispatch<SetStateAction<number[]>>;
 }
 
-const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues }) => {
+const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues, setQueues }) => {
   const containerRef = useRef<HTMLInputElement | null>(null);
   const { palette }: IPalette = useTheme();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const scope = queues[0].scope;
   const queuesName: string[] = useGetQueuesName(queues);
 
-  const [checked, setChecked] = useState(queuesName.map(() => true));
+  const searchParamsOrder = searchParams.get(scope);
+  const queuesOrder: number[] = searchParamsOrder
+    ? searchParamsOrder.split(",").map(item => Number(item))
+    : [];
+  const checkedFromUrl = queuesOrder.length
+    ? queuesName.map((_, index) => {
+        return queuesOrder.includes(index);
+      })
+    : queuesName.map(() => {
+        return false;
+      });
+
+  const [checked, setChecked] = useState(checkedFromUrl);
+
+  const setQueuesParams = (updatedChecked: boolean[], isAllQueues = false) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (isAllQueues) {
+      params.delete(scope);
+    } else {
+      const queueSortedList = updatedChecked
+        .reduce((indices: number[], boolean: boolean, index: number) => {
+          if (boolean) {
+            indices.push(index);
+          }
+          return indices;
+        }, [])
+        .join(",");
+
+      if (params.has(scope)) {
+        params.set(scope, queueSortedList);
+      } else {
+        params.append(scope, queueSortedList);
+      }
+    }
+
+    setSearchParams(params);
+  };
 
   const handleChange =
     (index: number) =>
@@ -33,15 +84,24 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues }) => {
       updatedChecked[index] = event.target.checked;
 
       setChecked(updatedChecked);
+
+      setQueuesParams(updatedChecked);
     };
 
   const handleParentChange = (event: ChangeEvent<HTMLInputElement>) => {
     const updatedChecked = checked.map(() => event.target.checked);
 
     setChecked(updatedChecked);
+
+    setQueuesParams(updatedChecked, true);
   };
 
   const queuesFullInfo = useGetQueuesFullObject(queues, checked, handleChange);
+
+  useEffect(() => {
+    const filteredQueues = queuesFullInfo.filter(queue => queue.checked);
+    setQueues(filteredQueues.map(queue => queue.queue_id));
+  }, [checked]);
 
   const children: JSX.Element = (
     <Box sx={{ display: "flex", gap: 1.5, ml: 2 }}>
@@ -72,7 +132,8 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues }) => {
     </Box>
   );
 
-  const isAllChecked: boolean = !!checked && checked.every(value => value);
+  const isAllChecked: boolean =
+    !!checked.length && checked.every(value => value);
 
   const handleWheelScroll = (event: WheelEvent<HTMLInputElement>) => {
     const container = containerRef.current;

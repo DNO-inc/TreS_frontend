@@ -1,10 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { endpoints } from "../../constants";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import baseQueryWithReauth from "./useBaseQuery";
 
 export const api = createApi({
   reducerPath: "api",
   // tagTypes: ["Like", "Bookmark"],
-  baseQuery: fetchBaseQuery({ baseUrl: endpoints.baseUrl }),
+  baseQuery: baseQueryWithReauth,
   endpoints: builder => ({
     getVersion: builder.query({
       query: () => "/about/version",
@@ -22,9 +22,6 @@ export const api = createApi({
       query: ({ body }) => ({
         url: "/auth/password/login",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body,
       }),
     }),
@@ -32,10 +29,13 @@ export const api = createApi({
       query: ({ body }) => ({
         url: "/meta/get_queues",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
+        body,
+      }),
+    }),
+    deleteToken: builder.mutation({
+      query: ({ body }) => ({
+        url: "/auth/token/delete",
+        method: "POST",
         body,
       }),
     }),
@@ -49,4 +49,5 @@ export const {
   useGetFacultiesQuery,
   useGetStatusesQuery,
   useGetQueueByFacultyMutation,
+  useDeleteTokenMutation,
 } = api;

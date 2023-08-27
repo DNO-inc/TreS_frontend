@@ -24,7 +24,6 @@ const FilterPanel: FC<FilterPanelProps> = memo(({ isAllStatuses = false }) => {
         item
         sx={{
           display: "flex",
-
           "& > .MuiGrid-root > .MuiButton-root": { minWidth: 20 },
           gap: 3,
         }}

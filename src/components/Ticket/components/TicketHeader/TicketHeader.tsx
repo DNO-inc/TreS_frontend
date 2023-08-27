@@ -1,21 +1,21 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
+import { MarkdownWithStyles } from "../../../../utils/markdown";
+
 import IPalette from "../../../../theme/IPalette.interface";
 import { endpoints } from "../../../../constants";
 import { ScopeLabel } from "../../../ScopeLabel";
 import { Badge } from "../../../Badge";
+import { useAuth } from "../../../../context/AuthContext";
 
 interface TicketHeaderProps {
-  isAuth: boolean;
   scope: string;
   color: string;
   subject: string;
@@ -48,7 +48,6 @@ const AssigneeLabel: FC<AssigneeLabelProps> = ({ assigneeName }) => {
 };
 
 const TicketHeader: FC<TicketHeaderProps> = ({
-  isAuth,
   color,
   scope,
   subject,
@@ -56,6 +55,9 @@ const TicketHeader: FC<TicketHeaderProps> = ({
   assignee,
 }) => {
   const { t } = useTranslation();
+
+  const { isAuth } = useAuth();
+
   const assigneeId = assignee?.user_id;
   const assigneeFirstname = assignee?.firstname;
   const assigneeLastname = assignee?.lastname;
@@ -82,7 +84,7 @@ const TicketHeader: FC<TicketHeaderProps> = ({
         gap={10}
       >
         <Typography component="div" noWrap={true}>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{subject}</ReactMarkdown>
+          <MarkdownWithStyles innerText={subject} />
         </Typography>
         <Grid gap={1} display={"flex"}>
           <Badge
