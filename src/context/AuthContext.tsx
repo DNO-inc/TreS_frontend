@@ -11,14 +11,10 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 
-import {
-  getAccessToken,
-  getRefreshToken,
-} from "../shared/functions/getLocalStorageData";
+import { getAccessToken } from "../shared/functions/getLocalStorageData";
 import { useLoginMutation } from "../store/api/api";
 import { useGetProfileMutation } from "../store/api/profile/profile.api";
 import { decodeJwt } from "../shared/functions";
-import jwtDecode from "jwt-decode";
 
 interface AuthContextProps {
   isAuth: boolean;
@@ -71,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuth, setIsAuth] = useState(!!localStorage.getItem("access-token"));
   // =============================================
   const [authToken, setAuthToken] = useState(getAccessToken());
-  const [user, setUser] = useState(getAccessToken());
+  // const [user, setUser] = useState(getAccessToken());
   const [loading, setLoading] = useState(true);
 
   const [authorization] = useLoginMutation();
@@ -142,7 +138,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (authToken) {
-      setUser(jwtDecode(authToken));
+      // setUser(jwtDecode(authToken));
     }
 
     setLoading(false);

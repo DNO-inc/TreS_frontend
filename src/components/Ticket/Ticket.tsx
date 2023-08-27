@@ -43,7 +43,6 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
 
   ////////////////////////////////////////
   const [open, setOpen] = useState(false);
-  const [variant, setVariant] = useState("");
   const [transition, setTransition] = useState<
     ComponentType<TransitionProps> | undefined
   >(undefined);
@@ -59,7 +58,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
     setOpen(true);
   };
 
-  const handleClose = (event: React.SyntheticEvent | Event, reason: string) => {
+  const handleClose = (reason: string) => {
     if (reason === "timeout") {
       setOpen(false);
     }
@@ -83,7 +82,6 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
   const handleToggleReported = (): void => {
     setIsReported(prevIsReported => !prevIsReported);
 
-    setVariant("report");
     handleSnackbarClick(props => TransitionRight(props, "report"));
   };
 
@@ -101,7 +99,6 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
 
     setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
 
-    setVariant(option);
     handleSnackbarClick(props => TransitionRight(props, option));
   };
 
@@ -116,7 +113,6 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
 
     setIsFollowed((prevIsBookmarked: boolean) => !prevIsBookmarked);
 
-    setVariant(notiOption);
     handleSnackbarClick(props => TransitionRight(props, notiOption));
   };
 

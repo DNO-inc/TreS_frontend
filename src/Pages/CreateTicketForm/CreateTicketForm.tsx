@@ -14,16 +14,12 @@ import { TicketVisibilityOptions } from "./components/TicketVisibilityOptions";
 
 import { useCreateTicketMutation } from "../../store/api/tickets/tickets.api";
 import IPalette from "../../theme/IPalette.interface";
-import {
-  getUserFacultyId,
-  getUserId,
-} from "../../shared/functions/getLocalStorageData";
+import { getUserFacultyId } from "../../shared/functions/getLocalStorageData";
 
 const CreateTicketForm: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
-  const userId = getUserId();
   const facultyId = getUserFacultyId();
 
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);

@@ -43,7 +43,7 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues, setQueues }) => {
     ? searchParamsOrder.split(",").map(item => Number(item))
     : [];
   const checkedFromUrl = queuesOrder.length
-    ? queuesName.map((item, index) => {
+    ? queuesName.map((_, index) => {
         return queuesOrder.includes(index);
       })
     : queuesName.map(() => {

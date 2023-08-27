@@ -32,7 +32,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({ scope, queues }) => {
   const containerRef = useRef<HTMLInputElement | null>(null);
   const observer: MutableRefObject<undefined | IntersectionObserver> = useRef();
 
-  const lastTicketElementRef = useCallback(
+  const lastTicketElementRef: any = useCallback(
     (node: HTMLElement) => {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();

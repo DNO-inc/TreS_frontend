@@ -1,10 +1,4 @@
-import {
-  FC,
-  ForwardRefExoticComponent,
-  Ref,
-  RefAttributes,
-  forwardRef,
-} from "react";
+import { ForwardRefExoticComponent, RefAttributes, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
