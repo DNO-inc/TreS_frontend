@@ -27,7 +27,8 @@
     "tooltip": {
       "report": "Тікет - скарга",
       "suggestion": "Тікет - пропозиція",
-      "question": "Тікет - питання"
+      "question": "Тікет - питання",
+      "notSelected": "Не обрано"
     }
   },
   "sidebar": {
@@ -50,7 +51,8 @@
     "scopes": {
       "reportTitle": "Тікети - скарги",
       "questionTitle": "Тікети - питання",
-      "suggestionTitle": "Тікети - пропозиції"
+      "suggestionTitle": "Тікети - пропозиції",
+      "notSelectedTitle": "Не визначені Тікети"
     }
   },
   "sent": {
@@ -85,11 +87,16 @@
     "additionalInfo": "Додаткова інформація",
     "author": "Автор",
     "faculty": "Факультет",
-    "dateOfCreation": "Дата створення"
+    "dateOfCreation": "Дата створення",
+    "comments": "Коментарі",
+    "admin": {
+      "selectAssignee": "Обери відповідального"
+    }
   },
   "createTicket": {
     "heading": "Створення тікета",
     "queue": "Черга",
+    "faculty": "Факультет",
     "selectQueue": "Оберіть чергу",
     "ticketTitle": "Назва тікета",
     "ticketTitlePlaceholder": "Введіть назву тікета",

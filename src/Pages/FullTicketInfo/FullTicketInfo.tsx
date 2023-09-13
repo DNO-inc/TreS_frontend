@@ -1,31 +1,30 @@
 import { useEffect, FC, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { Loader } from "../../components/Loader";
 import { ActionPanel } from "./components/ActionPanel";
 import { MarkdownWithStyles } from "../../utils/markdown";
+import { FullTicketHeader } from "./components/FullTicketHeader";
+import { FullTicketAdditionInfo } from "./components/FullTicketAdditionInfo";
 
-import { VerticalDivider } from "../../components/VerticalDivider";
-
-import { endpoints } from "../../constants";
 import { useShowTicketMutation } from "../../store/api/tickets/tickets.api";
-import { checkIsAdmin, checkStatus, formatDate } from "../../shared/functions";
+import { checkIsAdmin } from "../../shared/functions";
 import IPalette from "../../theme/IPalette.interface";
-import { useAdminShowTicketMutation } from "../../store/api/admin/admin.api";
+import {
+  useAdminShowTicketMutation,
+  useAdminUpdateTicketMutation,
+} from "../../store/api/admin/admin.api";
 import { getUserId } from "../../shared/functions/getLocalStorageData";
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from "../../store/api/tickets/tickets.api";
+import { FullTicketComments } from "./components/FullTicketComments";
 
 const FullTicketInfo: FC = () => {
-  const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
   const { pathname } = useLocation();
 
@@ -35,14 +34,17 @@ const FullTicketInfo: FC = () => {
   const [showTicket, { data: ticket, isSuccess, isLoading }] = isAdmin
     ? useAdminShowTicketMutation()
     : useShowTicketMutation();
+  const [updateTicket, { isSuccess: isUpdateTicket }] =
+    useAdminUpdateTicketMutation();
 
   const userId = Number(getUserId());
   const creatorId = ticket?.creator && ticket?.creator.user_id;
+  const assigneeId = ticket?.assignee && ticket?.assignee.user_id;
   const isMyTicket = userId == creatorId;
 
   useEffect(() => {
     showTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
-  }, [ticketId]);
+  }, [ticketId, isUpdateTicket]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -53,6 +55,7 @@ const FullTicketInfo: FC = () => {
   }, [isSuccess]);
 
   // ======================================
+
   const [isLiked, setIsLiked] = useState<boolean>(ticket?.is_liked);
   const [upvotes, setUpvotes] = useState<number>(ticket?.upvotes);
   const [isFollowed, setIsFollowed] = useState<boolean>(ticket?.is_followed);
@@ -107,58 +110,16 @@ const FullTicketInfo: FC = () => {
             },
           }}
         >
-          <Grid container sx={{ flexDirection: "column" }}>
-            <Grid
-              container
-              sx={{
-                alignItems: "start",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography
-                variant="h1"
-                component="div"
-                sx={{
-                  fontSize: 36,
-                  mb: "12px",
-                  maxWidth: "80%",
-                }}
-              >
-                <MarkdownWithStyles innerText={ticket.subject} />
-              </Typography>
-              <Box
-                sx={{
-                  textAlign: "center",
-                  p: "4px 12px",
-                  bgcolor: checkStatus(ticket.status.name),
-                  color:
-                    checkStatus(ticket.status.name) === "#FFFFFF"
-                      ? palette.common.black
-                      : palette.common.white,
-                  borderRadius: 1,
-                  textTransform: "capitalize",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                }}
-              >
-                {t(`ticketStatus.${ticket.status.name.toLowerCase()}`)}
-              </Box>
-            </Grid>
-            <Box
-              sx={{
-                display: "flex",
-                gap: 1,
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Typography>{ticket.queue.scope}</Typography>
-              <VerticalDivider height={16} />
-              <Typography sx={{ color: palette.whiteAlpha.default }}>
-                {ticket.queue.name}
-              </Typography>
-            </Box>
-          </Grid>
+          <FullTicketHeader
+            assigneeId={assigneeId}
+            ticketFaculty={ticket.faculty.faculty_id}
+            ticketStatus={ticket.status}
+            ticketQueue={ticket.queue}
+            ticketId={ticket.ticket_id}
+            ticketAssignee={ticket.assignee}
+            updateTicket={updateTicket}
+            subject={ticket.subject}
+          />
           <Grid container>
             <Grid
               sx={{
@@ -172,48 +133,12 @@ const FullTicketInfo: FC = () => {
               <MarkdownWithStyles innerText={ticket.body} />
             </Grid>
           </Grid>
-          <Grid container>
-            <Typography mb={2}>{t("fullTicket.additionalInfo")}</Typography>
-            <Grid
-              container
-              sx={{
-                gap: 1,
-                "& > .MuiGrid-root": {
-                  flexBasis: "calc((100% - 16px) / 3)",
-                  p: 2,
-                  display: "flex",
-                  justifyContent: "space-between",
-                  bgcolor: palette.grey.card,
-                  borderRadius: 1,
-                  "& > *": {
-                    color: "rgba(255, 255,255, 0.8)",
-                  },
-                },
-              }}
-            >
-              <Grid>
-                <Typography>{t("fullTicket.author")}</Typography>
-                <NavLink
-                  to={
-                    !ticket.creator
-                      ? ""
-                      : `${endpoints.profile}/${ticket.creator.user_id}`
-                  }
-                  style={{ color: palette.semantic.info }}
-                >
-                  @{!ticket.creator ? "anonymous" : ticket.creator.login}
-                </NavLink>
-              </Grid>
-              <Grid>
-                <Typography>{t("fullTicket.faculty")}</Typography>
-                <Box>{ticket.faculty.name}</Box>
-              </Grid>
-              <Grid>
-                <Typography>{t("fullTicket.dateOfCreation")}</Typography>
-                <Box>{formatDate(ticket.date)}</Box>
-              </Grid>
-            </Grid>
-          </Grid>
+          <FullTicketAdditionInfo
+            creator={ticket.creator}
+            faculty={ticket.faculty}
+            date={ticket.date}
+          />
+          <FullTicketComments ticketId={ticket.ticket_id} />
           <ActionPanel
             isLiked={isLiked}
             isReported={isReported}

@@ -20,6 +20,15 @@ interface ScopeTicketListProps {
   queues: number[];
 }
 
+interface RequestQueuesParams {
+  scope?: string;
+  queue?: number[];
+  assignee?: number;
+  status?: number[];
+  items_count?: number;
+  start_page?: number;
+}
+
 const ScopeTicketList: FC<ScopeTicketListProps> = ({ scope, queues }) => {
   const { palette }: IPalette = useTheme();
 
@@ -63,12 +72,19 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({ scope, queues }) => {
         container.scrollTop = 0;
       }
     } else {
-      const requestParams = {
-        scope: scope,
-        queue: queues,
+      const requestParams: RequestQueuesParams = {
+        assignee: -1,
+        status: [1],
         items_count: Math.floor(window.innerHeight / 200),
         start_page: isQueuesChanged ? 1 : currentPage,
       };
+
+      if (scope === "Not defined") {
+        requestParams.queue = [-1];
+      } else {
+        requestParams.scope = scope;
+        requestParams.queue = queues;
+      }
 
       axios({
         method: "POST",

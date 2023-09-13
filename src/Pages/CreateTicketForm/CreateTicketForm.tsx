@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
+import { FacultySelect } from "./components/FacultySelect";
 import { QueueSelect } from "./components/QueueSelect";
 import { TicketTitleInput } from "./components/TicketTitleInput";
 import { TicketBodyTextField } from "./components/TicketBodyTextField";
@@ -23,7 +24,9 @@ const CreateTicketForm: FC = () => {
   const facultyId = getUserFacultyId();
 
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [queue, setQueue] = useState<number | "none">("none");
+  const [queue, setQueue] = useState<number>(-1);
+  const [faculty, setFaculty] = useState<number>(facultyId);
+  const [formattedText, setFormattedText] = useState("");
 
   const [createTicket] = useCreateTicketMutation();
 
@@ -37,16 +40,15 @@ const CreateTicketForm: FC = () => {
 
   const handleClear = (): void => {
     resetField("subject");
-    resetField("body");
-    setQueue("none");
+    setValue("queue", null);
+    setFormattedText("");
+    setQueue(-1);
     setSelectedOptions([]);
   };
 
   const onSubmit = (data: ICreateTicketRequestBody): void => {
-    if (data.queue) {
-      createTicket({ body: JSON.stringify(data) });
-      handleClear();
-    }
+    createTicket({ body: JSON.stringify(data) });
+    handleClear();
   };
 
   return (
@@ -75,15 +77,26 @@ const CreateTicketForm: FC = () => {
                 },
             }}
           >
+            <FacultySelect
+              facultyId={facultyId}
+              register={register}
+              setValue={setValue}
+              faculty={faculty}
+              setFaculty={setFaculty}
+            />
             <QueueSelect
-              faculty={facultyId}
+              facultyId={faculty}
               register={register}
               setValue={setValue}
               queue={queue}
               setQueue={setQueue}
             />
             <TicketTitleInput register={register} />
-            <TicketBodyTextField register={register} />
+            <TicketBodyTextField
+              register={register}
+              formattedText={formattedText}
+              setFormattedText={setFormattedText}
+            />
             <TicketVisibilityOptions
               setValue={setValue}
               selectedOptions={selectedOptions}

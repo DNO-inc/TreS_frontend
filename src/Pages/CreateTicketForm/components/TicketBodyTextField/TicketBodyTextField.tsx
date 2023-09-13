@@ -1,4 +1,11 @@
-import { FC, useState, useRef, MutableRefObject } from "react";
+import {
+  FC,
+  useState,
+  useRef,
+  MutableRefObject,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { UseFormRegister } from "react-hook-form";
 
@@ -14,16 +21,21 @@ import { MarkdownControls } from "./components/MarkdownControls";
 
 interface TicketBodyTextFieldProps {
   register: UseFormRegister<ICreateTicketRequestBody>;
+  formattedText: string;
+  setFormattedText: Dispatch<SetStateAction<string>>;
 }
 
-const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({ register }) => {
+const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
+  register,
+  formattedText,
+  setFormattedText,
+}) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   const inputRef: MutableRefObject<null | HTMLInputElement> = useRef(null);
 
   const [isPreview, setIsPreview] = useState(false);
-  const [formattedText, setFormattedText] = useState("");
 
   const placeholderText: string = t("createTicket.ticketBodyPlaceholder");
 
