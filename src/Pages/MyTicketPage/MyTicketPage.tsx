@@ -43,6 +43,7 @@ interface MyTicketPageProps {
   isSuccess: boolean;
   option?: string;
   userId?: boolean | number;
+  assignee?: number;
 }
 
 interface MyTicketPageInfo {
@@ -60,6 +61,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   isSuccess,
   option,
   userId,
+  assignee,
 }) => {
   const { t, i18n } = useTranslation();
 
@@ -114,6 +116,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
 
     const data: {
       creator?: number | boolean | undefined;
+      assignee?: number;
       start_page: number;
       faculty: number | null;
       status: number[];
@@ -126,6 +129,10 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
 
     if (option === "tickets") {
       data.creator = userId;
+    }
+
+    if (assignee) {
+      data.assignee = assignee;
     }
 
     return data;

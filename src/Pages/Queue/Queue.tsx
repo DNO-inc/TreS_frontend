@@ -7,11 +7,11 @@ import { SerializedError } from "@reduxjs/toolkit";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Button, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 
-import EditIcon from "@mui/icons-material/Edit";
+// import EditIcon from "@mui/icons-material/Edit";
 
-import { EditQueuesPopup } from "./components/EditQueuesPopup";
+// import { EditQueuesPopup } from "./components/EditQueuesPopup";
 
 import { Scope } from "./components/Scope";
 import IPalette from "../../theme/IPalette.interface";
@@ -49,7 +49,7 @@ const Queue: FC = () => {
     ? searchParamOrder.split(",").map(item => Number(item))
     : [];
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [currentScope, setCurrentScope] = useState<IScope | null>(null);
   const [scopesList, setScopesList] = useState<IScope[]>([
     {
@@ -73,12 +73,20 @@ const Queue: FC = () => {
       title: t("queue.scopes.suggestionTitle"),
       queues: [],
     },
+    {
+      id: 4,
+      order: queue[3] || 4,
+      name: "Not defined",
+      title: t("queue.scopes.notSelectedTitle"),
+      queues: [],
+    },
   ]);
 
   const mapScopeToIndex: { [key: string]: number } = {
     Reports: 0,
     "Q/A": 1,
     Suggestion: 2,
+    "Not defined": 3,
   };
 
   const [getQueues] = useGetQueueByFacultyMutation({});
@@ -109,15 +117,15 @@ const Queue: FC = () => {
     return a.order - b.order;
   };
 
-  const handleOpenDialog = () => {
-    setOpen(true);
-  };
+  // const handleOpenDialog = () => {
+  //   setOpen(true);
+  // };
 
   return (
     <Grid container>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h1">{t("queue.heading")}</Typography>
-        <Button
+        {/* <Button
           color="inherit"
           variant="contained"
           onClick={handleOpenDialog}
@@ -129,7 +137,7 @@ const Queue: FC = () => {
           }}
         >
           Queue management
-        </Button>
+        </Button> */}
       </Box>
       <Box
         sx={{
@@ -161,7 +169,7 @@ const Queue: FC = () => {
           />
         ))}
       </Box>
-      <EditQueuesPopup open={open} setOpen={setOpen} />
+      {/* <EditQueuesPopup open={open} setOpen={setOpen} /> */}
     </Grid>
   );
 };

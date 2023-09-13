@@ -13,7 +13,7 @@ import {
 } from "../../shared/functions/getLocalStorageData";
 import { endpoints } from "../../constants";
 
-interface IJwtDecodeData {
+export interface IJwtDecodeData {
   role: string;
   token_id: string;
   token_type: string;

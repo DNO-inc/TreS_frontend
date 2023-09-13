@@ -4,7 +4,7 @@ interface ICreateTicketRequestBody {
   hidden: boolean;
   anonymous: boolean;
   queue: number | null;
-  faculty: string;
+  faculty: number;
 }
 
 interface IQueueData {

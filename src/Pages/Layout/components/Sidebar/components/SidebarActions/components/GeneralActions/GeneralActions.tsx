@@ -7,13 +7,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Badge from "@mui/material/Badge";
-import IconButton from "@mui/material/IconButton";
+// import Badge from "@mui/material/Badge";
+// import IconButton from "@mui/material/IconButton";
 
 import SourceOutlinedIcon from "@mui/icons-material/SourceOutlined";
 import SourceRoundedIcon from "@mui/icons-material/SourceRounded";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+// import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+// import NotificationsIcon from "@mui/icons-material/Notifications";
 import ArticleIcon from "@mui/icons-material/Article";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -43,7 +43,7 @@ const GeneralActions: FC<GeneralActionsProps> = ({
 
   const [open, setOpen] = useState<boolean>(false);
 
-  const countOfNotification = 0;
+  // const countOfNotification = 0;
 
   const handleClick = (): void => {
     setOpen(!open);
@@ -53,16 +53,16 @@ const GeneralActions: FC<GeneralActionsProps> = ({
     setSelectedKey(key);
   };
 
-  function notificationsLabel(count: number): string {
-    if (count === 0) {
-      return "no notifications";
-    }
-    if (count > 99) {
-      return "more than 99 notifications";
-    }
+  // function notificationsLabel(count: number): string {
+  //   if (count === 0) {
+  //     return "no notifications";
+  //   }
+  //   if (count > 99) {
+  //     return "more than 99 notifications";
+  //   }
 
-    return `${count} notifications`;
-  }
+  //   return `${count} notifications`;
+  // }
 
   useEffect(() => {
     setOpen(false);
@@ -114,7 +114,7 @@ const GeneralActions: FC<GeneralActionsProps> = ({
           selectedKey={selectedKey}
           handleListItemClick={handleListItemClick}
         />
-        <ListItem key={"Notifications"} disablePadding>
+        {/* <ListItem key={"Notifications"} disablePadding>
           <NavLink
             to={!isAuth ? "" : endpoints.notifications}
             style={{ cursor: !isAuth ? "default" : "pointer" }}
@@ -145,7 +145,7 @@ const GeneralActions: FC<GeneralActionsProps> = ({
               )}
             </ListItemButton>
           </NavLink>
-        </ListItem>
+        </ListItem> */}
         <ListItem key={"General tickets"} disablePadding>
           <NavLink to={endpoints.generalTickets}>
             <ListItemButton
