@@ -11,7 +11,14 @@ export const adminApi = api.injectEndpoints({
     }),
     adminShowTicket: builder.mutation({
       query: ({ body }) => ({
-        url: "admin/tickets/show",
+        url: "tickets/show",
+        method: "POST",
+        body,
+      }),
+    }),
+    adminUpdateTicket: builder.mutation({
+      query: ({ body }) => ({
+        url: "/admin/tickets/update",
         method: "POST",
         body,
       }),
@@ -19,5 +26,8 @@ export const adminApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetAdminTicketsMutation, useAdminShowTicketMutation } =
-  adminApi;
+export const {
+  useGetAdminTicketsMutation,
+  useAdminShowTicketMutation,
+  useAdminUpdateTicketMutation,
+} = adminApi;

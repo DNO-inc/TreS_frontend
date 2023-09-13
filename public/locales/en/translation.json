@@ -27,7 +27,8 @@
     "tooltip": {
       "report": "Report ticket",
       "suggestion": "Suggestion ticket",
-      "question": "Question ticket"
+      "question": "Question ticket",
+      "notSelected": "Not selected"
     }
   },
   "sidebar": {
@@ -50,7 +51,8 @@
     "scopes": {
       "reportTitle": "Report Tickets",
       "questionTitle": "Question Tickets",
-      "suggestionTitle": "Suggestion Tickets"
+      "suggestionTitle": "Suggestion Tickets",
+      "notSelectedTitle": "Not selected Tickets"
     }
   },
   "sent": {
@@ -85,11 +87,16 @@
     "additionalInfo": "Additional Information",
     "author": "Author",
     "faculty": "Faculty",
-    "dateOfCreation": "Date of creation"
+    "dateOfCreation": "Date of creation",
+    "comments": "Comments",
+    "admin": {
+      "selectAssignee": "Select assignee"
+    }
   },
   "createTicket": {
     "heading": "Ticket creation",
     "queue": "Queue",
+    "faculty": "Faculty",
     "selectQueue": "Select queue",
     "ticketTitle": "Ticket title",
     "ticketTitlePlaceholder": "Enter ticket title",

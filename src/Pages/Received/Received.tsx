@@ -17,7 +17,7 @@ const Received: FC = () => {
       isLoading={isLoading}
       isSuccess={isSuccess}
       option={"tickets"}
-      userId={userId}
+      assignee={userId}
     />
   );
 };
