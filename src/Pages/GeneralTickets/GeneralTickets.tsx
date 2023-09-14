@@ -135,7 +135,7 @@ const GeneralTickets: FC = () => {
             </>
           ) : (
             <Typography variant="h1" mt={6}>
-              Not found
+              {t("common.notFound")}
             </Typography>
           ))}
       </Box>

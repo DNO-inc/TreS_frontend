@@ -83,7 +83,9 @@ export interface RepliedComment {
 }
 
 const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
-  const { t } = useTranslation();
+
+  const { t, i18n } = useTranslation();
+
   const { palette }: IPalette = useTheme();
 
   const commentFieldRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
@@ -164,7 +166,9 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
 
   return (
     <Grid container sx={{ position: "relative" }}>
-      <Typography mb={2}>{t("fullTicket.comments")}</Typography>
+
+      <Typography mb={2}>{t("fullTicket.comments.heading")}</Typography>
+
       <Grid
         container
         ref={commentFieldRef}
@@ -223,13 +227,21 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
                 <Action
                   ref={lastCommentElementRef}
                   action={item}
+
+                  translator={t}
+                  lang={i18n.language}
                   key={`${item.type_}-${item.action_id}`}
                 />
               );
             }
 
             return (
-              <Action action={item} key={`${item.type_}-${item.action_id}`} />
+              <Action
+                action={item}
+                translator={t}
+                lang={i18n.language}
+                key={`${item.type_}-${item.action_id}`}
+              />
             );
           }
         })}

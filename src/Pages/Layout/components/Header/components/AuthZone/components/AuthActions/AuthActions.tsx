@@ -39,7 +39,7 @@ const AuthActions: FC = () => {
           <Tooltip
             title={
               <Button sx={{ color: "#ffffff" }} onClick={handleLogOut}>
-                log out
+                {t("common.logout")}
               </Button>
             }
           >
