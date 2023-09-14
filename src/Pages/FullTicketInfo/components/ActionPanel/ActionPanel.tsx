@@ -58,13 +58,15 @@ const ActionPanel: FC<ActionPanelProps> = ({
       }}
     >
       {isAdmin && (
-        <IconButton onClick={handleToggleReported}>
-          <DoNotDisturbAltOutlinedIcon />
-        </IconButton>
+        <>
+          <IconButton onClick={handleToggleReported}>
+            <DoNotDisturbAltOutlinedIcon />
+          </IconButton>
+          <VerticalDivider />
+        </>
       )}
       {!isMyTicket && (
         <>
-          <VerticalDivider />
           <IconButton onClick={handleToggleFollowed}>
             {isFollowed ? (
               <StarIcon sx={{ color: palette.semantic.info }} />
@@ -72,9 +74,9 @@ const ActionPanel: FC<ActionPanelProps> = ({
               <StarBorderIcon />
             )}
           </IconButton>
+          <VerticalDivider />
         </>
       )}
-      <VerticalDivider />
       <IconButton sx={{ pt: "10px" }} onClick={handleToggleLike}>
         {isLiked ? (
           <FavoriteIcon sx={{ color: palette.semantic.error }} />

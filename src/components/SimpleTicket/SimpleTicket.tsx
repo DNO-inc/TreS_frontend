@@ -69,10 +69,12 @@ const SimpleTicket: ForwardRefExoticComponent<
             {ticket.subject}
           </Typography>
         </Box>
-        <Badge
-          text={ticket.queue.name}
-          customStyle={{ bgcolor: "#fff", color: "#000", fontWeight: 500 }}
-        />
+        {ticket?.queue?.name && (
+          <Badge
+            text={ticket.queue.name}
+            customStyle={{ bgcolor: "#fff", color: "#000", fontWeight: 500 }}
+          />
+        )}
       </Box>
       <Box
         sx={{

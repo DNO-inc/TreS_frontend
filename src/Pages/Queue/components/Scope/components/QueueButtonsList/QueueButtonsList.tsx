@@ -8,6 +8,7 @@ import {
   useState,
   WheelEvent,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -31,6 +32,7 @@ interface QueueButtonsListProps {
 
 const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues, setQueues }) => {
   const containerRef = useRef<HTMLInputElement | null>(null);
+  const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -179,7 +181,7 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues, setQueues }) => {
       }}
     >
       <FormControlLabel
-        label={"Show all"}
+        label={t("queue.showAll")}
         sx={{
           bgcolor: isAllChecked ? palette.semantic.info : palette.grey.button,
         }}

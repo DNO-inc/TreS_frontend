@@ -18,7 +18,7 @@ const SnackbarNotification: FC<SnackbarNotificationProps> = ({
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       open={open}
       onClose={handleClose}
-      autoHideDuration={3000}
+      autoHideDuration={2000}
       TransitionComponent={transition}
       key={transition ? transition.name : ""}
     />

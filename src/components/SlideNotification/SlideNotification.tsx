@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Box, Slide, SlideProps, useTheme } from "@mui/material";
 
 import { useGetIcon } from "./useGetIcon";
-import getDescription from "./getDescription";
+import useGetDescription from "./useGetDescription";
 import IPalette from "../../theme/IPalette.interface";
 
 interface SlideNotificationProps {
@@ -15,7 +15,7 @@ const SlideNotification: FC<SlideNotificationProps> = ({ props, variant }) => {
   const { palette }: IPalette = useTheme();
   const icon = useGetIcon(variant);
 
-  const description = getDescription(variant);
+  const description = useGetDescription(variant);
 
   return (
     <Slide {...props} direction="left">

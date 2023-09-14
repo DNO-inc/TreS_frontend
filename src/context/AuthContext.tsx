@@ -11,7 +11,10 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 
-import { getAccessToken } from "../shared/functions/getLocalStorageData";
+import {
+  getAccessToken,
+  getIsTokensExpired,
+} from "../shared/functions/getLocalStorageData";
 import { useLoginMutation } from "../store/api/api";
 import { useGetProfileMutation } from "../store/api/profile/profile.api";
 import { decodeJwt } from "../shared/functions";
@@ -64,7 +67,8 @@ const AuthContext = createContext({} as AuthContextProps);
 export default AuthContext;
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuth, setIsAuth] = useState(!!localStorage.getItem("access-token"));
+  const IsTokensExpired = getIsTokensExpired();
+  const [isAuth, setIsAuth] = useState(!IsTokensExpired);
   // =============================================
   const [authToken, setAuthToken] = useState(getAccessToken());
   // const [user, setUser] = useState(getAccessToken());

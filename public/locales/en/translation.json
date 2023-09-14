@@ -17,6 +17,7 @@
     "comingSoon": "Coming Soon...",
     "loading": "Loading...",
     "login": "Log in",
+    "logout": "Log out",
     "loginInput": "Login",
     "loginButton": "Log in",
     "password": "Password",
@@ -24,11 +25,20 @@
     "profile": "Profile",
     "error": "Error",
     "noAssignee": "no assignee",
+    "notFound": "Not found",
     "tooltip": {
       "report": "Report ticket",
       "suggestion": "Suggestion ticket",
-      "question": "Question ticket"
+      "question": "Question ticket",
+      "notSelected": "Not selected"
     }
+  },
+  "snackbar": {
+    "report": "For now, I don't know what's going to happen",
+    "follow": "You followed this ticket",
+    "unfollow": "You are no longer following this ticket",
+    "like": "You liked this ticket",
+    "unlike": "You don't like this ticket anymore?"
   },
   "sidebar": {
     "queue": "Queue",
@@ -50,8 +60,10 @@
     "scopes": {
       "reportTitle": "Report Tickets",
       "questionTitle": "Question Tickets",
-      "suggestionTitle": "Suggestion Tickets"
-    }
+      "suggestionTitle": "Suggestion Tickets",
+      "notSelectedTitle": "Not selected Tickets"
+    },
+    "showAll": "Show all"
   },
   "sent": {
     "heading": "Sent"
@@ -79,17 +91,34 @@
     "heading": "Settings"
   },
   "profile": {
-    "heading": "Profile"
+    "heading": "Profile",
+    "email": "Email",
+    "faculty": "Faculty",
+    "group": "Group",
+    "phone": "Phone"
   },
   "fullTicket": {
     "additionalInfo": "Additional Information",
     "author": "Author",
     "faculty": "Faculty",
-    "dateOfCreation": "Date of creation"
+    "dateOfCreation": "Date of creation",
+    "admin": {
+      "selectAssignee": "Select assignee"
+    },
+    "comments": {
+      "heading": "Comments",
+      "assignee": "assignee",
+      "status": "status",
+      "faculty": "faculty",
+      "queue": "queue",
+      "editMessage": "Edit Message",
+      "send": "send"
+    }
   },
   "createTicket": {
     "heading": "Ticket creation",
     "queue": "Queue",
+    "faculty": "Faculty",
     "selectQueue": "Select queue",
     "ticketTitle": "Ticket title",
     "ticketTitlePlaceholder": "Enter ticket title",
@@ -105,7 +134,9 @@
     "hiddenPart2": "ticket will not be shown",
     "hiddenPart3": "in general reports",
     "sentTicket": "Sent ticket",
-    "clear": "Clear"
+    "clear": "Clear",
+    "preview": "Preview",
+    "edit": "Edit"
   },
   "statusesFilter": {
     "all": "All",

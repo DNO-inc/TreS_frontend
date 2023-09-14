@@ -3,6 +3,7 @@ import SvgIcon from "@mui/material/SvgIcon";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
+import BuildIcon from "@mui/icons-material/Build";
 
 import { useTranslation } from "react-i18next";
 
@@ -41,10 +42,10 @@ const useCheckScope = (scope: string) => {
       return {
         icon: (
           <SvgIcon>
-            <HandshakeOutlinedIcon />
+            <BuildIcon />
           </SvgIcon>
         ),
-        tooltipText: t("common.tooltip.suggestion"),
+        tooltipText: t("common.tooltip.notSelected"),
       };
   }
 };

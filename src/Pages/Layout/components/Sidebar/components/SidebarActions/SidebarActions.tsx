@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { GeneralActions } from "./components/GeneralActions";
-import { AdditionActions } from "./components/AdditionActions";
+// import { AdditionActions } from "./components/AdditionActions";
 import { VerticalDivider } from "../../../../../../components/VerticalDivider";
 
 import { endpoints } from "../../../../../../constants";
@@ -47,10 +47,10 @@ const SidebarActions: FC = () => {
           setSelectedKey={setSelectedKey}
         />
         <Divider sx={{ width: "100%" }} />
-        <AdditionActions
+        {/* <AdditionActions
           selectedKey={selectedKey}
           setSelectedKey={setSelectedKey}
-        />
+        /> */}
       </Box>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box

@@ -58,7 +58,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
     setOpen(true);
   };
 
-  const handleClose = (reason: string) => {
+  const handleClose = (_: React.SyntheticEvent | Event, reason: string) => {
     if (reason === "timeout") {
       setOpen(false);
     }

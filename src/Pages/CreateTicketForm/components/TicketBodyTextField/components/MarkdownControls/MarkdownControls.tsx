@@ -1,4 +1,5 @@
 import { FC, Dispatch, SetStateAction } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Button, IconButton, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -34,6 +35,7 @@ const MarkdownControls: FC<MarkdownControlsProps> = ({
   handleShowPreview,
   input,
 }) => {
+  const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   const handleFormat = (type: string) => {
@@ -109,7 +111,7 @@ const MarkdownControls: FC<MarkdownControlsProps> = ({
           sx={{ zIndex: 2200, color: palette.whiteAlpha.text, pr: 4, pl: 4 }}
           onClick={handleShowPreview}
         >
-          Edit
+          {t("createTicket.edit")}
         </Button>
       ) : (
         <Button
@@ -118,7 +120,7 @@ const MarkdownControls: FC<MarkdownControlsProps> = ({
           sx={{ zIndex: 2200, color: palette.whiteAlpha.text, pr: 2, pl: 2 }}
           onClick={handleShowPreview}
         >
-          Preview
+          {t("createTicket.preview")}
         </Button>
       )}
     </Box>

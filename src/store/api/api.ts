@@ -18,6 +18,12 @@ export const api = createApi({
     getStatuses: builder.query({
       query: () => "/meta/get_statuses",
     }),
+    getAdmins: builder.mutation({
+      query: () => ({
+        url: "/meta/get_admins",
+        method: "POST",
+      }),
+    }),
     login: builder.mutation({
       query: ({ body }) => ({
         url: "/auth/password/login",
@@ -46,6 +52,7 @@ export const {
   useGetVersionQuery,
   useGetUpdatesQuery,
   useLoginMutation,
+  useGetAdminsMutation,
   useGetFacultiesQuery,
   useGetStatusesQuery,
   useGetQueueByFacultyMutation,

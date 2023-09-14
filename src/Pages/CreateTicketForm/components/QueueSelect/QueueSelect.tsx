@@ -18,7 +18,7 @@ import { useGetQueueByFacultyMutation } from "../../../../store/api/api";
 import IPalette from "../../../../theme/IPalette.interface";
 
 interface QueueSelectProps {
-  faculty: number | null;
+  facultyId: number | null;
   queue: number | "none";
   register: UseFormRegister<ICreateTicketRequestBody>;
   setValue: UseFormSetValue<ICreateTicketRequestBody>;
@@ -26,7 +26,7 @@ interface QueueSelectProps {
 }
 
 const QueueSelect: FC<QueueSelectProps> = ({
-  faculty,
+  facultyId,
   register,
   setValue,
   queue,
@@ -42,13 +42,14 @@ const QueueSelect: FC<QueueSelectProps> = ({
 
   const handleChange = (event: SelectChangeEvent): void => {
     const selectedQueue: number = parseInt(event.target.value);
+
     setQueue(selectedQueue);
     setValue("queue", selectedQueue);
   };
 
   useEffect(() => {
-    faculty && getQueues({ body: JSON.stringify({ faculty: faculty }) });
-  }, [faculty, getQueues]);
+    facultyId && getQueues({ body: JSON.stringify({ faculty: facultyId }) });
+  }, [facultyId, getQueues]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -62,7 +63,7 @@ const QueueSelect: FC<QueueSelectProps> = ({
 
   useEffect(() => {
     setValue("queue", null);
-  }, [setValue]);
+  }, []);
 
   const menuItems: JSX.Element[] = [];
   let currentScope: string | null = null;
@@ -97,17 +98,14 @@ const QueueSelect: FC<QueueSelectProps> = ({
       <FormControl
         fullWidth
         sx={{ bgcolor: palette.grey.card }}
-        {...register("queue", {
-          required: "This is required.",
-        })}
+        {...register("queue")}
       >
         <Select
           id="queue-select"
-          required
           value={queue.toString()}
           onChange={handleChange}
         >
-          <MenuItem value="none" disabled>
+          <MenuItem value={-1}>
             <ListItemText
               primary={t("createTicket.selectQueue")}
               primaryTypographyProps={{

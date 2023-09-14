@@ -57,7 +57,7 @@ const TicketRow: FC<TicketRowProps> = ({
 
   const color: string = checkStatus(ticket.status.name);
   const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
-    useCheckScope(ticket.queue.scope);
+    useCheckScope(ticket.queue?.scope);
   const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   const handleClick = (event: MouseEvent): void => {
