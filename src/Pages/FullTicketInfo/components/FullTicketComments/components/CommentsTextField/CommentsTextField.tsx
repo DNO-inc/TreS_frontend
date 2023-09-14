@@ -6,7 +6,9 @@ import {
   FetchBaseQueryError,
   MutationDefinition,
 } from "@reduxjs/toolkit/dist/query";
+
 import { useTranslation } from "react-i18next";
+
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -64,7 +66,9 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
   repliedComment,
   setRepliedComment,
 }) => {
+
   const { t } = useTranslation();
+
   const { palette }: IPalette = useTheme();
 
   const [comment, setComment] = useState(
@@ -145,7 +149,9 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
         startIcon={<SendIcon />}
         sx={{ pr: 4, pl: 4, height: 47 }}
       >
+
         {t("fullTicket.comments.send")}
+
       </Button>
     </Box>
   );

@@ -1,6 +1,8 @@
 import { ForwardRefExoticComponent, RefAttributes, forwardRef } from "react";
 import { NavLink } from "react-router-dom";
+
 import { TFunction } from "i18next";
+
 
 import Box from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -31,17 +33,22 @@ export type IAction = {
 
 interface ActionProps {
   action: IAction;
+
   translator: TFunction<"translation", undefined, "translation">;
   lang: string;
+
 }
 
 const Action: ForwardRefExoticComponent<
   Omit<ActionProps, "ref"> & RefAttributes<HTMLDivElement>
+
 > = forwardRef(({ action, translator: translator, lang }, ref) => {
+
   const { palette }: IPalette = useTheme();
 
   const color = useRandomNickColor();
   const formattedDate: string = useFormatDate(action.creation_date, "date");
+
 
   const getActionText = () => {
     if (lang === "ua") {
@@ -81,6 +88,7 @@ const Action: ForwardRefExoticComponent<
     );
   };
 
+
   return (
     <Box
       ref={ref}
@@ -106,7 +114,9 @@ const Action: ForwardRefExoticComponent<
             >
               {`${action.author.firstname} ${action.author.lastname}`}
             </NavLink>
+
             {getActionText()}
+
           </Typography>
         </Box>
       </Box>

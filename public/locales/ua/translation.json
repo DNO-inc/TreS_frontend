@@ -102,6 +102,7 @@
     "author": "Автор",
     "faculty": "Факультет",
     "dateOfCreation": "Дата створення",
+
     "admin": {
       "selectAssignee": "Обери відповідального"
     },
@@ -113,6 +114,7 @@
       "queue": "чергу",
       "editMessage": "Редагування повідомлення",
       "send": "вдправити"
+
     }
   },
   "createTicket": {

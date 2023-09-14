@@ -62,8 +62,10 @@
       "questionTitle": "Question Tickets",
       "suggestionTitle": "Suggestion Tickets",
       "notSelectedTitle": "Not selected Tickets"
+
     },
     "showAll": "Show all"
+
   },
   "sent": {
     "heading": "Sent"
@@ -102,6 +104,7 @@
     "author": "Author",
     "faculty": "Faculty",
     "dateOfCreation": "Date of creation",
+
     "admin": {
       "selectAssignee": "Select assignee"
     },

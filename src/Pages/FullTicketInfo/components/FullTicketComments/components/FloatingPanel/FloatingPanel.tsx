@@ -1,5 +1,7 @@
 import { Dispatch, FC, SetStateAction } from "react";
+
 import { useTranslation } from "react-i18next";
+
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -26,7 +28,9 @@ const FloatingPanel: FC<FloatingPanelProps> = ({
   repliedComment,
   setRepliedComment,
 }) => {
+
   const { t } = useTranslation();
+
   const { palette }: IPalette = useTheme();
 
   const isReply = !!repliedComment;
@@ -82,7 +86,9 @@ const FloatingPanel: FC<FloatingPanelProps> = ({
             <Typography
               sx={{ color: palette.semantic.success, fontWeight: 600 }}
             >
+
               {t("fullTicket.comments.editMessage")}
+
             </Typography>
             <Typography
               sx={{
