@@ -54,6 +54,11 @@ interface MyTicketPageInfo {
   error?: FetchBaseQueryError | SerializedError;
 }
 
+interface IStatus {
+  status_id: number;
+  name: string;
+}
+
 const MyTicketPage: FC<MyTicketPageProps> = ({
   title,
   useGetQuery,
@@ -86,10 +91,11 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   const isReceivedPage = title === "received";
 
   const requestBody = useMemo(() => {
-    const matchingStatusesId = [];
+    let matchingStatusesId: number[] = [];
 
     if (statuses.isSuccess) {
-      const statusList = statuses.data?.statuses_list;
+      const statusList: IStatus[] = statuses.data?.statuses_list;
+
       const statusesQuery = searchParams
         .get("statuses")
         ?.split(",")
@@ -217,7 +223,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
             </>
           ) : (
             <Typography variant="h1" mt={6}>
-              Not found
+              {t("common.notFound")}
             </Typography>
           ))}
       </Box>

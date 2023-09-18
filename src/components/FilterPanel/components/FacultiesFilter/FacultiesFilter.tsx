@@ -51,6 +51,13 @@ const FacultiesFilter: FC = () => {
             sx={{
               "& .MuiInputBase-input": { pt: 1, pb: 1, width: 150 },
             }}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 300,
+                },
+              },
+            }}
           >
             <MenuItem value="all">
               <ListItemText primary={t("generalTickets.facultyFilter")} />

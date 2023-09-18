@@ -24,23 +24,9 @@ export const api = createApi({
         method: "POST",
       }),
     }),
-    login: builder.mutation({
-      query: ({ body }) => ({
-        url: "/auth/password/login",
-        method: "POST",
-        body,
-      }),
-    }),
     getQueueByFaculty: builder.mutation({
       query: ({ body }) => ({
         url: "/meta/get_queues",
-        method: "POST",
-        body,
-      }),
-    }),
-    deleteToken: builder.mutation({
-      query: ({ body }) => ({
-        url: "/auth/token/delete",
         method: "POST",
         body,
       }),
@@ -51,10 +37,8 @@ export const api = createApi({
 export const {
   useGetVersionQuery,
   useGetUpdatesQuery,
-  useLoginMutation,
   useGetAdminsMutation,
   useGetFacultiesQuery,
   useGetStatusesQuery,
   useGetQueueByFacultyMutation,
-  useDeleteTokenMutation,
 } = api;

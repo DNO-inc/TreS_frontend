@@ -92,6 +92,13 @@ const AssigneeSelect: FC<AssigneeSelectProps> = ({
             id="assignee-select"
             value={assignee ? assignee.toString() : "-1"}
             onChange={handleChange}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 300,
+                },
+              },
+            }}
           >
             <MenuItem value={"-1"}>
               <ListItemText

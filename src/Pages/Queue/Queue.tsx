@@ -37,7 +37,7 @@ export interface IScope {
 }
 
 const Queue: FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   const facultyId = getUserFacultyId();
@@ -81,6 +81,16 @@ const Queue: FC = () => {
       queues: [],
     },
   ]);
+
+  useEffect(() => {
+    setScopesList(prevState =>
+      prevState.map(scope => {
+        scope.title = t("queue.scopes.suggestionTitle");
+
+        return scope;
+      })
+    );
+  }, [i18n.language]);
 
   const mapScopeToIndex: { [key: string]: number } = {
     Reports: 0,

@@ -138,6 +138,7 @@ const FullTicketInfo: FC = () => {
             faculty={ticket.faculty}
             date={ticket.date}
           />
+          {}
           <FullTicketComments ticketId={ticket.ticket_id} />
           <ActionPanel
             isLiked={isLiked}

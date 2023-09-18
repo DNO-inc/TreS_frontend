@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from "react";
+import { FC, MouseEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -23,13 +23,22 @@ const AuthActions: FC = () => {
   const { logoutUser } = useAuth();
 
   const userId: number | null = getUserId();
-  const userName: string | null = getUserLogin();
+  const [userName, setUserName] = useState(getUserLogin());
 
   const handleLogOut = (event: MouseEvent): void => {
     event.preventDefault();
 
     logoutUser();
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const userLogin = await getUserLogin();
+      setUserName(userLogin);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -39,7 +48,7 @@ const AuthActions: FC = () => {
           <Tooltip
             title={
               <Button sx={{ color: "#ffffff" }} onClick={handleLogOut}>
-                log out
+                {t("common.logout")}
               </Button>
             }
           >

@@ -104,6 +104,13 @@ const QueueSelect: FC<QueueSelectProps> = ({
           id="queue-select"
           value={queue.toString()}
           onChange={handleChange}
+          MenuProps={{
+            PaperProps: {
+              style: {
+                maxHeight: 300,
+              },
+            },
+          }}
         >
           <MenuItem value={-1}>
             <ListItemText

@@ -6,6 +6,7 @@ import {
   useCallback,
   MutableRefObject,
 } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Box, Grid, Typography, useTheme } from "@mui/material";
 
@@ -30,6 +31,7 @@ interface RequestQueuesParams {
 }
 
 const ScopeTicketList: FC<ScopeTicketListProps> = ({ scope, queues }) => {
+  const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
@@ -152,7 +154,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({ scope, queues }) => {
         </>
       ) : (
         <Typography variant="h1" mt={6}>
-          Not found
+          {t("common.notFound")}
         </Typography>
       )}
     </Box>

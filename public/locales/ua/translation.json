@@ -17,6 +17,7 @@
     "comingSoon": "Незабаром...",
     "loading": "Завантаження...",
     "login": "Авторизація",
+    "logout": "Вихід з аккаунту",
     "loginInput": "Логін",
     "loginButton": "Увійти",
     "password": "Пароль",
@@ -24,12 +25,20 @@
     "profile": "Профіль",
     "error": "Помилка",
     "noAssignee": "немає відповідального",
+    "notFound": "Hе знайдено",
     "tooltip": {
       "report": "Тікет - скарга",
       "suggestion": "Тікет - пропозиція",
       "question": "Тікет - питання",
       "notSelected": "Не обрано"
     }
+  },
+  "snackbar": {
+    "report": "Поки що я не знаю, що буде",
+    "follow": "Ви почали стежити за тікетом",
+    "unfollow": "Ви більше не стежите за тікетом",
+    "like": "Вам сподобався цей тікет",
+    "unlike": "Вам більше не подобається цей тікет?"
   },
   "sidebar": {
     "queue": "Черга",
@@ -53,7 +62,8 @@
       "questionTitle": "Тікети - питання",
       "suggestionTitle": "Тікети - пропозиції",
       "notSelectedTitle": "Не визначені Тікети"
-    }
+    },
+    "showAll": "Показати всі"
   },
   "sent": {
     "heading": "Надіслані"
@@ -81,16 +91,29 @@
     "heading": "Налаштування"
   },
   "profile": {
-    "heading": "Профіль"
+    "heading": "Профіль",
+    "email": "Пошта",
+    "faculty": "Факультет",
+    "group": "Група",
+    "phone": "Телефон"
   },
   "fullTicket": {
     "additionalInfo": "Додаткова інформація",
     "author": "Автор",
     "faculty": "Факультет",
     "dateOfCreation": "Дата створення",
-    "comments": "Коментарі",
     "admin": {
-      "selectAssignee": "Обери відповідального"
+      "selectAssignee": "Оберіть відповідального"
+    },
+    "comments": {
+      "heading": "Коментарі",
+      "assignee": "відповідального",
+      "status": "статус",
+      "faculty": "факультет",
+      "queue": "чергу",
+      "editMessage": "Редагування повідомлення",
+      "send": "вдправити",
+      "edit": "редагувати"
     }
   },
   "createTicket": {
@@ -112,7 +135,9 @@
     "hiddenPart2": "тікет не буде показано",
     "hiddenPart3": "в загальних тікетах",
     "sentTicket": "Надіслати квиток",
-    "clear": "Очистити"
+    "clear": "Очистити",
+    "preview": "Переглянути",
+    "edit": "Редагувати"
   },
   "statusesFilter": {
     "all": "Всі",

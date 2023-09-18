@@ -66,6 +66,13 @@ const FacultySelect: FC<FacultySelectProps> = ({
             id="faculty-select"
             value={faculty.toString()}
             onChange={handleChange}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 300,
+                },
+              },
+            }}
           >
             {data.faculties_list.map((faculty: faculty) => {
               let isSelected = false;
