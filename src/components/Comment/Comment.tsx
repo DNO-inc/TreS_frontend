@@ -27,8 +27,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IPalette from "../../theme/IPalette.interface";
 import { endpoints } from "../../constants";
 import { getUserId } from "../../shared/functions/getLocalStorageData";
-import { useFormatDate } from "../../shared/hooks";
-import useRandomNickColor from "../../shared/hooks/useRandomNickColor";
+import { useFormatDate, useRandomNick } from "../../shared/hooks";
 import {
   EditedComment,
   RepliedComment,
@@ -60,6 +59,7 @@ export type IComment = {
 interface CommentProps {
   comment: IComment;
   index: number;
+  color: string;
   setEditedComment: Dispatch<SetStateAction<EditedComment | null>>;
   setRepliedComment: Dispatch<SetStateAction<RepliedComment | null>>;
   setCommentId: Dispatch<SetStateAction<number | null>>;
@@ -85,6 +85,7 @@ const Comment: ForwardRefExoticComponent<
       setRepliedComment,
       setCommentId,
       index,
+      color,
     },
     ref
   ) => {
@@ -93,8 +94,15 @@ const Comment: ForwardRefExoticComponent<
     const userId = getUserId();
     const isMyComment = userId === comment.author.user_id;
 
-    const color = useRandomNickColor();
     const formattedDate: string = useFormatDate(comment.creation_date, "time");
+    const nick = useRandomNick(
+      comment.author.firstname,
+      comment.author.lastname
+    );
+    const repliedNick = useRandomNick(
+      comment.reply_to?.author.firstname,
+      comment.reply_to?.author.lastname
+    );
 
     const getCommentBody = () => {
       let body = "";
@@ -125,7 +133,7 @@ const Comment: ForwardRefExoticComponent<
       setRepliedComment({
         id: comment.comment_id,
         body: comment.body,
-        fullName: `${comment.author.firstname} ${comment.author.lastname}`,
+        fullName: nick,
       });
       setEditedComment(null);
     };
@@ -142,7 +150,13 @@ const Comment: ForwardRefExoticComponent<
         }}
       >
         {!isMyComment && (
-          <Link to={`${endpoints.profile}/${comment.author.user_id}`}>
+          <Link
+            to={
+              comment.author?.user_id
+                ? `${endpoints.profile}/${comment.author.user_id}`
+                : ""
+            }
+          >
             <Avatar />
           </Link>
         )}
@@ -202,10 +216,16 @@ const Comment: ForwardRefExoticComponent<
                   gap: 3,
                 }}
               >
-                <Link to={`${endpoints.profile}/${comment.author.user_id}`}>
-                  <Typography
-                    sx={{ fontWeight: 600, mb: 0.5, color: color }}
-                  >{`${comment.author.firstname} ${comment.author.lastname}`}</Typography>
+                <Link
+                  to={
+                    comment.author?.user_id
+                      ? `${endpoints.profile}/${comment.author.user_id}`
+                      : ""
+                  }
+                >
+                  <Typography sx={{ fontWeight: 600, mb: 0.5, color: color }}>
+                    {nick}
+                  </Typography>
                 </Link>
                 <IconButton
                   onClick={handleReply}
@@ -236,7 +256,7 @@ const Comment: ForwardRefExoticComponent<
                     color: isMyComment ? palette.common.white : color,
                   }}
                 >
-                  {`${comment.reply_to.author.firstname} ${comment.reply_to.author.lastname}`}
+                  {repliedNick}
                 </Typography>
                 <Typography
                   sx={{

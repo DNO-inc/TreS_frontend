@@ -29,7 +29,14 @@ const Profile: FC = () => {
         <Typography variant="h1">{t("profile.heading")}</Typography>
       </Box>
       {isSuccess && (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 5, mt: 15 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 5,
+            m: "100px auto 0",
+          }}
+        >
           <Box sx={{ display: "flex", gap: 5 }}>
             <Avatar sx={{ width: 100, height: 100 }} />
             <Box sx={{ display: "flex", flexDirection: "column" }}>

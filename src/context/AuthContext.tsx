@@ -119,6 +119,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const _getUser = async (loginInfo: ILoginInfo) => {
     try {
+      if (loginInfo?.refresh_token) {
+        localStorage.setItem("refresh-token", loginInfo?.refresh_token);
+      }
+
       if (loginInfo?.access_token) {
         decodeJwt(loginInfo.access_token);
 
@@ -156,10 +160,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const { data: loginInfo }: LoginInfoProps = await authorization({
         body: JSON.stringify({ login, password }),
       });
-
-      if (loginInfo?.refresh_token) {
-        localStorage.setItem("refresh-token", loginInfo?.refresh_token);
-      }
 
       _getUser(loginInfo);
     } catch {

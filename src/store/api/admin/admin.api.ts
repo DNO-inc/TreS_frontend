@@ -23,6 +23,13 @@ export const adminApi = api.injectEndpoints({
         body,
       }),
     }),
+    adminRemoveTicket: builder.mutation({
+      query: ({ body }) => ({
+        url: "/admin/tickets/delete",
+        method: "DELETE",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -30,4 +37,5 @@ export const {
   useGetAdminTicketsMutation,
   useAdminShowTicketMutation,
   useAdminUpdateTicketMutation,
+  useAdminRemoveTicketMutation,
 } = adminApi;
