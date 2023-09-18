@@ -17,10 +17,9 @@ export const authApi = api.injectEndpoints({
       }),
     }),
     deleteToken: builder.mutation({
-      query: ({ body }) => ({
+      query: () => ({
         url: "/auth/token/delete",
         method: "POST",
-        body,
       }),
     }),
   }),

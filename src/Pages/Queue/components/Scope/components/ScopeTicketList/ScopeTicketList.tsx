@@ -76,7 +76,6 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({ scope, queues }) => {
     } else {
       const requestParams: RequestQueuesParams = {
         assignee: -1,
-        status: [1],
         items_count: Math.floor(window.innerHeight / 200),
         start_page: isQueuesChanged ? 1 : currentPage,
       };

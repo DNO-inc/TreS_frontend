@@ -33,6 +33,14 @@
       "notSelected": "Not selected"
     }
   },
+  "nicks": {
+    "unknown": "Unknown",
+    "tiger": "Tiger",
+    "penguin": "Penguin",
+    "giraffe": "Giraffe",
+    "dolphin": "Dolphin",
+    "koala": "Koala"
+  },
   "snackbar": {
     "report": "For now, I don't know what's going to happen",
     "follow": "You followed this ticket",

@@ -20,6 +20,7 @@ import { Avatar } from "@mui/material";
 import RedoIcon from "@mui/icons-material/Redo";
 import EditIcon from "@mui/icons-material/Edit";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { FacultySelect } from "./components/FacultySelect";
 import { QueueSelect } from "./components/QueueSelect";
@@ -31,6 +32,9 @@ import IPalette from "../../../../theme/IPalette.interface";
 import { checkIsAdmin, checkStatus } from "../../../../shared/functions";
 import { getUserId } from "../../../../shared/functions/getLocalStorageData";
 import { endpoints } from "../../../../constants";
+import { useAdminRemoveTicketMutation } from "../../../../store/api/admin/admin.api";
+
+import styles from "./FullTicketHeader.module.css";
 
 interface FullTicketHeaderProps {
   assigneeId: number;
@@ -92,6 +96,7 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
 
   const isAdmin = checkIsAdmin();
 
+  const [isCopyLink, setIsCopyLink] = useState<boolean>(false);
   const [queue, setQueue] = useState<number>(ticketQueue?.queue_id || -1);
   const [faculty, setFaculty] = useState<number>(ticketFaculty);
   const [status, setStatus] = useState<number>(ticketStatus.status_id);
@@ -99,6 +104,8 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
     ticketAssignee?.user_id || -1
   );
   const [isEdit, setIsEdit] = useState<boolean>(false);
+
+  const [adminDelete] = useAdminRemoveTicketMutation();
 
   const handleAcceptChanges = () => {
     const requestBody: UpdateTicketBody = {
@@ -116,6 +123,15 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
     const currentURL = window.location.href;
 
     navigator.clipboard.writeText(currentURL);
+
+    setIsCopyLink(true);
+    setTimeout(() => {
+      setIsCopyLink(false);
+    }, 800);
+  };
+
+  const handleAdminDelete = () => {
+    adminDelete({ body: JSON.stringify({ ticket_id: ticketId }) });
   };
 
   return (
@@ -137,7 +153,10 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
             },
           }}
         >
-          <IconButton sx={{ borderRadius: 2, mr: 1 }} onClick={handleCopyLink}>
+          <IconButton
+            sx={{ borderRadius: 2, mr: 1, position: "relative" }}
+            onClick={handleCopyLink}
+          >
             <ContentCopyIcon
               sx={{
                 width: 32,
@@ -145,6 +164,17 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
                 color: palette.grey.active,
               }}
             />
+            <Box
+              className={isCopyLink ? styles.copyLink : ""}
+              sx={{
+                fontSize: 14,
+                color: "transparent",
+                letterSpacing: "1.5px",
+                position: "absolute",
+              }}
+            >
+              Copy link
+            </Box>
           </IconButton>
           <Typography component={"span"} sx={{ fontWeight: 700, mr: 1 }}>
             {subject}
@@ -177,24 +207,34 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
             </Box>
           )}
           {isAdmin && isAssignee && (
-            <IconButton
-              sx={{
-                borderRadius: 1.5,
-              }}
-              onClick={() => {
-                setIsEdit(prevState => {
-                  if (!prevState) {
-                    setFaculty(ticketFaculty);
-                    setQueue(ticketQueue?.queue_id || -1);
-                    setStatus(ticketStatus.status_id);
-                  }
+            <>
+              <IconButton
+                sx={{
+                  borderRadius: 1.5,
+                }}
+                onClick={() => {
+                  setIsEdit(prevState => {
+                    if (!prevState) {
+                      setFaculty(ticketFaculty);
+                      setQueue(ticketQueue?.queue_id || -1);
+                      setStatus(ticketStatus.status_id);
+                    }
 
-                  return !prevState;
-                });
-              }}
-            >
-              {isEdit ? <RedoIcon /> : <EditIcon />}
-            </IconButton>
+                    return !prevState;
+                  });
+                }}
+              >
+                {isEdit ? <RedoIcon /> : <EditIcon />}
+              </IconButton>
+              <IconButton
+                sx={{
+                  borderRadius: 1.5,
+                }}
+                onClick={handleAdminDelete}
+              >
+                {<DeleteIcon />}
+              </IconButton>
+            </>
           )}
         </Box>
       </Grid>

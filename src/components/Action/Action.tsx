@@ -9,8 +9,7 @@ import { useTheme } from "@mui/material";
 
 import IPalette from "../../theme/IPalette.interface";
 import { endpoints } from "../../constants";
-import useRandomNickColor from "../../shared/hooks/useRandomNickColor";
-import { useFormatDate } from "../../shared/hooks";
+import { useFormatDate, useRandomNick } from "../../shared/hooks";
 
 export type IAction = {
   action_id: 1;
@@ -32,18 +31,18 @@ export type IAction = {
 
 interface ActionProps {
   action: IAction;
-
+  color: string;
   translator: TFunction<"translation", undefined, "translation">;
   lang: string;
 }
 
 const Action: ForwardRefExoticComponent<
   Omit<ActionProps, "ref"> & RefAttributes<HTMLDivElement>
-> = forwardRef(({ action, translator: translator, lang }, ref) => {
+> = forwardRef(({ action, translator: translator, lang, color }, ref) => {
   const { palette }: IPalette = useTheme();
 
-  const color = useRandomNickColor();
   const formattedDate: string = useFormatDate(action.creation_date, "full");
+  const nick = useRandomNick(action.author.firstname, action.author.lastname);
 
   const getActionText = () => {
     if (lang === "ua") {
@@ -59,14 +58,14 @@ const Action: ForwardRefExoticComponent<
               </Box>
               {` на `}
               <Box component={"span"}>
-                {translator(`ticketStatus.${action.old_value.toLowerCase()}`)}
+                {translator(`ticketStatus.${action.new_value.toLowerCase()}`)}
               </Box>
             </>
           ) : (
             <>
               <Box component={"span"}>{action.old_value}</Box>
               {` на `}
-              <Box component={"span"}>{action.old_value}</Box>
+              <Box component={"span"}>{action.new_value}</Box>
             </>
           )}
         </>
@@ -106,7 +105,7 @@ const Action: ForwardRefExoticComponent<
               to={`${endpoints.profile}/${action.author.user_id}`}
               style={{ color: color, fontWeight: 600 }}
             >
-              {`${action.author.firstname} ${action.author.lastname}`}
+              {nick}
             </NavLink>
 
             {getActionText()}

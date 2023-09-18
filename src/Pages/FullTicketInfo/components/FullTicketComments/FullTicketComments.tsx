@@ -26,6 +26,7 @@ import { CommentsTextField } from "./components/CommentsTextField";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { FloatingPanel } from "./components/FloatingPanel";
+import useRandomNickColor from "../../../../shared/hooks/useRandomNickColor";
 
 export type IHistoryItem =
   | {
@@ -123,6 +124,8 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
   // const containerRef = useRef<HTMLInputElement | null>(null);
   const observer: MutableRefObject<undefined | IntersectionObserver> = useRef();
 
+  const color = useRandomNickColor();
+
   const lastCommentElementRef: any = useCallback(
     (node: HTMLElement) => {
       if (isLoading) return;
@@ -141,32 +144,6 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
     },
     [isLoading, hasMore]
   );
-
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     getComments({
-  //       body: JSON.stringify({
-  //         start_page: 1,
-  //         items_count: comments.length,
-  //         ticket_id: ticketId,
-  //       }),
-  //     })
-  //       .then((response: CreateCommentResponse) => {
-  //         if (response && response?.data && response?.data?.history) {
-  //           const newComments = [...response.data.history].reverse();
-
-  //           setComments(newComments);
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-  //   }, 3000);
-
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, [comments.length]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -321,6 +298,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
                   setRepliedComment={setRepliedComment}
                   setCommentId={setCommentId}
                   index={index}
+                  color={color}
                 />
               );
             }
@@ -334,6 +312,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
                 setRepliedComment={setRepliedComment}
                 setCommentId={setCommentId}
                 index={index}
+                color={color}
               />
             );
           } else if (item.type_ === "action") {
@@ -344,6 +323,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
                   action={item}
                   translator={t}
                   lang={i18n.language}
+                  color={color}
                   key={`${item.type_}-${item.field_name}-${item.ticket_id}-${index}`}
                 />
               );
@@ -354,6 +334,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
                 action={item}
                 translator={t}
                 lang={i18n.language}
+                color={color}
                 key={`${item.type_}-${item.field_name}-${item.ticket_id}-${index}`}
               />
             );
