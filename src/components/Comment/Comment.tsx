@@ -37,13 +37,21 @@ import {
 export type IComment = {
   comment_id: number;
   author: {
-    user_id: 2;
+    user_id: number;
     firstname: string;
     lastname: string;
     login: string;
     faculty: { faculty_id: number; name: string };
     group: { group_id: number; name: string };
   };
+  reply_to: {
+    author: {
+      user_id: number;
+      firstname: string;
+      lastname: string;
+    };
+    body: string;
+  } | null;
   body: string;
   creation_date: string;
   type_: "comment";
@@ -51,8 +59,10 @@ export type IComment = {
 
 interface CommentProps {
   comment: IComment;
+  index: number;
   setEditedComment: Dispatch<SetStateAction<EditedComment | null>>;
   setRepliedComment: Dispatch<SetStateAction<RepliedComment | null>>;
+  setCommentId: Dispatch<SetStateAction<number | null>>;
   deleteComment: MutationTrigger<
     MutationDefinition<
       any,
@@ -67,7 +77,17 @@ interface CommentProps {
 const Comment: ForwardRefExoticComponent<
   Omit<CommentProps, "ref"> & RefAttributes<HTMLDivElement>
 > = forwardRef(
-  ({ comment, setEditedComment, deleteComment, setRepliedComment }, ref) => {
+  (
+    {
+      comment,
+      setEditedComment,
+      deleteComment,
+      setRepliedComment,
+      setCommentId,
+      index,
+    },
+    ref
+  ) => {
     const { palette }: IPalette = useTheme();
 
     const userId = getUserId();
@@ -92,10 +112,12 @@ const Comment: ForwardRefExoticComponent<
       deleteComment({
         body: JSON.stringify({ comment_id: comment.comment_id }),
       });
+      setCommentId(index);
     };
 
     const changeComment = () => {
       setEditedComment({ id: comment.comment_id, body: comment.body });
+      setCommentId(index);
       setRepliedComment(null);
     };
 
@@ -176,9 +198,8 @@ const Comment: ForwardRefExoticComponent<
               <Box
                 sx={{
                   display: "flex",
-                  flexWrap: "nowrap",
-                  gap: 3,
                   justifyContent: "space-between",
+                  gap: 3,
                 }}
               >
                 <Link to={`${endpoints.profile}/${comment.author.user_id}`}>
@@ -198,47 +219,109 @@ const Comment: ForwardRefExoticComponent<
                 </IconButton>
               </Box>
             )}
-            <Typography sx={{ fontWeight: 400 }}>
-              {getCommentBody()}
+            {comment?.reply_to && (
+              <Box
+                sx={{
+                  borderLeft: `3px solid ${
+                    isMyComment ? palette.common.white : color
+                  }`,
+                  borderRadius: "2px",
+                  mb: 1,
+                }}
+              >
+                <Typography
+                  sx={{
+                    ml: 1,
+                    fontWeight: 600,
+                    color: isMyComment ? palette.common.white : color,
+                  }}
+                >
+                  {`${comment.reply_to.author.firstname} ${comment.reply_to.author.lastname}`}
+                </Typography>
+                <Typography
+                  sx={{
+                    ml: 1,
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    maxWidth: "95%",
+                  }}
+                >
+                  {comment.reply_to.body}
+                </Typography>
+              </Box>
+            )}
+            <Box
+              sx={{
+                display: isMyComment ? "" : "flex",
+                flexWrap: "nowrap",
+                gap: 3,
+                justifyContent: "space-between",
+              }}
+            >
               {isMyComment && (
                 <>
-                  <IconButton
-                    onClick={changeComment}
-                    sx={{
-                      color: palette.whiteAlpha.default,
-                      p: "2px",
-                      ml: 5,
-                      mb: 0.4,
-                    }}
-                  >
-                    <EditIcon sx={{ fontSize: 20 }} />
-                  </IconButton>
-                  <IconButton
-                    onClick={removeComment}
-                    sx={{
-                      color: palette.whiteAlpha.default,
-                      p: "2px",
-                      mb: 0.4,
-                    }}
-                  >
-                    <DeleteIcon sx={{ fontSize: 20 }} />
-                  </IconButton>
+                  {getCommentBody()}
+                  <Box component={"span"} sx={{ float: "right" }}>
+                    <IconButton
+                      onClick={changeComment}
+                      sx={{
+                        color: palette.whiteAlpha.default,
+                        p: "2px",
+                        ml: 2,
+                        mb: 0.4,
+                      }}
+                    >
+                      <EditIcon sx={{ fontSize: 20 }} />
+                    </IconButton>
+                    <IconButton
+                      onClick={removeComment}
+                      sx={{
+                        color: palette.whiteAlpha.default,
+                        p: "2px",
+                        mb: 0.4,
+                      }}
+                    >
+                      <DeleteIcon sx={{ fontSize: 20 }} />
+                    </IconButton>
+                    <IconButton
+                      onClick={handleReply}
+                      sx={{
+                        color: palette.whiteAlpha.default,
+                        p: "2px",
+                        mb: 0.4,
+                      }}
+                    >
+                      <ReplyIcon sx={{ fontSize: 20 }} />
+                    </IconButton>
+                  </Box>
                 </>
               )}
-              <Typography
-                component={"span"}
-                color="text.secondary"
-                sx={{ fontSize: 14, fontWeight: 300, float: "right", mt: 1.5 }}
-              >
-                {formattedDate}
-              </Typography>
-            </Typography>
+            </Box>
             <Box
-              component={"span"}
               sx={{
-                float: "right",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                width: "100%",
               }}
-            ></Box>
+            >
+              {!isMyComment ? getCommentBody() : <span> </span>}
+              <Box>
+                <span> </span>
+                <Typography
+                  color="text.secondary"
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: 300,
+                    float: "right",
+                    ml: 2,
+                  }}
+                >
+                  {formattedDate}
+                </Typography>
+              </Box>
+            </Box>
           </Box>
         </Box>
       </Box>

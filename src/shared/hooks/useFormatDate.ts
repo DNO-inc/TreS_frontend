@@ -26,7 +26,7 @@ const useFormatDate = (
     const [year, month, day] = date.slice(0, 10).split("-");
     const formattedDate = `${day} ${t(`month.${month}`)} ${year}`;
 
-    return `${time} ${formattedDate}`;
+    return `${formattedDate} ${time}`;
   }
 
   return "date";

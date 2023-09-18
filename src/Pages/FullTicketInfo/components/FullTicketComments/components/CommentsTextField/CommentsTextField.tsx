@@ -9,13 +9,13 @@ import {
 
 import { useTranslation } from "react-i18next";
 
-
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import useTheme from "@mui/material/styles/useTheme";
 import TextField from "@mui/material/TextField";
 
 import SendIcon from "@mui/icons-material/Send";
+import CheckIcon from "@mui/icons-material/Check";
 
 import IPalette from "../../../../../../theme/IPalette.interface";
 import { EditedComment, RepliedComment } from "../../FullTicketComments";
@@ -44,6 +44,7 @@ interface CommentsTextFieldProps {
       "api"
     >
   >;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
 }
 
 interface CreateCommentBody {
@@ -65,8 +66,8 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
   editComment,
   repliedComment,
   setRepliedComment,
+  setCurrentPage,
 }) => {
-
   const { t } = useTranslation();
 
   const { palette }: IPalette = useTheme();
@@ -95,6 +96,7 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
           body["reply_to"] = repliedComment.id;
         }
 
+        setCurrentPage(1);
         createComment({ body: JSON.stringify(body) });
         setRepliedComment(null);
         setComment("");
@@ -146,12 +148,10 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
         onClick={sendComment}
         variant="contained"
         color="inherit"
-        startIcon={<SendIcon />}
+        startIcon={editedComment ? <CheckIcon /> : <SendIcon />}
         sx={{ pr: 4, pl: 4, height: 47 }}
       >
-
-        {t("fullTicket.comments.send")}
-
+        {t(`fullTicket.comments.${editedComment ? "edit" : "send"}`)}
       </Button>
     </Box>
   );

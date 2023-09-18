@@ -50,7 +50,7 @@ const GeneralTickets: FC = () => {
   const option: string = isAuth ? "tickets" : "anon";
 
   const requestBody = useMemo(() => {
-    const matchingStatusesId = [];
+    const matchingStatusesId: number[] = [];
 
     if (statuses.isSuccess) {
       const statusList = statuses.data?.statuses_list;

@@ -102,9 +102,8 @@
     "author": "Автор",
     "faculty": "Факультет",
     "dateOfCreation": "Дата створення",
-
     "admin": {
-      "selectAssignee": "Обери відповідального"
+      "selectAssignee": "Оберіть відповідального"
     },
     "comments": {
       "heading": "Коментарі",
@@ -113,8 +112,8 @@
       "faculty": "факультет",
       "queue": "чергу",
       "editMessage": "Редагування повідомлення",
-      "send": "вдправити"
-
+      "send": "вдправити",
+      "edit": "редагувати"
     }
   },
   "createTicket": {
