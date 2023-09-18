@@ -76,20 +76,23 @@ const Queue: FC = () => {
     {
       id: 4,
       order: queue[3] || 4,
-      name: "Not defined",
+      name: "Not selected",
       title: t("queue.scopes.notSelectedTitle"),
       queues: [],
     },
   ]);
 
   useEffect(() => {
-    setScopesList(prevState =>
-      prevState.map(scope => {
-        scope.title = t("queue.scopes.suggestionTitle");
+    setScopesList(prevState => {
+      const newScopeList = [...prevState];
 
-        return scope;
-      })
-    );
+      newScopeList[0].title = t("queue.scopes.reportTitle");
+      newScopeList[1].title = t("queue.scopes.questionTitle");
+      newScopeList[2].title = t("queue.scopes.suggestionTitle");
+      newScopeList[3].title = t("queue.scopes.notSelectedTitle");
+
+      return newScopeList;
+    });
   }, [i18n.language]);
 
   const mapScopeToIndex: { [key: string]: number } = {
