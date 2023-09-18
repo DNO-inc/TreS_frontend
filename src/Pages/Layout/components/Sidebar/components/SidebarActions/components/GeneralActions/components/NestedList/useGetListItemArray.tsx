@@ -68,7 +68,7 @@ const useGetListItemsArray = (selectedKey: string): ListItem[] => {
       text: t("sidebar.myTickets.received"),
       icon: <FolderOpenIcon />,
       endpoint: endpoints.received,
-      isHaveNewMessage: true,
+      isHaveNewMessage: false,
     },
     ...listItemsArrayForUser,
   ];

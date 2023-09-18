@@ -100,8 +100,15 @@ const QueueSelect: FC<QueueSelectProps> = ({ facultyId, queue, setQueue }) => {
           id="queue-select"
           value={queue.toString()}
           onChange={handleChange}
+          MenuProps={{
+            PaperProps: {
+              style: {
+                maxHeight: 300,
+              },
+            },
+          }}
         >
-          <MenuItem value={-1}>
+          <MenuItem value={-1} disabled>
             <ListItemText
               primary={t("createTicket.selectQueue")}
               primaryTypographyProps={{

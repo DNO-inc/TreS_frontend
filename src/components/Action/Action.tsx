@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 
 import { TFunction } from "i18next";
 
-
 import Box from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
@@ -36,19 +35,15 @@ interface ActionProps {
 
   translator: TFunction<"translation", undefined, "translation">;
   lang: string;
-
 }
 
 const Action: ForwardRefExoticComponent<
   Omit<ActionProps, "ref"> & RefAttributes<HTMLDivElement>
-
 > = forwardRef(({ action, translator: translator, lang }, ref) => {
-
   const { palette }: IPalette = useTheme();
 
   const color = useRandomNickColor();
-  const formattedDate: string = useFormatDate(action.creation_date, "date");
-
+  const formattedDate: string = useFormatDate(action.creation_date, "full");
 
   const getActionText = () => {
     if (lang === "ua") {
@@ -88,7 +83,6 @@ const Action: ForwardRefExoticComponent<
     );
   };
 
-
   return (
     <Box
       ref={ref}
@@ -116,7 +110,6 @@ const Action: ForwardRefExoticComponent<
             </NavLink>
 
             {getActionText()}
-
           </Typography>
         </Box>
       </Box>

@@ -162,7 +162,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
       >
         <TicketHeader
           color={color}
-          scope={ticket.queue.scope}
+          scope={ticket.queue?.scope}
           subject={ticket.subject}
           status={ticket.status.name}
           assignee={ticket.assignee}

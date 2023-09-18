@@ -52,6 +52,13 @@ const StatusSelect: FC<StatusSelectProps> = ({ status, setStatus }) => {
             id="status-select"
             value={status.toString()}
             onChange={handleChange}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 300,
+                },
+              },
+            }}
           >
             {data.statuses_list.map((status: status, index: number) => {
               let isSelected = false;

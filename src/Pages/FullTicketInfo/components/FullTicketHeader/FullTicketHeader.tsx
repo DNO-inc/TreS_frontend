@@ -7,6 +7,7 @@ import {
   FetchBaseQueryError,
   MutationDefinition,
 } from "@reduxjs/toolkit/dist/query";
+import { NavLink } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -14,11 +15,12 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 import Grid from "@mui/material/Grid";
+import { Avatar } from "@mui/material";
 
 import RedoIcon from "@mui/icons-material/Redo";
 import EditIcon from "@mui/icons-material/Edit";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-import { MarkdownWithStyles } from "../../../../utils/markdown";
 import { FacultySelect } from "./components/FacultySelect";
 import { QueueSelect } from "./components/QueueSelect";
 import { StatusSelect } from "./components/StatusSelect";
@@ -28,6 +30,7 @@ import { VerticalDivider } from "../../../../components/VerticalDivider";
 import IPalette from "../../../../theme/IPalette.interface";
 import { checkIsAdmin, checkStatus } from "../../../../shared/functions";
 import { getUserId } from "../../../../shared/functions/getLocalStorageData";
+import { endpoints } from "../../../../constants";
 
 interface FullTicketHeaderProps {
   assigneeId: number;
@@ -92,18 +95,27 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
   const [queue, setQueue] = useState<number>(ticketQueue?.queue_id || -1);
   const [faculty, setFaculty] = useState<number>(ticketFaculty);
   const [status, setStatus] = useState<number>(ticketStatus.status_id);
-  const [assignee, setAssignee] = useState<number>(ticketAssignee?.user_id);
+  const [assignee, setAssignee] = useState<number>(
+    ticketAssignee?.user_id || -1
+  );
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const handleAcceptChanges = () => {
     const requestBody: UpdateTicketBody = {
       ticket_id: ticketId,
+      assignee_id: assignee,
       faculty: faculty,
       queue: queue,
       status: status,
     };
 
     updateTicket({ body: JSON.stringify(requestBody) });
+  };
+
+  const handleCopyLink = () => {
+    const currentURL = window.location.href;
+
+    navigator.clipboard.writeText(currentURL);
   };
 
   return (
@@ -119,12 +131,28 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
           variant="h1"
           component="div"
           sx={{
-            fontSize: 36,
-            mb: "12px",
             maxWidth: "80%",
+            "& > .MuiTypography-root": {
+              fontSize: 36,
+            },
           }}
         >
-          <MarkdownWithStyles innerText={subject} />
+          <IconButton sx={{ borderRadius: 2, mr: 1 }} onClick={handleCopyLink}>
+            <ContentCopyIcon
+              sx={{
+                width: 32,
+                height: 32,
+                color: palette.grey.active,
+              }}
+            />
+          </IconButton>
+          <Typography component={"span"} sx={{ fontWeight: 700, mr: 1 }}>
+            {subject}
+          </Typography>
+          <Typography
+            component={"span"}
+            sx={{ color: palette.grey.active }}
+          >{`#${ticketId}`}</Typography>
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           {isAdmin && isEdit ? (
@@ -208,13 +236,30 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
             </>
           ) : null}
         </Box>
-        {(!assigneeId || (isAssignee && isEdit)) && (
+        {(isAdmin && !assigneeId) || (isAssignee && isEdit) ? (
           <AssigneeSelect
             assignee={assignee}
             setAssignee={setAssignee}
             ticketId={ticketId}
             updateTicket={updateTicket}
           />
+        ) : (
+          assigneeId && (
+            <NavLink
+              to={`${endpoints.profile}/${ticketAssignee.user_id}`}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                border: `2px solid ${palette.grey.divider}`,
+                borderRadius: 8,
+                padding: "8px 12px 8px 8px",
+              }}
+            >
+              <Avatar />
+              <Typography>{`${ticketAssignee.firstname} ${ticketAssignee.lastname}`}</Typography>
+            </NavLink>
+          )
         )}
       </Box>
       {isEdit && (

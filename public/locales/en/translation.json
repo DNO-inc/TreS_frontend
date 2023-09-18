@@ -62,10 +62,8 @@
       "questionTitle": "Question Tickets",
       "suggestionTitle": "Suggestion Tickets",
       "notSelectedTitle": "Not selected Tickets"
-
     },
     "showAll": "Show all"
-
   },
   "sent": {
     "heading": "Sent"
@@ -115,7 +113,8 @@
       "faculty": "faculty",
       "queue": "queue",
       "editMessage": "Edit Message",
-      "send": "send"
+      "send": "send",
+      "edit": "edit"
     }
   },
   "createTicket": {

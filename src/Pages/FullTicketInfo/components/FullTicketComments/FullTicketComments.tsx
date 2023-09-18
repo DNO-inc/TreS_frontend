@@ -55,6 +55,14 @@ export type IHistoryItem =
         faculty: { faculty_id: number; name: string };
         group: { group_id: number; name: string };
       };
+      reply_to: {
+        author: {
+          user_id: number;
+          firstname: string;
+          lastname: string;
+        };
+        body: string;
+      } | null;
       body: string;
       creation_date: string;
       type_: "comment";
@@ -83,7 +91,6 @@ export interface RepliedComment {
 }
 
 const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
-
   const { t, i18n } = useTranslation();
 
   const { palette }: IPalette = useTheme();
@@ -99,6 +106,8 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
     useEditCommentMutation();
 
   // =========================================================
+  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
+  const [scrollHeight, setScrollHeight] = useState<number>(0);
   const [comments, setComments] = useState<IHistoryItem[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -109,6 +118,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
   const [editedComment, setEditedComment] = useState<EditedComment | null>(
     null
   );
+  const [commentId, setCommentId] = useState<number | null>(null);
 
   // const containerRef = useRef<HTMLInputElement | null>(null);
   const observer: MutableRefObject<undefined | IntersectionObserver> = useRef();
@@ -118,57 +128,160 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();
 
-      observer.current = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting && hasMore) {
-          setCurrentPage(prevPage => prevPage + 1);
-        }
-      });
+      observer.current = new IntersectionObserver(
+        entries => {
+          if (entries[0].isIntersecting && hasMore) {
+            setCurrentPage(prevPage => prevPage + 1);
+          }
+        },
+        { threshold: 1.0 }
+      );
 
       if (node) observer.current.observe(node);
     },
     [isLoading, hasMore]
   );
 
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     getComments({
+  //       body: JSON.stringify({
+  //         start_page: 1,
+  //         items_count: comments.length,
+  //         ticket_id: ticketId,
+  //       }),
+  //     })
+  //       .then((response: CreateCommentResponse) => {
+  //         if (response && response?.data && response?.data?.history) {
+  //           const newComments = [...response.data.history].reverse();
+
+  //           setComments(newComments);
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.log(error);
+  //       });
+  //   }, 3000);
+
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, [comments.length]);
+
   useEffect(() => {
     setIsLoading(true);
 
     getComments({
       body: JSON.stringify({
-        start_page: currentPage,
-        items_count: 25,
+        start_page: isFirstLoad ? 1 : currentPage,
+        items_count: 15,
         ticket_id: ticketId,
       }),
     })
       .then((response: CreateCommentResponse) => {
         if (response && response?.data && response?.data?.history) {
-          const newComments = response.data.history;
+          const newComments = [...response.data.history].reverse();
+
+          if (commentFieldRef.current) {
+            const scrollContainer = commentFieldRef.current;
+
+            if (currentPage === 1) {
+              setTimeout(() => {
+                scrollContainer.scrollTop = scrollContainer.scrollHeight;
+
+                setScrollHeight(scrollContainer.scrollHeight);
+              }, 0);
+            } else {
+              setTimeout(() => {
+                scrollContainer.scrollTop = Math.abs(
+                  scrollHeight - scrollContainer.scrollHeight
+                );
+
+                setScrollHeight(scrollContainer.scrollHeight);
+              }, 0);
+            }
+          }
 
           setComments(prevComments =>
-            currentPage === 1
-              ? [...newComments]
-              : [...prevComments, ...newComments]
+            currentPage === 1 ? newComments : [...newComments, ...prevComments]
           );
           setHasMore(response.data.history.length > 0);
           setIsLoading(false);
-
-          // if (commentFieldRef.current) {
-          //   const scrollContainer = commentFieldRef.current;
-          //   scrollContainer.scrollTop = scrollContainer.scrollHeight;
-          // }
+          setIsFirstLoad(false);
         }
       })
       .catch(error => {
         console.log(error);
       });
-  }, [isCommentCreated, isCommentDeleted, isCommentEdited, currentPage]);
+  }, [isCommentCreated, currentPage]);
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    if (commentId) {
+      getComments({
+        body: JSON.stringify({
+          start_page: 1,
+          items_count: comments.length - commentId,
+          ticket_id: ticketId,
+        }),
+      })
+        .then((response: CreateCommentResponse) => {
+          if (response && response?.data && response?.data?.history) {
+            const newComments = [...response.data.history].reverse();
+
+            setComments(prevComments => [
+              ...prevComments.slice(0, commentId - 1),
+              ...newComments,
+            ]);
+
+            setCommentId(null);
+            setIsLoading(false);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }, [isCommentDeleted]);
+
+  useEffect(() => {
+    if (commentId) {
+      getComments({
+        body: JSON.stringify({
+          start_page: comments.length - commentId,
+          items_count: 1,
+          ticket_id: ticketId,
+        }),
+      })
+        .then((response: CreateCommentResponse) => {
+          if (response && response?.data && response?.data?.history) {
+            const newComments = response.data.history;
+
+            setComments(prevComments =>
+              prevComments.map((comment, index) => {
+                if (commentId === index) {
+                  return newComments[0];
+                }
+
+                return comment;
+              })
+            );
+
+            setCommentId(null);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }, [isCommentEdited]);
 
   // =========================================================
 
   return (
     <Grid container sx={{ position: "relative" }}>
-
       <Typography mb={2}>{t("fullTicket.comments.heading")}</Typography>
-
       <Grid
         container
         ref={commentFieldRef}
@@ -176,10 +289,8 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
           flexDirection: "column",
           flexWrap: "nowrap",
           overflowY: "auto",
-          scrollBehavior: "smooth",
           width: "100%",
-          minHeight: 80,
-          maxHeight: 500,
+          height: 500,
           p: "16px 20px",
           bgcolor: palette.grey.card,
           borderRadius: 1,
@@ -199,7 +310,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
       >
         {comments.map((item: IHistoryItem, index: number) => {
           if (item.type_ === "comment") {
-            if (comments.length === index + 1) {
+            if (index === 0) {
               return (
                 <Comment
                   ref={lastCommentElementRef}
@@ -208,6 +319,8 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
                   deleteComment={deleteComment}
                   setEditedComment={setEditedComment}
                   setRepliedComment={setRepliedComment}
+                  setCommentId={setCommentId}
+                  index={index}
                 />
               );
             }
@@ -219,18 +332,19 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
                 deleteComment={deleteComment}
                 setEditedComment={setEditedComment}
                 setRepliedComment={setRepliedComment}
+                setCommentId={setCommentId}
+                index={index}
               />
             );
           } else if (item.type_ === "action") {
-            if (comments.length === index + 1) {
+            if (index === 0) {
               return (
                 <Action
                   ref={lastCommentElementRef}
                   action={item}
-
                   translator={t}
                   lang={i18n.language}
-                  key={`${item.type_}-${item.action_id}`}
+                  key={`${item.type_}-${item.field_name}-${item.ticket_id}-${index}`}
                 />
               );
             }
@@ -240,7 +354,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
                 action={item}
                 translator={t}
                 lang={i18n.language}
-                key={`${item.type_}-${item.action_id}`}
+                key={`${item.type_}-${item.field_name}-${item.ticket_id}-${index}`}
               />
             );
           }
@@ -262,6 +376,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
         setEditedComment={setEditedComment}
         repliedComment={repliedComment}
         setRepliedComment={setRepliedComment}
+        setCurrentPage={setCurrentPage}
       />
     </Grid>
   );
