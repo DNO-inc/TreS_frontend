@@ -76,16 +76,11 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({ scope, queues }) => {
     } else {
       const requestParams: RequestQueuesParams = {
         assignee: -1,
+        scope: scope,
+        queue: queues,
         items_count: Math.floor(window.innerHeight / 200),
         start_page: isQueuesChanged ? 1 : currentPage,
       };
-
-      if (scope === "Not defined") {
-        requestParams.queue = [-1];
-      } else {
-        requestParams.scope = scope;
-        requestParams.queue = queues;
-      }
 
       axios({
         method: "POST",
