@@ -16,6 +16,15 @@ import { TicketVisibilityOptions } from "./components/TicketVisibilityOptions";
 import { useCreateTicketMutation } from "../../store/api/tickets/tickets.api";
 import IPalette from "../../theme/IPalette.interface";
 import { getUserFacultyId } from "../../shared/functions/getLocalStorageData";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
+
+type ApiResponse = {
+  data?: {
+    ticket_id: number;
+  };
+  error?: FetchBaseQueryError | SerializedError;
+};
 
 const CreateTicketForm: FC = () => {
   const { t } = useTranslation();
@@ -27,6 +36,7 @@ const CreateTicketForm: FC = () => {
   const [queue, setQueue] = useState<number>(-1);
   const [faculty, setFaculty] = useState<number>(facultyId);
   const [formattedText, setFormattedText] = useState("");
+  const [ticketId, setTicketId] = useState<number | null>(null);
 
   const [createTicket] = useCreateTicketMutation();
 
@@ -47,7 +57,13 @@ const CreateTicketForm: FC = () => {
   };
 
   const onSubmit = (data: ICreateTicketRequestBody): void => {
-    createTicket({ body: JSON.stringify(data) });
+    createTicket({ body: JSON.stringify(data) }).then(
+      (response: ApiResponse) => {
+        if (response && response?.data && response?.data?.ticket_id) {
+          setTicketId(response?.data?.ticket_id);
+        }
+      }
+    );
     handleClear();
   };
 
@@ -102,7 +118,7 @@ const CreateTicketForm: FC = () => {
               selectedOptions={selectedOptions}
               setSelectedOptions={setSelectedOptions}
             />
-            <FormActions handleClear={handleClear} />
+            <FormActions handleClear={handleClear} ticketId={ticketId} />
           </Grid>
         </form>
       </Grid>

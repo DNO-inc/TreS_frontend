@@ -102,6 +102,7 @@ const QueueSelect: FC<QueueSelectProps> = ({
       >
         <Select
           id="queue-select"
+          required
           value={queue.toString()}
           onChange={handleChange}
           MenuProps={{
@@ -112,7 +113,7 @@ const QueueSelect: FC<QueueSelectProps> = ({
             },
           }}
         >
-          <MenuItem value={-1}>
+          <MenuItem value={-1} disabled>
             <ListItemText
               primary={t("createTicket.selectQueue")}
               primaryTypographyProps={{
