@@ -7,7 +7,7 @@ import {
   FetchBaseQueryError,
   MutationDefinition,
 } from "@reduxjs/toolkit/dist/query";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -27,6 +27,7 @@ import { QueueSelect } from "./components/QueueSelect";
 import { StatusSelect } from "./components/StatusSelect";
 import { AssigneeSelect } from "./components/AssigneeSelect";
 import { VerticalDivider } from "../../../../components/VerticalDivider";
+import { DialogPopup } from "./components/DialogPopup";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import { checkIsAdmin, checkStatus } from "../../../../shared/functions";
@@ -90,12 +91,14 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
+  const navigate = useNavigate();
 
   const userId = Number(getUserId());
   const isAssignee = userId == assigneeId;
 
   const isAdmin = checkIsAdmin();
 
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [isCopyLink, setIsCopyLink] = useState<boolean>(false);
   const [queue, setQueue] = useState<number>(ticketQueue?.queue_id || -1);
   const [faculty, setFaculty] = useState<number>(ticketFaculty);
@@ -130,8 +133,16 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
     }, 800);
   };
 
-  const handleAdminDelete = () => {
+  const handleAccept = () => {
+    setOpenDialog(false);
+
     adminDelete({ body: JSON.stringify({ ticket_id: ticketId }) });
+
+    navigate(-1);
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
   };
 
   return (
@@ -207,34 +218,36 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
             </Box>
           )}
           {isAdmin && isAssignee && (
-            <>
-              <IconButton
-                sx={{
-                  borderRadius: 1.5,
-                }}
-                onClick={() => {
-                  setIsEdit(prevState => {
-                    if (!prevState) {
-                      setFaculty(ticketFaculty);
-                      setQueue(ticketQueue?.queue_id || -1);
-                      setStatus(ticketStatus.status_id);
-                    }
+            <IconButton
+              sx={{
+                borderRadius: 1.5,
+              }}
+              onClick={() => {
+                setIsEdit(prevState => {
+                  if (!prevState) {
+                    setFaculty(ticketFaculty);
+                    setQueue(ticketQueue?.queue_id || -1);
+                    setStatus(ticketStatus.status_id);
+                  }
 
-                    return !prevState;
-                  });
-                }}
-              >
-                {isEdit ? <RedoIcon /> : <EditIcon />}
-              </IconButton>
-              <IconButton
-                sx={{
-                  borderRadius: 1.5,
-                }}
-                onClick={handleAdminDelete}
-              >
-                {<DeleteIcon />}
-              </IconButton>
-            </>
+                  return !prevState;
+                });
+              }}
+            >
+              {isEdit ? <RedoIcon /> : <EditIcon />}
+            </IconButton>
+          )}
+          {isAdmin && (
+            <IconButton
+              sx={{
+                borderRadius: 1.5,
+              }}
+              onClick={() => {
+                setOpenDialog(true);
+              }}
+            >
+              {<DeleteIcon />}
+            </IconButton>
           )}
         </Box>
       </Grid>
@@ -307,6 +320,11 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
           Accept changes
         </Button>
       )}
+      <DialogPopup
+        open={openDialog}
+        setOpen={setOpenDialog}
+        handleAccept={handleAccept}
+      />
     </Grid>
   );
 };

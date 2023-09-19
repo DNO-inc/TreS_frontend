@@ -1,19 +1,29 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
+import { endpoints } from "../../../../constants";
 
 interface FormActionsProps {
   handleClear: () => void;
+  ticketId: number | null;
 }
 
-const FormActions: FC<FormActionsProps> = ({ handleClear }) => {
+const FormActions: FC<FormActionsProps> = ({ handleClear, ticketId }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (ticketId) {
+      navigate(`${endpoints.fullTicket}/${ticketId}`);
+    }
+  }, [ticketId]);
 
   return (
     <Grid

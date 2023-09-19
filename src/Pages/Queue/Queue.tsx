@@ -73,13 +73,6 @@ const Queue: FC = () => {
       title: t("queue.scopes.suggestionTitle"),
       queues: [],
     },
-    {
-      id: 4,
-      order: queue[3] || 4,
-      name: "Not selected",
-      title: t("queue.scopes.notSelectedTitle"),
-      queues: [],
-    },
   ]);
 
   useEffect(() => {
@@ -89,7 +82,6 @@ const Queue: FC = () => {
       newScopeList[0].title = t("queue.scopes.reportTitle");
       newScopeList[1].title = t("queue.scopes.questionTitle");
       newScopeList[2].title = t("queue.scopes.suggestionTitle");
-      newScopeList[3].title = t("queue.scopes.notSelectedTitle");
 
       return newScopeList;
     });
@@ -99,7 +91,6 @@ const Queue: FC = () => {
     Reports: 0,
     "Q/A": 1,
     Suggestion: 2,
-    "Not defined": 3,
   };
 
   const [getQueues] = useGetQueueByFacultyMutation({});
