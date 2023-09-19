@@ -99,12 +99,18 @@ const Queue: FC = () => {
   const [getQueues] = useGetQueueByFacultyMutation({});
 
   useEffect(() => {
-    getQueues({ body: JSON.stringify({ faculty: facultyId }) }).then(
+    getQueues({ body: JSON.stringify({ faculty: faculty }) }).then(
       (res: ApiResponse) => {
         const queuesData = res.data && res.data.queues_list;
 
         if (queuesData) {
           const newScopeList = [...scopesList].sort((a, b) => a.id - b.id);
+
+          newScopeList.forEach(scope => {
+            if (scope.queues.length !== 0) {
+              scope.queues = [];
+            }
+          });
 
           queuesData.forEach((queue: IQueue) => {
             const scopeIndex = mapScopeToIndex[queue.scope];
@@ -118,7 +124,7 @@ const Queue: FC = () => {
         }
       }
     );
-  }, []);
+  }, [faculty]);
 
   const sortCards = (a: { order: number }, b: { order: number }) => {
     return a.order - b.order;

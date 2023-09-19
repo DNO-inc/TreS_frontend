@@ -28,9 +28,14 @@ interface IQueue {
 interface QueueButtonsListProps {
   queues: IQueue[];
   setQueues: Dispatch<SetStateAction<number[]>>;
+  facultyId: number;
 }
 
-const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues, setQueues }) => {
+const QueueButtonsList: FC<QueueButtonsListProps> = ({
+  queues,
+  setQueues,
+  facultyId,
+}) => {
   const containerRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
@@ -104,6 +109,14 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues, setQueues }) => {
     const filteredQueues = queuesFullInfo.filter(queue => queue.checked);
     setQueues(filteredQueues.map(queue => queue.queue_id));
   }, [checked]);
+
+  useEffect(() => {
+    setChecked(
+      queuesName.map(() => {
+        return false;
+      })
+    );
+  }, [facultyId]);
 
   const children: JSX.Element = (
     <Box sx={{ display: "flex", gap: 1.5, ml: 2 }}>
