@@ -17,6 +17,7 @@ import { Scope } from "./components/Scope";
 import IPalette from "../../theme/IPalette.interface";
 import { useGetQueueByFacultyMutation } from "../../store/api/api";
 import { getUserFacultyId } from "../../shared/functions/getLocalStorageData";
+import { FacultySelect } from "./components/FacultySelect";
 
 type ApiResponse = {
   data?: { queues_list: IQueue[] };
@@ -41,6 +42,8 @@ const Queue: FC = () => {
   const { palette }: IPalette = useTheme();
 
   const facultyId = getUserFacultyId();
+
+  const [faculty, setFaculty] = useState(facultyId);
 
   const [searchParams] = useSearchParams();
   const searchParamOrder = searchParams.get("order");
@@ -142,6 +145,11 @@ const Queue: FC = () => {
         >
           Queue management
         </Button> */}
+        <FacultySelect
+          facultyId={facultyId}
+          faculty={faculty}
+          setFaculty={setFaculty}
+        />
       </Box>
       <Box
         sx={{
@@ -169,6 +177,7 @@ const Queue: FC = () => {
             setCurrentScope={setCurrentScope}
             scopesList={scopesList}
             setScopesList={setScopesList}
+            facultyId={faculty}
             key={scope.name}
           />
         ))}
