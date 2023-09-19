@@ -19,6 +19,7 @@ import axios from "axios";
 interface ScopeTicketListProps {
   scope: string;
   queues: number[];
+  facultyId: number;
 }
 
 interface RequestQueuesParams {
@@ -27,10 +28,15 @@ interface RequestQueuesParams {
   assignee?: number;
   status?: number[];
   items_count?: number;
+  faculty?: number;
   start_page?: number;
 }
 
-const ScopeTicketList: FC<ScopeTicketListProps> = ({ scope, queues }) => {
+const ScopeTicketList: FC<ScopeTicketListProps> = ({
+  scope,
+  queues,
+  facultyId,
+}) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
@@ -78,6 +84,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({ scope, queues }) => {
         assignee: -1,
         scope: scope,
         queue: queues,
+        faculty: facultyId,
         items_count: Math.floor(window.innerHeight / 200),
         start_page: isQueuesChanged ? 1 : currentPage,
       };
@@ -104,7 +111,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({ scope, queues }) => {
           console.log(error);
         });
     }
-  }, [queues, currentPage]);
+  }, [queues, currentPage, facultyId]);
 
   return (
     <Box sx={{ mt: 1 }}>

@@ -26,6 +26,7 @@ interface ScopeProps {
   setCurrentScope: Dispatch<SetStateAction<IScope | null>>;
   scopesList: IScope[];
   setScopesList: Dispatch<SetStateAction<IScope[]>>;
+  facultyId: number;
 }
 
 const Scope: FC<ScopeProps> = ({
@@ -34,6 +35,7 @@ const Scope: FC<ScopeProps> = ({
   setCurrentScope,
   scopesList,
   setScopesList,
+  facultyId,
 }) => {
   const { palette }: IPalette = useTheme();
 
@@ -122,7 +124,11 @@ const Scope: FC<ScopeProps> = ({
         {!!scope.queues.length && scope.name !== "Not defined" && (
           <QueueButtonsList queues={scope.queues} setQueues={setQueues} />
         )}
-        <ScopeTicketList scope={scope.name} queues={queues} />
+        <ScopeTicketList
+          scope={scope.name}
+          queues={queues}
+          facultyId={facultyId}
+        />
       </Box>
     </Card>
   );
