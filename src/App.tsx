@@ -11,7 +11,7 @@ import { AuthProvider } from "./context/AuthContext";
 
 const ws = new WebSocket("ws://burrito.tres.cyberbydlo.com/ws");
 
-ws.addEventListener("open", event => {
+ws.addEventListener("open", () => {
   console.log("Hello Server!");
 });
 
