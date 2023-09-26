@@ -18,6 +18,11 @@ import { MarkdownWithStyles } from "../../../../utils/markdown";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import { MarkdownControls } from "./components/MarkdownControls";
+// import {
+//   useGetFilesMutation,
+//   useUploadFilesMutation,
+// } from "../../../../store/api/iofiles/iofiles.api";
+// import { Button } from "@mui/material";
 
 interface TicketBodyTextFieldProps {
   register: UseFormRegister<ICreateTicketRequestBody>;
@@ -42,6 +47,39 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
   const handleShowPreview = () => {
     setIsPreview(prevState => !prevState);
   };
+
+  // ===========================
+  // const [selectedFiles, setSelectedFiles] = useState(null);
+
+  // const [uploadFiles] = useUploadFilesMutation();
+  // const [getFiles] = useGetFilesMutation();
+
+  // const handleChange = event => {
+  //   setSelectedFiles(event.target.files);
+  // };
+
+  // const handleUpload = event => {
+  //   if (!selectedFiles) {
+  //     alert("Stop");
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+  //   const formData2 = new FormData();
+
+  //   formData.append("ticket_id", "6");
+  //   formData2.append("ticket_id", "6");
+  //   formData.append("file_list", selectedFiles[0]);
+
+  //   // console.log(formData.get("file"));
+
+  //   // uploadFiles(formData);
+  //   getFiles(formData2).then(res => {
+  //     console.log(res.data.files);
+  //   });
+  // };
+
+  // ===========================
 
   return (
     <Box>
@@ -108,6 +146,8 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
           },
         }}
       />
+      {/* <input type="file" onChange={handleChange} />
+      <Button onClick={handleUpload}>Upload</Button> */}
       <MarkdownControls
         text={formattedText}
         isPreview={isPreview}

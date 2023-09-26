@@ -8,6 +8,7 @@ import { useMode } from "./theme/hooks";
 import "./App.css";
 
 import { AuthProvider } from "./context/AuthContext";
+import { WebSocketProvider } from "./context/WebSocketContext";
 
 const ws = new WebSocket("ws://burrito.tres.cyberbydlo.com/ws");
 
@@ -24,12 +25,14 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Router />
-        </ThemeProvider>
-      </ColorModeContext.Provider>
+      <WebSocketProvider>
+        <ColorModeContext.Provider value={colorMode}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Router />
+          </ThemeProvider>
+        </ColorModeContext.Provider>
+      </WebSocketProvider>
     </AuthProvider>
   );
 };
