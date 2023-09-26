@@ -122,7 +122,11 @@ const Scope: FC<ScopeProps> = ({
       <Divider />
       <Box sx={{ pt: 3, pb: 3 }}>
         {!!scope.queues.length && scope.name !== "Not defined" && (
-          <QueueButtonsList queues={scope.queues} setQueues={setQueues} />
+          <QueueButtonsList
+            queues={scope.queues}
+            setQueues={setQueues}
+            facultyId={facultyId}
+          />
         )}
         <ScopeTicketList
           scope={scope.name}
