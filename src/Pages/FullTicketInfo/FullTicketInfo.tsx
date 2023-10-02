@@ -42,7 +42,7 @@ const FullTicketInfo: FC = () => {
   const creatorId = ticket?.creator && ticket?.creator.user_id;
   const assigneeId = ticket?.assignee && ticket?.assignee.user_id;
   const isMyTicket = userId == creatorId;
-  const isCanAddFiles = isMyTicket && assigneeId;
+  const isCanAddFiles = isMyTicket || assigneeId == userId;
 
   useEffect(() => {
     showTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
