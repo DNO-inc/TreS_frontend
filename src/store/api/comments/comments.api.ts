@@ -30,8 +30,12 @@ export const commentsApi = api.injectEndpoints({
         body,
       }),
     }),
-    getComment: builder.query({
-      query: () => "/comments/",
+    getCommentById: builder.mutation({
+      query: ({ body }) => ({
+        url: "/comments/get_comment_by_id",
+        method: "POST",
+        body,
+      }),
     }),
   }),
 });
@@ -40,6 +44,6 @@ export const {
   useCreateCommentMutation,
   useEditCommentMutation,
   useDeleteCommentMutation,
-  useGetCommentQuery,
+  useGetCommentByIdMutation,
   useGetFullHistoryMutation,
 } = commentsApi;

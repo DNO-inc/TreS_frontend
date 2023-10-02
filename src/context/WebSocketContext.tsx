@@ -9,6 +9,7 @@ import {
 } from "react";
 
 import { getAccessToken } from "../shared/functions/getLocalStorageData";
+import { useAuth } from "./AuthContext";
 
 interface WebSocketContextProps {
   notifications: INotification[];
@@ -17,13 +18,10 @@ interface WebSocketContextProps {
 }
 
 interface INotification {
-  data: {
-    body: string;
-    body_ua: string;
-    ticket_id: number;
-    user_id: number;
-  };
-  type_: "notification";
+  body: string;
+  body_ua: string;
+  ticket_id: number;
+  user_id: number;
 }
 
 const WebSocketContext = createContext({} as WebSocketContextProps);
@@ -31,47 +29,50 @@ const WebSocketContext = createContext({} as WebSocketContextProps);
 export default WebSocketContext;
 
 const wsUrl = "wss://burrito.tres.cyberbydlo.com/ws";
-const ws = new WebSocket(wsUrl);
 
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
   const [notifications, setNotifications] = useState<INotification[]>([]);
+  const [ws, setWs] = useState<WebSocket | null>(null);
+
+  const { isAuth } = useAuth();
 
   useEffect(() => {
-    function ping() {
-      if (!ws) return;
-      if (ws.readyState !== 1) return;
-      ws.send("PING");
-      setTimeout(ping, 55000);
-    }
+    if (isAuth && !ws) {
+      const newWs = new WebSocket(wsUrl);
+      setWs(newWs);
 
-    const openConnection = () => {
-      const accessToken = getAccessToken() || "";
-      ws.send(accessToken);
-      ping();
-    };
+      function ping() {
+        if (!newWs) return;
+        if (newWs.readyState !== 1) return;
+        newWs.send("PING");
+        setTimeout(ping, 55000);
+      }
 
-    const messageHandler = e => {
-      e.data
-        .text()
-        .then(value => {
-          const notification: INotification = JSON.parse(value);
+      const openConnection = () => {
+        const accessToken = getAccessToken() || "";
+        newWs.send(accessToken);
+        ping();
+      };
 
-          notification.data.body &&
-            setNotifications(prevState => [notification, ...prevState]);
-        })
-        .catch(() => {});
-    };
+      const messageHandler = e => {
+        e.data
+          .text()
+          .then(value => {
+            const notification: INotification = JSON.parse(value).data;
 
-    ws.addEventListener("open", openConnection);
+            notification.body &&
+              setNotifications(prevState => [notification, ...prevState]);
+          })
+          .catch(() => {});
+      };
 
-    ws.addEventListener("message", messageHandler);
-
-    return () => {
-      ws.removeEventListener("open", openConnection);
-      ws.removeEventListener("message", messageHandler);
+      newWs.addEventListener("open", openConnection);
+      newWs.addEventListener("message", messageHandler);
+    } else if (!isAuth && ws) {
       ws.close();
-    };
-  }, []);
+      setWs(null);
+    }
+  }, [isAuth, ws]);
 
   const contextData = {
     notifications,

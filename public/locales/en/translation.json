@@ -112,6 +112,7 @@
     "admin": {
       "selectAssignee": "Select assignee"
     },
+    "files": "Files",
     "comments": {
       "heading": "Comments",
       "assignee": "assignee",
