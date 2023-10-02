@@ -26,12 +26,10 @@ const Layout: FC = () => {
     <Box sx={{ display: "flex" }}>
       <ErrorBoundary>
         <Header handleDrawerToggle={handleDrawerToggle} />
-
         <Sidebar
           mobileOpen={mobileOpen}
           handleDrawerToggle={handleDrawerToggle}
         />
-
         <Box
           component="main"
           sx={{

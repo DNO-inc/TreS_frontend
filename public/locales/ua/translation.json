@@ -112,6 +112,7 @@
     "admin": {
       "selectAssignee": "Оберіть відповідального"
     },
+    "files": "Файли",
     "comments": {
       "heading": "Коментарі",
       "assignee": "відповідального",
