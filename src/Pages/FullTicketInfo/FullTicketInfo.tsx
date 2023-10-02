@@ -8,7 +8,9 @@ import { Loader } from "../../components/Loader";
 import { ActionPanel } from "./components/ActionPanel";
 import { MarkdownWithStyles } from "../../utils/markdown";
 import { FullTicketHeader } from "./components/FullTicketHeader";
+import { FullTicketComments } from "./components/FullTicketComments";
 import { FullTicketAdditionInfo } from "./components/FullTicketAdditionInfo";
+import { FullTicketFiles } from "./components/FullTicketFiles";
 
 import { useShowTicketMutation } from "../../store/api/tickets/tickets.api";
 import { checkIsAdmin } from "../../shared/functions";
@@ -22,7 +24,6 @@ import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from "../../store/api/tickets/tickets.api";
-import { FullTicketComments } from "./components/FullTicketComments";
 
 const FullTicketInfo: FC = () => {
   const { palette }: IPalette = useTheme();
@@ -41,6 +42,7 @@ const FullTicketInfo: FC = () => {
   const creatorId = ticket?.creator && ticket?.creator.user_id;
   const assigneeId = ticket?.assignee && ticket?.assignee.user_id;
   const isMyTicket = userId == creatorId;
+  const isCanAddFiles = isMyTicket && assigneeId;
 
   useEffect(() => {
     showTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
@@ -133,12 +135,15 @@ const FullTicketInfo: FC = () => {
               <MarkdownWithStyles innerText={ticket.body} />
             </Grid>
           </Grid>
+          <FullTicketFiles
+            ticketId={ticket.ticket_id}
+            isCanAddFiles={isCanAddFiles}
+          />
           <FullTicketAdditionInfo
             creator={ticket.creator}
             faculty={ticket.faculty}
             date={ticket.date}
           />
-          {}
           <FullTicketComments ticketId={ticket.ticket_id} />
           <ActionPanel
             isLiked={isLiked}

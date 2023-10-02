@@ -40,7 +40,7 @@ const Notifications: FC = () => {
           notifications.map((notification, index) => {
             return (
               <Link
-                to={`${endpoints.fullTicket}/${notification.data.ticket_id}`}
+                to={`${endpoints.fullTicket}/${notification.ticket_id}`}
                 key={index}
               >
                 <Box
@@ -57,8 +57,8 @@ const Notifications: FC = () => {
                 >
                   <ChatIcon />
                   {i18n.language === "en"
-                    ? notification.data.body
-                    : notification.data.body_ua}
+                    ? notification.body
+                    : notification.body_ua}
                 </Box>
               </Link>
             );

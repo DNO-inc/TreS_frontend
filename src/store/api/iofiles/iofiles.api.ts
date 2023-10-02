@@ -6,17 +6,37 @@ export const ioFilesApi = api.injectEndpoints({
       query: file => ({
         url: "/iofiles/upload_file",
         method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
         body: file,
       }),
     }),
-    getFiles: builder.mutation({
-      query: body => ({
-        url: "/iofiles/get_files",
+    getFile: builder.mutation({
+      query: fileId => ({
+        url: `/iofiles/${fileId}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        responseHandler: (response: { blob: () => any }) => response.blob(),
+      }),
+    }),
+    getFilesIds: builder.mutation({
+      query: file => ({
+        url: "/iofiles/get_file_ids",
         method: "POST",
-        body,
+        body: file,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       }),
     }),
   }),
 });
 
-export const { useUploadFilesMutation, useGetFilesMutation } = ioFilesApi;
+export const {
+  useUploadFilesMutation,
+  useGetFileMutation,
+  useGetFilesIdsMutation,
+} = ioFilesApi;

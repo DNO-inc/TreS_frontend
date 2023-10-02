@@ -34,7 +34,13 @@ const baseQuery = fetchBaseQuery({
       headers.set("Authorization", `Bearer ${token}`);
     }
 
-    headers.set("Content-Type", "application/json");
+    if (!headers.get("Content-Type")) {
+      headers.set("Content-Type", "application/json");
+    }
+
+    if (headers.get("Content-Type") === "multipart/form-data") {
+      headers.delete("Content-Type");
+    }
 
     return headers;
   },
