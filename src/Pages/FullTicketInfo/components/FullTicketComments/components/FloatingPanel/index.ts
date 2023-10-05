@@ -1,1 +1,0 @@
-export { FloatingPanel } from "./FloatingPanel";
