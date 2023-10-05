@@ -11,7 +11,7 @@ import {
 import { getAccessToken } from "../shared/functions/getLocalStorageData";
 import { useAuth } from "./AuthContext";
 
-interface WebSocketContextProps {
+interface NotificationContextProps {
   notifications: INotification[];
   setNotifications: Dispatch<SetStateAction<INotification[]>>;
   countOfNotification: number;
@@ -24,13 +24,13 @@ interface INotification {
   user_id: number;
 }
 
-const WebSocketContext = createContext({} as WebSocketContextProps);
+const NotificationContext = createContext({} as NotificationContextProps);
 
-export default WebSocketContext;
+export default NotificationContext;
 
-const wsUrl = "wss://burrito.tres.cyberbydlo.com/ws";
+const wsUrl = import.meta.env.VITE_WS_URL;
 
-export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
+export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const [notifications, setNotifications] = useState<INotification[]>([]);
   const [ws, setWs] = useState<WebSocket | null>(null);
 
@@ -51,6 +51,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
       const openConnection = () => {
         const accessToken = getAccessToken() || "";
         newWs.send(accessToken);
+        newWs.send("NOTIFICATIONS");
         ping();
       };
 
@@ -81,12 +82,12 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <WebSocketContext.Provider value={contextData}>
+    <NotificationContext.Provider value={contextData}>
       {children}
-    </WebSocketContext.Provider>
+    </NotificationContext.Provider>
   );
 };
 
-export const useWebSocket = () => {
-  return useContext(WebSocketContext);
+export const useNotification = () => {
+  return useContext(NotificationContext);
 };
