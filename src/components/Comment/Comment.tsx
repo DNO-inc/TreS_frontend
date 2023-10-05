@@ -31,7 +31,7 @@ import { useFormatDate, useRandomNick } from "../../shared/hooks";
 import {
   EditedComment,
   RepliedComment,
-} from "../../Pages/FullTicketInfo/components/FullTicketComments/FullTicketComments";
+} from "../../pages/FullTicketInfo/components/FullTicketComments/FullTicketComments";
 
 export type IComment = {
   color: string;

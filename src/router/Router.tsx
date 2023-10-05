@@ -8,20 +8,20 @@ import { useAuth } from "../context/AuthContext";
 import { getAccessToken } from "../shared/functions/getLocalStorageData";
 import { checkIsAdmin } from "../shared/functions";
 
-const Layout = lazy(() => import("../Pages/Layout"));
-const GeneralTickets = lazy(() => import("../Pages/GeneralTickets"));
-const Queue = lazy(() => import("../Pages/Queue"));
-const Sent = lazy(() => import("../Pages/Sent"));
-const Received = lazy(() => import("../Pages/Received"));
-const Followed = lazy(() => import("../Pages/Followed"));
-const Bookmarks = lazy(() => import("../Pages/Bookmarks"));
-const Deleted = lazy(() => import("../Pages/Deleted"));
-const Notifications = lazy(() => import("../Pages/Notifications"));
-const Settings = lazy(() => import("../Pages/Settings"));
-const Profile = lazy(() => import("../Pages/Profile"));
-const ErrorPage = lazy(() => import("../Pages/ErrorPage"));
-const FullTicketInfo = lazy(() => import("../Pages/FullTicketInfo"));
-const CreateTicketForm = lazy(() => import("../Pages/CreateTicketForm"));
+const Layout = lazy(() => import("../pages/Layout"));
+const GeneralTickets = lazy(() => import("../pages/GeneralTickets"));
+const Queue = lazy(() => import("../pages/Queue"));
+const Sent = lazy(() => import("../pages/Sent"));
+const Received = lazy(() => import("../pages/Received"));
+const Followed = lazy(() => import("../pages/Followed"));
+const Bookmarks = lazy(() => import("../pages/Bookmarks"));
+const Deleted = lazy(() => import("../pages/Deleted"));
+const Notifications = lazy(() => import("../pages/Notifications"));
+const Settings = lazy(() => import("../pages/Settings"));
+const Profile = lazy(() => import("../pages/Profile"));
+const ErrorPage = lazy(() => import("../pages/ErrorPage"));
+const FullTicketInfo = lazy(() => import("../pages/FullTicketInfo"));
+const CreateTicketForm = lazy(() => import("../pages/CreateTicketForm"));
 
 const Router: FC = () => {
   const { isAuth } = useAuth();

@@ -1,7 +1,7 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 
-import { Router } from "./Router";
+import { Router } from "./router";
 
 import { ColorModeContext } from "./theme";
 import { useMode } from "./theme/hooks";
