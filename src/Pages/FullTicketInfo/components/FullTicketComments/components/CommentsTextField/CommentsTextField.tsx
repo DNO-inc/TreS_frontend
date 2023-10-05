@@ -50,11 +50,11 @@ interface CommentsTextFieldProps {
 interface CreateCommentBody {
   ticket_id: number;
   body: string;
-  reply_to?: number;
+  reply_to?: string;
 }
 
 interface EditCommentBody {
-  comment_id: number;
+  comment_id: string;
   body: string;
 }
 

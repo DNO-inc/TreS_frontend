@@ -102,8 +102,6 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
   };
 
   const handleClick = (fileId: string, fileName: string) => {
-    console.log(fileName);
-
     getFile(fileId).then((res: ApiResponse) => {
       if (res?.data) {
         const file = res.data;

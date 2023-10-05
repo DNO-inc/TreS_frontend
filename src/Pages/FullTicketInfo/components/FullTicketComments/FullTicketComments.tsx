@@ -5,6 +5,8 @@ import {
   useRef,
   MutableRefObject,
   useCallback,
+  Dispatch,
+  SetStateAction,
 } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -26,13 +28,18 @@ import { CommentsTextField } from "./components/CommentsTextField";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { FloatingPanel } from "./components/FloatingPanel";
-import useRandomNickColor from "../../../../shared/hooks/useRandomNickColor";
+import { IComment } from "../../../../components/Comment/Comment";
+import { useRandomNick } from "../../../../shared/hooks";
+import { getRandomNickColor } from "../../../../shared/functions";
+import { IPerson } from "../../FullTicketInfo";
 
 export type IHistoryItem =
   | {
-      action_id: 1;
+      color: string;
+      nick: string;
+      action_id: string;
       author: {
-        user_id: 2;
+        user_id: number;
         firstname: string;
         lastname: string;
         login: string;
@@ -41,15 +48,18 @@ export type IHistoryItem =
       };
       creation_date: string;
       field_name: string;
+      value: string;
       new_value: string;
       old_value: string;
       ticket_id: number;
       type_: "action";
     }
   | {
-      comment_id: number;
+      color: string;
+      nick: string;
+      comment_id: string;
       author: {
-        user_id: 2;
+        user_id: number;
         firstname: string;
         lastname: string;
         login: string;
@@ -72,26 +82,37 @@ export type IHistoryItem =
 interface CreateCommentResponse {
   data?: {
     history: IHistoryItem[];
+    page_count: number;
   };
   error?: FetchBaseQueryError | SerializedError;
 }
 
 interface FullTicketCommentsProps {
   ticketId: number;
+  comment: IComment | null;
+  setComment: Dispatch<SetStateAction<IComment | null>>;
+  peopleSettings: Map<number, IPerson>;
+  setPeopleSettings: Dispatch<SetStateAction<Map<number, IPerson>>>;
 }
 
 export interface EditedComment {
-  id: number;
+  id: string;
   body: string;
 }
 
 export interface RepliedComment {
-  id: number;
+  id: string;
   body: string;
   fullName: string;
 }
 
-const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
+const FullTicketComments: FC<FullTicketCommentsProps> = ({
+  ticketId,
+  comment,
+  setComment,
+  peopleSettings,
+  setPeopleSettings,
+}) => {
   const { t, i18n } = useTranslation();
 
   const { palette }: IPalette = useTheme();
@@ -99,19 +120,20 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
   const commentFieldRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
   const [getComments] = useGetFullHistoryMutation();
-  const [createComment, { isSuccess: isCommentCreated }] =
-    useCreateCommentMutation();
-  const [deleteComment, { isSuccess: isCommentDeleted }] =
-    useDeleteCommentMutation();
-  const [editComment, { isSuccess: isCommentEdited }] =
+  const [createComment] = useCreateCommentMutation();
+  const [
+    deleteComment,
+    { isSuccess: isCommentDeleted, isLoading: isDeleting },
+  ] = useDeleteCommentMutation();
+  const [editComment, { isSuccess: isCommentEdited, isLoading: isEditing }] =
     useEditCommentMutation();
 
   // =========================================================
-  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
-  const [scrollHeight, setScrollHeight] = useState<number>(0);
+  const [scrollHeight, setScrollHeight] = useState<number>(1221);
   const [comments, setComments] = useState<IHistoryItem[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isChangeComment, setIsChangeComment] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [repliedComment, setRepliedComment] = useState<RepliedComment | null>(
     null
@@ -124,33 +146,58 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
   // const containerRef = useRef<HTMLInputElement | null>(null);
   const observer: MutableRefObject<undefined | IntersectionObserver> = useRef();
 
-  const color = useRandomNickColor();
-
   const lastCommentElementRef: any = useCallback(
     (node: HTMLElement) => {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();
 
-      observer.current = new IntersectionObserver(
-        entries => {
-          if (entries[0].isIntersecting && hasMore) {
-            setCurrentPage(prevPage => prevPage + 1);
-          }
-        },
-        { threshold: 1.0 }
-      );
+      setTimeout(() => {
+        observer.current = new IntersectionObserver(
+          entries => {
+            if (entries[0].isIntersecting && hasMore) {
+              setCurrentPage(prevPage => prevPage + 1);
+            }
+          },
+          { threshold: 1.0 }
+        );
 
-      if (node) observer.current.observe(node);
+        if (node) observer.current.observe(node);
+      }, 500);
     },
     [isLoading, hasMore]
   );
+
+  useEffect(() => {
+    if (commentFieldRef.current) {
+      const scrollContainer = commentFieldRef.current;
+
+      if (isChangeComment) {
+        setIsChangeComment(false);
+        setScrollHeight(scrollContainer.scrollHeight);
+
+        return;
+      }
+
+      if (currentPage === 1) {
+        setTimeout(() => {
+          scrollContainer.scrollTop = scrollContainer.scrollHeight;
+
+          setScrollHeight(scrollContainer.scrollHeight);
+        }, 0);
+      } else {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight - scrollHeight;
+
+        setScrollHeight(scrollContainer.scrollHeight);
+      }
+    }
+  }, [comments, currentPage]);
 
   useEffect(() => {
     setIsLoading(true);
 
     getComments({
       body: JSON.stringify({
-        start_page: isFirstLoad ? 1 : currentPage,
+        start_page: currentPage,
         items_count: 15,
         ticket_id: ticketId,
       }),
@@ -159,43 +206,46 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
         if (response && response?.data && response?.data?.history) {
           const newComments = [...response.data.history].reverse();
 
-          if (commentFieldRef.current) {
-            const scrollContainer = commentFieldRef.current;
+          setComments(prevComments => [...newComments, ...prevComments]);
 
-            if (currentPage === 1) {
-              setTimeout(() => {
-                scrollContainer.scrollTop = scrollContainer.scrollHeight;
-
-                setScrollHeight(scrollContainer.scrollHeight);
-              }, 0);
-            } else {
-              setTimeout(() => {
-                scrollContainer.scrollTop = Math.abs(
-                  scrollHeight - scrollContainer.scrollHeight
-                );
-
-                setScrollHeight(scrollContainer.scrollHeight);
-              }, 0);
-            }
-          }
-
-          setComments(prevComments =>
-            currentPage === 1 ? newComments : [...newComments, ...prevComments]
-          );
-          setHasMore(response.data.history.length > 0);
+          setHasMore(response.data.page_count > 0);
           setIsLoading(false);
-          setIsFirstLoad(false);
         }
       })
       .catch(error => {
         console.log(error);
       });
-  }, [isCommentCreated, currentPage]);
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (comment) {
+      setComments(prevComments => {
+        prevComments.push(comment);
+        return prevComments;
+      });
+      setComment(null);
+    }
+
+    if (commentFieldRef.current) {
+      const scrollContainer = commentFieldRef.current;
+
+      if (currentPage === 1) {
+        setTimeout(() => {
+          scrollContainer.scrollTop = scrollContainer.scrollHeight;
+
+          setScrollHeight(scrollContainer.scrollHeight);
+        }, 0);
+      } else {
+        setScrollHeight(scrollContainer.scrollHeight);
+      }
+    }
+  }, [comment]);
 
   useEffect(() => {
     setIsLoading(true);
+    console.log(1);
 
-    if (commentId) {
+    if (commentId && !isDeleting) {
       getComments({
         body: JSON.stringify({
           start_page: 1,
@@ -212,6 +262,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
               ...newComments,
             ]);
 
+            setIsChangeComment(true);
             setCommentId(null);
             setIsLoading(false);
           }
@@ -223,7 +274,9 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
   }, [isCommentDeleted]);
 
   useEffect(() => {
-    if (commentId) {
+    setIsLoading(true);
+
+    if (commentId && !isEditing) {
       getComments({
         body: JSON.stringify({
           start_page: comments.length - commentId,
@@ -245,7 +298,9 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
               })
             );
 
+            setIsChangeComment(true);
             setCommentId(null);
+            setIsLoading(false);
           }
         })
         .catch(error => {
@@ -260,8 +315,8 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
     <Grid container sx={{ position: "relative" }}>
       <Typography mb={2}>{t("fullTicket.comments.heading")}</Typography>
       <Grid
-        container
         ref={commentFieldRef}
+        container
         sx={{
           flexDirection: "column",
           flexWrap: "nowrap",
@@ -273,6 +328,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
           borderRadius: 1,
           whiteSpace: "pre-line",
           gap: 2,
+          scrollBehavior: currentPage === 1 ? "smooth" : "",
           "&::-webkit-scrollbar": {
             width: 4,
           },
@@ -285,57 +341,88 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({ ticketId }) => {
           },
         }}
       >
-        {comments.map((item: IHistoryItem, index: number) => {
-          if (item.type_ === "comment") {
+        {comments.map((chatItem: IHistoryItem, index: number) => {
+          const modifiedItem = { ...chatItem };
+
+          if (!peopleSettings.has(modifiedItem.author.user_id)) {
+            const color = getRandomNickColor();
+            const nick = useRandomNick(
+              modifiedItem.author.firstname,
+              modifiedItem.author.lastname
+            );
+
+            setPeopleSettings(prevState =>
+              prevState.set(modifiedItem.author.user_id, {
+                color,
+                nick,
+              })
+            );
+
+            modifiedItem.color = color;
+            modifiedItem.nick = nick;
+          } else {
+            const person = peopleSettings.get(modifiedItem.author.user_id);
+
+            if (person) {
+              modifiedItem.color = person.color;
+              modifiedItem.nick = person.nick;
+            }
+          }
+
+          if (!modifiedItem?.nick) {
+            const nick = useRandomNick(
+              modifiedItem.author.firstname,
+              modifiedItem.author.lastname
+            );
+            modifiedItem.nick = nick;
+          }
+
+          if (modifiedItem.type_ === "comment") {
             if (index === 0) {
               return (
                 <Comment
                   ref={lastCommentElementRef}
-                  comment={item}
-                  key={`${item.type_}-${item.comment_id}`}
+                  comment={modifiedItem}
+                  key={`${modifiedItem.type_}-${modifiedItem.comment_id}`}
                   deleteComment={deleteComment}
                   setEditedComment={setEditedComment}
                   setRepliedComment={setRepliedComment}
                   setCommentId={setCommentId}
                   index={index}
-                  color={color}
                 />
               );
             }
 
             return (
               <Comment
-                comment={item}
-                key={`${item.type_}-${item.comment_id}`}
+                comment={modifiedItem}
+                key={`${modifiedItem.type_}-${modifiedItem.comment_id}`}
                 deleteComment={deleteComment}
                 setEditedComment={setEditedComment}
                 setRepliedComment={setRepliedComment}
                 setCommentId={setCommentId}
                 index={index}
-                color={color}
               />
             );
-          } else if (item.type_ === "action") {
+          } else if (modifiedItem.type_ === "action") {
             if (index === 0) {
               return (
                 <Action
                   ref={lastCommentElementRef}
-                  action={item}
+                  action={modifiedItem}
                   translator={t}
                   lang={i18n.language}
-                  color={color}
-                  key={`${item.type_}-${item.field_name}-${item.ticket_id}-${index}`}
+                  key={`${modifiedItem.type_}-${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
                 />
               );
             }
 
             return (
               <Action
-                action={item}
+                action={modifiedItem}
                 translator={t}
                 lang={i18n.language}
-                color={color}
-                key={`${item.type_}-${item.field_name}-${item.ticket_id}-${index}`}
+                key={`${modifiedItem.type_}-${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
               />
             );
           }

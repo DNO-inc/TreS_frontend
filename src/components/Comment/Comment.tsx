@@ -34,7 +34,9 @@ import {
 } from "../../Pages/FullTicketInfo/components/FullTicketComments/FullTicketComments";
 
 export type IComment = {
-  comment_id: number;
+  color: string;
+  nick: string;
+  comment_id: string;
   author: {
     user_id: number;
     firstname: string;
@@ -59,7 +61,6 @@ export type IComment = {
 interface CommentProps {
   comment: IComment;
   index: number;
-  color: string;
   setEditedComment: Dispatch<SetStateAction<EditedComment | null>>;
   setRepliedComment: Dispatch<SetStateAction<RepliedComment | null>>;
   setCommentId: Dispatch<SetStateAction<number | null>>;
@@ -85,7 +86,6 @@ const Comment: ForwardRefExoticComponent<
       setRepliedComment,
       setCommentId,
       index,
-      color,
     },
     ref
   ) => {
@@ -95,10 +95,7 @@ const Comment: ForwardRefExoticComponent<
     const isMyComment = userId === comment.author.user_id;
 
     const formattedDate: string = useFormatDate(comment.creation_date, "time");
-    const nick = useRandomNick(
-      comment.author.firstname,
-      comment.author.lastname
-    );
+
     const repliedNick = useRandomNick(
       comment.reply_to?.author.firstname,
       comment.reply_to?.author.lastname
@@ -133,7 +130,7 @@ const Comment: ForwardRefExoticComponent<
       setRepliedComment({
         id: comment.comment_id,
         body: comment.body,
-        fullName: nick,
+        fullName: comment.nick,
       });
       setEditedComment(null);
     };
@@ -223,8 +220,10 @@ const Comment: ForwardRefExoticComponent<
                       : ""
                   }
                 >
-                  <Typography sx={{ fontWeight: 600, mb: 0.5, color: color }}>
-                    {nick}
+                  <Typography
+                    sx={{ fontWeight: 600, mb: 0.5, color: comment.color }}
+                  >
+                    {comment.nick}
                   </Typography>
                 </Link>
                 <IconButton
@@ -243,7 +242,7 @@ const Comment: ForwardRefExoticComponent<
               <Box
                 sx={{
                   borderLeft: `3px solid ${
-                    isMyComment ? palette.common.white : color
+                    isMyComment ? palette.common.white : comment.color
                   }`,
                   borderRadius: "2px",
                   mb: 1,
@@ -253,7 +252,7 @@ const Comment: ForwardRefExoticComponent<
                   sx={{
                     ml: 1,
                     fontWeight: 600,
-                    color: isMyComment ? palette.common.white : color,
+                    color: isMyComment ? palette.common.white : comment.color,
                   }}
                 >
                   {repliedNick}

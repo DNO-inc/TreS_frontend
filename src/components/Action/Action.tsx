@@ -9,12 +9,14 @@ import { useTheme } from "@mui/material";
 
 import IPalette from "../../theme/IPalette.interface";
 import { endpoints } from "../../constants";
-import { useFormatDate, useRandomNick } from "../../shared/hooks";
+import { useFormatDate } from "../../shared/hooks";
 
 export type IAction = {
-  action_id: 1;
+  color: string;
+  nick: string;
+  action_id: string;
   author: {
-    user_id: 2;
+    user_id: number;
     firstname: string;
     lastname: string;
     login: string;
@@ -25,47 +27,56 @@ export type IAction = {
   field_name: string;
   new_value: string;
   old_value: string;
+  value: string;
   ticket_id: number;
   type_: "action";
 };
 
 interface ActionProps {
   action: IAction;
-  color: string;
   translator: TFunction<"translation", undefined, "translation">;
   lang: string;
 }
 
 const Action: ForwardRefExoticComponent<
   Omit<ActionProps, "ref"> & RefAttributes<HTMLDivElement>
-> = forwardRef(({ action, translator: translator, lang, color }, ref) => {
+> = forwardRef(({ action, translator: translator, lang }, ref) => {
   const { palette }: IPalette = useTheme();
 
   const formattedDate: string = useFormatDate(action.creation_date, "full");
-  const nick = useRandomNick(action.author.firstname, action.author.lastname);
 
   const getActionText = () => {
     if (lang === "ua") {
       return (
         <>
-          {` ${formattedDate} змінив ${translator(
-            `fullTicket.comments.${action.field_name}`
-          )} з `}
-          {action.field_name === "status" ? (
-            <>
-              <Box component={"span"}>
-                {translator(`ticketStatus.${action.old_value.toLowerCase()}`)}
-              </Box>
-              {` на `}
-              <Box component={"span"}>
-                {translator(`ticketStatus.${action.new_value.toLowerCase()}`)}
-              </Box>
-            </>
+          {action.field_name === "file" ? (
+            <>{` on ${formattedDate} завантажив(-ла) файл ${action.value}`}</>
           ) : (
             <>
-              <Box component={"span"}>{action.old_value}</Box>
-              {` на `}
-              <Box component={"span"}>{action.new_value}</Box>
+              {` ${formattedDate} змінив ${translator(
+                `fullTicket.comments.${action.field_name}`
+              )} з `}
+              {action.field_name === "status" ? (
+                <>
+                  <Box component={"span"}>
+                    {translator(
+                      `ticketStatus.${action.old_value.toLowerCase()}`
+                    )}
+                  </Box>
+                  {` на `}
+                  <Box component={"span"}>
+                    {translator(
+                      `ticketStatus.${action.new_value.toLowerCase()}`
+                    )}
+                  </Box>
+                </>
+              ) : (
+                <>
+                  <Box component={"span"}>{action.old_value}</Box>
+                  {` на `}
+                  <Box component={"span"}>{action.new_value}</Box>
+                </>
+              )}
             </>
           )}
         </>
@@ -74,10 +85,16 @@ const Action: ForwardRefExoticComponent<
 
     return (
       <>
-        {` on ${formattedDate} changed the ${action.field_name} from `}
-        <Box component={"span"}>{action.old_value}</Box>
-        {` to `}
-        <Box component={"span"}>{action.new_value}</Box>
+        {action.field_name === "file" ? (
+          <>{` on ${formattedDate} has uploaded a file ${action.value}`}</>
+        ) : (
+          <>
+            {` on ${formattedDate} changed the ${action.field_name} from `}
+            <Box component={"span"}>{action.old_value}</Box>
+            {` to `}
+            <Box component={"span"}>{action.new_value}</Box>
+          </>
+        )}
       </>
     );
   };
@@ -103,9 +120,9 @@ const Action: ForwardRefExoticComponent<
           <Typography sx={{ fontWeight: 400, textAlign: "center" }}>
             <NavLink
               to={`${endpoints.profile}/${action.author.user_id}`}
-              style={{ color: color, fontWeight: 600 }}
+              style={{ color: action.color, fontWeight: 600 }}
             >
-              {nick}
+              {action.nick}
             </NavLink>
             {getActionText()}
           </Typography>

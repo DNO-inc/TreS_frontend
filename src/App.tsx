@@ -8,21 +8,21 @@ import { useMode } from "./theme/hooks";
 import "./App.css";
 
 import { AuthProvider } from "./context/AuthContext";
-import { WebSocketProvider } from "./context/WebSocketContext";
+import { NotificationProvider } from "./context/NotificationContext";
 
 const App = () => {
   const [theme, colorMode] = useMode();
 
   return (
     <AuthProvider>
-      <WebSocketProvider>
+      <NotificationProvider>
         <ColorModeContext.Provider value={colorMode}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <Router />
           </ThemeProvider>
         </ColorModeContext.Provider>
-      </WebSocketProvider>
+      </NotificationProvider>
     </AuthProvider>
   );
 };

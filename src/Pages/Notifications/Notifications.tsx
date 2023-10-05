@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -8,15 +9,14 @@ import { useTheme } from "@mui/material";
 
 import ChatIcon from "@mui/icons-material/Chat";
 
-import { useWebSocket } from "../../context/WebSocketContext";
+import { useNotification } from "../../context/NotificationContext";
 import IPalette from "../../theme/IPalette.interface";
-import { Link } from "react-router-dom";
 import { endpoints } from "../../constants";
 
 const Notifications: FC = () => {
   const { palette }: IPalette = useTheme();
   const { t, i18n } = useTranslation();
-  const { notifications, setNotifications } = useWebSocket();
+  const { notifications, setNotifications } = useNotification();
 
   const handleClick = (id: number) => {
     setNotifications(prevState => prevState.filter((_, index) => id !== index));

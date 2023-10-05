@@ -24,10 +24,20 @@ import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from "../../store/api/tickets/tickets.api";
+import { useCommentsConnection } from "./useCommentsConnection";
+
+export interface IPerson {
+  color: string;
+  nick: string;
+}
 
 const FullTicketInfo: FC = () => {
   const { palette }: IPalette = useTheme();
   const { pathname } = useLocation();
+
+  const [peopleSettings, setPeopleSettings] = useState(
+    new Map<number, IPerson>()
+  );
 
   const ticketId: number = parseInt(pathname.split("/")[2]);
   const isAdmin = checkIsAdmin();
@@ -55,6 +65,10 @@ const FullTicketInfo: FC = () => {
       setIsFollowed(ticket?.is_followed);
     }
   }, [isSuccess]);
+
+  // ======================================
+
+  const { comment, setComment } = useCommentsConnection(ticketId);
 
   // ======================================
 
@@ -144,7 +158,13 @@ const FullTicketInfo: FC = () => {
             faculty={ticket.faculty}
             date={ticket.date}
           />
-          <FullTicketComments ticketId={ticket.ticket_id} />
+          <FullTicketComments
+            peopleSettings={peopleSettings}
+            setPeopleSettings={setPeopleSettings}
+            ticketId={ticket.ticket_id}
+            comment={comment}
+            setComment={setComment}
+          />
           <ActionPanel
             isLiked={isLiked}
             isReported={isReported}
