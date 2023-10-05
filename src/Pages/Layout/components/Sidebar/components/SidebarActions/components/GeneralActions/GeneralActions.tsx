@@ -24,7 +24,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import { endpoints } from "../../../../../../../../constants";
 import { useAuth } from "../../../../../../../../context/AuthContext";
 import { checkIsAdmin } from "../../../../../../../../shared/functions";
-import { useWebSocket } from "../../../../../../../../context/WebSocketContext";
+import { useNotification } from "../../../../../../../../context/NotificationContext";
 
 const NestedList = lazy(() => import("./components/NestedList"));
 
@@ -40,7 +40,7 @@ const GeneralActions: FC<GeneralActionsProps> = ({
   const { t } = useTranslation();
 
   const { isAuth } = useAuth();
-  const { countOfNotification } = useWebSocket();
+  const { countOfNotification } = useNotification();
 
   const isAdmin = checkIsAdmin();
 
