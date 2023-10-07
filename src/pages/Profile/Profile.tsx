@@ -103,7 +103,6 @@ const Profile: FC = () => {
         <Typography variant="h1">{t("profile.heading")}</Typography>
       </Box>
       {isSuccess && (
-<<<<<<< HEAD:src/Pages/Profile/Profile.tsx
         <form
           onSubmit={handleSubmit(onSubmit)}
           style={{
@@ -113,34 +112,6 @@ const Profile: FC = () => {
             margin: "10px auto 0",
           }}
         >
-=======
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 5,
-            m: "100px auto 0",
-          }}
-        >
-          <Box sx={{ display: "flex", gap: 5 }}>
-            <Avatar sx={{ width: 100, height: 100 }} />
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography
-                component={"h2"}
-                sx={{
-                  fontSize: 32,
-                  fontWeight: 600,
-                  color: palette.semantic.info,
-                }}
-              >{`${data.firstname} ${data.lastname}`}</Typography>
-              <Typography
-                sx={{ fontSize: 24, color: palette.whiteAlpha.default }}
-              >
-                {data?.login ? data.login : t("common.notFound")}
-              </Typography>
-            </Box>
-          </Box>
->>>>>>> 5b72fbe5b09a9fc403e5ddbcc5b6d6f8e6fb600f:src/pages/Profile/Profile.tsx
           <Box
             sx={{
               display: "flex",
