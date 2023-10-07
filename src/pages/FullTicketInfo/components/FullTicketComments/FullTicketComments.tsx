@@ -194,27 +194,29 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
 
   useEffect(() => {
     setIsLoading(true);
+    console.log(hasMore);
 
-    getComments({
-      body: JSON.stringify({
-        start_page: currentPage,
-        items_count: 15,
-        ticket_id: ticketId,
-      }),
-    })
-      .then((response: CreateCommentResponse) => {
-        if (response && response?.data && response?.data?.history) {
-          const newComments = [...response.data.history].reverse();
-
-          setComments(prevComments => [...newComments, ...prevComments]);
-
-          setHasMore(response.data.page_count > 0);
-          setIsLoading(false);
-        }
+    hasMore &&
+      getComments({
+        body: JSON.stringify({
+          start_page: currentPage,
+          items_count: 15,
+          ticket_id: ticketId,
+        }),
       })
-      .catch(error => {
-        console.log(error);
-      });
+        .then((response: CreateCommentResponse) => {
+          if (response && response?.data && response?.data?.history) {
+            const newComments = [...response.data.history].reverse();
+
+            setComments(prevComments => [...newComments, ...prevComments]);
+
+            setHasMore(response.data.page_count > currentPage);
+            setIsLoading(false);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
   }, [currentPage]);
 
   useEffect(() => {
@@ -243,7 +245,6 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
 
   useEffect(() => {
     setIsLoading(true);
-    console.log(1);
 
     if (commentId && !isDeleting) {
       getComments({
