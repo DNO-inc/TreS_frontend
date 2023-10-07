@@ -55,6 +55,7 @@ const Router: FC = () => {
         }
       >
         <Route path={endpoints.generalTickets} element={<GeneralTickets />} />
+        <Route path={`${endpoints.profile}/:userId`} element={<Profile />} />
         {isAuth && (
           <>
             <Route

@@ -1,6 +1,8 @@
 import { useState, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
 
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -18,6 +20,13 @@ import IPalette from "../../theme/IPalette.interface";
 import { getUserFacultyId } from "../../shared/functions/getLocalStorageData";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
+
+type ApiResponse = {
+  data?: {
+    ticket_id: number;
+  };
+  error?: FetchBaseQueryError | SerializedError;
+};
 
 type ApiResponse = {
   data?: {
