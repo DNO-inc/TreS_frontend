@@ -8,7 +8,14 @@ export const profileApi = api.injectEndpoints({
         method: "GET",
       }),
     }),
+    updateProfile: builder.mutation({
+      query: ({ body }) => ({
+        url: "/profile/update",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useGetProfileMutation } = profileApi;
+export const { useGetProfileMutation, useUpdateProfileMutation } = profileApi;
