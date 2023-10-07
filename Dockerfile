@@ -1,6 +1,7 @@
 FROM node:18.16.0-alpine as tres-build-base
 
 ENV VITE_API_URL="https://burrito.tres.cyberbydlo.com"
+ENV VITE_WS_URL="wss://burrito.tres.cyberbydlo.com/ws"
 
 WORKDIR /app
 COPY . /app
