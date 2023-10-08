@@ -60,10 +60,8 @@ export type IComment = {
 
 interface CommentProps {
   comment: IComment;
-  index: number;
   setEditedComment: Dispatch<SetStateAction<EditedComment | null>>;
   setRepliedComment: Dispatch<SetStateAction<RepliedComment | null>>;
-  setCommentId: Dispatch<SetStateAction<number | null>>;
   deleteComment: MutationTrigger<
     MutationDefinition<
       any,
@@ -78,17 +76,7 @@ interface CommentProps {
 const Comment: ForwardRefExoticComponent<
   Omit<CommentProps, "ref"> & RefAttributes<HTMLDivElement>
 > = forwardRef(
-  (
-    {
-      comment,
-      setEditedComment,
-      deleteComment,
-      setRepliedComment,
-      setCommentId,
-      index,
-    },
-    ref
-  ) => {
+  ({ comment, setEditedComment, deleteComment, setRepliedComment }, ref) => {
     const { palette }: IPalette = useTheme();
 
     const userId = getUserId();
@@ -117,12 +105,10 @@ const Comment: ForwardRefExoticComponent<
       deleteComment({
         body: JSON.stringify({ comment_id: comment.comment_id }),
       });
-      setCommentId(index);
     };
 
     const changeComment = () => {
       setEditedComment({ id: comment.comment_id, body: comment.body });
-      setCommentId(index);
       setRepliedComment(null);
     };
 

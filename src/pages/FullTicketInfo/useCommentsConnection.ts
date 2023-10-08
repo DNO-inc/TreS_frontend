@@ -15,7 +15,9 @@ type ApiResponse = {
 const useCommentsConnection = (ticketId: number) => {
   const wsUrl = import.meta.env.VITE_WS_URL;
 
-  const [comment, setComment] = useState<IComment | null>(null);
+  const [createdComment, setCreatedComment] = useState<IComment | null>(null);
+  const [changedComment, setChangedComment] = useState<IComment | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const [ws, setWs] = useState<WebSocket | null>(null);
 
   const { isAuth } = useAuth();
@@ -46,18 +48,32 @@ const useCommentsConnection = (ticketId: number) => {
         e.data
           .text()
           .then(response => {
-            const commentId = JSON.parse(response)?.comment_id;
+            const commentData = JSON.parse(response);
+            const commentId = commentData.comment_id;
+            const commentType = commentData.msg_type;
 
-            if (commentId) {
+            if (commentType === "MSG_CREATE") {
               getComment({
                 body: JSON.stringify({ comment_id: commentId }),
               }).then((res: ApiResponse) => {
                 const commentData = res?.data;
 
                 if (commentData) {
-                  setComment(commentData);
+                  setCreatedComment(commentData);
                 }
               });
+            } else if (commentType === "MSG_EDIT") {
+              getComment({
+                body: JSON.stringify({ comment_id: commentId }),
+              }).then((res: ApiResponse) => {
+                const commentData = res?.data;
+
+                if (commentData) {
+                  setChangedComment(commentData);
+                }
+              });
+            } else if (commentType === "MSG_DELETE") {
+              setDeleteId(commentId);
             }
           })
           .catch(() => {});
@@ -71,7 +87,11 @@ const useCommentsConnection = (ticketId: number) => {
     }
   }, [isAuth, ws]);
 
-  return { comment, setComment };
+  return {
+    createdComment,
+    changedComment,
+    deleteId,
+  };
 };
 
 export { useCommentsConnection };

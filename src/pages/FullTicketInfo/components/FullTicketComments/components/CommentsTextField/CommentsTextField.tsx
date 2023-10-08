@@ -1,4 +1,11 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+  KeyboardEvent,
+} from "react";
 import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 import {
   BaseQueryFn,
@@ -72,9 +79,7 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
 
   const { palette }: IPalette = useTheme();
 
-  const [comment, setComment] = useState(
-    editedComment?.body ? editedComment.body : ""
-  );
+  const [comment, setComment] = useState(editedComment?.body ?? "");
 
   const sendComment = () => {
     if (comment) {
@@ -105,8 +110,15 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
   };
 
   useEffect(() => {
-    setComment(editedComment?.body ? editedComment.body : "");
+    editedComment?.body && setComment(editedComment.body);
   }, [editedComment]);
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendComment();
+    }
+  };
 
   return (
     <Box
@@ -124,6 +136,7 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
         maxRows={4}
         value={comment}
         onChange={e => setComment(e.target.value)}
+        onKeyDown={handleKeyDown}
         placeholder="Message"
         sx={{
           bgcolor: palette.grey.card,
