@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material";
+import { Badge, useTheme } from "@mui/material";
 
 import ChatIcon from "@mui/icons-material/Chat";
 
@@ -48,6 +48,7 @@ const Notifications: FC = () => {
                   onClick={() => handleClick(index)}
                   sx={{
                     display: "flex",
+                    justifyContent: "space-between",
                     alignItems: "center",
                     gap: 2,
                     bgcolor: palette.grey.card,
@@ -56,10 +57,23 @@ const Notifications: FC = () => {
                     borderRadius: 1,
                   }}
                 >
-                  <ChatIcon />
-                  {i18n.language === "en"
-                    ? notification.body
-                    : notification.body_ua}
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    <ChatIcon />
+                    {i18n.language === "en"
+                      ? notification.body
+                      : notification.body_ua}
+                  </Box>
+
+                  <Badge
+                    badgeContent={notification?.count ?? 0}
+                    sx={{
+                      mr: 3,
+                      "& > span": {
+                        color: "white",
+                        bgcolor: palette.grey.active,
+                      },
+                    }}
+                  ></Badge>
                 </Box>
               </Link>
             );

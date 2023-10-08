@@ -25,6 +25,7 @@ interface INotification {
   body_ua: string;
   ticket_id: number;
   user_id: number;
+  count?: number;
 }
 
 type ApiResponse = {
@@ -48,16 +49,48 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
   const [getNotifications] = useGetNotificationsMutation({});
 
+  const stackCommentNotifications = (notifications: INotification[]) => {
+    if (notifications.length < 2) {
+      return notifications;
+    }
+
+    const reverseNotifications = [...notifications].reverse();
+    const stackedComments: INotification[] = [
+      { ...reverseNotifications[0], count: 1 },
+    ];
+
+    for (let i = 1; i < notifications.length; i++) {
+      const lastElement = stackedComments[stackedComments.length - 1];
+
+      if (lastElement.body === reverseNotifications[i].body) {
+        if (lastElement?.count) {
+          lastElement.count += 1;
+        } else {
+          const duplicatedNotification = {
+            ...lastElement,
+            count: 2,
+          };
+
+          stackedComments.push(duplicatedNotification);
+        }
+      } else {
+        stackedComments.push(reverseNotifications[i]);
+      }
+    }
+
+    return stackedComments;
+  };
+
   useEffect(() => {
     getNotifications({})
       .then((res: ApiResponse) => {
         const notificationsData = res?.data?.notifications;
 
         if (notificationsData) {
-          const reverseNotifications = notificationsData.reverse();
+          const stackComments = stackCommentNotifications(notificationsData);
 
           setNotifications(prevNotifications => [
-            ...reverseNotifications,
+            ...stackComments,
             ...prevNotifications,
           ]);
         }
@@ -93,7 +126,24 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
             const notification: INotification = JSON.parse(value).data;
 
             notification.body &&
-              setNotifications(prevState => [notification, ...prevState]);
+              setNotifications(prevState => {
+                if (prevState.length === 0) {
+                  return [notification];
+                }
+                const stackedComments = [...prevState];
+
+                if (notification.body === stackedComments[0].body) {
+                  if (stackedComments[0]?.count) {
+                    stackedComments[0].count += 1;
+                  } else {
+                    stackedComments[0].count = 2;
+                  }
+                } else {
+                  stackedComments.unshift(notification);
+                }
+
+                return stackedComments;
+              });
           })
           .catch(() => {});
       };
