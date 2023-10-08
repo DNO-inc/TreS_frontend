@@ -1,0 +1,14 @@
+.arrowDownAppear {
+  animation: 0.3s ease-in-out appear;
+}
+
+@keyframes appear {
+  from {
+    bottom: 70px;
+    opacity: 0.2;
+  }
+  to {
+    bottom: 80px;
+    opacity: 1;
+  }
+}

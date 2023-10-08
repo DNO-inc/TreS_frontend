@@ -68,12 +68,12 @@ const FullTicketInfo: FC = () => {
 
   // ======================================
 
-  const { comment, setComment } = useCommentsConnection(ticketId);
+  const commentsConnection = useCommentsConnection(ticketId);
 
   // ======================================
 
-  const [isLiked, setIsLiked] = useState<boolean>(ticket?.is_liked);
   const [upvotes, setUpvotes] = useState<number>(ticket?.upvotes);
+  const [isLiked, setIsLiked] = useState<boolean>(ticket?.is_liked);
   const [isFollowed, setIsFollowed] = useState<boolean>(ticket?.is_followed);
   const [isReported, setIsReported] = useState<boolean>(false);
 
@@ -162,8 +162,7 @@ const FullTicketInfo: FC = () => {
             peopleSettings={peopleSettings}
             setPeopleSettings={setPeopleSettings}
             ticketId={ticket.ticket_id}
-            comment={comment}
-            setComment={setComment}
+            commentsConnection={commentsConnection}
           />
           <ActionPanel
             isLiked={isLiked}

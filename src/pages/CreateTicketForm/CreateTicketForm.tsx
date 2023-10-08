@@ -18,15 +18,6 @@ import { TicketVisibilityOptions } from "./components/TicketVisibilityOptions";
 import { useCreateTicketMutation } from "../../store/api/tickets/tickets.api";
 import IPalette from "../../theme/IPalette.interface";
 import { getUserFacultyId } from "../../shared/functions/getLocalStorageData";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
-import { SerializedError } from "@reduxjs/toolkit";
-
-type ApiResponse = {
-  data?: {
-    ticket_id: number;
-  };
-  error?: FetchBaseQueryError | SerializedError;
-};
 
 type ApiResponse = {
   data?: {
