@@ -398,7 +398,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
                   action={modifiedItem}
                   translator={t}
                   lang={i18n.language}
-                  key={`${modifiedItem.type_}-${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
+                  key={`${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
                 />
               );
             }
@@ -408,7 +408,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
                 action={modifiedItem}
                 translator={t}
                 lang={i18n.language}
-                key={`${modifiedItem.type_}-${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
+                key={`${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
               />
             );
           }

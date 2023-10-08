@@ -7,9 +7,12 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
 
 import { getAccessToken } from "../shared/functions/getLocalStorageData";
 import { useAuth } from "./AuthContext";
+import { useGetNotificationsMutation } from "../store/api/notifications/notifications.api";
 
 interface NotificationContextProps {
   notifications: INotification[];
@@ -24,6 +27,13 @@ interface INotification {
   user_id: number;
 }
 
+type ApiResponse = {
+  data?: {
+    notifications: INotification[];
+  };
+  error?: FetchBaseQueryError | SerializedError;
+};
+
 const NotificationContext = createContext({} as NotificationContextProps);
 
 export default NotificationContext;
@@ -35,6 +45,27 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const [ws, setWs] = useState<WebSocket | null>(null);
 
   const { isAuth } = useAuth();
+
+  const [getNotifications] = useGetNotificationsMutation({});
+
+  useEffect(() => {
+    getNotifications({})
+      .then((res: ApiResponse) => {
+        const notificationsData = res?.data?.notifications;
+
+        if (notificationsData) {
+          const reverseNotifications = notificationsData.reverse();
+
+          setNotifications(prevNotifications => [
+            ...reverseNotifications,
+            ...prevNotifications,
+          ]);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     if (isAuth && !ws) {

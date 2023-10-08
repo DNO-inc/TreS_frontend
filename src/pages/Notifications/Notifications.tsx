@@ -16,6 +16,7 @@ import { endpoints } from "../../constants";
 const Notifications: FC = () => {
   const { palette }: IPalette = useTheme();
   const { t, i18n } = useTranslation();
+
   const { notifications, setNotifications } = useNotification();
 
   const handleClick = (id: number) => {
