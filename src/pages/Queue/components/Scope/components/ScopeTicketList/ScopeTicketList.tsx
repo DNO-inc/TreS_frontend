@@ -91,7 +91,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
 
       axios({
         method: "POST",
-        url: `${import.meta.env.VITE_API_URL}admin/tickets/ticket_list`,
+        url: `${import.meta.env.VITE_API_URL}/admin/tickets/ticket_list`,
         data: requestParams,
         headers: {
           "Content-Type": "application/json",
