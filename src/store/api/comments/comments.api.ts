@@ -37,6 +37,13 @@ export const commentsApi = api.injectEndpoints({
         body,
       }),
     }),
+    getActionById: builder.mutation({
+      query: ({ body }) => ({
+        url: "/comments/get_actions",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -46,4 +53,5 @@ export const {
   useDeleteCommentMutation,
   useGetCommentByIdMutation,
   useGetFullHistoryMutation,
+  useGetActionByIdMutation,
 } = commentsApi;
