@@ -1,4 +1,11 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+  KeyboardEvent,
+} from "react";
 import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 import {
   BaseQueryFn,
@@ -44,7 +51,6 @@ interface CommentsTextFieldProps {
       "api"
     >
   >;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
 }
 
 interface CreateCommentBody {
@@ -66,15 +72,12 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
   editComment,
   repliedComment,
   setRepliedComment,
-  setCurrentPage,
 }) => {
   const { t } = useTranslation();
 
   const { palette }: IPalette = useTheme();
 
-  const [comment, setComment] = useState(
-    editedComment?.body ? editedComment.body : ""
-  );
+  const [comment, setComment] = useState(editedComment?.body ?? "");
 
   const sendComment = () => {
     if (comment) {
@@ -96,7 +99,6 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
           body["reply_to"] = repliedComment.id;
         }
 
-        setCurrentPage(1);
         createComment({ body: JSON.stringify(body) });
         setRepliedComment(null);
         setComment("");
@@ -105,8 +107,15 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
   };
 
   useEffect(() => {
-    setComment(editedComment?.body ? editedComment.body : "");
+    editedComment?.body && setComment(editedComment.body);
   }, [editedComment]);
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendComment();
+    }
+  };
 
   return (
     <Box
@@ -124,6 +133,7 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
         maxRows={4}
         value={comment}
         onChange={e => setComment(e.target.value)}
+        onKeyDown={handleKeyDown}
         placeholder="Message"
         sx={{
           bgcolor: palette.grey.card,

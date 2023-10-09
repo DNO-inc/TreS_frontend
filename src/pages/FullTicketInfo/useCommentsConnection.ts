@@ -4,23 +4,31 @@ import { SerializedError } from "@reduxjs/toolkit";
 
 import { getAccessToken } from "../../shared/functions/getLocalStorageData";
 import { useAuth } from "../../context/AuthContext";
-import { useGetCommentByIdMutation } from "../../store/api/comments/comments.api";
+import {
+  useGetActionByIdMutation,
+  useGetCommentByIdMutation,
+} from "../../store/api/comments/comments.api";
 import { IComment } from "../../components/Comment/Comment";
+import { IAction } from "../../components/Action/Action";
 
 type ApiResponse = {
-  data?: IComment;
+  data?: IComment | IAction;
   error?: FetchBaseQueryError | SerializedError;
 };
 
 const useCommentsConnection = (ticketId: number) => {
   const wsUrl = import.meta.env.VITE_WS_URL;
 
-  const [comment, setComment] = useState<IComment | null>(null);
+  const [createdComment, setCreatedComment] = useState<IComment | null>(null);
+  const [changedComment, setChangedComment] = useState<IComment | null>(null);
+  const [action, setAction] = useState<IAction | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const [ws, setWs] = useState<WebSocket | null>(null);
 
   const { isAuth } = useAuth();
 
   const [getComment] = useGetCommentByIdMutation();
+  const [getAction] = useGetActionByIdMutation();
 
   useEffect(() => {
     if (isAuth && !ws) {
@@ -46,18 +54,48 @@ const useCommentsConnection = (ticketId: number) => {
         e.data
           .text()
           .then(response => {
-            const commentId = JSON.parse(response)?.comment_id;
+            const commentData = JSON.parse(response);
+            const messageType = commentData.msg_type;
+            const isActionType = messageType.includes("ACTION");
 
-            if (commentId) {
-              getComment({
-                body: JSON.stringify({ comment_id: commentId }),
+            if (isActionType) {
+              const actionId = commentData.action_id;
+
+              getAction({
+                body: JSON.stringify({ action_id: actionId }),
               }).then((res: ApiResponse) => {
                 const commentData = res?.data;
 
-                if (commentData) {
-                  setComment(commentData);
+                if (commentData && commentData.type_ === "action") {
+                  setAction(commentData);
                 }
               });
+            } else {
+              const commentId = commentData.comment_id;
+
+              if (messageType === "MSG_CREATE") {
+                getComment({
+                  body: JSON.stringify({ comment_id: commentId }),
+                }).then((res: ApiResponse) => {
+                  const commentData = res?.data;
+
+                  if (commentData && commentData.type_ === "comment") {
+                    setCreatedComment(commentData);
+                  }
+                });
+              } else if (messageType === "MSG_EDIT") {
+                getComment({
+                  body: JSON.stringify({ comment_id: commentId }),
+                }).then((res: ApiResponse) => {
+                  const commentData = res?.data;
+
+                  if (commentData && commentData.type_ === "comment") {
+                    setChangedComment(commentData);
+                  }
+                });
+              } else if (messageType === "MSG_DELETE") {
+                setDeleteId(commentId);
+              }
             }
           })
           .catch(() => {});
@@ -71,7 +109,12 @@ const useCommentsConnection = (ticketId: number) => {
     }
   }, [isAuth, ws]);
 
-  return { comment, setComment };
+  return {
+    createdComment,
+    changedComment,
+    deleteId,
+    action,
+  };
 };
 
 export { useCommentsConnection };

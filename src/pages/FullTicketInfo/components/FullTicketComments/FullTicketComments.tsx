@@ -32,6 +32,9 @@ import { IComment } from "../../../../components/Comment/Comment";
 import { useRandomNick } from "../../../../shared/hooks";
 import { getRandomNickColor } from "../../../../shared/functions";
 import { IPerson } from "../../FullTicketInfo";
+import { ArrowDown } from "./components/ArrowDown";
+import { getUserId } from "../../../../shared/functions/getLocalStorageData";
+import { IAction } from "../../../../components/Action/Action";
 
 export type IHistoryItem =
   | {
@@ -89,8 +92,12 @@ interface CreateCommentResponse {
 
 interface FullTicketCommentsProps {
   ticketId: number;
-  comment: IComment | null;
-  setComment: Dispatch<SetStateAction<IComment | null>>;
+  commentsConnection: {
+    createdComment: IComment | null;
+    changedComment: IComment | null;
+    action: IAction | null;
+    deleteId: string | null;
+  };
   peopleSettings: Map<number, IPerson>;
   setPeopleSettings: Dispatch<SetStateAction<Map<number, IPerson>>>;
 }
@@ -108,8 +115,7 @@ export interface RepliedComment {
 
 const FullTicketComments: FC<FullTicketCommentsProps> = ({
   ticketId,
-  comment,
-  setComment,
+  commentsConnection,
   peopleSettings,
   setPeopleSettings,
 }) => {
@@ -119,18 +125,21 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
 
   const commentFieldRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
+  const userId = getUserId();
+
   const [getComments] = useGetFullHistoryMutation();
   const [createComment] = useCreateCommentMutation();
-  const [
-    deleteComment,
-    { isSuccess: isCommentDeleted, isLoading: isDeleting },
-  ] = useDeleteCommentMutation();
-  const [editComment, { isSuccess: isCommentEdited, isLoading: isEditing }] =
-    useEditCommentMutation();
+  const [deleteComment] = useDeleteCommentMutation();
+  const [editComment] = useEditCommentMutation();
+
+  const { createdComment, changedComment, deleteId, action } =
+    commentsConnection;
 
   // =========================================================
-  const [scrollHeight, setScrollHeight] = useState<number>(1221);
   const [comments, setComments] = useState<IHistoryItem[]>([]);
+  const [scrollHeight, setScrollHeight] = useState<number>(1221);
+  const [isSmooth, setIsSmooth] = useState<boolean>(true);
+  const [isVisibleArrow, setIsVisibleArrow] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isChangeComment, setIsChangeComment] = useState<boolean>(false);
@@ -141,9 +150,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
   const [editedComment, setEditedComment] = useState<EditedComment | null>(
     null
   );
-  const [commentId, setCommentId] = useState<number | null>(null);
 
-  // const containerRef = useRef<HTMLInputElement | null>(null);
   const observer: MutableRefObject<undefined | IntersectionObserver> = useRef();
 
   const lastCommentElementRef: any = useCallback(
@@ -168,9 +175,9 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
   );
 
   useEffect(() => {
-    if (commentFieldRef.current) {
-      const scrollContainer = commentFieldRef.current;
+    const scrollContainer = commentFieldRef.current;
 
+    if (scrollContainer) {
       if (isChangeComment) {
         setIsChangeComment(false);
         setScrollHeight(scrollContainer.scrollHeight);
@@ -178,78 +185,45 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
         return;
       }
 
-      if (currentPage === 1) {
+      const commentAuthorId = createdComment?.author?.user_id;
+      const isMyChanges = commentAuthorId === userId;
+      const isDown =
+        Math.abs(scrollContainer.scrollTop - scrollContainer.scrollHeight) <
+        1000;
+
+      if (currentPage === 1 || isMyChanges || isDown) {
+        setIsSmooth(true);
         setTimeout(() => {
           scrollContainer.scrollTop = scrollContainer.scrollHeight;
 
           setScrollHeight(scrollContainer.scrollHeight);
         }, 0);
-      } else {
-        scrollContainer.scrollTop = scrollContainer.scrollHeight - scrollHeight;
-
-        setScrollHeight(scrollContainer.scrollHeight);
+      } else if (currentPage !== 1 && isMyChanges) {
+        setScrollHeight(0);
+        setIsSmooth(true);
       }
     }
-  }, [comments, currentPage]);
+  }, [comments]);
 
   useEffect(() => {
-    setIsLoading(true);
+    const scrollContainer = commentFieldRef.current;
 
-    getComments({
-      body: JSON.stringify({
-        start_page: currentPage,
-        items_count: 15,
-        ticket_id: ticketId,
-      }),
-    })
-      .then((response: CreateCommentResponse) => {
-        if (response && response?.data && response?.data?.history) {
-          const newComments = [...response.data.history].reverse();
+    if (scrollContainer) {
+      setIsSmooth(false);
+      scrollContainer.scrollTop = scrollContainer.scrollHeight - scrollHeight;
 
-          setComments(prevComments => [...newComments, ...prevComments]);
-
-          setHasMore(response.data.page_count > 0);
-          setIsLoading(false);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      setScrollHeight(scrollContainer.scrollHeight);
+    }
   }, [currentPage]);
 
   useEffect(() => {
-    if (comment) {
-      setComments(prevComments => {
-        prevComments.push(comment);
-        return prevComments;
-      });
-      setComment(null);
-    }
-
-    if (commentFieldRef.current) {
-      const scrollContainer = commentFieldRef.current;
-
-      if (currentPage === 1) {
-        setTimeout(() => {
-          scrollContainer.scrollTop = scrollContainer.scrollHeight;
-
-          setScrollHeight(scrollContainer.scrollHeight);
-        }, 0);
-      } else {
-        setScrollHeight(scrollContainer.scrollHeight);
-      }
-    }
-  }, [comment]);
-
-  useEffect(() => {
     setIsLoading(true);
-    console.log(1);
 
-    if (commentId && !isDeleting) {
+    hasMore &&
       getComments({
         body: JSON.stringify({
-          start_page: 1,
-          items_count: comments.length - commentId,
+          start_page: currentPage,
+          items_count: 15,
           ticket_id: ticketId,
         }),
       })
@@ -257,59 +231,89 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
           if (response && response?.data && response?.data?.history) {
             const newComments = [...response.data.history].reverse();
 
-            setComments(prevComments => [
-              ...prevComments.slice(0, commentId - 1),
-              ...newComments,
-            ]);
+            setComments(prevComments => [...newComments, ...prevComments]);
 
-            setIsChangeComment(true);
-            setCommentId(null);
+            setHasMore(response.data.page_count > currentPage);
             setIsLoading(false);
           }
         })
         .catch(error => {
           console.log(error);
         });
-    }
-  }, [isCommentDeleted]);
+  }, [currentPage]);
 
   useEffect(() => {
-    setIsLoading(true);
-
-    if (commentId && !isEditing) {
-      getComments({
-        body: JSON.stringify({
-          start_page: comments.length - commentId,
-          items_count: 1,
-          ticket_id: ticketId,
-        }),
-      })
-        .then((response: CreateCommentResponse) => {
-          if (response && response?.data && response?.data?.history) {
-            const newComments = response.data.history;
-
-            setComments(prevComments =>
-              prevComments.map((comment, index) => {
-                if (commentId === index) {
-                  return newComments[0];
-                }
-
-                return comment;
-              })
-            );
-
-            setIsChangeComment(true);
-            setCommentId(null);
-            setIsLoading(false);
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    if (createdComment) {
+      setComments(prevComments => [...prevComments, createdComment]);
     }
-  }, [isCommentEdited]);
+  }, [createdComment]);
+
+  useEffect(() => {
+    if (action) {
+      setComments(prevComments => [...prevComments, action]);
+    }
+  }, [action]);
+
+  useEffect(() => {
+    if (deleteId) {
+      setComments(prevComments =>
+        prevComments.filter(comment => {
+          const commentType = comment?.type_;
+
+          if (commentType === "comment") {
+            const commentId = comment?.comment_id;
+
+            return commentId !== deleteId;
+          }
+
+          return true;
+        })
+      );
+
+      setIsChangeComment(true);
+    }
+  }, [deleteId]);
+
+  useEffect(() => {
+    if (changedComment) {
+      setComments(prevComments =>
+        prevComments.map(comment => {
+          const commentType = comment?.type_;
+
+          if (commentType === "comment") {
+            const commentId = comment?.comment_id;
+            const editedCommentId = changedComment?.comment_id;
+
+            if (commentId === editedCommentId) {
+              return changedComment;
+            }
+          }
+
+          return comment;
+        })
+      );
+
+      setIsChangeComment(true);
+    }
+  }, [changedComment]);
 
   // =========================================================
+
+  useEffect(() => {
+    const commentsField = commentFieldRef.current;
+
+    let intervalId = setInterval(() => {
+      commentsField &&
+        setIsVisibleArrow(
+          Math.abs(commentsField?.scrollHeight - commentsField?.scrollTop) >
+            1000
+        );
+    }, 2000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   return (
     <Grid container sx={{ position: "relative" }}>
@@ -328,7 +332,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
           borderRadius: 1,
           whiteSpace: "pre-line",
           gap: 2,
-          scrollBehavior: currentPage === 1 ? "smooth" : "",
+          scrollBehavior: isSmooth ? "smooth" : "",
           "&::-webkit-scrollbar": {
             width: 4,
           },
@@ -369,14 +373,6 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
             }
           }
 
-          if (!modifiedItem?.nick) {
-            const nick = useRandomNick(
-              modifiedItem.author.firstname,
-              modifiedItem.author.lastname
-            );
-            modifiedItem.nick = nick;
-          }
-
           if (modifiedItem.type_ === "comment") {
             if (index === 0) {
               return (
@@ -387,8 +383,6 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
                   deleteComment={deleteComment}
                   setEditedComment={setEditedComment}
                   setRepliedComment={setRepliedComment}
-                  setCommentId={setCommentId}
-                  index={index}
                 />
               );
             }
@@ -400,8 +394,6 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
                 deleteComment={deleteComment}
                 setEditedComment={setEditedComment}
                 setRepliedComment={setRepliedComment}
-                setCommentId={setCommentId}
-                index={index}
               />
             );
           } else if (modifiedItem.type_ === "action") {
@@ -412,7 +404,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
                   action={modifiedItem}
                   translator={t}
                   lang={i18n.language}
-                  key={`${modifiedItem.type_}-${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
+                  key={`${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
                 />
               );
             }
@@ -422,7 +414,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
                 action={modifiedItem}
                 translator={t}
                 lang={i18n.language}
-                key={`${modifiedItem.type_}-${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
+                key={`${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
               />
             );
           }
@@ -436,6 +428,13 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
           setRepliedComment={setRepliedComment}
         />
       )}
+      {isVisibleArrow && (
+        <ArrowDown
+          isVisibleArrow={isVisibleArrow}
+          commentFieldRef={commentFieldRef}
+          setScrollHeight={setScrollHeight}
+        />
+      )}
       <CommentsTextField
         ticketId={ticketId}
         createComment={createComment}
@@ -444,7 +443,6 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
         setEditedComment={setEditedComment}
         repliedComment={repliedComment}
         setRepliedComment={setRepliedComment}
-        setCurrentPage={setCurrentPage}
       />
     </Grid>
   );

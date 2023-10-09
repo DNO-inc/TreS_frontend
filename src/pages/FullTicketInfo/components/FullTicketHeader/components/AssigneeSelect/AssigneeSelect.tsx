@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 import {
@@ -7,6 +7,7 @@ import {
   FetchBaseQueryError,
   MutationDefinition,
 } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
 
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
@@ -20,6 +21,7 @@ import { Loader } from "../../../../../../components/Loader";
 
 import IPalette from "../../../../../../theme/IPalette.interface";
 import { useGetAdminsMutation } from "../../../../../../store/api/api";
+import { getUserId } from "../../../../../../shared/functions/getLocalStorageData";
 
 interface AssigneeSelectProps {
   assignee: number;
@@ -36,7 +38,7 @@ interface AssigneeSelectProps {
   >;
 }
 
-interface assignee {
+interface IAssignee {
   faculty: { faculty_id: number; name: string };
   firstname: string;
   group: { group_id: number; name: string };
@@ -44,6 +46,13 @@ interface assignee {
   login: string;
   user_id: number;
 }
+
+type ApiResponse = {
+  data?: {
+    admin_list: IAssignee[];
+  };
+  error?: FetchBaseQueryError | SerializedError;
+};
 
 const AssigneeSelect: FC<AssigneeSelectProps> = ({
   assignee,
@@ -54,7 +63,10 @@ const AssigneeSelect: FC<AssigneeSelectProps> = ({
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
-  const [getAdmins, { data, isLoading, isSuccess }] = useGetAdminsMutation();
+  const [admins, setAdmins] = useState<IAssignee[]>([]);
+  const userId = getUserId();
+
+  const [getAdmins, { isLoading, isSuccess }] = useGetAdminsMutation();
 
   const handleChange = (event: SelectChangeEvent): void => {
     const selectedAssignee: number = parseInt(event.target.value);
@@ -71,7 +83,22 @@ const AssigneeSelect: FC<AssigneeSelectProps> = ({
   };
 
   useEffect(() => {
-    getAdmins({});
+    getAdmins({}).then((res: ApiResponse) => {
+      const adminsData = res?.data?.admin_list;
+
+      if (adminsData) {
+        const myName = adminsData.find(admin => admin.user_id === userId);
+
+        if (myName) {
+          setAdmins([
+            myName,
+            ...adminsData.filter(admin => admin.user_id !== userId),
+          ]);
+        } else {
+          setAdmins(adminsData);
+        }
+      }
+    });
   }, []);
 
   return (
@@ -108,7 +135,7 @@ const AssigneeSelect: FC<AssigneeSelectProps> = ({
                 }}
               />
             </MenuItem>
-            {data.admin_list.map((assignee: assignee, index: number) => {
+            {admins.map((assignee: IAssignee, index: number) => {
               let isSelected = false;
 
               if (assignee.user_id === index + 1) {
