@@ -21,14 +21,14 @@ const useCommentsConnection = (ticketId: number) => {
 
   const [createdComment, setCreatedComment] = useState<IComment | null>(null);
   const [changedComment, setChangedComment] = useState<IComment | null>(null);
-  // const [actions, setActions] = useState<IAction | null>(null);
+  const [action, setAction] = useState<IAction | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [ws, setWs] = useState<WebSocket | null>(null);
 
   const { isAuth } = useAuth();
 
   const [getComment] = useGetCommentByIdMutation();
-  // const [getAction] = useGetActionByIdMutation();
+  const [getAction] = useGetActionByIdMutation();
 
   useEffect(() => {
     if (isAuth && !ws) {
@@ -55,43 +55,48 @@ const useCommentsConnection = (ticketId: number) => {
           .text()
           .then(response => {
             const commentData = JSON.parse(response);
-            const commentId = commentData.comment_id;
-            const commentType = commentData.msg_type;
+            const messageType = commentData.msg_type;
+            const isActionType = messageType.includes("ACTION");
 
-            if (commentType === "MSG_CREATE") {
-              getComment({
-                body: JSON.stringify({ comment_id: commentId }),
+            if (isActionType) {
+              const actionId = commentData.action_id;
+
+              getAction({
+                body: JSON.stringify({ action_id: actionId }),
               }).then((res: ApiResponse) => {
                 const commentData = res?.data;
 
-                if (commentData && commentData.type_ === "comment") {
-                  setCreatedComment(commentData);
+                if (commentData && commentData.type_ === "action") {
+                  setAction(commentData);
                 }
               });
-            } else if (commentType === "MSG_EDIT") {
-              getComment({
-                body: JSON.stringify({ comment_id: commentId }),
-              }).then((res: ApiResponse) => {
-                const commentData = res?.data;
+            } else {
+              const commentId = commentData.comment_id;
 
-                if (commentData && commentData.type_ === "comment") {
-                  setChangedComment(commentData);
-                }
-              });
-            } else if (commentType === "MSG_DELETE") {
-              setDeleteId(commentId);
+              if (messageType === "MSG_CREATE") {
+                getComment({
+                  body: JSON.stringify({ comment_id: commentId }),
+                }).then((res: ApiResponse) => {
+                  const commentData = res?.data;
+
+                  if (commentData && commentData.type_ === "comment") {
+                    setCreatedComment(commentData);
+                  }
+                });
+              } else if (messageType === "MSG_EDIT") {
+                getComment({
+                  body: JSON.stringify({ comment_id: commentId }),
+                }).then((res: ApiResponse) => {
+                  const commentData = res?.data;
+
+                  if (commentData && commentData.type_ === "comment") {
+                    setChangedComment(commentData);
+                  }
+                });
+              } else if (messageType === "MSG_DELETE") {
+                setDeleteId(commentId);
+              }
             }
-            // else if (commentType === "MSG_ACTION") {
-            //   getAction({
-            //     body: JSON.stringify({ action_id: commentId }),
-            //   }).then((res: ApiResponse) => {
-            //     const commentData = res?.data;
-
-            //     if (commentData && commentData.type_ === "action") {
-            //       setActions(commentData);
-            //     }
-            //   });
-            // }
           })
           .catch(() => {});
       };
@@ -108,6 +113,7 @@ const useCommentsConnection = (ticketId: number) => {
     createdComment,
     changedComment,
     deleteId,
+    action,
   };
 };
 

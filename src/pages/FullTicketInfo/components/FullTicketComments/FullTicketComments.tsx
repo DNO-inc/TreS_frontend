@@ -34,6 +34,7 @@ import { getRandomNickColor } from "../../../../shared/functions";
 import { IPerson } from "../../FullTicketInfo";
 import { ArrowDown } from "./components/ArrowDown";
 import { getUserId } from "../../../../shared/functions/getLocalStorageData";
+import { IAction } from "../../../../components/Action/Action";
 
 export type IHistoryItem =
   | {
@@ -94,6 +95,7 @@ interface FullTicketCommentsProps {
   commentsConnection: {
     createdComment: IComment | null;
     changedComment: IComment | null;
+    action: IAction | null;
     deleteId: string | null;
   };
   peopleSettings: Map<number, IPerson>;
@@ -130,7 +132,8 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
   const [deleteComment] = useDeleteCommentMutation();
   const [editComment] = useEditCommentMutation();
 
-  const { createdComment, changedComment, deleteId } = commentsConnection;
+  const { createdComment, changedComment, deleteId, action } =
+    commentsConnection;
 
   // =========================================================
   const [comments, setComments] = useState<IHistoryItem[]>([]);
@@ -172,9 +175,9 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
   );
 
   useEffect(() => {
-    if (commentFieldRef.current) {
-      const scrollContainer = commentFieldRef.current;
+    const scrollContainer = commentFieldRef.current;
 
+    if (scrollContainer) {
       if (isChangeComment) {
         setIsChangeComment(false);
         setScrollHeight(scrollContainer.scrollHeight);
@@ -182,20 +185,36 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
         return;
       }
 
-      if (currentPage === 1) {
+      const commentAuthorId = createdComment?.author?.user_id;
+      const isMyChanges = commentAuthorId === userId;
+      const isDown =
+        Math.abs(scrollContainer.scrollTop - scrollContainer.scrollHeight) <
+        1000;
+
+      if (currentPage === 1 || isMyChanges || isDown) {
+        setIsSmooth(true);
         setTimeout(() => {
           scrollContainer.scrollTop = scrollContainer.scrollHeight;
 
           setScrollHeight(scrollContainer.scrollHeight);
         }, 0);
-      } else {
-        setIsSmooth(false);
-        scrollContainer.scrollTop = scrollContainer.scrollHeight - scrollHeight;
-
-        setScrollHeight(scrollContainer.scrollHeight);
+      } else if (currentPage !== 1 && isMyChanges) {
+        setScrollHeight(0);
+        setIsSmooth(true);
       }
     }
-  }, [comments, currentPage]);
+  }, [comments]);
+
+  useEffect(() => {
+    const scrollContainer = commentFieldRef.current;
+
+    if (scrollContainer) {
+      setIsSmooth(false);
+      scrollContainer.scrollTop = scrollContainer.scrollHeight - scrollHeight;
+
+      setScrollHeight(scrollContainer.scrollHeight);
+    }
+  }, [currentPage]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -226,27 +245,14 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
   useEffect(() => {
     if (createdComment) {
       setComments(prevComments => [...prevComments, createdComment]);
-
-      if (commentFieldRef.current) {
-        const scrollContainer = commentFieldRef.current;
-        const authorId = createdComment?.author?.user_id;
-
-        if (currentPage === 1 && authorId === userId) {
-          setIsSmooth(true);
-          setTimeout(() => {
-            scrollContainer.scrollTop = scrollContainer.scrollHeight;
-
-            setScrollHeight(scrollContainer.scrollHeight);
-          }, 0);
-        } else if (currentPage !== 1 && authorId === userId) {
-          setIsSmooth(true);
-          setScrollHeight(0);
-        } else {
-          setScrollHeight(scrollContainer.scrollHeight);
-        }
-      }
     }
   }, [createdComment]);
+
+  useEffect(() => {
+    if (action) {
+      setComments(prevComments => [...prevComments, action]);
+    }
+  }, [action]);
 
   useEffect(() => {
     if (deleteId) {
@@ -437,7 +443,6 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
         setEditedComment={setEditedComment}
         repliedComment={repliedComment}
         setRepliedComment={setRepliedComment}
-        setCurrentPage={setCurrentPage}
       />
     </Grid>
   );
