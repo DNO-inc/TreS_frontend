@@ -2,7 +2,6 @@ import { Dispatch, FC, SetStateAction, MutableRefObject } from "react";
 
 import IconButton from "@mui/material/IconButton";
 import useTheme from "@mui/material/styles/useTheme";
-import Badge from "@mui/material/Badge";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
