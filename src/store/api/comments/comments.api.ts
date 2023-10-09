@@ -39,7 +39,7 @@ export const commentsApi = api.injectEndpoints({
     }),
     getActionById: builder.mutation({
       query: ({ body }) => ({
-        url: "/comments/get_actions",
+        url: "/tickets/get_action",
         method: "POST",
         body,
       }),

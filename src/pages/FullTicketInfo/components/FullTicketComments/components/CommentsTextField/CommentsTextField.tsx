@@ -51,7 +51,6 @@ interface CommentsTextFieldProps {
       "api"
     >
   >;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
 }
 
 interface CreateCommentBody {
@@ -73,7 +72,6 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
   editComment,
   repliedComment,
   setRepliedComment,
-  setCurrentPage,
 }) => {
   const { t } = useTranslation();
 
@@ -101,7 +99,6 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
           body["reply_to"] = repliedComment.id;
         }
 
-        setCurrentPage(1);
         createComment({ body: JSON.stringify(body) });
         setRepliedComment(null);
         setComment("");
