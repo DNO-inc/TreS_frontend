@@ -1,7 +1,6 @@
 import { ForwardRefExoticComponent, RefAttributes, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";

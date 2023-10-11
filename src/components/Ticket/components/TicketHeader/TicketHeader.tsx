@@ -7,8 +7,6 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { MarkdownWithStyles } from "../../../../utils/markdown";
-
 import IPalette from "../../../../theme/IPalette.interface";
 import { endpoints } from "../../../../constants";
 import { ScopeLabel } from "../../../ScopeLabel";
