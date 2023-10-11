@@ -68,7 +68,7 @@ const CreateTicketForm: FC = () => {
   };
 
   return (
-    <Grid container sx={{ pb: 3 }}>
+    <Grid container sx={{ pb: 3, flexWrap: "wrap !important" }}>
       <Typography variant="h1" sx={{ pt: 3.5, pb: 3.5 }}>
         {t("createTicket.heading")}
       </Typography>

@@ -17,6 +17,7 @@ const FilterPanel: FC<FilterPanelProps> = memo(({ isAllStatuses = false }) => {
       sx={{
         justifyContent: "space-between",
         alignItems: "center",
+        mt: 1,
       }}
     >
       <StatusCheckboxGroup isAllStatuses={isAllStatuses} />

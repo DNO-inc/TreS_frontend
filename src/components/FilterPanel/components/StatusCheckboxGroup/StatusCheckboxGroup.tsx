@@ -1,14 +1,18 @@
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { IconButton, useMediaQuery, useTheme } from "@mui/material";
+
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 import { VerticalDivider } from "../../../VerticalDivider";
 
 import { useGetStatusesFullObject, useGetStatusesName } from "./getStatuses";
+import IPalette from "../../../../theme/IPalette.interface";
 
 interface StatusCheckboxGroupProps {
   isAllStatuses: boolean;
@@ -18,7 +22,11 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
   isAllStatuses,
 }) => {
   const { t } = useTranslation();
+  const { palette }: IPalette = useTheme();
+  const matches = useMediaQuery("(max-width: 1260px)");
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const statusesName: string[] = useGetStatusesName(isAllStatuses);
   const statusesQueryParams: string[] | undefined = searchParams
@@ -119,28 +127,82 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
   const isAllChecked: boolean = !!checked && checked.every(value => value);
   const isSomeChecked: boolean = checked.some(value => value);
 
+  const handleFilterOpen = () => {
+    setIsOpen(prevState => !prevState);
+  };
+
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <FormControlLabel
-        label={t("statusesFilter.all")}
-        control={
-          <Checkbox
-            checked={isAllChecked}
-            indeterminate={!isAllChecked && isSomeChecked}
-            onChange={handleParentChange}
+    <>
+      {matches && (
+        <IconButton
+          sx={{
+            position: "relative",
+            borderRadius: 1,
+            border: `2px solid ${palette.grey.border}`,
+          }}
+          onClick={handleFilterOpen}
+        >
+          <FilterAltIcon />
+        </IconButton>
+      )}
+      {matches ? (
+        isOpen && (
+          <Box
             sx={{
-              color: "#ffffff",
-              zIndex: 1,
-              "& > .MuiSvgIcon-root": {
-                color: "#ffffff",
-              },
+              position: "absolute",
+              top: 125,
+              left: 16,
+              width: 200,
+              bgcolor: palette.grey.divider,
+              borderRadius: 1,
+              p: "8px 16px",
+              zIndex: 20,
             }}
+          >
+            <FormControlLabel
+              label={t("statusesFilter.all")}
+              control={
+                <Checkbox
+                  checked={isAllChecked}
+                  indeterminate={!isAllChecked && isSomeChecked}
+                  onChange={handleParentChange}
+                  sx={{
+                    color: "#ffffff",
+                    zIndex: 1,
+                    "& > .MuiSvgIcon-root": {
+                      color: "#ffffff",
+                    },
+                  }}
+                />
+              }
+            />
+            {children}
+          </Box>
+        )
+      ) : (
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <FormControlLabel
+            label={t("statusesFilter.all")}
+            control={
+              <Checkbox
+                checked={isAllChecked}
+                indeterminate={!isAllChecked && isSomeChecked}
+                onChange={handleParentChange}
+                sx={{
+                  color: "#ffffff",
+                  zIndex: 1,
+                  "& > .MuiSvgIcon-root": {
+                    color: "#ffffff",
+                  },
+                }}
+              />
+            }
           />
-        }
-      />
-      <VerticalDivider />
-      {children}
-    </Box>
+          <VerticalDivider />
+          {children}
+        </Box>
+      )}
+    </>
   );
 };
 

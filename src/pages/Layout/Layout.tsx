@@ -35,17 +35,26 @@ const Layout: FC = () => {
           sx={{
             flex: "1 0 auto",
             minHeight: "100vh",
-            p: { xs: "72px 8px 8px 32px", sm: "72px 24px 24px 32px" },
-            width: { xs: "100%", sm: `calc(100% - ${drawerWidth}px)` },
+            p: { xs: "64px 16px 16px 16px", sm: "64px 24px 16px 24px" },
+            width: `calc(100% - ${drawerWidth}px)`,
             bgcolor: palette.grey.background,
             color: palette.common.white,
+            "& > .MuiGrid-root": {
+              flexWrap: { sm: "wrap", xs: "nowrap" },
+            },
             "& > .MuiGrid-root > .MuiBox-root:first-of-type": {
               position: "fixed",
               left: { xs: 0, md: drawerWidth },
               right: 0,
-              p: { xs: "24px 8px 8px", sm: "24px 24px 24px 32px" },
+              p: { xs: "16px 16px 8px", sm: "16px 24px" },
               bgcolor: palette.grey.background,
               zIndex: 100,
+              "& > .MuiTypography-root": {
+                fontSize: { xs: 36, sm: 40 },
+              },
+            },
+            "& > .MuiGrid-root > .MuiBox-root:nth-of-type(2)": {
+              pt: { xs: 16, sm: 17 },
             },
           }}
         >

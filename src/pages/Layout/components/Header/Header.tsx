@@ -52,7 +52,7 @@ const Header: FC<HeaderProps> = ({ handleDrawerToggle }) => {
       <Toolbar
         sx={{
           display: "flex",
-          height: "72px",
+          height: "64px",
           justifyContent: {
             xs: "space-between",
             md: "flex-end",
@@ -65,7 +65,7 @@ const Header: FC<HeaderProps> = ({ handleDrawerToggle }) => {
           aria-label="open drawer"
           edge="start"
           onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { xs: "inline-flex", md: "none" } }}
+          sx={{ ml: 0, display: { xs: "inline-flex", md: "none" } }}
         >
           <MenuIcon />
         </IconButton>

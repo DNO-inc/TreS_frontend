@@ -155,7 +155,6 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          width: "100%",
           height: "100%",
           borderLeft: `12px solid ${color}`,
         }}

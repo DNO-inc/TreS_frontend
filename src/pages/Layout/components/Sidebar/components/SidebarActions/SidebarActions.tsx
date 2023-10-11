@@ -74,7 +74,7 @@ const SidebarActions: FC = () => {
           >
             EN
           </Button>
-          <VerticalDivider />
+          <VerticalDivider color={palette.grey.checkbox} />
           <Button
             onClick={() => {
               changeLanguage("ua");

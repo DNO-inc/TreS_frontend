@@ -174,19 +174,13 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   return (
     <Grid container flexDirection={"column"}>
       <Box>
-        <Typography variant="h1" sx={{ mb: 2 }}>
-          {t(`${title}.heading`)}
-        </Typography>
+        <Typography variant="h1">{t(`${title}.heading`)}</Typography>
         <FilterPanel
           isAllStatuses={isSentPage || isDeletedPage || isReceivedPage}
         />
       </Box>
       {isSentPage && deletedList.length > 0 && (
-        <Button
-          onClick={() => handleDelete(deletedList)}
-          variant="outlined"
-          sx={{ mt: 20 }}
-        >
+        <Button onClick={() => handleDelete(deletedList)} variant="outlined">
           Delete All selected tickets
         </Button>
       )}

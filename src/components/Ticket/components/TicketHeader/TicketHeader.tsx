@@ -77,16 +77,15 @@ const TicketHeader: FC<TicketHeaderProps> = ({
 
   return (
     <Box maxHeight={80}>
-      <Grid
-        container
-        flexWrap={"nowrap"}
-        justifyContent={"space-between"}
-        gap={10}
-      >
-        <Typography component="div" noWrap={true}>
-          <MarkdownWithStyles innerText={subject} />
+      <Grid container flexWrap={"nowrap"} justifyContent={"space-between"}>
+        <Typography
+          component="div"
+          noWrap={true}
+          sx={{ textOverflow: "ellipsis" }}
+        >
+          {subject}
         </Typography>
-        <Grid gap={1} display={"flex"}>
+        <Grid gap={1} display={"flex"} sx={{ ml: 2 }}>
           <Badge
             customStyle={{ bgcolor: color }}
             text={t(`ticketStatus.${status.toLowerCase()}`)}

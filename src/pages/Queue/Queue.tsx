@@ -161,7 +161,7 @@ const Queue: FC = () => {
         sx={{
           display: "flex",
           gap: 3,
-          pt: 12,
+          pt: "80px !important",
           overflowX: "scroll",
           pb: 2,
           "&::-webkit-scrollbar": {

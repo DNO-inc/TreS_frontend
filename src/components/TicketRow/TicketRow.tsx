@@ -114,7 +114,7 @@ const TicketRow: FC<TicketRowProps> = ({
           overflow: "hidden",
         },
         "& > .MuiGrid-root > .MuiBox-root": {
-          p: "16px 24px 16px 32px",
+          p: isHaveBookmarks ? "16px 24px 16px 16px" : "16px 24px 16px 8px",
         },
       }}
     >
@@ -133,10 +133,10 @@ const TicketRow: FC<TicketRowProps> = ({
               lang === "en"
                 ? `${
                     isHaveBookmarks ? "48px" : "0px"
-                  } minmax(20px, 0.8fr) minmax(40px, 4fr) 90px 24px 40px 100px`
+                  } minmax(30px, 1fr) minmax(40px, 3fr) 90px 24px 40px 100px`
                 : `${
                     isHaveBookmarks ? "48px" : "0px"
-                  } minmax(20px, 0.8fr) minmax(40px, 4fr) 130px 24px 40px 115px`,
+                  } minmax(30px, 0.8fr) minmax(40px, 3fr) 130px 24px 40px 115px`,
             gap: 2,
             borderLeft: `8px solid ${color}`,
             "& .MuiTypography-root": {

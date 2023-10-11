@@ -29,17 +29,16 @@ const SimpleTicket: ForwardRefExoticComponent<
   };
 
   return (
-    <Grid
+    <Box
       ref={ref}
-      container
       sx={{
+        display: "inline-flex",
         position: "relative",
         flexDirection: "column",
         height: 200,
-        minWidth: 415,
+        width: "97%",
         gap: 2,
         p: 2,
-        mr: 1,
         bgcolor: palette.grey.divider,
         borderRadius: 1,
         cursor: "pointer",
@@ -48,14 +47,13 @@ const SimpleTicket: ForwardRefExoticComponent<
     >
       <Box
         sx={{
-          maxWidth: "100%",
           display: "flex",
           justifyContent: "space-between",
         }}
       >
         <Box
           sx={{
-            maxWidth: "70%",
+            maxWidth: "50%",
           }}
         >
           <Typography
@@ -86,13 +84,19 @@ const SimpleTicket: ForwardRefExoticComponent<
             position: "absolute",
             bottom: 56,
             left: 0,
-            width: "100%",
             height: "48px",
+            width: "100%",
             background: `linear-gradient(transparent, ${palette.grey.divider})`,
           },
         }}
       >
-        <Typography sx={{ color: palette.whiteAlpha.text }}>
+        <Typography
+          sx={{
+            color: palette.whiteAlpha.text,
+
+            overflowWrap: "break-word",
+          }}
+        >
           {ticket.body}
         </Typography>
       </Box>
@@ -104,7 +108,7 @@ const SimpleTicket: ForwardRefExoticComponent<
           {formattedDate}
         </Typography>
       </Box>
-    </Grid>
+    </Box>
   );
 });
 

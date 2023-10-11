@@ -17,7 +17,11 @@ import {
 } from "../../../../../../../../shared/functions/getLocalStorageData";
 import { useAuth } from "../../../../../../../../context/AuthContext";
 
-const AuthActions: FC = () => {
+interface AuthActionsProps {
+  matches: boolean;
+}
+
+const AuthActions: FC<AuthActionsProps> = ({ matches }) => {
   const { t } = useTranslation();
 
   const { logoutUser } = useAuth();
@@ -32,18 +36,14 @@ const AuthActions: FC = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const userLogin = await getUserLogin();
-      setUserName(userLogin);
-    };
-
-    fetchData();
+    const userLogin = getUserLogin();
+    setUserName(userLogin);
   }, []);
 
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <span>{userName}</span>
+        {matches && <span>{userName}</span>}
         <Link to={`${endpoints.profile}/${userId}`}>
           <Tooltip
             title={
@@ -52,19 +52,23 @@ const AuthActions: FC = () => {
               </Button>
             }
           >
-            <Avatar alt="Avatar" src={Logo} sizes="40" />
+            <Avatar alt="Avatar" src={Logo} sx={{ width: 36, height: 36 }} />
           </Tooltip>
         </Link>
       </Box>
-      <VerticalDivider />
-      <Link to={endpoints.createTicket}>
-        <Button
-          variant={"contained"}
-          sx={{ fontSize: 14, textTransform: "none" }}
-        >
-          {t("common.createButton")}
-        </Button>
-      </Link>
+      {matches && (
+        <>
+          <VerticalDivider />
+          <Link to={endpoints.createTicket}>
+            <Button
+              variant={"contained"}
+              sx={{ fontSize: 14, textTransform: "none" }}
+            >
+              {t("common.createButton")}
+            </Button>
+          </Link>
+        </>
+      )}
     </>
   );
 };

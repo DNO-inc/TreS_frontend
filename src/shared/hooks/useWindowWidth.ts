@@ -5,12 +5,12 @@ const useWindowWidth = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
+      const width = window.innerWidth;
+      const isTablet = width < 900;
+      setWindowWidth(isTablet ? width * 1.5 : width);
     };
 
     window.addEventListener("resize", handleResize);
-
-    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   });

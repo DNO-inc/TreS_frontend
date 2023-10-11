@@ -108,144 +108,131 @@ const Profile: FC = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: 5,
-            margin: "10px auto 0",
+            gap: "40px",
+            margin: "95px auto 0",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 5,
-              m: "100px auto 0",
-            }}
-          >
-            <Box sx={{ display: "flex", gap: 5 }}>
-              <Avatar sx={{ width: 100, height: 100 }} />
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: isEditMode ? 3 : 1,
-                }}
-              >
-                {isEditMode ? (
-                  <Box sx={{ display: "flex", gap: 2 }}>
-                    <ProfileInput
-                      register={register}
-                      value={firstname}
-                      inputType={"firstname"}
-                    />
-                    <ProfileInput
-                      register={register}
-                      value={lastname}
-                      inputType={"lastname"}
-                    />
-                  </Box>
-                ) : (
-                  <Typography
-                    component={"h2"}
-                    sx={{
-                      fontSize: 32,
-                      fontWeight: 600,
-                      color: palette.semantic.info,
-                    }}
-                  >{`${data.firstname} ${lastname}`}</Typography>
-                )}
-                {isEditMode ? (
-                  <ProfileInput
-                    register={register}
-                    value={login}
-                    inputType={"login"}
-                  />
-                ) : (
-                  <Typography
-                    sx={{ fontSize: 24, color: palette.whiteAlpha.default }}
-                  >
-                    {login ?? t("common.notFound")}
-                  </Typography>
-                )}
-              </Box>
-            </Box>
+          <Box sx={{ display: "flex", gap: 5 }}>
+            <Avatar sx={{ width: 100, height: 100 }} />
             <Box
               sx={{
-                bgcolor: palette.grey.divider,
-                minWidth: "500px",
-                p: 3,
-                "& > .MuiBox-root:not(:first-of-type)": {
-                  mt: 3,
-                },
-                "& > .MuiBox-root": {
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  "& > .MuiTypography-root:first-of-type": {
-                    fontWeight: 500,
-                  },
-                },
+                display: "flex",
+                flexDirection: "column",
+                gap: isEditMode ? 3 : 1,
               }}
             >
-              <Box>
-                <Typography>{t("profile.email")}</Typography>
-                {isEditMode ? (
+              {isEditMode ? (
+                <Box sx={{ display: "flex", gap: 2 }}>
                   <ProfileInput
                     register={register}
-                    value={email}
-                    inputType={"email"}
+                    value={firstname}
+                    inputType={"firstname"}
                   />
-                ) : (
-                  <Typography>{email ?? t("common.notFound")}</Typography>
-                )}
-              </Box>
-              <Box>
-                <Typography>{t("profile.phone")}</Typography>
-                {isEditMode ? (
                   <ProfileInput
                     register={register}
-                    value={phone}
-                    inputType={"phone"}
+                    value={lastname}
+                    inputType={"lastname"}
                   />
-                ) : (
-                  <Typography>{phone ?? t("common.notFound")}</Typography>
-                )}
-              </Box>
-              <Box>
-                <Typography>{t("profile.faculty")}</Typography>
-                <Typography>
-                  {data?.faculty?.name ?? t("common.notFound")}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography>{t("profile.group")}</Typography>
-                <Typography>
-                  {data?.group?.name ?? t("common.notFound")}
-                </Typography>
-              </Box>
-            </Box>
-            {isMyProfile && (
-              <Box sx={{ display: "flex", gap: 1 }}>
-                <Button
-                  sx={{ flexGrow: 1 }}
-                  variant="outlined"
-                  onClick={() => {
-                    setIsEditMode(prevState => !prevState);
-                    reset();
+                </Box>
+              ) : (
+                <Typography
+                  component={"h2"}
+                  sx={{
+                    fontSize: 32,
+                    fontWeight: 600,
+                    color: palette.semantic.info,
                   }}
+                >{`${data.firstname} ${lastname}`}</Typography>
+              )}
+              {isEditMode ? (
+                <ProfileInput
+                  register={register}
+                  value={login}
+                  inputType={"login"}
+                />
+              ) : (
+                <Typography
+                  sx={{ fontSize: 24, color: palette.whiteAlpha.default }}
                 >
-                  {isEditMode ? "Cancel" : "Edit"}
-                </Button>
-                {isEditMode && (
-                  <Button
-                    sx={{ flexGrow: 1 }}
-                    type="submit"
-                    variant="contained"
-                  >
-                    Submit
-                  </Button>
-                )}
-              </Box>
-            )}
+                  {login ?? t("common.notFound")}
+                </Typography>
+              )}
+            </Box>
           </Box>
+          <Box
+            sx={{
+              bgcolor: palette.grey.divider,
+              p: 3,
+              "& > .MuiBox-root:not(:first-of-type)": {
+                mt: 3,
+              },
+              "& > .MuiBox-root": {
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                "& > .MuiTypography-root:first-of-type": {
+                  fontWeight: 500,
+                  mr: 2,
+                },
+              },
+            }}
+          >
+            <Box>
+              <Typography>{t("profile.email")}</Typography>
+              {isEditMode ? (
+                <ProfileInput
+                  register={register}
+                  value={email}
+                  inputType={"email"}
+                />
+              ) : (
+                <Typography>{email ?? t("common.notFound")}</Typography>
+              )}
+            </Box>
+            <Box>
+              <Typography>{t("profile.phone")}</Typography>
+              {isEditMode ? (
+                <ProfileInput
+                  register={register}
+                  value={phone}
+                  inputType={"phone"}
+                />
+              ) : (
+                <Typography>{phone ?? t("common.notFound")}</Typography>
+              )}
+            </Box>
+            <Box>
+              <Typography>{t("profile.faculty")}</Typography>
+              <Typography>
+                {data?.faculty?.name ?? t("common.notFound")}
+              </Typography>
+            </Box>
+            <Box>
+              <Typography>{t("profile.group")}</Typography>
+              <Typography>
+                {data?.group?.name ?? t("common.notFound")}
+              </Typography>
+            </Box>
+          </Box>
+          {isMyProfile && (
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <Button
+                sx={{ flexGrow: 1 }}
+                variant="outlined"
+                onClick={() => {
+                  setIsEditMode(prevState => !prevState);
+                  reset();
+                }}
+              >
+                {isEditMode ? "Cancel" : "Edit"}
+              </Button>
+              {isEditMode && (
+                <Button sx={{ flexGrow: 1 }} type="submit" variant="contained">
+                  Submit
+                </Button>
+              )}
+            </Box>
+          )}
         </form>
       )}
     </Grid>
