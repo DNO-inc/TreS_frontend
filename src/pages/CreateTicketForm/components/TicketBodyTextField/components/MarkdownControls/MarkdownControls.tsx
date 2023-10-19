@@ -1,7 +1,7 @@
 import { FC, Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Button, IconButton, useTheme } from "@mui/material";
+import { Button, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -37,6 +37,10 @@ const MarkdownControls: FC<MarkdownControlsProps> = ({
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
+  const matchesTablet = useMediaQuery(
+    "(min-width: 900px) and (max-width: 1000px)"
+  );
+  const matchesPhone = useMediaQuery("(max-width: 700px)");
 
   const handleFormat = (type: string) => {
     setFormattedText(getFormattedText(text, type, input));
@@ -47,7 +51,9 @@ const MarkdownControls: FC<MarkdownControlsProps> = ({
       sx={{
         p: 0.5,
         display: "flex",
+        gap: 1,
         justifyContent: "space-between",
+        alignItems: "flex-start",
         mt: 2,
         bgcolor: palette.grey.card,
         borderRadius: 1,
@@ -56,73 +62,80 @@ const MarkdownControls: FC<MarkdownControlsProps> = ({
     >
       <Box
         sx={{
-          "& > .MuiButtonBase-root": {
+          "& .MuiBox-root > .MuiButtonBase-root": {
             borderRadius: 2,
           },
           "& > .MuiBox-root": {
-            height: 24,
-            mr: 1,
-            ml: 1,
-            transform: "translateY(35%)",
+            display: "inline-block",
+            "& > .MuiBox-root": {
+              height: 24,
+              mr: 1,
+              ml: 1,
+              transform: "translateY(35%)",
+            },
           },
         }}
       >
-        <IconButton
-          onClick={() => handleFormat("heading")}
-          sx={{ fontSize: 20, width: 40, height: 40 }}
-        >
-          H
-        </IconButton>
-        <IconButton onClick={() => handleFormat("bold")}>
-          <FormatBoldIcon />
-        </IconButton>
-        <IconButton onClick={() => handleFormat("italic")}>
-          <FormatItalicIcon />
-        </IconButton>
-        <VerticalDivider />
-        <IconButton onClick={() => handleFormat("code")}>
-          <CodeIcon />
-        </IconButton>
-        <IconButton onClick={() => handleFormat("strike-through")}>
-          <FormatStrikethroughIcon />
-        </IconButton>
-        <IconButton onClick={() => handleFormat("link")}>
-          <AddLinkIcon />
-        </IconButton>
-        <IconButton onClick={() => handleFormat("image")}>
-          <AddPhotoAlternateIcon />
-        </IconButton>
-        <VerticalDivider />
-        <IconButton onClick={() => handleFormat("bulleted-list")}>
-          <FormatListBulletedIcon />
-        </IconButton>
-        <IconButton onClick={() => handleFormat("numbered-list")}>
-          <FormatListNumberedIcon />
-        </IconButton>
-        <IconButton onClick={() => handleFormat("check-list")}>
-          <ChecklistIcon />
-        </IconButton>
-        <VerticalDivider />
+        <Box>
+          <IconButton
+            onClick={() => handleFormat("heading")}
+            sx={{ fontSize: 20, width: 40, height: 40 }}
+          >
+            H
+          </IconButton>
+          <IconButton onClick={() => handleFormat("bold")}>
+            <FormatBoldIcon />
+          </IconButton>
+          <IconButton onClick={() => handleFormat("italic")}>
+            <FormatItalicIcon />
+          </IconButton>
+          <VerticalDivider />
+        </Box>
+        <Box>
+          <IconButton onClick={() => handleFormat("code")}>
+            <CodeIcon />
+          </IconButton>
+          <IconButton onClick={() => handleFormat("strike-through")}>
+            <FormatStrikethroughIcon />
+          </IconButton>
+          <IconButton onClick={() => handleFormat("link")}>
+            <AddLinkIcon />
+          </IconButton>
+          <IconButton onClick={() => handleFormat("image")}>
+            <AddPhotoAlternateIcon />
+          </IconButton>
+          <VerticalDivider />
+        </Box>
+        <Box>
+          <IconButton onClick={() => handleFormat("bulleted-list")}>
+            <FormatListBulletedIcon />
+          </IconButton>
+          <IconButton onClick={() => handleFormat("numbered-list")}>
+            <FormatListNumberedIcon />
+          </IconButton>
+          <IconButton onClick={() => handleFormat("check-list")}>
+            <ChecklistIcon />
+          </IconButton>
+          <VerticalDivider />
+        </Box>
       </Box>
-      {isPreview ? (
-        <Button
-          startIcon={<EditIcon />}
-          color="inherit"
-          sx={{ zIndex: 2200, color: palette.whiteAlpha.text, pr: 4, pl: 4 }}
-          onClick={handleShowPreview}
-        >
-          {t("createTicket.edit")}
-        </Button>
-      ) : (
-        <Button
-          startIcon={<VisibilityIcon />}
-          color="inherit"
-          sx={{ zIndex: 2200, color: palette.whiteAlpha.text, pr: 2, pl: 2 }}
-          onClick={handleShowPreview}
-        >
-          {t("createTicket.preview")}
-        </Button>
-      )}
+      <Button
+        startIcon={isPreview ? <EditIcon /> : <VisibilityIcon />}
+        color="inherit"
+        sx={{
+          color: palette.whiteAlpha.text,
+          pr: !matchesPhone && !matchesTablet ? 2 : -1,
+          pl: 2,
+          minHeight: 40,
+          borderBottom: `2px solid ${palette.grey.active}`,
+          borderRight: `2px solid ${palette.grey.border}`,
+        }}
+        onClick={handleShowPreview}
+      >
+        {!matchesPhone &&
+          !matchesTablet &&
+          (isPreview ? t("createTicket.edit") : t("createTicket.preview"))}
+      </Button>
     </Box>
   );
 };

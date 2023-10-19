@@ -43,7 +43,7 @@ const FacultiesFilter: FC = () => {
   return (
     <>
       {isSuccess && (
-        <FormControl sx={{ bgcolor: palette.grey.card }}>
+        <FormControl size="small" sx={{ bgcolor: palette.grey.card }}>
           <Select
             id="faculty-select"
             value={faculty}

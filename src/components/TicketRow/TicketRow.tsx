@@ -1,6 +1,5 @@
 import { MouseEvent, FC, useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -22,6 +21,7 @@ import { useCheckScope, useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
 import { useToggleBookmarkMutation } from "../../store/api/tickets/tickets.api";
+import { useMediaQuery } from "@mui/material";
 
 interface TicketRowProps {
   ticket: ITicket;
@@ -42,9 +42,9 @@ const TicketRow: FC<TicketRowProps> = ({
   handleRestore,
   setDeletedList,
 }) => {
-  const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
   const navigate = useNavigate();
+  const matches = useMediaQuery("(min-width: 750px)");
 
   const [isBookmarked, setIsBookmarked] = useState<boolean>(
     ticket.is_bookmarked
@@ -114,7 +114,7 @@ const TicketRow: FC<TicketRowProps> = ({
           overflow: "hidden",
         },
         "& > .MuiGrid-root > .MuiBox-root": {
-          p: isHaveBookmarks ? "16px 24px 16px 16px" : "16px 24px 16px 8px",
+          p: isHaveBookmarks ? "16px" : "16px 16px 16px 8px",
         },
       }}
     >
@@ -127,16 +127,17 @@ const TicketRow: FC<TicketRowProps> = ({
       >
         <Box
           sx={{
-            display: "grid",
+            display: matches ? "grid" : "flex",
+            flexDirection: "column",
             alignItems: "center",
             gridTemplateColumns:
               lang === "en"
                 ? `${
                     isHaveBookmarks ? "48px" : "0px"
-                  } minmax(30px, 1fr) minmax(40px, 3fr) 90px 24px 40px 100px`
+                  } minmax(30px, 1fr) minmax(40px, 3fr) 24px 45px 102px`
                 : `${
                     isHaveBookmarks ? "48px" : "0px"
-                  } minmax(30px, 0.8fr) minmax(40px, 3fr) 130px 24px 40px 115px`,
+                  } minmax(30px, 0.8fr) minmax(40px, 3fr) 24px 45px 118px`,
             gap: 2,
             borderLeft: `8px solid ${color}`,
             "& .MuiTypography-root": {
@@ -146,105 +147,213 @@ const TicketRow: FC<TicketRowProps> = ({
             },
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            {isSent && (
-              <Checkbox
-                onClick={handleSetDeleted}
-                color="default"
-                className="evadeItem"
+          {matches ? (
+            <>
+              <Box
                 sx={{
-                  width: 32,
-                  height: 32,
-                  m: "-6px",
-                  "& > .MuiSvgIcon-root": { fontSize: "20px" },
-                  p: 0,
-                  color: palette.common.white,
-                }}
-              />
-            )}
-            {isHaveBookmarks && (
-              <IconButton
-                onClick={handleToggleBookmark}
-                className="evadeItem"
-                sx={{
-                  width: 32,
-                  height: 32,
-                  m: "-6px",
-                  p: 0,
-                  border: "none !important",
-                  "& > .MuiSvgIcon-root": { fontSize: "20px" },
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
                 }}
               >
-                {isBookmarked ? (
-                  <BookmarkIcon />
-                ) : (
-                  <BookmarkBorderOutlinedIcon />
+                {isSent && (
+                  <Checkbox
+                    onClick={handleSetDeleted}
+                    color="default"
+                    className="evadeItem"
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      m: "-6px",
+                      "& > .MuiSvgIcon-root": { fontSize: "20px" },
+                      p: 0,
+                      color: palette.common.white,
+                    }}
+                  />
                 )}
-              </IconButton>
-            )}
-          </Box>
-          <Box>
-            <Typography component={"p"}>{ticket.subject}</Typography>
-          </Box>
-          <Box>
-            <Typography component={"p"} sx={{ color: palette.whiteAlpha.text }}>
-              {ticket.body}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              textAlign: "center",
-              lineHeight: "24px",
-              width: lang === "en" ? 90 : 130,
-              p: "0px 12px",
-              bgcolor: color,
-              color:
-                checkStatus(ticket.status.name) === "#FFFFFF"
-                  ? palette.common.black
-                  : palette.common.white,
-              borderRadius: 1,
-              textTransform: "capitalize",
-              fontSize: "14px",
-            }}
-          >
-            {t(`ticketStatus.${ticket.status.name.toLowerCase()}`)}
-          </Box>
-          <Tooltip title={tooltipText} arrow>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 24,
-                height: 24,
-                bgcolor: palette.grey.active,
-                borderRadius: 1,
-                "& > .MuiSvgIcon-root": {
-                  fontSize: 16,
-                },
-              }}
-            >
-              {icon}
-            </Box>
-          </Tooltip>
-          <Typography
-            component={"p"}
-            sx={{ color: palette.whiteAlpha.default }}
-          >
-            {ticket.faculty.name}
-          </Typography>
-          <Typography
-            component={"p"}
-            sx={{ color: palette.whiteAlpha.default }}
-          >
-            {formattedDate}
-          </Typography>
+                {isHaveBookmarks && (
+                  <IconButton
+                    onClick={handleToggleBookmark}
+                    className="evadeItem"
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      m: "-6px",
+                      p: 0,
+                      border: "none !important",
+                      "& > .MuiSvgIcon-root": { fontSize: "20px" },
+                    }}
+                  >
+                    {isBookmarked ? (
+                      <BookmarkIcon />
+                    ) : (
+                      <BookmarkBorderOutlinedIcon />
+                    )}
+                  </IconButton>
+                )}
+              </Box>
+              <Box>
+                <Typography component={"p"}>{ticket.subject}</Typography>
+              </Box>
+              <Box>
+                <Typography
+                  component={"p"}
+                  sx={{ color: palette.whiteAlpha.text }}
+                >
+                  {ticket.body}
+                </Typography>
+              </Box>
+              <Tooltip title={tooltipText} arrow>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 24,
+                    height: 24,
+                    bgcolor: palette.grey.active,
+                    borderRadius: 1,
+                    "& > .MuiSvgIcon-root": {
+                      fontSize: 16,
+                    },
+                  }}
+                >
+                  {icon}
+                </Box>
+              </Tooltip>
+              <Typography
+                component={"p"}
+                sx={{ color: palette.whiteAlpha.default }}
+              >
+                {ticket.faculty.name}
+              </Typography>
+              <Typography
+                component={"p"}
+                sx={{ color: palette.whiteAlpha.default }}
+              >
+                {formattedDate}
+              </Typography>
+            </>
+          ) : (
+            <>
+              <Box
+                sx={{
+                  pl: 1,
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: isSent || isBookmarked ? 1 : 0,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                    }}
+                  >
+                    {isSent && (
+                      <Checkbox
+                        onClick={handleSetDeleted}
+                        color="default"
+                        className="evadeItem"
+                        sx={{
+                          width: 32,
+                          height: 32,
+                          m: "-6px",
+                          "& > .MuiSvgIcon-root": { fontSize: "20px" },
+                          p: 0,
+                          color: palette.common.white,
+                        }}
+                      />
+                    )}
+                    {isHaveBookmarks && (
+                      <IconButton
+                        onClick={handleToggleBookmark}
+                        className="evadeItem"
+                        sx={{
+                          width: 32,
+                          height: 32,
+                          m: "-6px",
+                          p: 0,
+                          border: "none !important",
+                          "& > .MuiSvgIcon-root": { fontSize: "20px" },
+                        }}
+                      >
+                        {isBookmarked ? (
+                          <BookmarkIcon />
+                        ) : (
+                          <BookmarkBorderOutlinedIcon />
+                        )}
+                      </IconButton>
+                    )}
+                  </Box>
+                  <Box
+                    sx={{
+                      width: `calc(80vw - ${
+                        isSent || isDeleted ? "148px" : "48px"
+                      })`,
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                      }}
+                      component={"p"}
+                    >
+                      {ticket.subject}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Tooltip title={tooltipText} arrow>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: 24,
+                      height: 24,
+                      bgcolor: palette.grey.active,
+                      borderRadius: 1,
+                      "& > .MuiSvgIcon-root": {
+                        fontSize: 16,
+                      },
+                    }}
+                  >
+                    {icon}
+                  </Box>
+                </Tooltip>
+              </Box>
+              <Box
+                sx={{
+                  pl: 1,
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography
+                  component={"p"}
+                  sx={{ color: palette.whiteAlpha.default }}
+                >
+                  {ticket.faculty.name}
+                </Typography>
+                <Typography
+                  component={"p"}
+                  sx={{ color: palette.whiteAlpha.default }}
+                >
+                  {formattedDate}
+                </Typography>
+              </Box>
+            </>
+          )}
         </Box>
       </Grid>
       {isSent && (

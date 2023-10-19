@@ -1,21 +1,22 @@
 import { useEffect, useState, FC } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+// import ListItem from "@mui/material/ListItem";
+// import ListItemButton from "@mui/material/ListItemButton";
+// import ListItemIcon from "@mui/material/ListItemIcon";
+// import ListItemText from "@mui/material/ListItemText";
 import useTheme from "@mui/material/styles/useTheme";
 // import styled from "@emotion/styled";
 
 // import LightModeIcon from "@mui/icons-material/LightMode";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import SettingsIcon from "@mui/icons-material/Settings";
+// import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+// import SettingsIcon from "@mui/icons-material/Settings";
 
 import { endpoints } from "../../../../../../../../constants";
 import { useAuth } from "../../../../../../../../context/AuthContext";
+import { Button, useMediaQuery } from "@mui/material";
 // import { ColorModeContext } from "../../../../../../../../theme";
 
 interface AdditionActionsProps {
@@ -23,11 +24,15 @@ interface AdditionActionsProps {
   setSelectedKey: (key: string) => void;
 }
 
-const AdditionActions: FC<AdditionActionsProps> = ({
-  selectedKey,
-  setSelectedKey,
-}) => {
+const AdditionActions: FC<AdditionActionsProps> = (
+  {
+    // selectedKey,
+    // setSelectedKey,
+  }
+) => {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const matches = useMediaQuery("(max-width: 600px)");
   const { t } = useTranslation();
 
   const { isAuth } = useAuth();
@@ -37,8 +42,12 @@ const AdditionActions: FC<AdditionActionsProps> = ({
     theme.palette.mode === "dark"
   );
 
-  const handleListItemClick = (index: string): void => {
-    setSelectedKey(index);
+  // const handleListItemClick = (index: string): void => {
+  //   setSelectedKey(index);
+  // };
+
+  const handleRedirect = (): void => {
+    navigate(endpoints.createTicket);
   };
 
   // const handleColorMode = (): void => {
@@ -119,7 +128,23 @@ const AdditionActions: FC<AdditionActionsProps> = ({
         },
       }}
     >
-      <ListItem key={"Settings"} disablePadding>
+      {matches && (
+        <Button
+          onClick={handleRedirect}
+          disabled={!isAuth}
+          variant={"contained"}
+          sx={{
+            fontSize: 14,
+            textTransform: "none",
+            width: "100%",
+            mt: 2,
+            border: "none",
+          }}
+        >
+          {t("common.createButton")}
+        </Button>
+      )}
+      {/* <ListItem key={"Settings"} disablePadding>
         <NavLink
           to={!isAuth ? "" : endpoints.settings}
           style={{ cursor: !isAuth ? "default" : "pointer" }}
@@ -139,7 +164,7 @@ const AdditionActions: FC<AdditionActionsProps> = ({
             <ListItemText primary={t("sidebar.settings")} />
           </ListItemButton>
         </NavLink>
-      </ListItem>
+      </ListItem> */}
       {/* <ListItem key={"Light mode"} disablePadding>
         <ListItemButton
           disableRipple

@@ -69,7 +69,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
   const [isLiked, setIsLiked] = useState<boolean>(ticket.is_liked);
   const [upvotes, setUpvotes] = useState<number>(ticket.upvotes);
   const [isFollowed, setIsFollowed] = useState<boolean>(ticket.is_followed);
-  const [isReported, setIsReported] = useState<boolean>(false);
+  // const [isReported, setIsReported] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -80,7 +80,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
   const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   const handleToggleReported = (): void => {
-    setIsReported(prevIsReported => !prevIsReported);
+    // setIsReported(prevIsReported => !prevIsReported);
 
     handleSnackbarClick(props => TransitionRight(props, "report"));
   };
@@ -176,7 +176,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
         <hr />
         <TicketActions
           isLiked={isLiked}
-          isReported={isReported}
+          // isReported={isReported}
           upvotes={upvotes}
           isFollowed={isFollowed}
           handleToggleLike={handleToggleLike}

@@ -93,7 +93,7 @@ const Profile: FC = () => {
   const onSubmit = (data: ProfileUpdateBody): void => {
     updateProfile({ body: JSON.stringify(data) });
     setIsEditMode(prevState => !prevState);
-    localStorage.setItem("login", `${data.firstname} ${data.lastname}`);
+    localStorage.setItem("user-name", `${data.firstname} ${data.lastname}`);
     reset();
   };
 
@@ -108,16 +108,26 @@ const Profile: FC = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "40px",
+            gap: "30px",
             margin: "95px auto 0",
           }}
         >
-          <Box sx={{ display: "flex", gap: 5 }}>
-            <Avatar sx={{ width: 100, height: 100 }} />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              alignItems: { xs: "center", sm: "normal" },
+              gap: 5,
+            }}
+          >
+            <Avatar
+              sx={{ width: { xs: 180, sm: 100 }, height: { xs: 180, sm: 100 } }}
+            />
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
+                alignItems: { xs: "center", sm: "normal" },
                 gap: isEditMode ? 3 : 1,
               }}
             >
@@ -154,13 +164,14 @@ const Profile: FC = () => {
                 <Typography
                   sx={{ fontSize: 24, color: palette.whiteAlpha.default }}
                 >
-                  {login ?? t("common.notFound")}
+                  {"@" + login ?? t("common.notFound")}
                 </Typography>
               )}
             </Box>
           </Box>
           <Box
             sx={{
+              width: { xs: "90vw", sm: 500 },
               bgcolor: palette.grey.divider,
               p: 3,
               "& > .MuiBox-root:not(:first-of-type)": {
@@ -172,7 +183,7 @@ const Profile: FC = () => {
                 alignItems: "center",
                 "& > .MuiTypography-root:first-of-type": {
                   fontWeight: 500,
-                  mr: 2,
+                  mr: 5,
                 },
               },
             }}

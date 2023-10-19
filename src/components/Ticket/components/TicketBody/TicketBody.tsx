@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
 
@@ -14,6 +13,7 @@ import { endpoints } from "../../../../constants";
 import { Creator } from "../../ticket.interface";
 import IPalette from "../../../../theme/IPalette.interface";
 import { useAuth } from "../../../../context/AuthContext";
+import { CustomTooltip } from "../../../CustomTooltip";
 
 interface TicketBodyProps extends Creator {
   isMyTicket: boolean;
@@ -106,7 +106,11 @@ const TicketBody: FC<TicketBodyProps> = ({ body, creator, faculty }) => {
           variant="body2"
           component="div"
           color="text.secondary"
-          whiteSpace="pre-line"
+          sx={{
+            whiteSpace: "pre-line",
+            overflowWrap: "break-word",
+            maxWidth: "100%",
+          }}
         >
           <MarkdownWithStyles innerText={body} />
         </Typography>
@@ -117,14 +121,15 @@ const TicketBody: FC<TicketBodyProps> = ({ body, creator, faculty }) => {
             to={!userId ? "" : `${endpoints.profile}/${userId}`}
             style={{ cursor: !userId ? "default" : "pointer" }}
           >
-            <Tooltip
-              title={<ProfileTooltip creator={creator} />}
-              placement="top"
+            <CustomTooltip
+              base={
+                <Typography color="text.secondary" className="evadeItem">
+                  {userLogin}
+                </Typography>
+              }
             >
-              <Typography color="text.secondary" className="evadeItem">
-                {userLogin}
-              </Typography>
-            </Tooltip>
+              <ProfileTooltip creator={creator} />
+            </CustomTooltip>
           </NavLink>
         ) : (
           <Typography color="text.secondary" className="evadeItem">

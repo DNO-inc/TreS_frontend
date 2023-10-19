@@ -15,7 +15,6 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormGroup from "@mui/material/FormGroup";
 
-import { Loader } from "../../components/Loader";
 import { FilterPanel } from "../../components/FilterPanel";
 import { CustomPagination } from "../../components/CustomPagination";
 import { TicketRow } from "../../components/TicketRow/TicketRow";
@@ -62,8 +61,8 @@ interface IStatus {
 const MyTicketPage: FC<MyTicketPageProps> = ({
   title,
   useGetQuery,
-  isLoading,
-  isSuccess,
+  // isLoading,
+  // isSuccess,
   option,
   userId,
   assignee,
@@ -185,41 +184,39 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
         </Button>
       )}
       <Box sx={{ pt: isSentPage && deletedList.length ? 1 : 20 }}>
-        {isLoading && <Loader />}
-        {isSuccess &&
-          (tickets && tickets.length ? (
-            <>
-              <FormGroup
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                  flexDirection: "row",
-                }}
-              >
-                {tickets.map(ticket => {
-                  return (
-                    <TicketRow
-                      ticket={ticket}
-                      lang={i18n.language}
-                      additionalAction={title}
-                      isHaveBookmarks={isSentPage}
-                      handleDelete={isSentPage ? handleDelete : null}
-                      handleRestore={isDeletedPage ? handleRestore : null}
-                      setDeletedList={isSentPage ? setDeletedList : null}
-                      key={ticket.ticket_id}
-                    />
-                  );
-                })}
-              </FormGroup>
-              {totalPage > 1 && (
-                <CustomPagination total={totalPage} current={currentPage} />
-              )}
-            </>
-          ) : (
-            <Typography variant="h1" mt={6}>
-              {t("common.notFound")}
-            </Typography>
-          ))}
+        {tickets && tickets.length ? (
+          <>
+            <FormGroup
+              sx={{
+                display: "flex",
+                gap: 1,
+                flexDirection: "row",
+              }}
+            >
+              {tickets.map(ticket => {
+                return (
+                  <TicketRow
+                    ticket={ticket}
+                    lang={i18n.language}
+                    additionalAction={title}
+                    isHaveBookmarks={isSentPage}
+                    handleDelete={isSentPage ? handleDelete : null}
+                    handleRestore={isDeletedPage ? handleRestore : null}
+                    setDeletedList={isSentPage ? setDeletedList : null}
+                    key={ticket.ticket_id}
+                  />
+                );
+              })}
+            </FormGroup>
+            {totalPage > 1 && (
+              <CustomPagination total={totalPage} current={currentPage} />
+            )}
+          </>
+        ) : (
+          <Typography variant="h1" mt={6}>
+            {t("common.notFound")}
+          </Typography>
+        )}
       </Box>
     </Grid>
   );

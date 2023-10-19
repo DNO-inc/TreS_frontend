@@ -65,7 +65,7 @@ const Header: FC<HeaderProps> = ({ handleDrawerToggle }) => {
           aria-label="open drawer"
           edge="start"
           onClick={handleDrawerToggle}
-          sx={{ ml: 0, display: { xs: "inline-flex", md: "none" } }}
+          sx={{ ml: -1, display: { xs: "inline-flex", md: "none" } }}
         >
           <MenuIcon />
         </IconButton>

@@ -87,13 +87,11 @@ const QueueSelect: FC<QueueSelectProps> = ({ facultyId, queue, setQueue }) => {
   return (
     <Box>
       <FormControl
+        size="small"
         fullWidth
         sx={{
           bgcolor: palette.grey.card,
           minWidth: "200px",
-          "& > .MuiInputBase-root > .MuiSelect-select": {
-            p: "8px 32px 8px 16px",
-          },
         }}
       >
         <Select

@@ -44,53 +44,57 @@ const TicketVisibilityOptions: FC<TicketVisibilityOptionsProps> = ({
   }, [selectedOptions, setValue]);
 
   return (
-    <Box>
+    <Box sx={{ width: "100%" }}>
       <Typography variant="h3">{t("createTicket.ticketOptions")}</Typography>
       <FormControl sx={{ width: "100%" }}>
         <FormGroup
           sx={{
-            display: "flex",
+            flexDirection: "row",
             gap: 3,
-
             "& > label": {
+              display: "inline-block",
               position: "relative",
               cursor: "pointer",
               borderRadius: 1,
               border: `3px solid ${palette.grey.divider}`,
               m: 0,
-              p: "16px 16px 44px 8px",
-              width: "100%",
+              p: "16px 16px 16px 8px",
+              width: { xs: "100%", md: "calc(100% / 2 - 12px)" },
               "& > .MuiCheckbox-root": {
+                position: "absolute",
+                top: 40,
+                left: 0,
                 color: palette.common.white,
               },
-              "& > p": {
-                color: "rgba(255, 255, 255, 0.48);",
-                position: "absolute",
-                left: 52,
-                top: 52,
+              "& > .MuiButtonBase-root": {
+                mt: -4,
               },
             },
           }}
         >
           <FormControlLabel
             control={
-              <>
-                <Checkbox
-                  size="small"
-                  checked={selectedOptions.includes("anonymous")}
-                  value="anonymous"
-                  onChange={handleClick}
-                />
-                <Typography>
+              <Checkbox
+                size="small"
+                checked={selectedOptions.includes("anonymous")}
+                value="anonymous"
+                onChange={handleClick}
+              />
+            }
+            label={
+              <Box sx={{ ml: 4 }}>
+                {t("createTicket.anonymousTitle")}
+                <Typography
+                  sx={{ ml: 2, mt: 1, color: palette.whiteAlpha.default }}
+                >
                   {t("createTicket.anonymousPart1")}{" "}
                   <span style={{ color: palette.semantic.info }}>
                     {t("createTicket.anonymousPart2")}
                   </span>{" "}
                   {t("createTicket.anonymousPart3")}
                 </Typography>
-              </>
+              </Box>
             }
-            label={t("createTicket.anonymousTitle")}
             sx={{
               bgcolor: selectedOptions.includes("anonymous")
                 ? palette.grey.divider
@@ -99,23 +103,27 @@ const TicketVisibilityOptions: FC<TicketVisibilityOptionsProps> = ({
           />
           <FormControlLabel
             control={
-              <>
-                <Checkbox
-                  size="small"
-                  checked={selectedOptions.includes("hidden")}
-                  value="hidden"
-                  onChange={handleClick}
-                />
-                <Typography>
+              <Checkbox
+                size="small"
+                checked={selectedOptions.includes("hidden")}
+                value="hidden"
+                onChange={handleClick}
+              />
+            }
+            label={
+              <Box sx={{ ml: 4 }}>
+                {t("createTicket.hiddenTitle")}
+                <Typography
+                  sx={{ ml: 2, mt: 1, color: palette.whiteAlpha.default }}
+                >
                   {t("createTicket.hiddenPart1")}{" "}
                   <span style={{ color: palette.semantic.error }}>
                     {t("createTicket.hiddenPart2")}
                   </span>{" "}
                   {t("createTicket.hiddenPart3")}
                 </Typography>
-              </>
+              </Box>
             }
-            label={t("createTicket.hiddenTitle")}
             sx={{
               bgcolor: selectedOptions.includes("hidden")
                 ? palette.grey.divider

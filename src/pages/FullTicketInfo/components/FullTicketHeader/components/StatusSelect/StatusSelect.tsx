@@ -37,13 +37,11 @@ const StatusSelect: FC<StatusSelectProps> = ({ status, setStatus }) => {
   return (
     <Box>
       <FormControl
+        size="small"
         fullWidth
         sx={{
           bgcolor: palette.grey.card,
           minWidth: "180px",
-          "& > .MuiInputBase-root > .MuiSelect-select": {
-            p: "8px 32px 8px 16px",
-          },
         }}
       >
         {isLoading && <Loader size="small" />}

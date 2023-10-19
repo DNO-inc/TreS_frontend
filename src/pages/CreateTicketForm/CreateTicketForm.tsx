@@ -35,22 +35,19 @@ const CreateTicketForm: FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [queue, setQueue] = useState<number>(-1);
   const [faculty, setFaculty] = useState<number>(facultyId);
+  const [title, setTitle] = useState("");
   const [formattedText, setFormattedText] = useState("");
   const [ticketId, setTicketId] = useState<number | null>(null);
 
   const [createTicket] = useCreateTicketMutation();
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    resetField,
-    // formState: { errors },
-  } = useForm<ICreateTicketRequestBody>();
+  const { register, handleSubmit, setValue, resetField } =
+    useForm<ICreateTicketRequestBody>();
 
   const handleClear = (): void => {
     resetField("subject");
     setValue("queue", null);
+    setTitle("");
     setFormattedText("");
     setQueue(-1);
     setSelectedOptions([]);
@@ -78,9 +75,6 @@ const CreateTicketForm: FC = () => {
             container
             sx={{
               gap: 3,
-              "& > .MuiBox-root": {
-                width: "100%",
-              },
               "& > div > h3": {
                 mb: 1,
               },
@@ -107,7 +101,11 @@ const CreateTicketForm: FC = () => {
               queue={queue}
               setQueue={setQueue}
             />
-            <TicketTitleInput register={register} />
+            <TicketTitleInput
+              register={register}
+              title={title}
+              setTitle={setTitle}
+            />
             <TicketBodyTextField
               register={register}
               formattedText={formattedText}

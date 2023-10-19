@@ -43,7 +43,7 @@ const Scope: FC<ScopeProps> = ({
   setScopesList,
   facultyId,
 }) => {
-  const matches = useMediaQuery("(min-width: 900px)");
+  const matches = useMediaQuery("(min-width: 480px)");
   const { palette }: IPalette = useTheme();
 
   const [searchParams, setSearchParams] = useSearchParams();

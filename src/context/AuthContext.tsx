@@ -26,7 +26,7 @@ interface AuthContextProps {
   isAuth: boolean;
   setIsAuth: Dispatch<SetStateAction<boolean>>;
   authToken: string | null;
-  loginUser: ({ login, password }: loginProps) => Promise<void>;
+  loginUser: ({ login, password }: loginProps) => Promise<boolean>;
   logoutUser: () => void;
 }
 
@@ -139,9 +139,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         if (userInfo?.firstname && userInfo?.lastname) {
           localStorage.setItem(
-            "login",
+            "user-name",
             `${userInfo.firstname} ${userInfo.lastname}`
           );
+        }
+
+        if (userInfo?.login) {
+          localStorage.setItem("login", `${userInfo.login}`);
         }
 
         if (loginInfo?.user_id) {
@@ -156,21 +160,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const loginUser = async ({ login, password }: loginProps) => {
-    try {
-      const { data: loginInfo }: LoginInfoProps = await authorization({
-        body: JSON.stringify({ login, password }),
-      });
+    const { data: loginInfo }: LoginInfoProps = await authorization({
+      body: JSON.stringify({ login, password }),
+    });
 
+    if (loginInfo) {
       _getUser(loginInfo);
-    } catch {
-      alert("Something went wrong!");
+
+      return true;
     }
+
+    return false;
   };
 
   const logoutUser = () => {
     setAuthToken(null);
     // setUser(null)
     localStorage.removeItem("access-token");
+    localStorage.removeItem("refresh-token");
+    localStorage.removeItem("user-name");
     localStorage.removeItem("login");
     localStorage.removeItem("faculty-id");
     localStorage.removeItem("user-id");

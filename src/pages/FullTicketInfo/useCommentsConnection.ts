@@ -24,6 +24,7 @@ const useCommentsConnection = (ticketId: number) => {
   const [action, setAction] = useState<IAction | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [ws, setWs] = useState<WebSocket | null>(null);
+  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
 
   const { isAuth } = useAuth();
 
@@ -39,7 +40,12 @@ const useCommentsConnection = (ticketId: number) => {
         if (!newWs) return;
         if (newWs.readyState !== 1) return;
         newWs.send("PING");
-        setTimeout(ping, 55000);
+        if (isFirstLoad) {
+          setTimeout(ping, 25000);
+          setIsFirstLoad(false);
+        } else {
+          setTimeout(ping, 60000);
+        }
       }
 
       const openConnection = () => {

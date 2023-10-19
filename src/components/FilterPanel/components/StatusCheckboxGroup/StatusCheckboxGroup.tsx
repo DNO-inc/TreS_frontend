@@ -154,6 +154,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
               left: 16,
               width: 200,
               bgcolor: palette.grey.divider,
+              border: `2px solid ${palette.grey.button}`,
               borderRadius: 1,
               p: "8px 16px",
               zIndex: 20,

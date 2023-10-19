@@ -149,7 +149,7 @@ const Comment: ForwardRefExoticComponent<
             bgcolor: isMyComment
               ? palette.semantic.waiting
               : palette.grey.border,
-            maxWidth: "40vw",
+            maxWidth: { xs: "calc(100vw - 132px)", sm: "40vw" },
             p: "12px 12px 4px 16px",
             borderRadius: 3,
             "&::before, &::after": {
@@ -266,7 +266,15 @@ const Comment: ForwardRefExoticComponent<
             >
               {isMyComment && (
                 <>
-                  {getCommentBody()}
+                  <Typography
+                    sx={{
+                      whiteSpace: "pre-line",
+                      overflowWrap: "break-word",
+                      maxWidth: "100%",
+                    }}
+                  >
+                    {getCommentBody()}
+                  </Typography>
                   <Box component={"span"} sx={{ float: "right" }}>
                     <IconButton
                       onClick={changeComment}
@@ -311,7 +319,19 @@ const Comment: ForwardRefExoticComponent<
                 width: "100%",
               }}
             >
-              {!isMyComment ? getCommentBody() : <span> </span>}
+              {!isMyComment ? (
+                <Typography
+                  sx={{
+                    whiteSpace: "pre-line",
+                    overflowWrap: "break-word",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {getCommentBody()}
+                </Typography>
+              ) : (
+                <span> </span>
+              )}
               <Box>
                 <span> </span>
                 <Typography
