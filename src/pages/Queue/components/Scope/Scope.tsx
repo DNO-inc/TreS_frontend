@@ -8,7 +8,13 @@ import {
 } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { Card, Divider, useTheme, Typography } from "@mui/material";
+import {
+  Card,
+  Divider,
+  useTheme,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 
 import MenuIcon from "@mui/icons-material/Menu";
@@ -37,6 +43,7 @@ const Scope: FC<ScopeProps> = ({
   setScopesList,
   facultyId,
 }) => {
+  const matches = useMediaQuery("(min-width: 480px)");
   const { palette }: IPalette = useTheme();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -94,9 +101,9 @@ const Scope: FC<ScopeProps> = ({
       onDrop={e => handleDrop(e)}
       draggable={true}
       sx={{
-        minWidth: "468px",
+        minWidth: matches ? "415px" : "100%",
         flexBasis: "33.333%",
-        height: "calc(100vh - 216px)",
+        height: "calc(100vh - 190px)",
         bgcolor: palette.grey.card,
         border: `2px solid ${palette.grey.border}`,
         "& > .MuiBox-root": {

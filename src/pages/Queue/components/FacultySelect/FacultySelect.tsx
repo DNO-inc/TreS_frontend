@@ -43,12 +43,10 @@ const FacultySelect: FC<FacultySelectProps> = ({
     <Box>
       <FormControl
         fullWidth
+        size="small"
         sx={{
           bgcolor: palette.grey.card,
           minWidth: "150px",
-          "& > .MuiInputBase-root > .MuiSelect-select": {
-            p: "8px 32px 8px 16px",
-          },
         }}
       >
         {isLoading && <Loader size="small" />}

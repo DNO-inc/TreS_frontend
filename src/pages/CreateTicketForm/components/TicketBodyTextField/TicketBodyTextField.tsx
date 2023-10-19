@@ -18,6 +18,7 @@ import { MarkdownWithStyles } from "../../../../utils/markdown";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import { MarkdownControls } from "./components/MarkdownControls";
+import { general } from "../../../../constants";
 
 interface TicketBodyTextFieldProps {
   register: UseFormRegister<ICreateTicketRequestBody>;
@@ -44,7 +45,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
   };
 
   return (
-    <Box>
+    <Box sx={{ position: "relative", width: "100%" }}>
       <Typography variant="h3">{t("createTicket.ticketBody")}</Typography>
       <Box
         sx={{
@@ -76,12 +77,14 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
         inputRef={inputRef}
         id="ticket-body"
         placeholder={placeholderText}
-        required
         multiline
         rows={12}
         variant="outlined"
         fullWidth
-        {...register("body")}
+        {...register("body", {
+          required: true,
+          maxLength: general.maxBodyLength,
+        })}
         value={formattedText}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setFormattedText(event.target.value);
@@ -108,6 +111,17 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
           },
         }}
       />
+      <span
+        style={{
+          position: "absolute",
+          top: "77.5%",
+          right: 8,
+          fontSize: 12,
+          color: palette.whiteAlpha.default,
+        }}
+      >
+        {formattedText.length} / {general.maxBodyLength}
+      </span>
       <MarkdownControls
         text={formattedText}
         isPreview={isPreview}

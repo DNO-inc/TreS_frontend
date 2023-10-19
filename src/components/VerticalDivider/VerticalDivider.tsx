@@ -6,11 +6,13 @@ import useTheme from "@mui/material/styles/useTheme";
 import IPalette from "../../theme/IPalette.interface";
 
 interface VerticalDividerProps {
+  color?: string;
   height?: number;
   width?: number;
 }
 
 const VerticalDivider: FC<VerticalDividerProps> = ({
+  color,
   height = 22,
   width = 2,
 }) => {
@@ -22,7 +24,7 @@ const VerticalDivider: FC<VerticalDividerProps> = ({
         display: "inline-block",
         width: width,
         height: height,
-        backgroundColor: palette.grey.divider,
+        backgroundColor: color ?? palette.grey.divider,
         borderRadius: 1,
       }}
     ></Box>

@@ -58,14 +58,14 @@ const MobileDrawer: FC<MobileDrawerProps> = ({
     >
       <Toolbar
         sx={{
-          minHeight: "72px",
-          borderBottom: `2px solid ${palette.grey.card}`,
-          mb: 4,
+          minHeight: "64px",
+          borderBottom: `2px solid ${palette.grey.checkbox}`,
+          mb: 2,
         }}
       >
         <Grid container justifyContent={"space-between"}>
           <Grid display={"flex"} flexDirection={"row"} alignItems={"center"}>
-            <Avatar alt="Logo" src={Logo} sizes="40" />
+            <Avatar alt="Logo" src={Logo} sx={{ width: 36, height: 36 }} />
             <Typography
               sx={{
                 ml: 1,

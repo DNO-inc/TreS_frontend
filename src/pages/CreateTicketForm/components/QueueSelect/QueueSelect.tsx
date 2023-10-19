@@ -93,9 +93,18 @@ const QueueSelect: FC<QueueSelectProps> = ({
   }
 
   return (
-    <Box>
+    <Box
+      sx={{
+        width: {
+          xs: "100%",
+          md: "calc(100% / 2 - 12px)",
+          xl: "calc(100% / 3 - 16px)",
+        },
+      }}
+    >
       <Typography variant="h3">{t("createTicket.queue")}</Typography>
       <FormControl
+        size="small"
         fullWidth
         sx={{ bgcolor: palette.grey.card }}
         {...register("queue")}

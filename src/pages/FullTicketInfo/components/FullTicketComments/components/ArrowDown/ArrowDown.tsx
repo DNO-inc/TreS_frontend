@@ -39,7 +39,7 @@ const ArrowDown: FC<ArrowDownProps> = ({
       className={isVisibleArrow ? styles.arrowDownAppear : ""}
       sx={{
         position: "absolute",
-        bottom: 80,
+        top: 460,
         right: 20,
         height: 60,
         width: 60,

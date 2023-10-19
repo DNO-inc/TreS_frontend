@@ -1,4 +1,11 @@
-import { FormEvent, useState, FC, Dispatch, SetStateAction } from "react";
+import {
+  FormEvent,
+  useState,
+  FC,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+} from "react";
 import { useTranslation } from "react-i18next";
 
 import useTheme from "@mui/material/styles/useTheme";
@@ -9,45 +16,52 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { useMediaQuery } from "@mui/material";
 
-import IPalette from "../../theme/IPalette.interface";
-import { useAuth } from "../../context/AuthContext";
+import { FacultySelect } from "./components/FacultySelect";
 
-interface LogInModalProps {
+import IPalette from "../../theme/IPalette.interface";
+import { useRegistrationMutation } from "../../store/api/api";
+import { GroupSelect } from "./components/GroupSelect";
+
+interface SignUpModalProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  handleSignUn: () => void;
+  handleLogIn: () => void;
 }
 
-const LogInModal: FC<LogInModalProps> = ({ open, setOpen, handleSignUn }) => {
+const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
   const matches = useMediaQuery("(max-width: 500px)");
 
-  const { loginUser } = useAuth();
+  const [registration, { isError }] = useRegistrationMutation();
 
   const [login, setLogin] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [faculty, setFaculty] = useState<number | null>(null);
+  const [group, setGroup] = useState<number | null>(null);
   const [hasError, setHasError] = useState<boolean>(false);
 
   const handleClose = (): void => setOpen(false);
 
-  const handleOpenSignUpModal = (): void => {
+  const handleOpenLogInModal = (): void => {
     handleClose();
-    handleSignUn();
+    handleLogIn();
   };
 
-  const handleSubmit = async (event: FormEvent): Promise<void> => {
+  const handleSubmit = (event: FormEvent): void => {
     event.preventDefault();
 
-    const isLogged = await loginUser({ login, password });
+    console.log(faculty, group);
 
-    if (isLogged) {
-      setOpen(false);
-    } else {
+    registration({ body: JSON.stringify({ login, password, faculty, group }) });
+  };
+
+  useEffect(() => {
+    if (isError) {
       setHasError(true);
       setTimeout(() => setHasError(false), 2000);
     }
-  };
+  }, [isError]);
 
   return (
     <Modal
@@ -60,12 +74,11 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, handleSignUn }) => {
         <Grid
           container
           sx={{
-            flexDirection: "column",
-            alignItems: "center",
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
+            justifyContent: "center",
             borderRadius: 4,
             gap: matches ? 3 : 4,
             width: matches ? "90vw" : 450,
@@ -75,13 +88,14 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, handleSignUn }) => {
           }}
         >
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {t("common.login")}
+            {t("common.signUp")}
           </Typography>
           <TextField
             label={t("common.loginInput")}
             value={login}
             onChange={event => setLogin(event.target.value)}
             error={hasError}
+            required
             fullWidth
           />
           <TextField
@@ -90,15 +104,22 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, handleSignUn }) => {
             value={password}
             onChange={event => setPassword(event.target.value)}
             error={hasError}
+            required
             fullWidth
           />
+          <FacultySelect
+            faculty={faculty}
+            setFaculty={setFaculty}
+            isError={hasError}
+          />
+          <GroupSelect group={group} setGroup={setGroup} isError={hasError} />
           <Button variant="contained" color="primary" type="submit">
-            {t("common.loginButton")}
+            {t("common.signUpButton")}
           </Button>
           <Typography fontSize={14}>
-            {t("common.loginQuestion")}
+            {t("common.signUpQuestion")}
             <span
-              onClick={handleOpenSignUpModal}
+              onClick={handleOpenLogInModal}
               style={{
                 marginLeft: 8,
                 color: palette.semantic.info,
@@ -106,7 +127,7 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, handleSignUn }) => {
                 cursor: "pointer",
               }}
             >
-              {t("common.loginRedirect")}
+              {t("common.loginButton")}
             </span>
           </Typography>
         </Grid>
@@ -115,4 +136,4 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, handleSignUn }) => {
   );
 };
 
-export { LogInModal };
+export { SignUpModal };

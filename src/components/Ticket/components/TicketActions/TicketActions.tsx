@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
+// import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
@@ -13,11 +13,10 @@ import StarIcon from "@mui/icons-material/Star";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import { useAuth } from "../../../../context/AuthContext";
-import { checkIsAdmin } from "../../../../shared/functions";
 
 interface TicketActionsProps {
   isMyTicket: boolean;
-  isReported: boolean;
+  // isReported: boolean;
   isLiked: boolean;
   isFollowed: boolean;
   upvotes: number;
@@ -34,14 +33,13 @@ const TicketActions: FC<TicketActionsProps> = ({
   isFollowed,
   upvotes,
   formattedDate,
-  handleToggleReported,
+  // handleToggleReported,
   handleToggleLike,
   handleToggleFollowed,
 }) => {
   const { palette }: IPalette = useTheme();
 
   const { isAuth } = useAuth();
-  const isAdmin = checkIsAdmin();
 
   return (
     <Grid container justifyContent={"space-between"} alignItems={"center"}>
@@ -60,7 +58,7 @@ const TicketActions: FC<TicketActionsProps> = ({
           },
         }}
       >
-        {isAdmin && (
+        {/* {isAdmin && (
           <IconButton
             onClick={handleToggleReported}
             disabled={!isAuth}
@@ -74,7 +72,7 @@ const TicketActions: FC<TicketActionsProps> = ({
           >
             <DoNotDisturbAltOutlinedIcon className="evadeItem" />
           </IconButton>
-        )}
+        )} */}
         {!isMyTicket && (
           <IconButton
             onClick={handleToggleFollowed}

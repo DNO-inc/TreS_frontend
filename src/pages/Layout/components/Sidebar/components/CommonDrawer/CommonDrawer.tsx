@@ -43,19 +43,19 @@ const CommonDrawer: FC = () => {
     >
       <Toolbar
         sx={{
-          minHeight: "73.5px !important",
+          minHeight: "65.5px !important",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           backgroundColor: palette.grey.sidebar,
           borderBottom: `2px solid ${palette.grey.card}`,
-          mb: 2,
+          mb: 1,
         }}
       >
         <Grid container justifyContent={"space-between"}>
           <Link to={endpoints.generalTickets}>
             <Grid display={"flex"} flexDirection={"row"} alignItems={"center"}>
-              <Avatar alt="Logo" src={Logo} sizes="40" />
+              <Avatar alt="Logo" src={Logo} sx={{ width: 36, height: 36 }} />
               <Typography
                 sx={{
                   ml: 1,

@@ -78,6 +78,37 @@ const GeneralActions: FC<GeneralActionsProps> = ({
           },
         }}
       >
+        <ListItem key={"General tickets"} disablePadding>
+          <NavLink to={endpoints.generalTickets}>
+            <ListItemButton
+              selected={selectedKey === endpoints.generalTickets}
+              onClick={() => handleListItemClick(endpoints.generalTickets)}
+            >
+              <ListItemIcon>
+                {selectedKey === endpoints.generalTickets ? (
+                  <ArticleIcon />
+                ) : (
+                  <ArticleOutlinedIcon />
+                )}
+              </ListItemIcon>
+              <ListItemText primary={t("sidebar.generalTickets")} />
+            </ListItemButton>
+          </NavLink>
+        </ListItem>
+        <ListItem key={"My Tickets"} disablePadding>
+          <ListItemButton disabled={!isAuth} onClick={handleClick}>
+            <ListItemIcon>
+              {open ? <SourceRoundedIcon /> : <SourceOutlinedIcon />}
+            </ListItemIcon>
+            <ListItemText primary={t("sidebar.myTickets.title")} />
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+        </ListItem>
+        <NestedList
+          open={open}
+          selectedKey={selectedKey}
+          handleListItemClick={handleListItemClick}
+        />
         {isAdmin && (
           <ListItem key={"Queue"} disablePadding>
             <NavLink
@@ -101,20 +132,6 @@ const GeneralActions: FC<GeneralActionsProps> = ({
             </NavLink>
           </ListItem>
         )}
-        <ListItem key={"My Tickets"} disablePadding>
-          <ListItemButton disabled={!isAuth} onClick={handleClick}>
-            <ListItemIcon>
-              {open ? <SourceRoundedIcon /> : <SourceOutlinedIcon />}
-            </ListItemIcon>
-            <ListItemText primary={t("sidebar.myTickets.title")} />
-            {open ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-        </ListItem>
-        <NestedList
-          open={open}
-          selectedKey={selectedKey}
-          handleListItemClick={handleListItemClick}
-        />
         <ListItem key={"Notifications"} disablePadding>
           <NavLink
             to={!isAuth ? "" : endpoints.notifications}
@@ -144,23 +161,6 @@ const GeneralActions: FC<GeneralActionsProps> = ({
                   ></Badge>
                 </IconButton>
               )}
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
-        <ListItem key={"General tickets"} disablePadding>
-          <NavLink to={endpoints.generalTickets}>
-            <ListItemButton
-              selected={selectedKey === endpoints.generalTickets}
-              onClick={() => handleListItemClick(endpoints.generalTickets)}
-            >
-              <ListItemIcon>
-                {selectedKey === endpoints.generalTickets ? (
-                  <ArticleIcon />
-                ) : (
-                  <ArticleOutlinedIcon />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={t("sidebar.generalTickets")} />
             </ListItemButton>
           </NavLink>
         </ListItem>

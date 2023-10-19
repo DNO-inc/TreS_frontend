@@ -62,32 +62,34 @@ const baseQueryWithReauth: BaseQueryFn<
 
       if (Date.now() >= expirationTime) {
         localStorage.removeItem("access-token");
+        localStorage.removeItem("user-name");
         localStorage.removeItem("login");
         localStorage.removeItem("faculty-id");
         localStorage.removeItem("user-id");
         localStorage.removeItem("role");
         localStorage.removeItem("refresh-token");
       }
-    }
 
-    const refreshResult = await axios({
-      url: `${endpoints.baseUrl}auth/token/refresh`,
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${refreshToken}`,
-      },
-    });
+      const refreshResult = await axios({
+        url: `${endpoints.baseUrl}auth/token/refresh`,
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      });
 
-    if (refreshResult?.data?.access_token) {
-      localStorage.setItem("access-token", refreshResult.data.access_token);
+      if (refreshResult?.data?.access_token) {
+        localStorage.setItem("access-token", refreshResult.data.access_token);
 
-      result = await baseQuery(args, api, extraOptions);
-    } else {
-      localStorage.removeItem("access-token");
-      localStorage.removeItem("login");
-      localStorage.removeItem("faculty-id");
-      localStorage.removeItem("user-id");
-      localStorage.removeItem("role");
+        result = await baseQuery(args, api, extraOptions);
+      } else {
+        localStorage.removeItem("access-token");
+        localStorage.removeItem("user-name");
+        localStorage.removeItem("login");
+        localStorage.removeItem("faculty-id");
+        localStorage.removeItem("user-id");
+        localStorage.removeItem("role");
+      }
     }
   }
   return result;

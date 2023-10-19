@@ -17,7 +17,7 @@ const ProfileInput: FC<ProfileInputProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const placeholder = "Enter " + t(`profile.editMode.${inputType}`);
+  const placeholder = t(`profile.editMode.${inputType}`);
 
   return (
     <TextField
@@ -27,7 +27,7 @@ const ProfileInput: FC<ProfileInputProps> = ({
       variant="standard"
       fullWidth
       {...register(inputType)}
-      sx={{ width: 160 }}
+      sx={{ maxWidth: 170 }}
     />
   );
 };

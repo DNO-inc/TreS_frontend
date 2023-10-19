@@ -17,9 +17,18 @@
     "comingSoon": "Незабаром...",
     "loading": "Завантаження...",
     "login": "Авторизація",
-    "logout": "Вихід з аккаунту",
+    "signUp": "Реєстрація",
+    "logout": "Вихід",
     "loginInput": "Логін",
     "loginButton": "Увійти",
+    "loginQuestion": "Ще не маєте аккаунту? ",
+    "loginRedirect": "Створити",
+    "signUpQuestion": "Вже маєте аккаунт? ",
+    "signUpButton": "Зареєструватися",
+    "faculty": "Факультет",
+    "selectFaculty": "Оберіть факультет",
+    "group": "Група",
+    "selectGroup": "Оберіть групу",
     "password": "Пароль",
     "createButton": "Створити тікет",
     "profile": "Профіль",
@@ -67,8 +76,7 @@
     "scopes": {
       "reportTitle": "Тікети - скарги",
       "questionTitle": "Тікети - питання",
-      "suggestionTitle": "Тікети - пропозиції",
-      "notSelectedTitle": "Не визначені Тікети"
+      "suggestionTitle": "Тікети - пропозиції"
     },
     "showAll": "Показати всі"
   },
@@ -102,7 +110,14 @@
     "email": "Пошта",
     "faculty": "Факультет",
     "group": "Група",
-    "phone": "Телефон"
+    "phone": "Телефон",
+    "editMode": {
+      "firstname": "Введіть ім'я",
+      "lastname": "Введіть прізвище",
+      "login": "Введіть логін",
+      "email": "Введіть пошту",
+      "phone": "Введіть телефон"
+    }
   },
   "fullTicket": {
     "additionalInfo": "Додаткова інформація",
@@ -120,7 +135,7 @@
       "faculty": "факультет",
       "queue": "чергу",
       "editMessage": "Редагування повідомлення",
-      "send": "вдправити",
+      "send": "відправити",
       "edit": "редагувати"
     },
     "dialog": {
