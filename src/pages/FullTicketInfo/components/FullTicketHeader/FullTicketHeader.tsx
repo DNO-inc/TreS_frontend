@@ -139,10 +139,6 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
     adminDelete({ body: JSON.stringify({ ticket_id: ticketId }) });
 
     navigate(-1);
-
-    setTimeout(() => {
-      window.location.reload();
-    }, 3000);
   };
 
   return (
@@ -152,15 +148,17 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
         sx={{
           alignItems: "start",
           justifyContent: "space-between",
+          gap: 1,
+          flexWrap: { xs: "wrap", md: "nowrap" },
         }}
       >
         <Typography
           variant="h1"
           component="div"
           sx={{
-            maxWidth: "80%",
+            // maxWidth: { xs: "100%", md: "65%" },
             "& > .MuiTypography-root": {
-              fontSize: 36,
+              fontSize: { xs: 24, md: 28 },
             },
           }}
         >
@@ -254,7 +252,8 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
       <Box
         sx={{
           display: "flex",
-          gap: 1,
+          gap: 2,
+          flexWrap: "wrap",
           justifyContent: "space-between",
           alignItems: "center",
         }}

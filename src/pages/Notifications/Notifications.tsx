@@ -33,12 +33,14 @@ const Notifications: FC = () => {
           display: "flex",
           flexDirection: "column",
           gap: 1,
-          pt: 12,
+          pt: "80px !important",
           width: "100%",
         }}
       >
         {notifications.length ? (
           notifications.map((notification, index) => {
+            const count = notification?.count;
+
             return (
               <Link
                 to={`${endpoints.fullTicket}/${notification.ticket_id}`}
@@ -57,23 +59,24 @@ const Notifications: FC = () => {
                     borderRadius: 1,
                   }}
                 >
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <ChatIcon />
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    <ChatIcon sx={{ mt: 0.3 }} />
                     {i18n.language === "en"
                       ? notification.body
                       : notification.body_ua}
                   </Box>
-
-                  <Badge
-                    badgeContent={notification?.count ?? 0}
-                    sx={{
-                      mr: 3,
-                      "& > span": {
-                        color: "white",
-                        bgcolor: palette.grey.active,
-                      },
-                    }}
-                  ></Badge>
+                  {count && count > 0 && (
+                    <Badge
+                      badgeContent={count}
+                      sx={{
+                        mr: 1.3,
+                        "& > span": {
+                          color: "white",
+                          bgcolor: palette.grey.active,
+                        },
+                      }}
+                    ></Badge>
+                  )}
                 </Box>
               </Link>
             );

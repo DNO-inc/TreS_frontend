@@ -1,6 +1,8 @@
 import jwtDecode from "jwt-decode";
 import { IJwtDecodeData } from "../../store/api/useBaseQuery";
 
+export const getUserName = () => localStorage.getItem("user-name");
+
 export const getUserLogin = () => localStorage.getItem("login");
 
 export const getUserId = () => Number(localStorage.getItem("user-id"));

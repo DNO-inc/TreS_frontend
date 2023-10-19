@@ -43,10 +43,13 @@ const FullTicketAdditionInfo: FC<FullTicketAdditionInfoProps> = ({
         sx={{
           gap: 1,
           "& > .MuiGrid-root": {
-            flexBasis: "calc((100% - 16px) / 3)",
+            flexBasis: { xs: "100%", sm: "calc((100% - 16px) / 3)" },
             p: 2,
+            gap: 1,
             display: "flex",
             justifyContent: "space-between",
+            alignItems: { xs: "center", lg: "" },
+            flexDirection: { xs: "row", sm: "column", lg: "row" },
             bgcolor: palette.grey.card,
             borderRadius: 1,
             "& > *": {

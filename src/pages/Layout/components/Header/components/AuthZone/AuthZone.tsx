@@ -15,7 +15,6 @@ const AuthZone: FC = () => {
         display: "flex",
         alignItems: "center",
         gap: 3,
-        padding: { xs: 0, md: "8px 16px" },
       }}
     >
       {isAuth ? <AuthActions /> : <NoAuthActions />}

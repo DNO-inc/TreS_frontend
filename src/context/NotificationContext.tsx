@@ -44,6 +44,7 @@ const wsUrl = import.meta.env.VITE_WS_URL;
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const [notifications, setNotifications] = useState<INotification[]>([]);
   const [ws, setWs] = useState<WebSocket | null>(null);
+  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
 
   const { isAuth } = useAuth();
 
@@ -109,7 +110,12 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         if (!newWs) return;
         if (newWs.readyState !== 1) return;
         newWs.send("PING");
-        setTimeout(ping, 55000);
+        if (isFirstLoad) {
+          setTimeout(ping, 25000);
+          setIsFirstLoad(false);
+        } else {
+          setTimeout(ping, 60000);
+        }
       }
 
       const openConnection = () => {

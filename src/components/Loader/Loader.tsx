@@ -15,7 +15,7 @@ const Loader: FC<LoaderProps> = ({ size = "large" }) => {
     <Grid
       container
       sx={{
-        height: size === "small" ? "none" : "calc(100vh - 200px)",
+        height: size === "small" ? "none" : "calc(80vh - 200px)",
         width: "100%",
         alignItems: "center",
         justifyContent: "center",

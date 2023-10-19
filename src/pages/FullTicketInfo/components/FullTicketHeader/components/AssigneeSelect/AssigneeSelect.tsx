@@ -105,6 +105,7 @@ const AssigneeSelect: FC<AssigneeSelectProps> = ({
     <Box>
       <FormControl
         fullWidth
+        size="small"
         sx={{
           bgcolor: palette.grey.card,
           minWidth: "180px",

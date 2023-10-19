@@ -99,23 +99,16 @@ const GeneralTickets: FC = () => {
   }, [requestBody, ticketsPerRow]);
 
   useEffect(() => {
-    setTicketsPerRow(prevRowsCount => {
-      const newCount = Math.round(width / 600);
-      if (prevRowsCount === newCount) return prevRowsCount;
-
-      return newCount;
-    });
+    setTicketsPerRow(Math.round(width / 600));
   }, [width]);
 
   return (
     <Grid container flexDirection={"column"}>
       <Box>
-        <Typography variant="h1" sx={{ mb: 2 }}>
-          {t("generalTickets.heading")}
-        </Typography>
+        <Typography variant="h1">{t("generalTickets.heading")}</Typography>
         <FilterPanel />
       </Box>
-      <Box sx={{ pt: 20 }}>
+      <Box>
         {isLoading && <Loader />}
         {isTicketsSuccess &&
           (tickets.length ? (

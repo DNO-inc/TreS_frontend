@@ -15,6 +15,9 @@ export const api = createApi({
     getFaculties: builder.query({
       query: () => "/meta/get_faculties",
     }),
+    getGroups: builder.query({
+      query: () => "/meta/get_groups",
+    }),
     getStatuses: builder.query({
       query: () => "/meta/get_statuses",
     }),
@@ -31,6 +34,13 @@ export const api = createApi({
         body,
       }),
     }),
+    registration: builder.mutation({
+      query: ({ body }) => ({
+        url: "/registration/",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -39,6 +49,8 @@ export const {
   useGetUpdatesQuery,
   useGetAdminsMutation,
   useGetFacultiesQuery,
+  useGetGroupsQuery,
   useGetStatusesQuery,
   useGetQueueByFacultyMutation,
+  useRegistrationMutation,
 } = api;

@@ -17,9 +17,18 @@
     "comingSoon": "Coming Soon...",
     "loading": "Loading...",
     "login": "Log in",
+    "signUp": "Sign up",
     "logout": "Log out",
     "loginInput": "Login",
     "loginButton": "Log in",
+    "loginQuestion": "Don't have an account? ",
+    "loginRedirect": "Create one",
+    "signUpQuestion": "Already have an account? ",
+    "signUpButton": "Sign up",
+    "faculty": "Faculty",
+    "selectFaculty": "Select faculty",
+    "group": "Group",
+    "selectGroup": "Select group",
     "password": "Password",
     "createButton": "Create ticket",
     "profile": "Profile",
@@ -67,8 +76,7 @@
     "scopes": {
       "reportTitle": "Report Tickets",
       "questionTitle": "Question Tickets",
-      "suggestionTitle": "Suggestion Tickets",
-      "notSelectedTitle": "Not selected Tickets"
+      "suggestionTitle": "Suggestion Tickets"
     },
     "showAll": "Show all"
   },
@@ -102,7 +110,14 @@
     "email": "Email",
     "faculty": "Faculty",
     "group": "Group",
-    "phone": "Phone"
+    "phone": "Phone",
+    "editMode": {
+      "firstname": "Enter firstname",
+      "lastname": "Enter lastname",
+      "login": "Enter login",
+      "email": "Enter email",
+      "phone": "Enter phone"
+    }
   },
   "fullTicket": {
     "additionalInfo": "Additional Information",

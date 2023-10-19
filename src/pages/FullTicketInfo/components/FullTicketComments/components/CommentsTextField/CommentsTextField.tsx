@@ -20,6 +20,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import useTheme from "@mui/material/styles/useTheme";
 import TextField from "@mui/material/TextField";
+import { useMediaQuery } from "@mui/material";
 
 import SendIcon from "@mui/icons-material/Send";
 import CheckIcon from "@mui/icons-material/Check";
@@ -74,6 +75,7 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
   setRepliedComment,
 }) => {
   const { t } = useTranslation();
+  const matches = useMediaQuery("(min-width: 600px)");
 
   const { palette }: IPalette = useTheme();
 
@@ -107,6 +109,10 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
   };
 
   useEffect(() => {
+    if (!editedComment) {
+      setComment("");
+    }
+
     editedComment?.body && setComment(editedComment.body);
   }, [editedComment]);
 
@@ -121,7 +127,7 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
     <Box
       sx={{
         display: "flex",
-        alignItems: "flex-end",
+        alignItems: "flex-start",
         gap: 2,
         width: "100%",
         mt: 2,
@@ -130,7 +136,7 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
       <TextField
         fullWidth
         multiline
-        maxRows={4}
+        maxRows={3}
         value={comment}
         onChange={e => setComment(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -159,9 +165,9 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
         variant="contained"
         color="inherit"
         startIcon={editedComment ? <CheckIcon /> : <SendIcon />}
-        sx={{ pr: 4, pl: 4, height: 47 }}
+        sx={{ pr: { xs: 2, sm: 4 }, pl: 4, height: 47 }}
       >
-        {t(`fullTicket.comments.${editedComment ? "edit" : "send"}`)}
+        {matches && t(`fullTicket.comments.${editedComment ? "edit" : "send"}`)}
       </Button>
     </Box>
   );
