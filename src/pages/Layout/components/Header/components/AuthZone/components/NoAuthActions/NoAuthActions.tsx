@@ -35,7 +35,7 @@ const NoAuthActions: FC = () => {
           onClick={handleSignUn}
           sx={{ minWidth: "42%" }}
         >
-          {t("common.signUp")}
+          {t("signUp.header")}
         </Button>
       </Box>
       <LogInModal
