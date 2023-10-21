@@ -11,7 +11,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { Loader } from "../../../../components/Loader";
 
 import { useGetFacultiesQuery } from "../../../../store/api/api";
-import { InputLabel, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import IPalette from "../../../../theme/IPalette.interface";
 
 interface FacultySelectProps {
@@ -42,18 +42,10 @@ const FacultySelect: FC<FacultySelectProps> = ({
 
   return (
     <Box sx={{ width: "100%" }}>
-      <FormControl
-        required
-        error={isError}
-        fullWidth
-        sx={{ "& .MuiSelect-select": { p: "12px 32px 12px 14px" } }}
-      >
+      <FormControl required error={isError} fullWidth size="small">
         {isLoading && <Loader size="small" />}
         {isSuccess && (
           <>
-            <InputLabel htmlFor="faculty-select-label">
-              {t("common.faculty")}
-            </InputLabel>
             <Select
               labelId="faculty-select-label"
               id="faculty-select"
@@ -69,7 +61,7 @@ const FacultySelect: FC<FacultySelectProps> = ({
             >
               <MenuItem value={"-1"} disabled>
                 <ListItemText
-                  primary={t("common.selectFaculty")}
+                  primary={t("common.selectFaculty") + " *"}
                   primaryTypographyProps={{
                     style: { color: palette.whiteAlpha.default },
                   }}

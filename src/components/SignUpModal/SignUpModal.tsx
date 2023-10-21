@@ -7,20 +7,23 @@ import {
   useEffect,
 } from "react";
 import { useTranslation } from "react-i18next";
+import ReCAPTCHA from "react-google-recaptcha";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
 
 import useTheme from "@mui/material/styles/useTheme";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 
 import { FacultySelect } from "./components/FacultySelect";
 
 import IPalette from "../../theme/IPalette.interface";
 import { useRegistrationMutation } from "../../store/api/api";
-import { GroupSelect } from "./components/GroupSelect";
+import { useAuth } from "../../context/AuthContext";
+import { SignUpTextField } from "./components/SignUpTextField";
 
 interface SignUpModalProps {
   open: boolean;
@@ -28,17 +31,26 @@ interface SignUpModalProps {
   handleLogIn: () => void;
 }
 
+type ApiResponse = {
+  data?: object;
+  error?: FetchBaseQueryError | SerializedError;
+};
+
 const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
   const matches = useMediaQuery("(max-width: 500px)");
 
+  const { loginUser } = useAuth();
+
   const [registration, { isError }] = useRegistrationMutation();
 
+  const [firstname, setFirstname] = useState<string>("");
+  const [lastname, setLastname] = useState<string>("");
   const [login, setLogin] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [faculty, setFaculty] = useState<number | null>(null);
-  const [group, setGroup] = useState<number | null>(null);
+  const [isCaptchaDone, setIsCaptchaDone] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
 
   const handleClose = (): void => setOpen(false);
@@ -48,12 +60,42 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
     handleLogIn();
   };
 
-  const handleSubmit = (event: FormEvent): void => {
+  const handleSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
 
-    console.log(faculty, group);
+    const response: ApiResponse = await registration({
+      body: JSON.stringify({ firstname, lastname, login, password, faculty }),
+    });
 
-    registration({ body: JSON.stringify({ login, password, faculty, group }) });
+    if (response.data) {
+      loginUser({ login, password });
+
+      setOpen(false);
+    } else {
+      setHasError(true);
+      setTimeout(() => setHasError(false), 2000);
+    }
+  };
+
+  const handleChange = async (token: string) => {
+    const secret = import.meta.env.VITE_SECRET_CAPTCHA_KEY;
+
+    try {
+      const response = await fetch(
+        `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`,
+        { method: "POST" }
+      );
+
+      const data = await response.json();
+
+      console.log("racptcha data", data.success);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      if (token) {
+        setIsCaptchaDone(true);
+      }
+    }
   };
 
   useEffect(() => {
@@ -80,7 +122,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
             transform: "translate(-50%, -50%)",
             justifyContent: "center",
             borderRadius: 4,
-            gap: matches ? 3 : 4,
+            gap: matches ? 2 : 3,
             width: matches ? "90vw" : 450,
             bgcolor: palette.grey.border,
             border: `2px solid ${palette.grey.active}`,
@@ -88,36 +130,59 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
           }}
         >
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {t("common.signUp")}
+            {t("signUp.header")}
           </Typography>
-          <TextField
-            label={t("common.loginInput")}
-            value={login}
-            onChange={event => setLogin(event.target.value)}
-            error={hasError}
-            required
-            fullWidth
+          <SignUpTextField
+            type={"firstname"}
+            value={firstname}
+            setValue={setFirstname}
+            hasError={hasError}
           />
-          <TextField
-            label={t("common.password")}
-            type="password"
+          <SignUpTextField
+            type={"lastname"}
+            value={lastname}
+            setValue={setLastname}
+            hasError={hasError}
+          />
+          <SignUpTextField
+            type={"login"}
+            value={login}
+            setValue={setLogin}
+            hasError={hasError}
+          />
+          <SignUpTextField
+            type={"password"}
             value={password}
-            onChange={event => setPassword(event.target.value)}
-            error={hasError}
-            required
-            fullWidth
+            setValue={setPassword}
+            hasError={hasError}
           />
           <FacultySelect
             faculty={faculty}
             setFaculty={setFaculty}
             isError={hasError}
           />
-          <GroupSelect group={group} setGroup={setGroup} isError={hasError} />
-          <Button variant="contained" color="primary" type="submit">
-            {t("common.signUpButton")}
+          <Box
+            sx={{
+              transform: matches ? "scale(0.80)" : "scale(0.9)",
+              filter: "brightness(1.1)",
+            }}
+          >
+            <ReCAPTCHA
+              theme="dark"
+              sitekey={import.meta.env.VITE_PUBLIC_CAPTCHA_KEY}
+              onChange={handleChange}
+            />
+          </Box>
+          <Button
+            disabled={!faculty || !login || !password || !isCaptchaDone}
+            variant="contained"
+            color="primary"
+            type="submit"
+          >
+            {t("signUp.button")}
           </Button>
-          <Typography fontSize={14}>
-            {t("common.signUpQuestion")}
+          <Typography fontSize={14} sx={{ width: "100%", textAlign: "center" }}>
+            {t("signUp.question")}
             <span
               onClick={handleOpenLogInModal}
               style={{

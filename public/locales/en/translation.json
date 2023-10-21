@@ -17,14 +17,11 @@
     "comingSoon": "Coming Soon...",
     "loading": "Loading...",
     "login": "Log in",
-    "signUp": "Sign up",
     "logout": "Log out",
     "loginInput": "Login",
     "loginButton": "Log in",
     "loginQuestion": "Don't have an account? ",
     "loginRedirect": "Create one",
-    "signUpQuestion": "Already have an account? ",
-    "signUpButton": "Sign up",
     "faculty": "Faculty",
     "selectFaculty": "Select faculty",
     "group": "Group",
@@ -40,6 +37,15 @@
       "suggestion": "Suggestion ticket",
       "question": "Question ticket"
     }
+  },
+  "signUp": {
+    "header": "Sign up",
+    "question": "Already have an account? ",
+    "button": "Sign up",
+    "firstnameInput": "Name",
+    "lastnameInput": "Surname",
+    "loginInput": "Login",
+    "passwordInput": "Password"
   },
   "nicks": {
     "unknown": "Unknown",
