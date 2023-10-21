@@ -17,14 +17,11 @@
     "comingSoon": "Незабаром...",
     "loading": "Завантаження...",
     "login": "Авторизація",
-    "signUp": "Реєстрація",
     "logout": "Вихід",
     "loginInput": "Логін",
     "loginButton": "Увійти",
     "loginQuestion": "Ще не маєте аккаунту? ",
     "loginRedirect": "Створити",
-    "signUpQuestion": "Вже маєте аккаунт? ",
-    "signUpButton": "Зареєструватися",
     "faculty": "Факультет",
     "selectFaculty": "Оберіть факультет",
     "group": "Група",
@@ -40,6 +37,15 @@
       "suggestion": "Тікет - пропозиція",
       "question": "Тікет - питання"
     }
+  },
+  "signUp": {
+    "header": "Реєстрація",
+    "question": "Вже маєте аккаунт? ",
+    "button": "Зареєструватися",
+    "firstnameInput": "Ім'я",
+    "lastnameInput": "Прізвище",
+    "loginInput": "Логін",
+    "passwordInput": "Пароль"
   },
   "nicks": {
     "unknown": "Невідомий",
