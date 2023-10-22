@@ -54,7 +54,9 @@
     "passwordInput": "Password",
     "confirmPasswordInput": "Confirm password",
     "secretKey": "Secret key",
+    "invalidKey": "Invalid key",
     "back": "back",
+    "reset": "reset",
     "next": "next",
     "finish": "finish"
   },

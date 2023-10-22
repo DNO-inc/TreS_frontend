@@ -54,7 +54,9 @@
     "passwordInput": "Пароль",
     "confirmPasswordInput": "Підтвердьте пароль",
     "secretKey": "Таємноий ключ",
+    "invalidKey": "Недійсний ключ",
     "back": "назад",
+    "reset": "скинути",
     "next": "далі",
     "finish": "зареєструватися"
   },

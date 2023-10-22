@@ -21,11 +21,10 @@ import { useMediaQuery } from "@mui/material";
 
 import { PersonalInfoStep } from "./components/PersonalInfoStep";
 
-import { useRegistrationMutation } from "../../store/api/api";
-import { useAuth } from "../../context/AuthContext";
 import { AccountDetailStep } from "./components/AccountDetailStep";
 import { VerificationStep } from "./components/VerificationStep";
 import { Actions } from "./components/Actions";
+import { useRegistrationMutation } from "../../store/api/registration/registration.api";
 
 interface SignUpModalProps {
   open: boolean;
@@ -49,8 +48,6 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
     t("signUp.thirdStep"),
   ];
 
-  const { loginUser } = useAuth();
-
   const [registration, { isError }] = useRegistrationMutation();
 
   const [firstname, setFirstname] = useState<string>("");
@@ -60,12 +57,11 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmedPassword, setConfirmedPassword] = useState<string>("");
-  const [isVerified, setIsVerified] = useState<boolean>(false);
+  const [secretKey, setSecretKey] = useState<string>("");
   const [hasError, setHasError] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState(0);
 
   const handleClear = (): void => {
-    setOpen(false);
     setActiveStep(0);
     setFirstname("");
     setLastname("");
@@ -74,7 +70,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
     setEmail("");
     setPassword("");
     setConfirmedPassword("");
-    setIsVerified(false);
+    setSecretKey("");
     setHasError(false);
   };
 
@@ -88,6 +84,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
 
   const handleSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
+    debugger;
 
     const response: ApiResponse = await registration({
       body: JSON.stringify({
@@ -101,9 +98,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
     });
 
     if (response.data) {
-      loginUser({ login, password });
-
-      handleClear();
+      setActiveStep(prevActiveStep => prevActiveStep + 1);
     } else {
       setHasError(true);
       setTimeout(() => setHasError(false), 2000);
@@ -193,8 +188,8 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
               {activeStep === 2 && (
                 <VerificationStep
                   email={email}
-                  isVerified={isVerified}
-                  setIsVerified={setIsVerified}
+                  secretKey={secretKey}
+                  setSecretKey={setSecretKey}
                   isError={hasError}
                 />
               )}
@@ -207,10 +202,13 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
               email={email}
               password={password}
               confirmedPassword={confirmedPassword}
-              isVerified={isVerified}
+              secretKey={secretKey}
               steps={steps}
               activeStep={activeStep}
               setActiveStep={setActiveStep}
+              handleClear={handleClear}
+              setHasError={setHasError}
+              handleClose={handleClose}
             />
           </Box>
           <Typography
