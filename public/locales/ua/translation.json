@@ -40,12 +40,23 @@
   },
   "signUp": {
     "header": "Реєстрація",
+    "firstStep": "Особисті дані",
+    "secondStep": "Деталі аккаунту",
+    "thirdStep": "Верифікація",
+    "verificationDetails": "На Вашу електронну адресу надіслано код підтвердження. Введіть цей код у поле нижче.",
     "question": "Вже маєте аккаунт? ",
     "button": "Зареєструватися",
     "firstnameInput": "Ім'я",
     "lastnameInput": "Прізвище",
+    "facultySelect": "Факультет",
     "loginInput": "Логін",
-    "passwordInput": "Пароль"
+    "emailInput": "Електронна пошта",
+    "passwordInput": "Пароль",
+    "confirmPasswordInput": "Підтвердьте пароль",
+    "secretKey": "Таємноий ключ",
+    "back": "назад",
+    "next": "далі",
+    "finish": "зареєструватися"
   },
   "nicks": {
     "unknown": "Невідомий",
