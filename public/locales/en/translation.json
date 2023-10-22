@@ -40,12 +40,23 @@
   },
   "signUp": {
     "header": "Sign up",
+    "firstStep": "Personal info",
+    "secondStep": "Account detail",
+    "thirdStep": "Verification",
+    "verificationDetails": "A confirmation code has been sent to your email. Enter this code in the field below.",
     "question": "Already have an account? ",
     "button": "Sign up",
     "firstnameInput": "Name",
     "lastnameInput": "Surname",
+    "facultySelect": "Faculty",
     "loginInput": "Login",
-    "passwordInput": "Password"
+    "emailInput": "Email",
+    "passwordInput": "Password",
+    "confirmPasswordInput": "Confirm password",
+    "secretKey": "Secret key",
+    "back": "back",
+    "next": "next",
+    "finish": "finish"
   },
   "nicks": {
     "unknown": "Unknown",

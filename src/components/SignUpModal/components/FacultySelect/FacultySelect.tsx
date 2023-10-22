@@ -61,7 +61,7 @@ const FacultySelect: FC<FacultySelectProps> = ({
             >
               <MenuItem value={"-1"} disabled>
                 <ListItemText
-                  primary={t("common.selectFaculty") + " *"}
+                  primary={t("signUp.facultySelect") + " *"}
                   primaryTypographyProps={{
                     style: { color: palette.whiteAlpha.default },
                   }}
