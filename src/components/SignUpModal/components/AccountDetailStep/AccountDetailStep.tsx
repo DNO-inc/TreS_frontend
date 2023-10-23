@@ -15,6 +15,7 @@ interface AccountDetailStepProps {
   email: string;
   setEmail: Dispatch<SetStateAction<string>>;
   isError: boolean;
+  errorMessage: string;
 }
 
 const AccountDetailStep: FC<AccountDetailStepProps> = ({
@@ -26,7 +27,7 @@ const AccountDetailStep: FC<AccountDetailStepProps> = ({
   setConfirmedPassword,
   email,
   setEmail,
-  isError,
+  errorMessage,
 }) => {
   const { t } = useTranslation();
 
@@ -38,19 +39,16 @@ const AccountDetailStep: FC<AccountDetailStepProps> = ({
         type={"login"}
         value={login}
         setValue={setLogin}
-        hasError={isError}
+        hasError={errorMessage.includes("login")}
+        helperText={errorMessage.includes("login") ? errorMessage : ""}
       />
-      <SignUpTextField
-        type={"email"}
-        value={email}
-        setValue={setEmail}
-        hasError={isError}
-      />
+      <SignUpTextField type={"email"} value={email} setValue={setEmail} />
       <SignUpTextField
         type={"password"}
         value={password}
         setValue={setPassword}
-        hasError={isError}
+        hasError={errorMessage.includes("password")}
+        helperText={errorMessage.includes("password") ? errorMessage : ""}
       />
       <TextField
         size="small"
