@@ -7,8 +7,6 @@ import {
   useEffect,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
-import { SerializedError } from "@reduxjs/toolkit";
 
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
@@ -34,7 +32,7 @@ interface SignUpModalProps {
 
 type ApiResponse = {
   data?: object;
-  error?: FetchBaseQueryError | SerializedError;
+  error?: any;
 };
 
 const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
@@ -60,6 +58,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
   const [secretKey, setSecretKey] = useState<string>("");
   const [hasError, setHasError] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleClear = (): void => {
     setActiveStep(0);
@@ -84,7 +83,6 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
 
   const handleSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
-    debugger;
 
     const response: ApiResponse = await registration({
       body: JSON.stringify({
@@ -100,8 +98,9 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
     if (response.data) {
       setActiveStep(prevActiveStep => prevActiveStep + 1);
     } else {
+      response?.error?.data && setErrorMessage(response.error.data.detail);
       setHasError(true);
-      setTimeout(() => setHasError(false), 2000);
+      setTimeout(() => setHasError(false), 4000);
     }
   };
 
@@ -159,7 +158,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
             }}
           >
             <Box
-              sx={{ display: "flex", flexDirection: "column", gap: 3, mb: 4 }}
+              sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 4 }}
             >
               {activeStep === 0 && (
                 <PersonalInfoStep
@@ -183,6 +182,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
                   confirmedPassword={confirmedPassword}
                   setConfirmedPassword={setConfirmedPassword}
                   isError={hasError}
+                  errorMessage={errorMessage}
                 />
               )}
               {activeStep === 2 && (

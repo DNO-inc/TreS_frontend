@@ -41,7 +41,7 @@ const Actions: FC<ActionsProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { loginUser } = useAuth();
+  const { registerUser } = useAuth();
   const [emailVerification] = useEmailVerificationMutation();
 
   const handleNext = () => {
@@ -63,7 +63,7 @@ const Actions: FC<ActionsProps> = ({
     });
 
     if (verificationResponse.data) {
-      loginUser({ login, password });
+      registerUser(verificationResponse.data);
 
       handleClose();
       handleClear();

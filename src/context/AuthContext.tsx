@@ -28,6 +28,7 @@ interface AuthContextProps {
   authToken: string | null;
   loginUser: ({ login, password }: loginProps) => Promise<boolean>;
   logoutUser: () => void;
+  registerUser: (loginInfo: ILoginInfo) => Promise<boolean>;
 }
 
 interface loginProps {
@@ -173,6 +174,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return false;
   };
 
+  const registerUser = async (loginInfo: ILoginInfo) => {
+    if (loginInfo) {
+      _getUser(loginInfo);
+
+      return true;
+    }
+
+    return false;
+  };
+
   const logoutUser = () => {
     setAuthToken(null);
     // setUser(null)
@@ -195,6 +206,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     authToken,
     loginUser,
     logoutUser,
+    registerUser,
   };
 
   useEffect(() => {

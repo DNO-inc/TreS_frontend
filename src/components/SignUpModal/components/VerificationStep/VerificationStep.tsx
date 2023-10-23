@@ -36,7 +36,6 @@ const VerificationStep: FC<VerificationStepProps> = ({
         fullWidth
         error={isError}
         helperText={isError ? t("signUp.invalidKey") : " "}
-        type="password"
         sx={{
           mb: 1,
           "& .MuiFormLabel-root": {
