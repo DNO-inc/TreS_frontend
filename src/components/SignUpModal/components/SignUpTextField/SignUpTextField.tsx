@@ -7,13 +7,15 @@ interface SignUpTextFieldProps {
   type: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
-  hasError: boolean;
+  hasError?: boolean;
+  helperText?: string;
 }
 const SignUpTextField: FC<SignUpTextFieldProps> = ({
   type,
   value,
   setValue,
   hasError,
+  helperText,
 }) => {
   const { t } = useTranslation();
 
@@ -28,6 +30,7 @@ const SignUpTextField: FC<SignUpTextFieldProps> = ({
       autoComplete={`new-${type}`}
       fullWidth
       type={type}
+      helperText={helperText || " "}
       sx={{
         "& .MuiFormLabel-root": {
           top: 4,

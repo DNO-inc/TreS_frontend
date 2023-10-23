@@ -7,8 +7,6 @@ import {
   useEffect,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
-import { SerializedError } from "@reduxjs/toolkit";
 
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
@@ -21,11 +19,10 @@ import { useMediaQuery } from "@mui/material";
 
 import { PersonalInfoStep } from "./components/PersonalInfoStep";
 
-import { useRegistrationMutation } from "../../store/api/api";
-import { useAuth } from "../../context/AuthContext";
 import { AccountDetailStep } from "./components/AccountDetailStep";
 import { VerificationStep } from "./components/VerificationStep";
 import { Actions } from "./components/Actions";
+import { useRegistrationMutation } from "../../store/api/registration/registration.api";
 
 interface SignUpModalProps {
   open: boolean;
@@ -35,7 +32,7 @@ interface SignUpModalProps {
 
 type ApiResponse = {
   data?: object;
-  error?: FetchBaseQueryError | SerializedError;
+  error?: any;
 };
 
 const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
@@ -49,8 +46,6 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
     t("signUp.thirdStep"),
   ];
 
-  const { loginUser } = useAuth();
-
   const [registration, { isError }] = useRegistrationMutation();
 
   const [firstname, setFirstname] = useState<string>("");
@@ -60,12 +55,12 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmedPassword, setConfirmedPassword] = useState<string>("");
-  const [isVerified, setIsVerified] = useState<boolean>(false);
+  const [secretKey, setSecretKey] = useState<string>("");
   const [hasError, setHasError] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleClear = (): void => {
-    setOpen(false);
     setActiveStep(0);
     setFirstname("");
     setLastname("");
@@ -74,7 +69,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
     setEmail("");
     setPassword("");
     setConfirmedPassword("");
-    setIsVerified(false);
+    setSecretKey("");
     setHasError(false);
   };
 
@@ -101,12 +96,11 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
     });
 
     if (response.data) {
-      loginUser({ login, password });
-
-      handleClear();
+      setActiveStep(prevActiveStep => prevActiveStep + 1);
     } else {
+      response?.error?.data && setErrorMessage(response.error.data.detail);
       setHasError(true);
-      setTimeout(() => setHasError(false), 2000);
+      setTimeout(() => setHasError(false), 4000);
     }
   };
 
@@ -164,7 +158,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
             }}
           >
             <Box
-              sx={{ display: "flex", flexDirection: "column", gap: 3, mb: 4 }}
+              sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 4 }}
             >
               {activeStep === 0 && (
                 <PersonalInfoStep
@@ -188,13 +182,14 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
                   confirmedPassword={confirmedPassword}
                   setConfirmedPassword={setConfirmedPassword}
                   isError={hasError}
+                  errorMessage={errorMessage}
                 />
               )}
               {activeStep === 2 && (
                 <VerificationStep
                   email={email}
-                  isVerified={isVerified}
-                  setIsVerified={setIsVerified}
+                  secretKey={secretKey}
+                  setSecretKey={setSecretKey}
                   isError={hasError}
                 />
               )}
@@ -207,10 +202,13 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
               email={email}
               password={password}
               confirmedPassword={confirmedPassword}
-              isVerified={isVerified}
+              secretKey={secretKey}
               steps={steps}
               activeStep={activeStep}
               setActiveStep={setActiveStep}
+              handleClear={handleClear}
+              setHasError={setHasError}
+              handleClose={handleClose}
             />
           </Box>
           <Typography

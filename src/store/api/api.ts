@@ -34,13 +34,6 @@ export const api = createApi({
         body,
       }),
     }),
-    registration: builder.mutation({
-      query: ({ body }) => ({
-        url: "/registration/",
-        method: "POST",
-        body,
-      }),
-    }),
   }),
 });
 
@@ -52,5 +45,4 @@ export const {
   useGetGroupsQuery,
   useGetStatusesQuery,
   useGetQueueByFacultyMutation,
-  useRegistrationMutation,
 } = api;
