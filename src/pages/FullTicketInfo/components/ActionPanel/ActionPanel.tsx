@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
+// import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
@@ -14,7 +14,6 @@ import StarIcon from "@mui/icons-material/Star";
 import { VerticalDivider } from "../../../../components/VerticalDivider";
 
 import IPalette from "../../../../theme/IPalette.interface";
-import { checkIsAdmin } from "../../../../shared/functions";
 
 interface ActionPanelProps {
   isMyTicket: boolean;
@@ -33,13 +32,11 @@ const ActionPanel: FC<ActionPanelProps> = ({
   isLiked,
   isFollowed,
   upvotes,
-  handleToggleReported,
+  // handleToggleReported,
   handleToggleLike,
   handleToggleFollowed,
 }) => {
   const { palette }: IPalette = useTheme();
-
-  const isAdmin = checkIsAdmin();
 
   return (
     <Box
@@ -57,14 +54,14 @@ const ActionPanel: FC<ActionPanelProps> = ({
         transform: "translateX(-50%)",
       }}
     >
-      {isAdmin && (
+      {/* {isAdmin && (
         <>
           <IconButton onClick={handleToggleReported}>
             <DoNotDisturbAltOutlinedIcon />
           </IconButton>
           <VerticalDivider />
         </>
-      )}
+      )} */}
       {!isMyTicket && (
         <>
           <IconButton onClick={handleToggleFollowed}>

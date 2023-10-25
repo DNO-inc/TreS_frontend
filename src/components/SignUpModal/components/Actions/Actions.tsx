@@ -59,7 +59,7 @@ const Actions: FC<ActionsProps> = ({
 
   const handleVerify = async () => {
     const verificationResponse: any = await emailVerification({
-      body: JSON.stringify({ email_code: secretKey }),
+      body: JSON.stringify({ email_code: secretKey, email: email }),
     });
 
     if (verificationResponse.data) {

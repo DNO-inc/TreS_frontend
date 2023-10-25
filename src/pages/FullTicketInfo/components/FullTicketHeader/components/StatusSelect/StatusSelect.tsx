@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Dispatch, SetStateAction } from "react";
 
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
@@ -10,28 +10,49 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { Loader } from "../../../../../../components/Loader";
 
-import { useGetStatusesQuery } from "../../../../../../store/api/api";
 import IPalette from "../../../../../../theme/IPalette.interface";
+import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
+import {
+  BaseQueryFn,
+  FetchBaseQueryError,
+  QueryDefinition,
+} from "@reduxjs/toolkit/query";
+import { FetchArgs } from "@reduxjs/toolkit/query";
 
 interface StatusSelectProps {
-  status: number;
-  setStatus: (faculty: number) => void;
+  status: IStatus;
+  setStatus: Dispatch<SetStateAction<IStatus>>;
+  statusesQuery: UseQueryHookResult<
+    QueryDefinition<
+      any,
+      BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>,
+      never,
+      any,
+      "api"
+    >
+  >;
 }
 
-interface status {
+interface IStatus {
   status_id: number;
   name: string;
 }
 
-const StatusSelect: FC<StatusSelectProps> = ({ status, setStatus }) => {
+const StatusSelect: FC<StatusSelectProps> = ({
+  status,
+  setStatus,
+  statusesQuery,
+}) => {
   const { palette }: IPalette = useTheme();
-
-  const { data, isLoading, isSuccess } = useGetStatusesQuery({});
 
   const handleChange = (event: SelectChangeEvent): void => {
     const selectedStatus: number = parseInt(event.target.value);
 
-    setStatus(selectedStatus);
+    setStatus(
+      statusesQuery.data.statuses_list.filter(
+        status => status.status_id === selectedStatus
+      )[0]
+    );
   };
 
   return (
@@ -44,11 +65,11 @@ const StatusSelect: FC<StatusSelectProps> = ({ status, setStatus }) => {
           minWidth: "180px",
         }}
       >
-        {isLoading && <Loader size="small" />}
-        {isSuccess && (
+        {statusesQuery.isLoading && <Loader size="small" />}
+        {statusesQuery.isSuccess && (
           <Select
             id="status-select"
-            value={status.toString()}
+            value={status.status_id.toString()}
             onChange={handleChange}
             MenuProps={{
               PaperProps: {
@@ -58,23 +79,25 @@ const StatusSelect: FC<StatusSelectProps> = ({ status, setStatus }) => {
               },
             }}
           >
-            {data.statuses_list.map((status: status, index: number) => {
-              let isSelected = false;
+            {statusesQuery.data.statuses_list.map(
+              (status: IStatus, index: number) => {
+                let isSelected = false;
 
-              if (status.status_id === index + 1) {
-                isSelected = true;
+                if (status.status_id === index + 1) {
+                  isSelected = true;
+                }
+
+                return (
+                  <MenuItem
+                    value={status.status_id}
+                    key={`menuItem-${status.status_id}`}
+                    selected={isSelected}
+                  >
+                    <ListItemText primary={status.name} />
+                  </MenuItem>
+                );
               }
-
-              return (
-                <MenuItem
-                  value={status.status_id}
-                  key={`menuItem-${status.status_id}`}
-                  selected={isSelected}
-                >
-                  <ListItemText primary={status.name} />
-                </MenuItem>
-              );
-            })}
+            )}
           </Select>
         )}
       </FormControl>
