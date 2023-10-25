@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 import {
@@ -36,6 +36,8 @@ import { endpoints } from "../../../../constants";
 import { useAdminRemoveTicketMutation } from "../../../../store/api/admin/admin.api";
 
 import styles from "./FullTicketHeader.module.css";
+import { IAction } from "../../../../components/Action/Action";
+import { useGetStatusesQuery } from "../../../../store/api/api";
 
 interface FullTicketHeaderProps {
   assigneeId: number;
@@ -69,6 +71,7 @@ interface FullTicketHeaderProps {
       "api"
     >
   >;
+  action: IAction | null;
 }
 
 interface UpdateTicketBody {
@@ -77,6 +80,11 @@ interface UpdateTicketBody {
   faculty?: number;
   queue?: number;
   status?: number;
+}
+
+interface IStatus {
+  status_id: number;
+  name: string;
 }
 
 const FullTicketHeader: FC<FullTicketHeaderProps> = ({
@@ -88,6 +96,7 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
   ticketId,
   subject,
   updateTicket,
+  action,
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
@@ -98,17 +107,20 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
 
   const isAdmin = checkIsAdmin();
 
+  // console.log(action);
+
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [isCopyLink, setIsCopyLink] = useState<boolean>(false);
   const [queue, setQueue] = useState<number>(ticketQueue?.queue_id || -1);
   const [faculty, setFaculty] = useState<number>(ticketFaculty);
-  const [status, setStatus] = useState<number>(ticketStatus.status_id);
+  const [status, setStatus] = useState<IStatus>(ticketStatus);
   const [assignee, setAssignee] = useState<number>(
     ticketAssignee?.user_id || -1
   );
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const [adminDelete] = useAdminRemoveTicketMutation();
+  const statusesQuery = useGetStatusesQuery({});
 
   const handleAcceptChanges = () => {
     const requestBody: UpdateTicketBody = {
@@ -116,10 +128,12 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
       assignee_id: assignee,
       faculty: faculty,
       queue: queue,
-      status: status,
+      status: status.status_id,
     };
 
     updateTicket({ body: JSON.stringify(requestBody) });
+
+    setIsEdit(false);
   };
 
   const handleCopyLink = () => {
@@ -132,6 +146,31 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
       setIsCopyLink(false);
     }, 800);
   };
+
+  useEffect(() => {
+    if (action?.field_name === "status") {
+      const statuses = statusesQuery.data.statuses_list;
+
+      if (statuses) {
+        setStatus(() => {
+          const newStatus = statuses.filter(
+            status => status.name === action.new_value
+          );
+
+          return newStatus[0];
+        });
+      }
+    }
+
+    if (action?.field_name === "queue") {
+    }
+
+    if (action?.field_name === "faculty") {
+    }
+
+    if (action?.field_name === "assignee") {
+    }
+  }, [action]);
 
   const handleAccept = () => {
     setOpenDialog(false);
@@ -195,15 +234,19 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           {isAdmin && isEdit ? (
-            <StatusSelect status={status} setStatus={setStatus} />
+            <StatusSelect
+              status={status}
+              setStatus={setStatus}
+              statusesQuery={statusesQuery}
+            />
           ) : (
             <Box
               sx={{
                 textAlign: "center",
                 p: "4px 12px",
-                bgcolor: checkStatus(ticketStatus.name),
+                bgcolor: checkStatus(status.name),
                 color:
-                  checkStatus(ticketStatus.name) === "#FFFFFF"
+                  checkStatus(status.name) === "#FFFFFF"
                     ? palette.common.black
                     : palette.common.white,
                 borderRadius: 1,
@@ -212,7 +255,7 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
                 fontWeight: 500,
               }}
             >
-              {t(`ticketStatus.${ticketStatus.name.toLowerCase()}`)}
+              {t(`ticketStatus.${status.name.toLowerCase()}`)}
             </Box>
           )}
           {isAdmin && isAssignee && (
@@ -222,11 +265,15 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
               }}
               onClick={() => {
                 setIsEdit(prevState => {
-                  if (!prevState) {
-                    setFaculty(ticketFaculty);
-                    setQueue(ticketQueue?.queue_id || -1);
-                    setStatus(ticketStatus.status_id);
-                  }
+                  setFaculty(ticketFaculty);
+                  setQueue(ticketQueue?.queue_id || -1);
+                  setStatus(() => {
+                    const newStatus = statusesQuery.data.statuses_list.filter(
+                      status => status.status_id === ticketStatus?.status_id
+                    );
+
+                    return newStatus[0];
+                  });
 
                   return !prevState;
                 });

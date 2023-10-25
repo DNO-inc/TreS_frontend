@@ -45,8 +45,7 @@ const FullTicketInfo: FC = () => {
   const [showTicket, { data: ticket, isSuccess, isLoading }] = isAdmin
     ? useAdminShowTicketMutation()
     : useShowTicketMutation();
-  const [updateTicket, { isSuccess: isUpdateTicket }] =
-    useAdminUpdateTicketMutation();
+  const [updateTicket] = useAdminUpdateTicketMutation();
 
   const userId = Number(getUserId());
   const creatorId = ticket?.creator && ticket?.creator.user_id;
@@ -56,7 +55,7 @@ const FullTicketInfo: FC = () => {
 
   useEffect(() => {
     showTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
-  }, [ticketId, isUpdateTicket]);
+  }, [ticketId]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -135,6 +134,7 @@ const FullTicketInfo: FC = () => {
             ticketAssignee={ticket.assignee}
             updateTicket={updateTicket}
             subject={ticket.subject}
+            action={commentsConnection.action}
           />
           <Grid container>
             <Grid
