@@ -114,7 +114,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
       <span
         style={{
           position: "absolute",
-          top: "77.5%",
+          top: "93%",
           right: 8,
           fontSize: 12,
           color: palette.whiteAlpha.default,
@@ -122,13 +122,13 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
       >
         {formattedText.length} / {general.maxBodyLength}
       </span>
-      <MarkdownControls
+      {/* <MarkdownControls
         text={formattedText}
         isPreview={isPreview}
         setFormattedText={setFormattedText}
         handleShowPreview={handleShowPreview}
         input={inputRef.current}
-      />
+      /> */}
     </Box>
   );
 };

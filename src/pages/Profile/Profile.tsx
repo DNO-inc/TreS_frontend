@@ -18,6 +18,8 @@ import {
 } from "../../store/api/profile/profile.api";
 import IPalette from "../../theme/IPalette.interface";
 import { getUserId } from "../../shared/functions/getLocalStorageData";
+import { checkIsAdmin } from "../../shared/functions";
+import { RolesSelect } from "./components/RolesSelect";
 
 type ApiResponse = {
   data?: {
@@ -46,6 +48,8 @@ const Profile: FC = () => {
   const { palette }: IPalette = useTheme();
   const { pathname } = useLocation();
 
+  const isAdmin = checkIsAdmin();
+
   const userId = pathname.split("/")[2];
   const myId = getUserId().toString();
   const isMyProfile = userId === myId;
@@ -66,6 +70,7 @@ const Profile: FC = () => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [role, setRole] = useState<number | null>(1);
   const [isEditMode, setIsEditMode] = useState(false);
 
   const setProfile = () => {
@@ -188,6 +193,17 @@ const Profile: FC = () => {
               },
             }}
           >
+            {isAdmin && !isMyProfile && (
+              <Box>
+                <Typography>{t("profile.role")}</Typography>
+                <RolesSelect
+                  role={role}
+                  setRole={setRole}
+                  updateProfile={updateProfile}
+                  userId={userId}
+                />
+              </Box>
+            )}
             <Box>
               <Typography>{t("profile.email")}</Typography>
               {isEditMode ? (

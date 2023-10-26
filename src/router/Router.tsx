@@ -7,6 +7,7 @@ import { endpoints } from "../constants";
 import { useAuth } from "../context/AuthContext";
 import { getAccessToken } from "../shared/functions/getLocalStorageData";
 import { checkIsAdmin } from "../shared/functions";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 const Layout = lazy(() => import("../pages/Layout"));
 const GeneralTickets = lazy(() => import("../pages/GeneralTickets"));
@@ -31,14 +32,11 @@ const Router: FC = () => {
   const { pathname, search } = useLocation();
 
   useEffect(() => {
-    pathname === endpoints.base && navigate(endpoints.generalTickets);
-  }, [pathname]);
-
-  useEffect(() => {
     if (!getAccessToken()) {
-      localStorage.removeItem("access-token");
-
-      if (pathname !== endpoints.generalTickets) {
+      if (
+        pathname !== endpoints.generalTickets &&
+        pathname !== endpoints.privacyPolicy
+      ) {
         navigate(endpoints.generalTickets);
       }
     }
@@ -85,6 +83,7 @@ const Router: FC = () => {
         )}
         <Route path={"*"} element={<ErrorPage />} />
       </Route>
+      <Route path={endpoints.privacyPolicy} element={<PrivacyPolicy />} />
       <Route path={"*" || "/error"} element={<ErrorPage />} />
     </Routes>
   );

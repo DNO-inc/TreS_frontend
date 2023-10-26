@@ -73,12 +73,14 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
     setHasError(false);
   };
 
-  const handleClose = (): void => setOpen(false);
+  const handleClose = (): void => {
+    setOpen(false);
+    handleClear();
+  };
 
   const handleOpenLogInModal = (): void => {
     handleClose();
     handleLogIn();
-    handleClear();
   };
 
   const handleSubmit = async (event: FormEvent): Promise<void> => {
@@ -132,7 +134,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
             width: matches ? "95vw" : 500,
             bgcolor: palette.grey.border,
             border: `2px solid ${palette.grey.active}`,
-            p: "24px",
+            p: { xs: "16px 8px", sm: "24px" },
           }}
         >
           <Typography id="modal-signUp" variant="h6" component="h2">
@@ -169,6 +171,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
                   faculty={faculty}
                   setFaculty={setFaculty}
                   isError={hasError}
+                  handleOpenLogInModal={handleOpenLogInModal}
                 />
               )}
               {activeStep === 1 && (
@@ -211,27 +214,29 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
               handleClose={handleClose}
             />
           </Box>
-          <Typography
-            fontSize={14}
-            sx={{
-              width: "100%",
-              textAlign: "center",
-              color: palette.whiteAlpha.default,
-            }}
-          >
-            {t("signUp.question")}
-            <span
-              onClick={handleOpenLogInModal}
-              style={{
-                marginLeft: 8,
-                color: palette.semantic.info,
-                textDecoration: "underline",
-                cursor: "pointer",
+          {activeStep === 0 && (
+            <Typography
+              fontSize={14}
+              sx={{
+                width: "100%",
+                textAlign: "center",
+                color: palette.whiteAlpha.default,
               }}
             >
-              {t("common.loginButton")}
-            </span>
-          </Typography>
+              {t("signUp.question")}
+              <span
+                onClick={handleOpenLogInModal}
+                style={{
+                  marginLeft: 4,
+                  color: palette.semantic.info,
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+              >
+                {t("common.loginButton")}
+              </span>
+            </Typography>
+          )}
         </Grid>
       </form>
     </Modal>
