@@ -1,6 +1,6 @@
 import {
   FC,
-  useState,
+  // useState,
   useRef,
   MutableRefObject,
   Dispatch,
@@ -17,7 +17,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import { MarkdownWithStyles } from "../../../../utils/markdown";
 
 import IPalette from "../../../../theme/IPalette.interface";
-import { MarkdownControls } from "./components/MarkdownControls";
+// import { MarkdownControls } from "./components/MarkdownControls";
 import { general } from "../../../../constants";
 
 interface TicketBodyTextFieldProps {
@@ -36,20 +36,20 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
 
   const inputRef: MutableRefObject<null | HTMLInputElement> = useRef(null);
 
-  const [isPreview, setIsPreview] = useState(false);
+  // const [isPreview, setIsPreview] = useState(false);
 
   const placeholderText: string = t("createTicket.ticketBodyPlaceholder");
 
-  const handleShowPreview = () => {
-    setIsPreview(prevState => !prevState);
-  };
+  // const handleShowPreview = () => {
+  //   setIsPreview(prevState => !prevState);
+  // };
 
   return (
     <Box sx={{ position: "relative", width: "100%" }}>
       <Typography variant="h3">{t("createTicket.ticketBody")}</Typography>
       <Box
         sx={{
-          display: isPreview ? "block" : "none",
+          // display: isPreview ? "block" : "none",
           overflow: "hidden",
           overflowY: "auto",
           scroll: "scroll",
@@ -90,7 +90,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
           setFormattedText(event.target.value);
         }}
         sx={{
-          display: isPreview ? "none" : "block",
+          // display: isPreview ? "none" : "block",
           overflow: "hidden",
           bgcolor: palette.grey.card,
           "& > .MuiOutlinedInput-root": {

@@ -3,7 +3,7 @@ import { getUserRole } from "./getLocalStorageData";
 const checkIsAdmin = () => {
   const role = getUserRole();
 
-  return role === "ADMIN";
+  return role?.includes("ADMIN");
 };
 
 export { checkIsAdmin };

@@ -32,6 +32,7 @@
     "error": "Помилка",
     "noAssignee": "немає відповідального",
     "notFound": "Hе знайдено",
+    "permissionDenied": "Дозвіл заборонено :(",
     "tooltip": {
       "report": "Тікет - скарга",
       "suggestion": "Тікет - пропозиція",

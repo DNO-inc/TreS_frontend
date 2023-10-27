@@ -71,12 +71,22 @@ interface CommentProps {
       "api"
     >
   >;
+  isCanSendMessage: boolean;
 }
 
 const Comment: ForwardRefExoticComponent<
   Omit<CommentProps, "ref"> & RefAttributes<HTMLDivElement>
 > = forwardRef(
-  ({ comment, setEditedComment, deleteComment, setRepliedComment }, ref) => {
+  (
+    {
+      comment,
+      setEditedComment,
+      deleteComment,
+      setRepliedComment,
+      isCanSendMessage,
+    },
+    ref
+  ) => {
     const { palette }: IPalette = useTheme();
 
     const userId = getUserId();
@@ -212,16 +222,18 @@ const Comment: ForwardRefExoticComponent<
                     {comment.nick}
                   </Typography>
                 </Link>
-                <IconButton
-                  onClick={handleReply}
-                  sx={{
-                    color: palette.whiteAlpha.default,
-                    p: "2px",
-                    mb: 0.4,
-                  }}
-                >
-                  <ReplyIcon sx={{ fontSize: 20 }} />
-                </IconButton>
+                {isCanSendMessage && (
+                  <IconButton
+                    onClick={handleReply}
+                    sx={{
+                      color: palette.whiteAlpha.default,
+                      p: "2px",
+                      mb: 0.4,
+                    }}
+                  >
+                    <ReplyIcon sx={{ fontSize: 20 }} />
+                  </IconButton>
+                )}
               </Box>
             )}
             {comment?.reply_to && (
@@ -275,39 +287,41 @@ const Comment: ForwardRefExoticComponent<
                   >
                     {getCommentBody()}
                   </Typography>
-                  <Box component={"span"} sx={{ float: "right" }}>
-                    <IconButton
-                      onClick={changeComment}
-                      sx={{
-                        color: palette.whiteAlpha.default,
-                        p: "2px",
-                        ml: 2,
-                        mb: 0.4,
-                      }}
-                    >
-                      <EditIcon sx={{ fontSize: 20 }} />
-                    </IconButton>
-                    <IconButton
-                      onClick={removeComment}
-                      sx={{
-                        color: palette.whiteAlpha.default,
-                        p: "2px",
-                        mb: 0.4,
-                      }}
-                    >
-                      <DeleteIcon sx={{ fontSize: 20 }} />
-                    </IconButton>
-                    <IconButton
-                      onClick={handleReply}
-                      sx={{
-                        color: palette.whiteAlpha.default,
-                        p: "2px",
-                        mb: 0.4,
-                      }}
-                    >
-                      <ReplyIcon sx={{ fontSize: 20 }} />
-                    </IconButton>
-                  </Box>
+                  {isCanSendMessage && (
+                    <Box component={"span"} sx={{ float: "right" }}>
+                      <IconButton
+                        onClick={changeComment}
+                        sx={{
+                          color: palette.whiteAlpha.default,
+                          p: "2px",
+                          ml: 2,
+                          mb: 0.4,
+                        }}
+                      >
+                        <EditIcon sx={{ fontSize: 20 }} />
+                      </IconButton>
+                      <IconButton
+                        onClick={removeComment}
+                        sx={{
+                          color: palette.whiteAlpha.default,
+                          p: "2px",
+                          mb: 0.4,
+                        }}
+                      >
+                        <DeleteIcon sx={{ fontSize: 20 }} />
+                      </IconButton>
+                      <IconButton
+                        onClick={handleReply}
+                        sx={{
+                          color: palette.whiteAlpha.default,
+                          p: "2px",
+                          mb: 0.4,
+                        }}
+                      >
+                        <ReplyIcon sx={{ fontSize: 20 }} />
+                      </IconButton>
+                    </Box>
+                  )}
                 </>
               )}
             </Box>

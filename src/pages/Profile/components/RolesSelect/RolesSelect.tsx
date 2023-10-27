@@ -70,14 +70,16 @@ const RolesSelect: FC<RolesSelectProps> = ({
   return (
     <Box>
       <FormControl
-        variant="standard"
         size="small"
         fullWidth
         sx={{
           bgcolor: palette.grey.card,
           width: 170,
+          ".MuiTypography-root": {
+            fontSize: 14,
+          },
           ".MuiSelect-select": {
-            p: "0px 24px 4px 8px",
+            p: "2px 24px 4px 16px",
           },
         }}
       >

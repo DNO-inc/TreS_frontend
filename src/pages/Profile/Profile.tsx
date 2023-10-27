@@ -17,7 +17,10 @@ import {
   useUpdateProfileMutation,
 } from "../../store/api/profile/profile.api";
 import IPalette from "../../theme/IPalette.interface";
-import { getUserId } from "../../shared/functions/getLocalStorageData";
+import {
+  getPermissions,
+  getUserId,
+} from "../../shared/functions/getLocalStorageData";
 import { checkIsAdmin } from "../../shared/functions";
 import { RolesSelect } from "./components/RolesSelect";
 
@@ -31,6 +34,11 @@ type ApiResponse = {
     login: string;
     phone: string;
     registration_date: string;
+    role: {
+      name: string;
+      permission_list: string[];
+      role_id: number;
+    };
   };
   error?: FetchBaseQueryError | SerializedError;
 };
@@ -47,6 +55,10 @@ const Profile: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
   const { pathname } = useLocation();
+
+  const permissions = getPermissions();
+
+  const isCanChangeProfile = permissions.includes("UPDATE_PROFILE");
 
   const isAdmin = checkIsAdmin();
 
@@ -70,19 +82,21 @@ const Profile: FC = () => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState<number | null>(1);
+  const [role, setRole] = useState<number | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
   const setProfile = () => {
     getProfile({ userId: userId }).then((response: ApiResponse) => {
       if (response?.data) {
-        const { firstname, lastname, login, email, phone } = response.data;
+        const { firstname, lastname, login, email, phone, role } =
+          response.data;
 
         setFirstname(firstname);
         setLastname(lastname);
         setLogin(login);
         setEmail(email);
         setPhone(phone);
+        setRole(role.role_id);
       }
     });
   };
@@ -241,7 +255,7 @@ const Profile: FC = () => {
               </Typography>
             </Box>
           </Box>
-          {isMyProfile && (
+          {isMyProfile && isCanChangeProfile && (
             <Box sx={{ display: "flex", gap: 1 }}>
               <Button
                 sx={{ flexGrow: 1 }}

@@ -68,6 +68,7 @@ const baseQueryWithReauth: BaseQueryFn<
         localStorage.removeItem("user-id");
         localStorage.removeItem("role");
         localStorage.removeItem("refresh-token");
+        localStorage.removeItem("permissions");
       }
 
       const refreshResult = await axios({
@@ -89,6 +90,7 @@ const baseQueryWithReauth: BaseQueryFn<
         localStorage.removeItem("faculty-id");
         localStorage.removeItem("user-id");
         localStorage.removeItem("role");
+        localStorage.removeItem("permissions");
       }
     }
   }

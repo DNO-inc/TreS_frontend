@@ -32,6 +32,7 @@
     "error": "Error",
     "noAssignee": "no assignee",
     "notFound": "Not found",
+    "permissionDenied": "Permission denied :(",
     "tooltip": {
       "report": "Report ticket",
       "suggestion": "Suggestion ticket",

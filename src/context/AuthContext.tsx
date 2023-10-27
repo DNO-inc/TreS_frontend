@@ -62,6 +62,11 @@ interface UserInfoProps {
     phone: null;
     email: null;
     registration_date: string;
+    role: {
+      name: string;
+      permission_list: string[];
+      role_id: number;
+    };
   };
   error?: FetchBaseQueryError | SerializedError;
 }
@@ -149,6 +154,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           localStorage.setItem("login", `${userInfo.login}`);
         }
 
+        if (userInfo?.role) {
+          localStorage.setItem(
+            "permissions",
+            `${userInfo.role.permission_list}`
+          );
+        }
+
         if (loginInfo?.user_id) {
           localStorage.setItem("user-id", loginInfo.user_id.toString());
         }
@@ -194,6 +206,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("faculty-id");
     localStorage.removeItem("user-id");
     localStorage.removeItem("role");
+    localStorage.removeItem("permissions");
 
     setIsAuth(false);
 
