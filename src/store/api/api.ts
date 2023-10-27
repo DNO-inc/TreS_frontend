@@ -21,6 +21,12 @@ export const api = createApi({
     getStatuses: builder.query({
       query: () => "/meta/get_statuses",
     }),
+    getRoles: builder.query({
+      query: () => "/meta/get_roles",
+    }),
+    getRolesPermissions: builder.query({
+      query: () => "/meta/get_role_permissions",
+    }),
     getAdmins: builder.mutation({
       query: () => ({
         url: "/meta/get_admins",
@@ -45,4 +51,6 @@ export const {
   useGetGroupsQuery,
   useGetStatusesQuery,
   useGetQueueByFacultyMutation,
+  useGetRolesQuery,
+  useGetRolesPermissionsQuery,
 } = api;

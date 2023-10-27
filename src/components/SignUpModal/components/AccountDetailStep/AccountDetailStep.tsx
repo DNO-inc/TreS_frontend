@@ -1,9 +1,13 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { TextField } from "@mui/material";
+import { TextField, useTheme } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 import { SignUpTextField } from "../SignUpTextField";
+import { NavLink } from "react-router-dom";
+import { endpoints } from "../../../../constants";
+import IPalette from "../../../../theme/IPalette.interface";
 
 interface AccountDetailStepProps {
   login: string;
@@ -30,6 +34,7 @@ const AccountDetailStep: FC<AccountDetailStepProps> = ({
   errorMessage,
 }) => {
   const { t } = useTranslation();
+  const { palette }: IPalette = useTheme();
 
   const [isConfirmed, setIsConfirmed] = useState<boolean>(true);
 
@@ -73,6 +78,25 @@ const AccountDetailStep: FC<AccountDetailStepProps> = ({
           },
         }}
       />
+      <Typography
+        fontSize={14}
+        sx={{
+          mt: 2,
+          width: "100%",
+          textAlign: "center",
+          color: palette.whiteAlpha.default,
+        }}
+      >
+        {t("privacyPolicy.postscript.1")}
+        <NavLink
+          to={endpoints.privacyPolicy}
+          target="blank"
+          style={{ fontWeight: "bold", textDecoration: "underline" }}
+        >
+          {t("privacyPolicy.postscript.link")}
+        </NavLink>
+        {t("privacyPolicy.postscript.2")}
+      </Typography>
     </>
   );
 };

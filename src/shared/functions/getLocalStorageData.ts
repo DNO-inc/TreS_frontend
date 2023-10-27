@@ -11,6 +11,16 @@ export const getAccessToken = () => localStorage.getItem("access-token");
 
 export const getRefreshToken = () => localStorage.getItem("refresh-token");
 
+export const getPermissions = () => {
+  const permissions = localStorage.getItem("permissions");
+
+  if (!permissions) {
+    return [] as string[];
+  }
+
+  return permissions;
+};
+
 export const getIsTokensExpired = () => {
   let isAccessExpired = true;
   let isRefreshExpired = true;

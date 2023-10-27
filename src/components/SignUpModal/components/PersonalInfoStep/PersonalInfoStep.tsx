@@ -11,6 +11,7 @@ interface PersonalInfoStepProps {
   faculty: number | null;
   setFaculty: Dispatch<SetStateAction<number | null>>;
   isError: boolean;
+  handleOpenLogInModal: () => void;
 }
 
 const PersonalInfoStep: FC<PersonalInfoStepProps> = ({
