@@ -5,8 +5,12 @@ import { Loader } from "../components/Loader";
 
 import { endpoints } from "../constants";
 import { useAuth } from "../context/AuthContext";
-import { getAccessToken } from "../shared/functions/getLocalStorageData";
+import {
+  getAccessToken,
+  getPermissions,
+} from "../shared/functions/getLocalStorageData";
 import { checkIsAdmin } from "../shared/functions";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 const Layout = lazy(() => import("../pages/Layout"));
 const GeneralTickets = lazy(() => import("../pages/GeneralTickets"));
@@ -22,25 +26,30 @@ const Profile = lazy(() => import("../pages/Profile"));
 const ErrorPage = lazy(() => import("../pages/ErrorPage"));
 const FullTicketInfo = lazy(() => import("../pages/FullTicketInfo"));
 const CreateTicketForm = lazy(() => import("../pages/CreateTicketForm"));
+const PermissionDenied = lazy(() => import("../pages/PermissionDenied"));
 
 const Router: FC = () => {
   const { isAuth } = useAuth();
   const isAdmin = checkIsAdmin();
 
+  const permissions = getPermissions();
+  const isCanCreateTicket = permissions.includes("CREATE_TICKET");
+  const isCanReadTicket = permissions.includes("READ_TICKET");
+
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
 
   useEffect(() => {
-    pathname === endpoints.base && navigate(endpoints.generalTickets);
-  }, [pathname]);
+    const authToken = getAccessToken();
 
-  useEffect(() => {
-    if (!getAccessToken()) {
-      localStorage.removeItem("access-token");
-
-      if (pathname !== endpoints.generalTickets) {
-        navigate(endpoints.generalTickets);
-      }
+    if (pathname === "/") {
+      navigate(endpoints.generalTickets);
+    } else if (
+      !authToken &&
+      pathname !== endpoints.generalTickets &&
+      pathname !== endpoints.privacyPolicy
+    ) {
+      navigate(endpoints.generalTickets);
     }
   }, [pathname, search, isAuth]);
 
@@ -57,14 +66,28 @@ const Router: FC = () => {
         <Route path={endpoints.generalTickets} element={<GeneralTickets />} />
         {isAuth && (
           <>
-            <Route
-              path={`${endpoints.fullTicket}/:ticketId`}
-              element={<FullTicketInfo />}
-            />
-            <Route
-              path={endpoints.createTicket}
-              element={<CreateTicketForm />}
-            />
+            {isCanReadTicket ? (
+              <Route
+                path={`${endpoints.fullTicket}/:ticketId`}
+                element={<FullTicketInfo />}
+              />
+            ) : (
+              <Route
+                path={endpoints.createTicket}
+                element={<PermissionDenied />}
+              />
+            )}
+            {isCanCreateTicket ? (
+              <Route
+                path={endpoints.createTicket}
+                element={<CreateTicketForm />}
+              />
+            ) : (
+              <Route
+                path={endpoints.createTicket}
+                element={<PermissionDenied />}
+              />
+            )}
             <Route path={endpoints.sent} element={<Sent />} />
             <Route path={endpoints.followed} element={<Followed />} />
             <Route path={endpoints.bookmarks} element={<Bookmarks />} />
@@ -85,6 +108,7 @@ const Router: FC = () => {
         )}
         <Route path={"*"} element={<ErrorPage />} />
       </Route>
+      <Route path={endpoints.privacyPolicy} element={<PrivacyPolicy />} />
       <Route path={"*" || "/error"} element={<ErrorPage />} />
     </Routes>
   );

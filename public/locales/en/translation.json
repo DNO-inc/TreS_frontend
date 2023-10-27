@@ -32,6 +32,7 @@
     "error": "Error",
     "noAssignee": "no assignee",
     "notFound": "Not found",
+    "permissionDenied": "Permission denied :(",
     "tooltip": {
       "report": "Report ticket",
       "suggestion": "Suggestion ticket",
@@ -125,6 +126,7 @@
     "heading": "Settings"
   },
   "profile": {
+    "role": "Role",
     "heading": "Profile",
     "email": "Email",
     "faculty": "Faculty",
@@ -203,5 +205,27 @@
     "waiting": "Waiting",
     "rejected": "Rejected",
     "close": "Close"
+  },
+  "privacyPolicy": {
+    "postscript": {
+      "1": "By continuing, you agree to TreS's ",
+      "link": "Privacy policy",
+      "2": ""
+    },
+    "disclaimer": {
+      "heading": "Disclaimer for TreS",
+      "contacts": "If you require any more information or have any questions about our site's disclaimer, please feel free to contact us by email at no-reply@cyberbydlo.com",
+      "paragraph1": "All the information on this website - https://demo.tres.cyberbydlo.com - is published in good faith and for general information purposes only. TreS does not make any warranties about the completeness, reliability, and accuracy of this information. Any action you take upon the information you find on this website (TreS), is strictly at your own risk. TreS will not be liable for any losses and/or damages in connection with the use of our website.",
+      "paragraph2": "From our website, you can visit other websites by following hyperlinks to such external sites. While we strive to provide only quality links to useful and ethical websites, we have no control over the content and nature of these sites. These links to other websites do not imply a recommendation for all the content found on these sites. Site owners and content may change without notice and may occur before we have the opportunity to remove a link that may have gone 'bad'.",
+      "paragraph3": "Please be also aware that when you leave our website, other sites may have different privacy policies and terms that are beyond our control. Please be sure to check the Privacy Policies of these sites as well as their \"Terms of Service\" before engaging in any business or uploading any information."
+    },
+    "consent": {
+      "heading": "Consent",
+      "paragraph": "By using our website, you hereby consent to our disclaimer and agree to its terms."
+    },
+    "update": {
+      "heading": "Update",
+      "paragraph": "Should we update, amend, or make any changes to this document, those changes will be prominently posted here."
+    }
   }
 }

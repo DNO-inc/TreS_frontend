@@ -14,6 +14,7 @@ const endpoints = {
   profile: "/profile",
   createTicket: "/tickets/create",
   error: "/error",
+  privacyPolicy: "/privacy-policy",
 };
 
 export { endpoints };

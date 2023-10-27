@@ -69,7 +69,7 @@ const FacultySelect: FC<FacultySelectProps> = ({
         sx={{ bgcolor: palette.grey.card }}
         {...register("queue")}
       >
-        {isLoading && <Loader />}
+        {isLoading && <Loader size="small" />}
         {isSuccess && (
           <Select
             id="faculty-select"

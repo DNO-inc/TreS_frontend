@@ -24,6 +24,7 @@ import {
   getUserId,
   getUserName,
   getUserLogin,
+  getPermissions,
 } from "../../../../../../../../shared/functions/getLocalStorageData";
 import { useAuth } from "../../../../../../../../context/AuthContext";
 import IPalette from "../../../../../../../../theme/IPalette.interface";
@@ -36,6 +37,9 @@ const AuthActions: FC = () => {
   const matches = useMediaQuery("(min-width: 600px)");
 
   const { logoutUser } = useAuth();
+
+  const permissions = getPermissions();
+  const isCanCreateTicket = permissions.includes("CREATE_TICKET");
 
   const userId: number | null = getUserId();
   const userLogin = getUserLogin();
@@ -131,7 +135,7 @@ const AuthActions: FC = () => {
           </div>
         </CustomTooltip>
       </Box>
-      {matches && (
+      {matches && isCanCreateTicket && (
         <>
           <VerticalDivider />
           <Link to={endpoints.createTicket}>

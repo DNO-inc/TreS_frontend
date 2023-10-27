@@ -33,7 +33,10 @@ import { useRandomNick } from "../../../../shared/hooks";
 import { getRandomNickColor } from "../../../../shared/functions";
 import { IPerson } from "../../FullTicketInfo";
 import { ArrowDown } from "./components/ArrowDown";
-import { getUserId } from "../../../../shared/functions/getLocalStorageData";
+import {
+  getPermissions,
+  getUserId,
+} from "../../../../shared/functions/getLocalStorageData";
 import { IAction } from "../../../../components/Action/Action";
 
 export type IHistoryItem =
@@ -122,6 +125,9 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
   const { t, i18n } = useTranslation();
 
   const { palette }: IPalette = useTheme();
+
+  const permissions = getPermissions();
+  const isCanSendMessage = permissions.includes("SEND_MESSAGE");
 
   const commentFieldRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
@@ -383,6 +389,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
                   deleteComment={deleteComment}
                   setEditedComment={setEditedComment}
                   setRepliedComment={setRepliedComment}
+                  isCanSendMessage={isCanSendMessage}
                 />
               );
             }
@@ -394,6 +401,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
                 deleteComment={deleteComment}
                 setEditedComment={setEditedComment}
                 setRepliedComment={setRepliedComment}
+                isCanSendMessage={isCanSendMessage}
               />
             );
           } else if (modifiedItem.type_ === "action") {
@@ -435,15 +443,17 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
           setScrollHeight={setScrollHeight}
         />
       )}
-      <CommentsTextField
-        ticketId={ticketId}
-        createComment={createComment}
-        editedComment={editedComment}
-        editComment={editComment}
-        setEditedComment={setEditedComment}
-        repliedComment={repliedComment}
-        setRepliedComment={setRepliedComment}
-      />
+      {isCanSendMessage && (
+        <CommentsTextField
+          ticketId={ticketId}
+          createComment={createComment}
+          editedComment={editedComment}
+          editComment={editComment}
+          setEditedComment={setEditedComment}
+          repliedComment={repliedComment}
+          setRepliedComment={setRepliedComment}
+        />
+      )}
     </Grid>
   );
 };

@@ -95,12 +95,12 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, handleSignUn }) => {
           <Button variant="contained" color="primary" type="submit">
             {t("common.loginButton")}
           </Button>
-          <Typography fontSize={14}>
+          <Typography fontSize={14} sx={{ color: palette.whiteAlpha.default }}>
             {t("common.loginQuestion")}
             <span
               onClick={handleOpenSignUpModal}
               style={{
-                marginLeft: 8,
+                marginLeft: 4,
                 color: palette.semantic.info,
                 textDecoration: "underline",
                 cursor: "pointer",
