@@ -38,22 +38,32 @@ const AccountDetailStep: FC<AccountDetailStepProps> = ({
 
   const [isConfirmed, setIsConfirmed] = useState<boolean>(true);
 
+  const checkError = (word: string) => {
+    return errorMessage.includes(word);
+  };
+
   return (
     <>
       <SignUpTextField
         type={"login"}
         value={login}
         setValue={setLogin}
-        hasError={errorMessage.includes("login")}
-        helperText={errorMessage.includes("login") ? errorMessage : ""}
+        hasError={checkError("login")}
+        helperText={checkError("login") ? errorMessage : ""}
       />
-      <SignUpTextField type={"email"} value={email} setValue={setEmail} />
+      <SignUpTextField
+        type={"email"}
+        value={email}
+        setValue={setEmail}
+        hasError={checkError("email")}
+        helperText={checkError("email") ? errorMessage : ""}
+      />
       <SignUpTextField
         type={"password"}
         value={password}
         setValue={setPassword}
-        hasError={errorMessage.includes("password")}
-        helperText={errorMessage.includes("password") ? errorMessage : ""}
+        hasError={checkError("password")}
+        helperText={checkError("password") ? errorMessage : ""}
       />
       <TextField
         size="small"

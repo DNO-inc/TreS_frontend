@@ -47,7 +47,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
   return (
     <Box sx={{ position: "relative", width: "100%" }}>
       <Typography variant="h3">{t("createTicket.ticketBody")}</Typography>
-      <Box
+      {/* <Box
         sx={{
           // display: isPreview ? "block" : "none",
           overflow: "hidden",
@@ -72,7 +72,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
         }}
       >
         <MarkdownWithStyles innerText={formattedText} />
-      </Box>
+      </Box> */}
       <TextField
         inputRef={inputRef}
         id="ticket-body"

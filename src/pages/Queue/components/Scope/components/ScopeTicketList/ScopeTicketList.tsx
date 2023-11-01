@@ -15,6 +15,7 @@ import { SimpleTicket } from "../../../../../../components/SimpleTicket/SimpleTi
 import { ITicket } from "../../../../../../components/Ticket/ticket.interface";
 import IPalette from "../../../../../../theme/IPalette.interface";
 import axios from "axios";
+import { NotFound } from "../../../../../../components/NotFound";
 
 interface ScopeTicketListProps {
   scope: string;
@@ -154,9 +155,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
           </Grid>
         </>
       ) : (
-        <Typography variant="h1" mt={6}>
-          {t("common.notFound")}
-        </Typography>
+        <NotFound size={250} />
       )}
     </Box>
   );
