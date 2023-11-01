@@ -23,6 +23,7 @@ import {
 } from "../../shared/functions/getLocalStorageData";
 import { checkIsAdmin } from "../../shared/functions";
 import { RolesSelect } from "./components/RolesSelect";
+import king from "../../assets/king.jpg";
 
 type ApiResponse = {
   data?: {
@@ -140,7 +141,8 @@ const Profile: FC = () => {
             }}
           >
             <Avatar
-              sx={{ width: { xs: 180, sm: 100 }, height: { xs: 180, sm: 100 } }}
+              src={(isMyProfile && isAdmin) || (role && role >= 9) ? king : ""}
+              sx={{ width: { xs: 180, sm: 140 }, height: { xs: 180, sm: 140 } }}
             />
             <Box
               sx={{
@@ -183,7 +185,7 @@ const Profile: FC = () => {
                 <Typography
                   sx={{ fontSize: 24, color: palette.whiteAlpha.default }}
                 >
-                  {"@" + login ?? t("common.notFound")}
+                  {"@" + login ?? t("common.notFound.title")}
                 </Typography>
               )}
             </Box>
@@ -227,7 +229,7 @@ const Profile: FC = () => {
                   inputType={"email"}
                 />
               ) : (
-                <Typography>{email ?? t("common.notFound")}</Typography>
+                <Typography>{email ?? t("common.notFound.title")}</Typography>
               )}
             </Box>
             <Box>
@@ -239,19 +241,19 @@ const Profile: FC = () => {
                   inputType={"phone"}
                 />
               ) : (
-                <Typography>{phone ?? t("common.notFound")}</Typography>
+                <Typography>{phone ?? t("common.notFound.title")}</Typography>
               )}
             </Box>
             <Box>
               <Typography>{t("profile.faculty")}</Typography>
               <Typography>
-                {data?.faculty?.name ?? t("common.notFound")}
+                {data?.faculty?.name ?? t("common.notFound.title")}
               </Typography>
             </Box>
             <Box>
               <Typography>{t("profile.group")}</Typography>
               <Typography>
-                {data?.group?.name ?? t("common.notFound")}
+                {data?.group?.name ?? t("common.notFound.title")}
               </Typography>
             </Box>
           </Box>

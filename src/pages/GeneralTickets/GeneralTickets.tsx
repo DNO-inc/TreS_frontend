@@ -12,6 +12,7 @@ import { Ticket } from "../../components/Ticket/Ticket";
 import { Loader } from "../../components/Loader";
 import { FilterPanel } from "../../components/FilterPanel";
 import { CustomPagination } from "../../components/CustomPagination";
+import { NotFound } from "../../components/NotFound";
 
 import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
 import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
@@ -127,9 +128,7 @@ const GeneralTickets: FC = () => {
               <CustomPagination total={totalPage} current={currentPage} />
             </>
           ) : (
-            <Typography variant="h1" mt={6}>
-              {t("common.notFound")}
-            </Typography>
+            <NotFound withPostscript={true} />
           ))}
       </Box>
     </Grid>

@@ -14,7 +14,9 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormGroup from "@mui/material/FormGroup";
+import { Button } from "@mui/material";
 
+import { NotFound } from "../../components/NotFound";
 import { FilterPanel } from "../../components/FilterPanel";
 import { CustomPagination } from "../../components/CustomPagination";
 import { TicketRow } from "../../components/TicketRow/TicketRow";
@@ -25,7 +27,6 @@ import {
   useUndeleteTicketMutation,
 } from "../../store/api/tickets/tickets.api";
 import { ITicket } from "../../components/Ticket/ticket.interface";
-import { Button } from "@mui/material";
 
 interface MyTicketPageProps {
   title: string;
@@ -213,9 +214,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
             )}
           </>
         ) : (
-          <Typography variant="h1" mt={6}>
-            {t("common.notFound")}
-          </Typography>
+          <NotFound withPostscript={isSentPage} />
         )}
       </Box>
     </Grid>
