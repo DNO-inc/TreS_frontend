@@ -31,7 +31,13 @@
     "profile": "Профіль",
     "error": "Помилка",
     "noAssignee": "немає відповідального",
-    "notFound": "Hе знайдено",
+    "notFound": {
+      "title": "Не знайдено",
+      "ticketsTitle": "Тікетів не знайдено",
+      "notificationsTitle": "Сповіщень не знайдено",
+      "postscript": "*Не втрачаючи нагоди",
+      "createLink": "створи тікет "
+    },
     "permissionDenied": "Дозвіл заборонено :(",
     "tooltip": {
       "report": "Тікет - скарга",

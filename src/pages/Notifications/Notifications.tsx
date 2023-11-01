@@ -12,6 +12,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import { useNotification } from "../../context/NotificationContext";
 import IPalette from "../../theme/IPalette.interface";
 import { endpoints } from "../../constants";
+import { NotFound } from "../../components/NotFound";
 
 const Notifications: FC = () => {
   const { palette }: IPalette = useTheme();
@@ -82,9 +83,7 @@ const Notifications: FC = () => {
             );
           })
         ) : (
-          <Typography variant="h1" mt={6}>
-            {t("common.notFound")}
-          </Typography>
+          <NotFound title="notifications" />
         )}
       </Box>
     </Grid>

@@ -29,6 +29,8 @@ import {
 import { useAuth } from "../../../../../../../../context/AuthContext";
 import IPalette from "../../../../../../../../theme/IPalette.interface";
 import { CustomTooltip } from "../../../../../../../../components/CustomTooltip";
+import { checkIsAdmin } from "../../../../../../../../shared/functions";
+import king from "../../../../../../../../assets/king.jpg";
 
 const AuthActions: FC = () => {
   const { t } = useTranslation();
@@ -37,6 +39,8 @@ const AuthActions: FC = () => {
   const matches = useMediaQuery("(min-width: 600px)");
 
   const { logoutUser } = useAuth();
+
+  const isAdmin = checkIsAdmin();
 
   const permissions = getPermissions();
   const isCanCreateTicket = permissions.includes("CREATE_TICKET");
@@ -71,7 +75,11 @@ const AuthActions: FC = () => {
           setOpen={setOpen}
           base={
             <IconButton onClick={handleOpenMenu} sx={{ p: 0 }}>
-              <Avatar alt="Avatar" src={Logo} sx={{ width: 32, height: 32 }} />
+              <Avatar
+                alt="Avatar"
+                src={isAdmin ? king : Logo}
+                sx={{ width: 32, height: 32 }}
+              />
             </IconButton>
           }
         >
@@ -87,7 +95,7 @@ const AuthActions: FC = () => {
             >
               <Avatar
                 alt="Avatar"
-                src={Logo}
+                src={isAdmin ? king : Logo}
                 sx={{
                   width: { xs: 50, md: 60 },
                   height: { xs: 50, md: 60 },

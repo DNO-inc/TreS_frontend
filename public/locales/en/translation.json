@@ -31,7 +31,13 @@
     "profile": "Profile",
     "error": "Error",
     "noAssignee": "no assignee",
-    "notFound": "Not found",
+    "notFound": {
+      "title": "Nor found",
+      "ticketsTitle": "Tickets not found",
+      "notificationsTitle": "Notifications not found",
+      "postscript": "*Not missing the chance to",
+      "createLink": "create one "
+    },
     "permissionDenied": "Permission denied :(",
     "tooltip": {
       "report": "Report ticket",
