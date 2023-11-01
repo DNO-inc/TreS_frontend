@@ -6,9 +6,8 @@ import {
   useCallback,
   MutableRefObject,
 } from "react";
-import { useTranslation } from "react-i18next";
 
-import { Box, Grid, Typography, useTheme } from "@mui/material";
+import { Box, Grid, useTheme } from "@mui/material";
 
 import { SimpleTicket } from "../../../../../../components/SimpleTicket/SimpleTicket";
 
@@ -38,7 +37,6 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
   queues,
   facultyId,
 }) => {
-  const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
