@@ -139,12 +139,18 @@
     "group": "Group",
     "phone": "Phone",
     "editMode": {
+      "cancelButton": "Cancel",
+      "editButton": "Edit",
+      "submitButton": "Submit",
+      "password": "Enter new password",
       "firstname": "Enter firstname",
       "lastname": "Enter lastname",
       "login": "Enter login",
       "email": "Enter email",
       "phone": "Enter phone"
-    }
+    },
+    "passwordTitle": "Password change",
+    "changePasswordButton": "change"
   },
   "fullTicket": {
     "additionalInfo": "Additional Information",

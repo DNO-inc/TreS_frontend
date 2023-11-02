@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Avatar, Button, useTheme } from "@mui/material";
+import { TextField } from "@mui/material";
 
 import { ProfileInput } from "./components/ProfileInput";
 
@@ -83,6 +84,7 @@ const Profile: FC = () => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [role, setRole] = useState<number | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -116,6 +118,13 @@ const Profile: FC = () => {
     localStorage.setItem("user-name", `${data.firstname} ${data.lastname}`);
     reset();
   };
+
+  const handelChangePassword = (): void => {
+    updateProfile({ body: JSON.stringify({ password: password }) });
+    setPassword("");
+  };
+
+  const passwordPlaceholder = t("profile.editMode.password");
 
   return (
     <Grid container>
@@ -192,7 +201,8 @@ const Profile: FC = () => {
           </Box>
           <Box
             sx={{
-              width: { xs: "90vw", sm: 500 },
+              overflow: "hidden",
+              width: { xs: "90vw", sm: 535 },
               bgcolor: palette.grey.divider,
               p: 3,
               "& > .MuiBox-root:not(:first-of-type)": {
@@ -267,13 +277,38 @@ const Profile: FC = () => {
                   reset();
                 }}
               >
-                {isEditMode ? "Cancel" : "Edit"}
+                {isEditMode
+                  ? t("profile.editMode.cancelButton")
+                  : t("profile.editMode.submitButton")}
               </Button>
               {isEditMode && (
                 <Button sx={{ flexGrow: 1 }} type="submit" variant="contained">
-                  Submit
+                  {t("profile.editMode.submitButton")}
                 </Button>
               )}
+            </Box>
+          )}
+          {isMyProfile && isCanChangeProfile && (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <Typography fontSize={24}>
+                {t("profile.passwordTitle")}
+              </Typography>
+              <TextField
+                id="ticket-title"
+                value={password}
+                label={passwordPlaceholder}
+                onChange={e => {
+                  setPassword(e.target.value);
+                }}
+                fullWidth
+              />
+              <Button
+                sx={{ flexGrow: 1 }}
+                variant="outlined"
+                onClick={handelChangePassword}
+              >
+                {t("profile.changePasswordButton")}
+              </Button>
             </Box>
           )}
         </form>
