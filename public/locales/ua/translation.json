@@ -139,12 +139,18 @@
     "group": "Група",
     "phone": "Телефон",
     "editMode": {
+      "cancelButton": "Скасувати",
+      "editButton": "Редагувати",
+      "submitButton": "Надіслати",
+      "password": "Введіть новий пароль",
       "firstname": "Введіть ім'я",
       "lastname": "Введіть прізвище",
       "login": "Введіть логін",
       "email": "Введіть пошту",
       "phone": "Введіть телефон"
-    }
+    },
+    "passwordTitle": "Зміна паролю",
+    "changePasswordButton": "змінити"
   },
   "fullTicket": {
     "additionalInfo": "Додаткова інформація",
