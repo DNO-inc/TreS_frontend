@@ -32,7 +32,7 @@
     "error": "Error",
     "noAssignee": "no assignee",
     "notFound": {
-      "title": "Nor found",
+      "title": "Not found",
       "ticketsTitle": "Tickets not found",
       "notificationsTitle": "Notifications not found",
       "postscript": "*Not missing the chance to",
