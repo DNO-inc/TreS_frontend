@@ -232,15 +232,9 @@ const Profile: FC = () => {
             )}
             <Box>
               <Typography>{t("profile.email")}</Typography>
-              {isEditMode ? (
-                <ProfileInput
-                  register={register}
-                  value={email}
-                  inputType={"email"}
-                />
-              ) : (
+              
                 <Typography>{email ?? t("common.notFound.title")}</Typography>
-              )}
+              
             </Box>
             <Box>
               <Typography>{t("profile.phone")}</Typography>
