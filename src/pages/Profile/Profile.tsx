@@ -279,7 +279,7 @@ const Profile: FC = () => {
               >
                 {isEditMode
                   ? t("profile.editMode.cancelButton")
-                  : t("profile.editMode.submitButton")}
+                  : t("profile.editMode.editButton")}
               </Button>
               {isEditMode && (
                 <Button sx={{ flexGrow: 1 }} type="submit" variant="contained">
