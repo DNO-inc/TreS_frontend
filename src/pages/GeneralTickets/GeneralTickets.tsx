@@ -19,6 +19,7 @@ import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
 import { ITicket } from "../../components/Ticket/ticket.interface";
 import { useAuth } from "../../context/AuthContext";
 import { useWindowWidth } from "../../shared/hooks";
+import { checkIsAdmin } from "../../shared/functions";
 
 interface GeneralTicketsPageInfo {
   data?: {
@@ -48,7 +49,12 @@ const GeneralTickets: FC = () => {
   const facultyQuery: string | null = searchParams.get("faculty");
 
   const { isAuth } = useAuth();
-  const option: string = isAuth ? "tickets" : "anon";
+  const isAdmin = checkIsAdmin();
+  const option: string = !isAuth
+    ? "anon"
+    : isAdmin
+    ? "admin/tickets"
+    : "tickets";
 
   const requestBody = useMemo(() => {
     const matchingStatusesId: number[] = [];

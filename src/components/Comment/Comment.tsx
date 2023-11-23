@@ -21,8 +21,8 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
 
 import ReplyIcon from "@mui/icons-material/Reply";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+
+import { CommentMenu } from "./components/CommentMenu";
 
 import IPalette from "../../theme/IPalette.interface";
 import { endpoints } from "../../constants";
@@ -285,43 +285,15 @@ const Comment: ForwardRefExoticComponent<
                       maxWidth: "100%",
                     }}
                   >
+                    {isCanSendMessage && (
+                      <CommentMenu
+                        changeComment={changeComment}
+                        removeComment={removeComment}
+                        handleReply={handleReply}
+                      />
+                    )}
                     {getCommentBody()}
                   </Typography>
-                  {isCanSendMessage && (
-                    <Box component={"span"} sx={{ float: "right" }}>
-                      <IconButton
-                        onClick={changeComment}
-                        sx={{
-                          color: palette.whiteAlpha.default,
-                          p: "2px",
-                          ml: 2,
-                          mb: 0.4,
-                        }}
-                      >
-                        <EditIcon sx={{ fontSize: 20 }} />
-                      </IconButton>
-                      <IconButton
-                        onClick={removeComment}
-                        sx={{
-                          color: palette.whiteAlpha.default,
-                          p: "2px",
-                          mb: 0.4,
-                        }}
-                      >
-                        <DeleteIcon sx={{ fontSize: 20 }} />
-                      </IconButton>
-                      <IconButton
-                        onClick={handleReply}
-                        sx={{
-                          color: palette.whiteAlpha.default,
-                          p: "2px",
-                          mb: 0.4,
-                        }}
-                      >
-                        <ReplyIcon sx={{ fontSize: 20 }} />
-                      </IconButton>
-                    </Box>
-                  )}
                 </>
               )}
             </Box>
