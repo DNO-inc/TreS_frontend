@@ -1,4 +1,11 @@
-import { FormEvent, useState, FC, Dispatch, SetStateAction } from "react";
+import {
+  FormEvent,
+  useState,
+  FC,
+  Dispatch,
+  SetStateAction,
+  MouseEvent,
+} from "react";
 import { useTranslation } from "react-i18next";
 
 import useTheme from "@mui/material/styles/useTheme";
@@ -7,7 +14,17 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { useMediaQuery } from "@mui/material";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  useMediaQuery,
+} from "@mui/material";
+
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import IPalette from "../../theme/IPalette.interface";
 import { useAuth } from "../../context/AuthContext";
@@ -28,6 +45,7 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, handleSignUn }) => {
   const [login, setLogin] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [hasError, setHasError] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleClose = (): void => setOpen(false);
 
@@ -47,6 +65,12 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, handleSignUn }) => {
       setHasError(true);
       setTimeout(() => setHasError(false), 2000);
     }
+  };
+
+  const handleClickShowPassword = () => setShowPassword(show => !show);
+
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
   };
 
   return (
@@ -84,14 +108,31 @@ const LogInModal: FC<LogInModalProps> = ({ open, setOpen, handleSignUn }) => {
             error={hasError}
             fullWidth
           />
-          <TextField
-            label={t("common.password")}
-            type="password"
-            value={password}
-            onChange={event => setPassword(event.target.value)}
-            error={hasError}
-            fullWidth
-          />
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel htmlFor="outlined-adornment-password">
+              {t("common.password")}
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={event => setPassword(event.target.value)}
+              error={hasError}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
           <Button variant="contained" color="primary" type="submit">
             {t("common.loginButton")}
           </Button>

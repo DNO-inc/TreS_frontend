@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -9,7 +9,16 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Avatar, Button, useTheme } from "@mui/material";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
+
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { ProfileInput } from "./components/ProfileInput";
 
@@ -87,6 +96,7 @@ const Profile: FC = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<number | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const setProfile = () => {
     getProfile({ userId: userId }).then((response: ApiResponse) => {
@@ -125,6 +135,12 @@ const Profile: FC = () => {
   };
 
   const passwordPlaceholder = t("profile.editMode.password");
+
+  const handleClickShowPassword = () => setShowPassword(show => !show);
+
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   return (
     <Grid container>
@@ -232,9 +248,7 @@ const Profile: FC = () => {
             )}
             <Box>
               <Typography>{t("profile.email")}</Typography>
-              
-                <Typography>{email ?? t("common.notFound.title")}</Typography>
-              
+              <Typography>{email ?? t("common.notFound.title")}</Typography>
             </Box>
             <Box>
               <Typography>{t("profile.phone")}</Typography>
@@ -287,15 +301,30 @@ const Profile: FC = () => {
               <Typography fontSize={24}>
                 {t("profile.passwordTitle")}
               </Typography>
-              <TextField
-                id="ticket-title"
-                value={password}
-                label={passwordPlaceholder}
-                onChange={e => {
-                  setPassword(e.target.value);
-                }}
-                fullWidth
-              />
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  {passwordPlaceholder}
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={event => setPassword(event.target.value)}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+              </FormControl>
               <Button
                 sx={{ flexGrow: 1 }}
                 variant="outlined"

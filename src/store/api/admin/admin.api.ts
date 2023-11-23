@@ -11,7 +11,7 @@ export const adminApi = api.injectEndpoints({
     }),
     adminShowTicket: builder.mutation({
       query: ({ body }) => ({
-        url: "tickets/show",
+        url: "admin/tickets/show",
         method: "POST",
         body,
       }),
