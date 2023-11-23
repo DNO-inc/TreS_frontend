@@ -23,7 +23,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
-  const matches = useMediaQuery("(max-width: 1260px)");
+  const matches = useMediaQuery("(max-width: 1340px)");
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [isOpen, setIsOpen] = useState(false);

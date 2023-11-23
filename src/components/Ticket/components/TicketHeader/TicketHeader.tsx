@@ -73,8 +73,6 @@ const TicketHeader: FC<TicketHeaderProps> = ({
     }
   }
 
-  console.log(status === "NEW");
-
   return (
     <Box maxHeight={80}>
       <Grid container flexWrap={"nowrap"} justifyContent={"space-between"}>

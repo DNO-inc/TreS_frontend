@@ -113,7 +113,7 @@ const GeneralTickets: FC = () => {
     <Grid container flexDirection={"column"}>
       <Box>
         <Typography variant="h1">{t("generalTickets.heading")}</Typography>
-        <FilterPanel />
+        <FilterPanel isAllStatuses={isAdmin} />
       </Box>
       <Box>
         {isLoading && <Loader />}
