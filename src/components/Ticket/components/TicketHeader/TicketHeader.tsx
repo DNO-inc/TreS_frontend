@@ -73,6 +73,8 @@ const TicketHeader: FC<TicketHeaderProps> = ({
     }
   }
 
+  console.log(status === "NEW");
+
   return (
     <Box maxHeight={80}>
       <Grid container flexWrap={"nowrap"} justifyContent={"space-between"}>
@@ -85,7 +87,10 @@ const TicketHeader: FC<TicketHeaderProps> = ({
         </Typography>
         <Grid gap={1} display={"flex"} sx={{ ml: 2 }}>
           <Badge
-            customStyle={{ bgcolor: color }}
+            customStyle={{
+              bgcolor: color,
+              color: status === "NEW" ? "#000" : "#fff",
+            }}
             text={t(`ticketStatus.${status.toLowerCase()}`)}
           />
           <ScopeLabel scope={scope} isShowTooltip={true} />

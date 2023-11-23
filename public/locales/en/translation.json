@@ -169,7 +169,9 @@
       "queue": "queue",
       "editMessage": "Edit Message",
       "send": "send",
-      "edit": "edit"
+      "edit": "edit",
+      "reply": "reply",
+      "delete": "delete"
     },
     "dialog": {
       "title": "Delete ticket",

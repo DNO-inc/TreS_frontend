@@ -135,7 +135,11 @@ const AuthActions: FC = () => {
                 <AccountBoxIcon fontSize="small" sx={{ mr: 1 }} />
                 {t("common.profile")}
               </Button>
-              <Button color="inherit" onClick={handleLogOut}>
+              <Button
+                color="inherit"
+                onClick={handleLogOut}
+                sx={{ whiteSpace: "nowrap" }}
+              >
                 <LogoutIcon fontSize="small" sx={{ mr: 1 }} />
                 {t("common.logout")}
               </Button>
