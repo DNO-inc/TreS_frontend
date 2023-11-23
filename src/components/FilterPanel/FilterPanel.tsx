@@ -11,6 +11,8 @@ interface FilterPanelProps {
 }
 
 const FilterPanel: FC<FilterPanelProps> = memo(({ isAllStatuses = false }) => {
+  console.log(isAllStatuses);
+
   return (
     <Grid
       container

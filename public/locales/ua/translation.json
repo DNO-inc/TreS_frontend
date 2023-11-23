@@ -93,7 +93,7 @@
       "deleted": "Видалені"
     },
     "notification": "Сповіщення",
-    "generalTickets": "Всі тікети",
+    "generalTickets": "Поточні тікети",
     "settings": "Налаштування",
     "lightMode": "Світлий режим"
   },
@@ -125,7 +125,7 @@
     "heading": "Сповіщення"
   },
   "generalTickets": {
-    "heading": "Всі тікети",
+    "heading": "Поточні тікети",
     "facultyFilter": "Всі факультети"
   },
   "settings": {
