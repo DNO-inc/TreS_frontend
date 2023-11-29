@@ -44,7 +44,7 @@ const ProfileTooltip: FC<Creator> = ({ creator }) => {
     } else if (creatorLastname) {
       creatorName = `Firstname ${creatorLastname}`;
     } else {
-      creatorName = "have a assignee";
+      creatorName = "has an assignee";
     }
   }
 
