@@ -69,7 +69,7 @@ const TicketHeader: FC<TicketHeaderProps> = ({
     } else if (assigneeLastname) {
       assigneeName = `Firstname ${assigneeLastname}`;
     } else {
-      assigneeName = "have a assignee";
+      assigneeName = "has an assignee";
     }
   }
 
