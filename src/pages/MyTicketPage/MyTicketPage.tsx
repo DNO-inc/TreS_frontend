@@ -180,7 +180,11 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
         />
       </Box>
       {isSentPage && deletedList.length > 0 && (
-        <Button onClick={() => handleDelete(deletedList)} variant="outlined">
+        <Button
+          onClick={() => handleDelete(deletedList)}
+          variant="outlined"
+          sx={{ mt: 17, mb: -15 }}
+        >
           Delete All selected tickets
         </Button>
       )}

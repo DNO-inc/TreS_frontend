@@ -14,6 +14,9 @@
     "12": "Dec."
   },
   "common": {
+    "q/a": "Q/A",
+    "reports": "Reports",
+    "suggestion": "Suggestions",
     "comingSoon": "Coming Soon...",
     "loading": "Loading...",
     "login": "Log in",
@@ -44,6 +47,14 @@
       "suggestion": "Suggestion ticket",
       "question": "Question ticket"
     }
+  },
+  "dialog": {
+    "deleteFile": {
+      "title": "Are you sure you want to delete this file?",
+      "description": "This file will be deleted and cannot be recovered."
+    },
+    "agree": "Agree",
+    "disagree": "Disagree"
   },
   "signUp": {
     "header": "Sign up",
@@ -182,7 +193,7 @@
   },
   "createTicket": {
     "heading": "Ticket creation",
-    "queue": "Queue",
+    "queue": "Category",
     "faculty": "Faculty",
     "selectQueue": "Select queue",
     "ticketTitle": "Ticket title",
@@ -204,7 +215,7 @@
     "edit": "Edit"
   },
   "statusesFilter": {
-    "all": "All",
+    "reset": "Reset statuses",
     "new": "New",
     "accepted": "Accepted",
     "open": "Open",

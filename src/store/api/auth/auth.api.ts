@@ -16,6 +16,12 @@ export const authApi = api.injectEndpoints({
         body,
       }),
     }),
+    resetPassword: builder.mutation({
+      query: email => ({
+        url: `/profile/access_renew?email=${email}`,
+        method: "GET",
+      }),
+    }),
     deleteToken: builder.mutation({
       query: () => ({
         url: "/auth/token/delete",
@@ -28,5 +34,6 @@ export const authApi = api.injectEndpoints({
 export const {
   useLoginMutation,
   useCabinetLoginMutation,
+  useResetPasswordMutation,
   useDeleteTokenMutation,
 } = authApi;
