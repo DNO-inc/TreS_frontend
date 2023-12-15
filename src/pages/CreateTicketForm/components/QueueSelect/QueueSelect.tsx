@@ -71,21 +71,30 @@ const QueueSelect: FC<QueueSelectProps> = ({
   if (sortedQueues) {
     for (let i = 0; i < sortedQueues.length; i++) {
       const queue = sortedQueues[i];
-
       const isFirstItemWithScope = queue.scope !== currentScope;
+      //Refactor this
+      let isSelected = false;
+      if (queue.name === "Інше" && queue.scope === "Reports") {
+        isSelected = true;
+        setQueue(queue.queue_id);
+      }
 
       if (isFirstItemWithScope) {
         currentScope = queue.scope;
 
         menuItems.push(
           <ListSubheader key={`subheader-${currentScope}`}>
-            {currentScope}
+            {t(`common.${currentScope.toLowerCase()}`)}
           </ListSubheader>
         );
       }
 
       menuItems.push(
-        <MenuItem value={queue.queue_id} key={`menuItem-${queue.queue_id}`}>
+        <MenuItem
+          value={queue.queue_id}
+          selected={isSelected}
+          key={`menuItem-${queue.queue_id}`}
+        >
           <ListItemText primary={queue.name} />
         </MenuItem>
       );
@@ -109,30 +118,24 @@ const QueueSelect: FC<QueueSelectProps> = ({
         sx={{ bgcolor: palette.grey.card }}
         {...register("queue")}
       >
-        <Select
-          id="queue-select"
-          required
-          value={queue.toString()}
-          onChange={handleChange}
-          MenuProps={{
-            PaperProps: {
-              style: {
-                maxHeight: 300,
+        {isLoading && <Loader size="small" />}
+        {isSuccess && (
+          <Select
+            id="queue-select"
+            required
+            value={queue.toString()}
+            onChange={handleChange}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 300,
+                },
               },
-            },
-          }}
-        >
-          <MenuItem value={-1} disabled>
-            <ListItemText
-              primary={t("createTicket.selectQueue")}
-              primaryTypographyProps={{
-                style: { color: palette.whiteAlpha.default },
-              }}
-            />
-          </MenuItem>
-          {isLoading && <Loader />}
-          {isSuccess && menuItems}
-        </Select>
+            }}
+          >
+            {isSuccess && menuItems}
+          </Select>
+        )}
       </FormControl>
     </Box>
   );

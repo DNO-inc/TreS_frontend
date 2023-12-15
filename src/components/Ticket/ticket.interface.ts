@@ -28,6 +28,9 @@ export interface ITicket extends Creator, Assignee {
     name: string;
   };
 
+  hidden: boolean;
+  anonymous: boolean;
+
   is_bookmarked: boolean;
   is_followed: boolean;
   is_liked: boolean;

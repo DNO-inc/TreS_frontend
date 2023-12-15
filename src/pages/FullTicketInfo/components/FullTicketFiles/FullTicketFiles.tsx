@@ -14,15 +14,18 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import useTheme from "@mui/material/styles/useTheme";
-import { Button } from "@mui/material";
+import Chip from "@mui/material/Chip";
 
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
+import { DialogPopup } from "../../../../components/DialogPopup";
+
 import IPalette from "../../../../theme/IPalette.interface";
 import {
+  useDeleteFileMutation,
   useGetFileMutation,
   useGetFilesIdsMutation,
-  useUploadFilesMutation,
+  useUploadFileMutation,
 } from "../../../../store/api/iofiles/iofiles.api";
 import { getFileIcon } from "../../../../shared/functions";
 
@@ -52,11 +55,18 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
   const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
 
   const [files, setFiles] = useState<IFile[]>([]);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [deletedFileId, setDeletedFileId] = useState<string>("");
 
-  const [uploadFiles, { isSuccess: isFilesUploaded }] =
-    useUploadFilesMutation();
+  const [uploadFiles, { isSuccess: isFileUploaded }] = useUploadFileMutation();
   const [getFilesId] = useGetFilesIdsMutation();
   const [getFile] = useGetFileMutation();
+  const [deleteFile, { isSuccess: isFileDeleted }] = useDeleteFileMutation();
+
+  const textBody = {
+    title: "deleteFile.title",
+    description: "deleteFile.description",
+  };
 
   const uploadFileList = () => {
     const formData = new FormData();
@@ -77,10 +87,10 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
   }, []);
 
   useEffect(() => {
-    if (isFilesUploaded) {
+    if (isFileUploaded || isFileDeleted) {
       uploadFileList();
     }
-  }, [isFilesUploaded]);
+  }, [isFileUploaded, isFileDeleted]);
 
   const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -122,6 +132,19 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
     inputRef?.current?.click();
   };
 
+  const handleOpenDialog = (fileId: string) => {
+    setOpenDialog(true);
+    setDeletedFileId(fileId);
+  };
+
+  const handlePositiveAnswer = () => {
+    const formData = new FormData();
+
+    formData.append("file_id", deletedFileId);
+
+    deleteFile(formData);
+  };
+
   return (
     <Grid container>
       <Typography mb={2}>{t("fullTicket.files")}</Typography>
@@ -157,23 +180,36 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
         )}
         {files.map(file => {
           return (
-            <Button
-              color="inherit"
+            <Chip
               sx={{
                 bgcolor: palette.grey.card,
                 border: `2px solid ${palette.grey.divider}`,
                 borderRadius: 1,
                 textTransform: "none",
+                height: "43px",
+              }}
+              icon={getFileIcon(file.file_name)}
+              label={
+                <span style={{ fontSize: "16px", marginRight: 6 }}>
+                  {file.file_name}
+                </span>
+              }
+              variant="outlined"
+              onClick={() => handleClick(file.file_id, file.file_name)}
+              onDelete={() => {
+                handleOpenDialog(file.file_id);
               }}
               key={file.file_id}
-              onClick={() => handleClick(file.file_id, file.file_name)}
-            >
-              {getFileIcon(file.file_name)}
-              <Typography sx={{ ml: 1 }}>{file.file_name}</Typography>
-            </Button>
+            />
           );
         })}
       </Grid>
+      <DialogPopup
+        open={openDialog}
+        setOpen={setOpenDialog}
+        textBody={textBody}
+        handleAgree={handlePositiveAnswer}
+      />
     </Grid>
   );
 };

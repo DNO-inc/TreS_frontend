@@ -27,6 +27,7 @@ interface TicketBodyProps extends Creator {
     user_id: number | null;
   };
   faculty: string;
+  isHiddenTicket: boolean;
 }
 
 const ProfileTooltip: FC<Creator> = ({ creator }) => {
@@ -64,7 +65,12 @@ const ProfileTooltip: FC<Creator> = ({ creator }) => {
   );
 };
 
-const TicketBody: FC<TicketBodyProps> = ({ body, creator, faculty }) => {
+const TicketBody: FC<TicketBodyProps> = ({
+  body,
+  creator,
+  faculty,
+  isHiddenTicket,
+}) => {
   const { palette }: IPalette = useTheme();
 
   const { isAuth } = useAuth();
@@ -91,15 +97,17 @@ const TicketBody: FC<TicketBodyProps> = ({ body, creator, faculty }) => {
         sx={{
           overflow: "hidden",
           flexGrow: 1,
-          "&::after": {
-            content: `""`,
-            position: "absolute",
-            bottom: 48,
-            left: 0,
-            width: "100%",
-            height: "56px",
-            background: `linear-gradient(transparent, ${palette.grey.card})`,
-          },
+          "&::after": isHiddenTicket
+            ? {}
+            : {
+                content: `""`,
+                position: "absolute",
+                bottom: 48,
+                left: 0,
+                width: "100%",
+                height: "56px",
+                background: `linear-gradient(transparent, ${palette.grey.card})`,
+              },
         }}
       >
         <Typography

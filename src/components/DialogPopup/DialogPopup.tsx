@@ -1,4 +1,5 @@
 import { FC, Dispatch, SetStateAction } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   Button,
@@ -12,9 +13,24 @@ import {
 interface DialogPopupProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  textBody: {
+    title: string;
+    description: string;
+    agreeButton?: string;
+    disagreeButton?: string;
+  };
+  handleAgree: () => void;
 }
 
-const DialogPopup: FC<DialogPopupProps> = ({ open, setOpen }) => {
+const DialogPopup: FC<DialogPopupProps> = ({
+  open,
+  setOpen,
+  textBody,
+  handleAgree,
+}) => {
+  const { t } = useTranslation();
+  const { title, description } = textBody;
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -25,20 +41,31 @@ const DialogPopup: FC<DialogPopupProps> = ({ open, setOpen }) => {
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      sx={{
+        ".MuiPaper-root": {
+          p: 2,
+        },
+      }}
     >
-      <DialogTitle id="alert-dialog-title">
-        {"Use Google's location service?"}
-      </DialogTitle>
+      <DialogTitle id="alert-dialog-title">{t(`dialog.${title}`)}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.
+          {t(`dialog.${description}`)}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Disagree</Button>
-        <Button onClick={handleClose} autoFocus>
-          Agree
+        <Button variant="outlined" onClick={handleClose}>
+          {t("dialog.disagree")}
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            handleAgree();
+            handleClose();
+          }}
+          autoFocus
+        >
+          {t("dialog.agree")}
         </Button>
       </DialogActions>
     </Dialog>

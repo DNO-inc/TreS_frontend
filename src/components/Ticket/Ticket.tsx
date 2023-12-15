@@ -41,6 +41,8 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
   const creatorId = ticket?.creator && ticket?.creator.user_id;
   const isMyTicket = userId == creatorId;
 
+  const isHiddenTicket = isMyTicket && ticket.hidden;
+
   ////////////////////////////////////////
   const [open, setOpen] = useState(false);
   const [transition, setTransition] = useState<
@@ -131,6 +133,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
   return (
     <Card
       sx={{
+        position: "relative",
         flexBasis: `calc((100% - 16px * ${
           ticketsPerRow - 1
         }) / ${ticketsPerRow})`,
@@ -148,6 +151,32 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
           ml: 2,
           mr: 2,
         },
+
+        "&::before": isHiddenTicket
+          ? {
+              content: "''",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              bgcolor: "rgba(0, 0, 0, 0.6)",
+              zIndex: 2,
+            }
+          : {},
+        "&::after": isHiddenTicket
+          ? {
+              content: "'Заспокойся, ніхто не бачить'",
+              textAlign: "center",
+              fontSize: 40,
+              fontWeight: 900,
+              transform: "rotate(20deg) translate(-10%, -20%)",
+              position: "absolute",
+              top: "40%",
+              left: "15%",
+              zIndex: 3,
+            }
+          : {},
       }}
       onClick={handleClick}
     >
@@ -168,6 +197,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
         />
         <Divider />
         <TicketBody
+          isHiddenTicket={isHiddenTicket}
           isMyTicket={isMyTicket}
           body={ticket.body}
           creator={ticket.creator}
