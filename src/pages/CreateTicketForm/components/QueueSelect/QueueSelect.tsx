@@ -58,6 +58,13 @@ const QueueSelect: FC<QueueSelectProps> = ({
       );
 
       setSortedQueues(newSortedQueues);
+
+      newSortedQueues.forEach(queue => {
+        if (queue.name === "Інше" && queue.scope === "Reports") {
+          setQueue(queue.queue_id);
+          setValue("queue", queue.queue_id);
+        }
+      });
     }
   }, [isSuccess, data?.queues_list]);
 
@@ -74,10 +81,6 @@ const QueueSelect: FC<QueueSelectProps> = ({
       const isFirstItemWithScope = queue.scope !== currentScope;
       //Refactor this
       let isSelected = false;
-      if (queue.name === "Інше" && queue.scope === "Reports") {
-        isSelected = true;
-        setQueue(queue.queue_id);
-      }
 
       if (isFirstItemWithScope) {
         currentScope = queue.scope;

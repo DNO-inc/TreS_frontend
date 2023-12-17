@@ -152,7 +152,7 @@
     "editMode": {
       "cancelButton": "Скасувати",
       "editButton": "Редагувати",
-      "submitButton": "Надіслати",
+      "applyButton": "Застосувати",
       "password": "Введіть новий пароль",
       "firstname": "Введіть ім'я",
       "lastname": "Введіть прізвище",
