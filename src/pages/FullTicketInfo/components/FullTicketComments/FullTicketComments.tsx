@@ -54,6 +54,7 @@ export type IHistoryItem =
       };
       creation_date: string;
       field_name: string;
+      file_meta_action: string;
       value: string;
       new_value: string;
       old_value: string;

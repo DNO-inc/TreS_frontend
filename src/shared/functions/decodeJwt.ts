@@ -26,6 +26,10 @@ const decodeJwt = (jwt: string | null) => {
   if (jwtDecodeData && jwtDecodeData?.role) {
     localStorage.setItem("role", jwtDecodeData.role);
   }
+
+  if (jwtDecodeData && jwtDecodeData?.user_id) {
+    localStorage.setItem("user-id", jwtDecodeData.user_id.toString());
+  }
 };
 
 export { decodeJwt };

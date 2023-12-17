@@ -11,6 +11,7 @@ import {
 } from "../shared/functions/getLocalStorageData";
 import { checkIsAdmin } from "../shared/functions";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
+import { useResetPasswordMutation } from "../store/api/auth/auth.api";
 
 const Layout = lazy(() => import("../pages/Layout"));
 const GeneralTickets = lazy(() => import("../pages/GeneralTickets"));
@@ -28,8 +29,13 @@ const FullTicketInfo = lazy(() => import("../pages/FullTicketInfo"));
 const CreateTicketForm = lazy(() => import("../pages/CreateTicketForm"));
 const PermissionDenied = lazy(() => import("../pages/PermissionDenied"));
 
+type ApiResponse = {
+  data?: { access_token: string };
+  error?: any;
+};
+
 const Router: FC = () => {
-  const { isAuth } = useAuth();
+  const { isAuth, registerUser } = useAuth();
   const isAdmin = checkIsAdmin();
 
   const permissions = getPermissions();
@@ -39,10 +45,22 @@ const Router: FC = () => {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
 
+  const [resetPassword] = useResetPasswordMutation({});
+
   useEffect(() => {
     const authToken = getAccessToken();
 
     if (pathname === "/") {
+      navigate(endpoints.generalTickets);
+    } else if (pathname.includes(endpoints.resetPassword)) {
+      const resetToken = pathname.split("/")[3];
+
+      resetPassword(resetToken).then((res: ApiResponse) => {
+        const accessToken = res?.data && res?.data?.access_token;
+
+        registerUser(accessToken);
+      });
+
       navigate(endpoints.generalTickets);
     } else if (
       !authToken &&
