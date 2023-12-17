@@ -2,7 +2,7 @@ import { api } from "../api";
 
 export const ioFilesApi = api.injectEndpoints({
   endpoints: builder => ({
-    uploadFiles: builder.mutation({
+    uploadFile: builder.mutation({
       query: file => ({
         url: "/iofiles/upload_file",
         method: "POST",
@@ -10,6 +10,16 @@ export const ioFilesApi = api.injectEndpoints({
           "Content-Type": "multipart/form-data",
         },
         body: file,
+      }),
+    }),
+    deleteFile: builder.mutation({
+      query: file_id => ({
+        url: "/iofiles/delete_file",
+        method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: file_id,
       }),
     }),
     getFile: builder.mutation({
@@ -36,7 +46,8 @@ export const ioFilesApi = api.injectEndpoints({
 });
 
 export const {
-  useUploadFilesMutation,
+  useUploadFileMutation,
+  useDeleteFileMutation,
   useGetFileMutation,
   useGetFilesIdsMutation,
 } = ioFilesApi;

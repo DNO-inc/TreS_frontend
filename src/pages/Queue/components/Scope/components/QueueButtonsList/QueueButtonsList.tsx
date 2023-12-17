@@ -46,6 +46,7 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({
   const queuesName: string[] = useGetQueuesName(queues);
 
   const searchParamsOrder = searchParams.get(scope);
+
   const queuesOrder: number[] = searchParamsOrder
     ? searchParamsOrder.split(",").map(item => Number(item))
     : [];
@@ -54,10 +55,18 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({
         return queuesOrder.includes(index);
       })
     : queuesName.map(() => {
-        return false;
+        return true;
       });
 
   const [checked, setChecked] = useState(checkedFromUrl);
+
+  useEffect(() => {
+    setChecked(
+      queuesName.map(() => {
+        return true;
+      })
+    );
+  }, [facultyId]);
 
   const setQueuesParams = (updatedChecked: boolean[], isAllQueues = false) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -107,16 +116,9 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({
 
   useEffect(() => {
     const filteredQueues = queuesFullInfo.filter(queue => queue.checked);
+
     setQueues(filteredQueues.map(queue => queue.queue_id));
   }, [checked]);
-
-  useEffect(() => {
-    setChecked(
-      queuesName.map(() => {
-        return false;
-      })
-    );
-  }, [facultyId]);
 
   const children: JSX.Element = (
     <Box sx={{ display: "flex", gap: 1.5, ml: 2 }}>
@@ -196,10 +198,14 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({
       <FormControlLabel
         label={t("queue.showAll")}
         sx={{
-          bgcolor: isAllChecked ? palette.semantic.info : palette.grey.button,
+          bgcolor: isAllChecked ? "none" : palette.grey.button,
         }}
         control={
-          <Checkbox checked={isAllChecked} onChange={handleParentChange} />
+          <Checkbox
+            checked={isAllChecked}
+            disabled={isAllChecked}
+            onChange={handleParentChange}
+          />
         }
       />
       {children}

@@ -107,8 +107,6 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
 
   const isAdmin = checkIsAdmin();
 
-  // console.log(action);
-
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [isCopyLink, setIsCopyLink] = useState<boolean>(false);
   const [queue, setQueue] = useState<number>(ticketQueue?.queue_id || -1);

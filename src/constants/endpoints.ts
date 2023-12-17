@@ -15,6 +15,7 @@ const endpoints = {
   createTicket: "/tickets/create",
   error: "/error",
   privacyPolicy: "/privacy-policy",
+  resetPassword: "/profile/access_renew/",
 };
 
 export { endpoints };

@@ -5,7 +5,13 @@ import { useSearchParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { IconButton, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Button,
+  Divider,
+  IconButton,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
@@ -23,7 +29,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
-  const matches = useMediaQuery("(max-width: 1260px)");
+  const matches = useMediaQuery("(max-width: 1420px)");
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +43,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
     ? statusesName.map(status => {
         return statusesQueryParams.includes(status);
       })
-    : statusesName.map(() => true);
+    : statusesName.map(() => false);
 
   const processSelectStatus = (updatedChecked: boolean[]): void => {
     const params = new URLSearchParams(searchParams.toString());
@@ -70,8 +76,8 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
       processSelectStatus(updatedChecked);
     };
 
-  const handleParentChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const updatedChecked = checked.map(() => event.target.checked);
+  const handleParentChange = () => {
+    const updatedChecked = checked.map(() => false);
 
     processSelectStatus(updatedChecked);
   };
@@ -124,12 +130,11 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
     </Box>
   );
 
-  const isAllChecked: boolean = !!checked && checked.every(value => value);
-  const isSomeChecked: boolean = checked.some(value => value);
-
   const handleFilterOpen = () => {
     setIsOpen(prevState => !prevState);
   };
+
+  const isAllUnchecked: boolean = checked && !checked.some(value => value);
 
   return (
     <>
@@ -160,45 +165,29 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
               zIndex: 20,
             }}
           >
-            <FormControlLabel
-              label={t("statusesFilter.all")}
-              control={
-                <Checkbox
-                  checked={isAllChecked}
-                  indeterminate={!isAllChecked && isSomeChecked}
-                  onChange={handleParentChange}
-                  sx={{
-                    color: "#ffffff",
-                    zIndex: 1,
-                    "& > .MuiSvgIcon-root": {
-                      color: "#ffffff",
-                    },
-                  }}
-                />
-              }
-            />
+            <Button
+              color="inherit"
+              onClick={handleParentChange}
+              disabled={isAllUnchecked}
+              sx={{ textTransform: "initial" }}
+            >
+              {t("statusesFilter.reset")}
+            </Button>
+            <Divider sx={{ mt: 0.5, borderWidth: 1 }} />
             {children}
           </Box>
         )
       ) : (
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <FormControlLabel
-            label={t("statusesFilter.all")}
-            control={
-              <Checkbox
-                checked={isAllChecked}
-                indeterminate={!isAllChecked && isSomeChecked}
-                onChange={handleParentChange}
-                sx={{
-                  color: "#ffffff",
-                  zIndex: 1,
-                  "& > .MuiSvgIcon-root": {
-                    color: "#ffffff",
-                  },
-                }}
-              />
-            }
-          />
+          <Button
+            color="inherit"
+            variant="contained"
+            onClick={handleParentChange}
+            disabled={isAllUnchecked}
+            sx={{ mr: 1, textTransform: "initial" }}
+          >
+            {t("statusesFilter.reset")}
+          </Button>
           <VerticalDivider />
           {children}
         </Box>

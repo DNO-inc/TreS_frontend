@@ -40,7 +40,7 @@ const TicketActions: FC<TicketActionsProps> = ({
   const { palette }: IPalette = useTheme();
 
   const { isAuth } = useAuth();
-
+  
   return (
     <Grid container justifyContent={"space-between"} alignItems={"center"}>
       <Typography color="text.secondary" fontSize={14}>
@@ -56,6 +56,7 @@ const TicketActions: FC<TicketActionsProps> = ({
               fontSize: 20,
             },
           },
+          zIndex: 3,
         }}
       >
         {/* {isAdmin && (
@@ -87,7 +88,7 @@ const TicketActions: FC<TicketActionsProps> = ({
               },
             }}
           >
-            {isAuth && isFollowed ? (
+            {isFollowed ? (
               <StarIcon className="evadeItem" />
             ) : (
               <StarBorderIcon className="evadeItem" />
@@ -108,7 +109,7 @@ const TicketActions: FC<TicketActionsProps> = ({
             },
           }}
         >
-          {isAuth && isLiked ? (
+          {isLiked ? (
             <FavoriteIcon className="evadeItem" />
           ) : (
             <FavoriteBorderOutlinedIcon className="evadeItem" />

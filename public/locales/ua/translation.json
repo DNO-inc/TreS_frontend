@@ -14,14 +14,13 @@
     "12": "Груд."
   },
   "common": {
+    "q/a": "Питання",
+    "reports": "Скарги",
+    "suggestion": "Пропозиції",
     "comingSoon": "Незабаром...",
     "loading": "Завантаження...",
     "login": "Авторизація",
     "logout": "Вихід",
-    "loginInput": "Логін",
-    "loginButton": "Увійти",
-    "loginQuestion": "Ще не маєте аккаунту? ",
-    "loginRedirect": "Створити",
     "faculty": "Факультет",
     "selectFaculty": "Оберіть факультет",
     "group": "Група",
@@ -43,6 +42,35 @@
       "report": "Тікет - скарга",
       "suggestion": "Тікет - пропозиція",
       "question": "Тікет - питання"
+    }
+  },
+  "dialog": {
+    "deleteFile": {
+      "title": "Ви впевнені, що хочете видалити цей файл?",
+      "description": "Цей файл буде видалено та не підлягатиме відновленню."
+    },
+    "agree": "Згоден",
+    "disagree": "Не згоден"
+  },
+  "login": {
+    "loginHeader": "Авторизація",
+    "loginInput": "Логін",
+    "comeInButton": "Увійти",
+    "resetQuestion": "Забули логін або пароль? ",
+    "restoreAccess": "Відновити доступ",
+    "signUpQuestion": "Ще не маєте аккаунту? ",
+    "signUpRedirect": "Створити",
+    "restore": {
+      "header": "Відновлення доступу",
+      "description": "Введіть електрону пошту в призначене для цього поле. На вказану адресу буде надіслано повідомлення з підтвердженням.",
+      "input": "Пошта",
+      "return": "Повернутися",
+      "send": "Надіслати"
+    },
+    "confirm": {
+      "header": "Підтвердження",
+      "description": "Перейдіть за вказаною електронною адресою та скористайтеся посиланням, щоб відновити доступ до свого облікового запису.",
+      "close": "Закрити"
     }
   },
   "signUp": {
@@ -93,16 +121,16 @@
       "deleted": "Видалені"
     },
     "notification": "Сповіщення",
-    "generalTickets": "Всі тікети",
+    "generalTickets": "Поточні тікети",
     "settings": "Налаштування",
     "lightMode": "Світлий режим"
   },
   "queue": {
     "heading": "Черга",
     "scopes": {
-      "reportTitle": "Тікети - скарги",
-      "questionTitle": "Тікети - питання",
-      "suggestionTitle": "Тікети - пропозиції"
+      "reportTitle": "Скарги",
+      "questionTitle": "Питання",
+      "suggestionTitle": "Пропозиції"
     },
     "showAll": "Показати всі"
   },
@@ -125,7 +153,7 @@
     "heading": "Сповіщення"
   },
   "generalTickets": {
-    "heading": "Всі тікети",
+    "heading": "Поточні тікети",
     "facultyFilter": "Всі факультети"
   },
   "settings": {
@@ -141,7 +169,7 @@
     "editMode": {
       "cancelButton": "Скасувати",
       "editButton": "Редагувати",
-      "submitButton": "Надіслати",
+      "applyButton": "Застосувати",
       "password": "Введіть новий пароль",
       "firstname": "Введіть ім'я",
       "lastname": "Введіть прізвище",
@@ -182,7 +210,7 @@
   },
   "createTicket": {
     "heading": "Створення тікета",
-    "queue": "Черга",
+    "queue": "Категорія",
     "faculty": "Факультет",
     "selectQueue": "Оберіть чергу",
     "ticketTitle": "Назва тікета",
@@ -197,14 +225,14 @@
     "hiddenTitle": "Приватний звіт",
     "hiddenPart1": "Ваш",
     "hiddenPart2": "тікет не буде показано",
-    "hiddenPart3": "в загальних тікетах",
+    "hiddenPart3": "в поточних тікетах",
     "sentTicket": "Надіслати тікет",
     "clear": "Очистити",
     "preview": "Переглянути",
     "edit": "Редагувати"
   },
   "statusesFilter": {
-    "all": "Всі",
+    "reset": "Скинути статуси",
     "new": "Нові",
     "accepted": "Прийняті",
     "open": "Відкриті",
