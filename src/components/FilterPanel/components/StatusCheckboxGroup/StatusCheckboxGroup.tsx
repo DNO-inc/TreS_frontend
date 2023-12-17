@@ -134,6 +134,10 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
     setIsOpen(prevState => !prevState);
   };
 
+  const isAllUnchecked: boolean = checked && !checked.some(value => value);
+
+  console.log(isAllUnchecked);
+
   return (
     <>
       {matches && (
@@ -166,6 +170,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
             <Button
               color="inherit"
               onClick={handleParentChange}
+              disabled={isAllUnchecked}
               sx={{ textTransform: "initial" }}
             >
               {t("statusesFilter.reset")}
@@ -180,6 +185,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
             color="inherit"
             variant="contained"
             onClick={handleParentChange}
+            disabled={isAllUnchecked}
             sx={{ mr: 1, textTransform: "initial" }}
           >
             {t("statusesFilter.reset")}

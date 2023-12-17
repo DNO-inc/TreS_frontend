@@ -40,9 +40,7 @@ const TicketActions: FC<TicketActionsProps> = ({
   const { palette }: IPalette = useTheme();
 
   const { isAuth } = useAuth();
-
-  console.log(isLiked);
-
+  
   return (
     <Grid container justifyContent={"space-between"} alignItems={"center"}>
       <Typography color="text.secondary" fontSize={14}>

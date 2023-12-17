@@ -152,7 +152,7 @@
     "editMode": {
       "cancelButton": "Cancel",
       "editButton": "Edit",
-      "submitButton": "Submit",
+      "applyButton": "Apply",
       "password": "Enter new password",
       "firstname": "Enter firstname",
       "lastname": "Enter lastname",
