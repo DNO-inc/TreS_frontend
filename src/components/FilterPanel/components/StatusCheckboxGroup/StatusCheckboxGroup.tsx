@@ -136,8 +136,6 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
 
   const isAllUnchecked: boolean = checked && !checked.some(value => value);
 
-  console.log(isAllUnchecked);
-
   return (
     <>
       {matches && (

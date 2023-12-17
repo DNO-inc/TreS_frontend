@@ -233,7 +233,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
                   cursor: "pointer",
                 }}
               >
-                {t("common.loginButton")}
+                {t("common.login")}
               </span>
             </Typography>
           )}

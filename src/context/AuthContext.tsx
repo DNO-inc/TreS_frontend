@@ -14,6 +14,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   getAccessToken,
   getIsTokensExpired,
+  getUserId,
 } from "../shared/functions/getLocalStorageData";
 import { useGetProfileMutation } from "../store/api/profile/profile.api";
 import { decodeJwt } from "../shared/functions";
@@ -78,7 +79,8 @@ type ILoginInfo =
       refresh_token: string;
       user_id: number;
     }
-  | undefined;
+  | undefined
+  | string;
 
 type ApiResponse = {
   data?: ILoginInfo;
@@ -125,15 +127,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const _getUser = async (loginInfo: ILoginInfo) => {
     try {
-      if (loginInfo?.refresh_token) {
-        localStorage.setItem("refresh-token", loginInfo?.refresh_token);
-      }
+      const getUserData = async (accessToken: string) => {
+        decodeJwt(accessToken);
 
-      if (loginInfo?.access_token) {
-        decodeJwt(loginInfo.access_token);
+        const userId = getUserId();
 
         const { data: userInfo }: UserInfoProps = await getProfile({
-          userId: loginInfo?.user_id,
+          userId: userId,
         });
 
         if (userInfo?.faculty?.faculty_id) {
@@ -161,11 +161,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           );
         }
 
-        if (loginInfo?.user_id) {
-          localStorage.setItem("user-id", loginInfo.user_id.toString());
+        setIsAuth(true);
+      };
+
+      if (typeof loginInfo === "string") {
+        getUserData(loginInfo);
+      } else if (typeof loginInfo === "object") {
+        if (loginInfo?.refresh_token) {
+          localStorage.setItem("refresh-token", loginInfo?.refresh_token);
         }
 
-        setIsAuth(true);
+        if (loginInfo?.access_token) {
+          getUserData(loginInfo?.access_token);
+        }
       }
     } catch {
       alert("Something went wrong!");

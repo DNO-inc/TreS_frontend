@@ -83,23 +83,24 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    getNotifications({})
-      .then((res: ApiResponse) => {
-        const notificationsData = res?.data?.notifications;
+    isAuth &&
+      getNotifications({})
+        .then((res: ApiResponse) => {
+          const notificationsData = res?.data?.notifications;
 
-        if (notificationsData) {
-          const stackComments = stackCommentNotifications(notificationsData);
+          if (notificationsData) {
+            const stackComments = stackCommentNotifications(notificationsData);
 
-          setNotifications(prevNotifications => [
-            ...stackComments,
-            ...prevNotifications,
-          ]);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
+            setNotifications(prevNotifications => [
+              ...stackComments,
+              ...prevNotifications,
+            ]);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+  }, [isAuth]);
 
   useEffect(() => {
     if (isAuth && !ws) {

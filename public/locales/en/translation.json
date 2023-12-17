@@ -21,10 +21,6 @@
     "loading": "Loading...",
     "login": "Log in",
     "logout": "Log out",
-    "loginInput": "Login",
-    "loginButton": "Log in",
-    "loginQuestion": "Don't have an account? ",
-    "loginRedirect": "Create one",
     "faculty": "Faculty",
     "selectFaculty": "Select faculty",
     "group": "Group",
@@ -55,6 +51,27 @@
     },
     "agree": "Agree",
     "disagree": "Disagree"
+  },
+  "login": {
+    "loginHeader": "Log in",
+    "loginInput": "Login",
+    "comeInButton": "Log in",
+    "resetQuestion": "Forgot your login or password? ",
+    "restoreAccess": "Restore access",
+    "signUpQuestion": "Don't have an account? ",
+    "signUpRedirect": "Create one",
+    "restore": {
+      "header": "Restore access",
+      "description": "Input your email address in the designated field. A confirmation message will be dispatched to the provided address.",
+      "input": "Email",
+      "return": "Return",
+      "send": "Send"
+    },
+    "confirm": {
+      "header": "Confirm",
+      "description": "Go to the provided email address and use the link to restore access to your account.",
+      "close": "Close"
+    }
   },
   "signUp": {
     "header": "Sign up",
@@ -111,9 +128,9 @@
   "queue": {
     "heading": "Queue",
     "scopes": {
-      "reportTitle": "Report Tickets",
-      "questionTitle": "Question Tickets",
-      "suggestionTitle": "Suggestion Tickets"
+      "reportTitle": "Reports",
+      "questionTitle": "Questions",
+      "suggestionTitle": "Suggestions"
     },
     "showAll": "Show all"
   },

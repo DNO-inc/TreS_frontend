@@ -25,6 +25,7 @@ export type IAction = {
   };
   creation_date: string;
   field_name: string;
+  file_meta_action: string;
   new_value: string;
   old_value: string;
   value: string;
@@ -50,7 +51,11 @@ const Action: ForwardRefExoticComponent<
       return (
         <>
           {action.field_name === "file" ? (
-            <>{` on ${formattedDate} завантажив(-ла) файл ${action.value}`}</>
+            action.file_meta_action === "upload" ? (
+              <>{` on ${formattedDate} завантажив(-ла) файл ${action.value}`}</>
+            ) : (
+              <>{` on ${formattedDate} видалив(-ла) файл ${action.value}`}</>
+            )
           ) : (
             <>
               {` ${formattedDate} змінив ${translator(
@@ -86,7 +91,7 @@ const Action: ForwardRefExoticComponent<
     return (
       <>
         {action.field_name === "file" ? (
-          <>{` on ${formattedDate} has uploaded a file ${action.value}`}</>
+          <>{` on ${formattedDate} has ${action.file_meta_action} a file ${action.value}`}</>
         ) : (
           <>
             {` on ${formattedDate} changed the ${action.field_name} from `}
