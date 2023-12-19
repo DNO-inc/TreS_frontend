@@ -41,8 +41,9 @@ const CreateTicketForm: FC = () => {
 
   const [createTicket] = useCreateTicketMutation();
 
-  const { register, handleSubmit, setValue, resetField } =
+  const { register, handleSubmit, setValue, resetField, formState } =
     useForm<ICreateTicketRequestBody>();
+  const { errors } = formState;
 
   const handleClear = (): void => {
     resetField("subject");
@@ -102,11 +103,13 @@ const CreateTicketForm: FC = () => {
               setQueue={setQueue}
             />
             <TicketTitleInput
+              errors={errors}
               register={register}
               title={title}
               setTitle={setTitle}
             />
             <TicketBodyTextField
+              errors={errors}
               register={register}
               formattedText={formattedText}
               setFormattedText={setFormattedText}

@@ -1,5 +1,11 @@
 import { FC, useEffect, lazy, Suspense } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
 import { Loader } from "../components/Loader";
 
@@ -45,6 +51,8 @@ const Router: FC = () => {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
 
+  const [searchParams] = useSearchParams();
+
   const [resetPassword] = useResetPasswordMutation({});
 
   useEffect(() => {
@@ -52,8 +60,8 @@ const Router: FC = () => {
 
     if (pathname === "/") {
       navigate(endpoints.generalTickets);
-    } else if (pathname.includes(endpoints.resetPassword)) {
-      const resetToken = pathname.split("/")[3];
+    } else if (searchParams.has("reset_token")) {
+      const resetToken = searchParams.get("reset_token");
 
       resetPassword(resetToken).then((res: ApiResponse) => {
         const accessToken = res?.data && res?.data?.access_token;

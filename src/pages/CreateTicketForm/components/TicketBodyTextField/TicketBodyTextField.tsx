@@ -7,7 +7,7 @@ import {
   SetStateAction,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -24,12 +24,14 @@ interface TicketBodyTextFieldProps {
   register: UseFormRegister<ICreateTicketRequestBody>;
   formattedText: string;
   setFormattedText: Dispatch<SetStateAction<string>>;
+  errors: FieldErrors<ICreateTicketRequestBody>;
 }
 
 const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
   register,
   formattedText,
   setFormattedText,
+  errors,
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
@@ -89,6 +91,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setFormattedText(event.target.value);
         }}
+        error={!!errors.body}
         sx={{
           // display: isPreview ? "none" : "block",
           overflow: "hidden",

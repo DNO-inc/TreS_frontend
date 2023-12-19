@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
-import { UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -14,12 +14,14 @@ interface TicketTitleInputProps {
   register: UseFormRegister<ICreateTicketRequestBody>;
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
+  errors: FieldErrors<ICreateTicketRequestBody>;
 }
 
 const TicketTitleInput: FC<TicketTitleInputProps> = ({
   register,
   title,
   setTitle,
+  errors,
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
@@ -47,6 +49,7 @@ const TicketTitleInput: FC<TicketTitleInputProps> = ({
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setTitle(event.target.value);
         }}
+        error={!!errors.subject}
         sx={{
           bgcolor: palette.grey.card,
           "&  .MuiInputBase-input": { p: "13px 66px 13px 8.5px" },

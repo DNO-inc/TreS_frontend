@@ -51,7 +51,7 @@ const FullTicketInfo: FC = () => {
   const creatorId = ticket?.creator && ticket?.creator.user_id;
   const assigneeId = ticket?.assignee && ticket?.assignee.user_id;
   const isMyTicket = userId == creatorId;
-  const isCanAddFiles = isMyTicket || assigneeId == userId;
+  const isCanManipulateFile = isMyTicket || isAdmin;
 
   useEffect(() => {
     showTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
@@ -151,7 +151,7 @@ const FullTicketInfo: FC = () => {
           </Grid>
           <FullTicketFiles
             ticketId={ticket.ticket_id}
-            isCanAddFiles={isCanAddFiles}
+            isCanManipulateFile={isCanManipulateFile}
           />
           <FullTicketAdditionInfo
             creator={ticket.creator}

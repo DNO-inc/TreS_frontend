@@ -135,6 +135,13 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
               "&::-webkit-scrollbar-thumb:hover": {
                 background: palette.grey.active,
               },
+              "&": {
+                scrollbarWidth: "thin",
+                scrollbarColor: "#555 #212125",
+              },
+              "&:hover": {
+                scrollbarColor: "#555 #212125",
+              },
             }}
           >
             {tickets.map((ticket, index) => {
