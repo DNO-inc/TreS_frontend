@@ -23,10 +23,8 @@ export const getPermissions = () => {
 
 export const getIsTokensExpired = () => {
   let isAccessExpired = true;
-  let isRefreshExpired = true;
 
   const accessToken = getAccessToken();
-  const refreshToken = getRefreshToken();
 
   if (accessToken) {
     const decodeData: IJwtDecodeData = jwtDecode(accessToken);
@@ -36,15 +34,7 @@ export const getIsTokensExpired = () => {
     }
   }
 
-  if (refreshToken) {
-    const decodeData: IJwtDecodeData = jwtDecode(refreshToken);
-
-    if (Date.now() < decodeData.exp * 1000) {
-      isRefreshExpired = false;
-    }
-  }
-
-  return isAccessExpired || isRefreshExpired;
+  return isAccessExpired;
 };
 
 export const getUserRole = () => localStorage.getItem("role");

@@ -178,6 +178,13 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({
         "&::-webkit-scrollbar-thumb:hover": {
           background: "#555",
         },
+        "&": {
+          scrollbarWidth: "thin",
+          scrollbarColor: "#555 #212125",
+        },
+        "&:hover": {
+          scrollbarColor: "#555 #212125",
+        },
         "& > .MuiFormControlLabel-root, & > .MuiBox-root > .MuiFormControlLabel-root":
           {
             fontSize: 14,

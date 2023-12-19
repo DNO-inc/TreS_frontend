@@ -17,6 +17,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import Chip from "@mui/material/Chip";
 
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 import { DialogPopup } from "../../../../components/DialogPopup";
 
@@ -31,7 +32,7 @@ import { getFileIcon } from "../../../../shared/functions";
 
 interface FullTicketFilesProps {
   ticketId: number;
-  isCanAddFiles: boolean;
+  isCanManipulateFile: boolean;
 }
 
 interface IFile {
@@ -47,7 +48,7 @@ type ApiResponse = {
 
 const FullTicketFiles: FC<FullTicketFilesProps> = ({
   ticketId,
-  isCanAddFiles,
+  isCanManipulateFile,
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
@@ -156,7 +157,7 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
           gap: 1.5,
         }}
       >
-        {isCanAddFiles && (
+        {isCanManipulateFile && (
           <>
             <input
               ref={inputRef}
@@ -196,6 +197,7 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
               }
               variant="outlined"
               onClick={() => handleClick(file.file_id, file.file_name)}
+              deleteIcon={isCanManipulateFile ? <CancelIcon /> : <></>}
               onDelete={() => {
                 handleOpenDialog(file.file_id);
               }}

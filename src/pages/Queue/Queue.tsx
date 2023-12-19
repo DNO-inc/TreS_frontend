@@ -174,6 +174,13 @@ const Queue: FC = () => {
           "&::-webkit-scrollbar-thumb:hover": {
             background: "#555",
           },
+          "&": {
+            scrollbarWidth: "thin",
+            scrollbarColor: "#555 #212125",
+          },
+          "&:hover": {
+            scrollbarColor: "#555 #212125",
+          },
         }}
       >
         {scopesList.sort(sortCards).map((scope: IScope) => (

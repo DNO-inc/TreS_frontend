@@ -117,7 +117,7 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
   }, [editedComment]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       sendComment();
     }
