@@ -1,4 +1,12 @@
-import { MouseEvent, useState, FC, ComponentType } from "react";
+import {
+  MouseEvent,
+  useState,
+  FC,
+  ComponentType,
+  useEffect,
+  memo,
+  useCallback,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 import Divider from "@mui/material/Divider";
@@ -31,7 +39,17 @@ interface TicketProps {
   ticketsPerRow: number;
 }
 
-const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
+const TOGGLE_LIKE_OPTION = {
+  LIKE: "like",
+  UNLIKE: "unlike",
+};
+
+const TOGGLE_BOOKMARK_OPTION = {
+  BOOKMARK: "bookmark",
+  UNBOOKMARK: "unbookmark",
+};
+
+const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
   const { palette }: IPalette = useTheme();
 
   const { isAuth } = useAuth();
@@ -68,10 +86,18 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
 
   ////////////////////////////////////////
 
-  const [isLiked, setIsLiked] = useState<boolean>(ticket.is_liked);
   const [upvotes, setUpvotes] = useState<number>(ticket.upvotes);
-  const [isFollowed, setIsFollowed] = useState<boolean>(ticket.is_followed);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [isFollowed, setIsFollowed] = useState<boolean>(false);
   // const [isReported, setIsReported] = useState<boolean>(false);
+
+  useEffect(() => {
+    ticket.is_liked && setIsLiked(true);
+  }, [ticket.is_liked]);
+
+  useEffect(() => {
+    ticket.is_followed && setIsFollowed(true);
+  }, [ticket.is_followed]);
 
   const navigate = useNavigate();
 
@@ -87,8 +113,10 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
     handleSnackbarClick(props => TransitionRight(props, "report"));
   };
 
-  const handleToggleLike = (): void => {
-    const option = !isLiked ? "like" : "unlike";
+  const handleToggleLike = useCallback(() => {
+    const option = !isLiked
+      ? TOGGLE_LIKE_OPTION.LIKE
+      : TOGGLE_LIKE_OPTION.UNLIKE;
 
     toggleLike({
       option: option,
@@ -102,10 +130,12 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
     setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
 
     handleSnackbarClick(props => TransitionRight(props, option));
-  };
+  }, [isLiked, toggleLike, ticket]);
 
-  const handleToggleFollowed = (): void => {
-    const option = !isFollowed ? "bookmark" : "unbookmark";
+  const handleToggleFollowed = useCallback(() => {
+    const option = !isFollowed
+      ? TOGGLE_BOOKMARK_OPTION.BOOKMARK
+      : TOGGLE_BOOKMARK_OPTION.UNBOOKMARK;
     const notiOption = !isFollowed ? "follow" : "unfollow";
 
     toggleBookmark({
@@ -116,7 +146,7 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
     setIsFollowed((prevIsBookmarked: boolean) => !prevIsBookmarked);
 
     handleSnackbarClick(props => TransitionRight(props, notiOption));
-  };
+  }, [isFollowed, toggleBookmark, ticket]);
 
   const handleClick = (event: MouseEvent): void => {
     const { target } = event;
@@ -223,6 +253,6 @@ const Ticket: FC<TicketProps> = ({ ticket, ticketsPerRow }) => {
       </Grid>
     </Card>
   );
-};
+});
 
 export { Ticket };

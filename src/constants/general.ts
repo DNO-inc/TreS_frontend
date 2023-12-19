@@ -1,5 +1,5 @@
 const general = {
-  maxTitleLength: 100,
+  maxTitleLength: 50,
   maxBodyLength: 5000,
 };
 
