@@ -132,7 +132,7 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
       formData.append("file_list", files[file]);
     });
 
-    uploadFiles(formData).then(res => {});
+    uploadFiles(formData);
   };
 
   const handleClick = (fileId: string, fileName: string) => {
