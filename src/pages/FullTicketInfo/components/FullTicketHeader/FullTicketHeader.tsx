@@ -106,6 +106,7 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
   const isAssignee = userId == assigneeId;
 
   const isAdmin = checkIsAdmin();
+  const isChiefAdmin = checkIsAdmin("CHIEF_ADMIN");
 
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [isCopyLink, setIsCopyLink] = useState<boolean>(false);
@@ -333,7 +334,7 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
             </>
           ) : null}
         </Box>
-        {(isAdmin && !assigneeId) || (isAssignee && isEdit) ? (
+        {(isAdmin && !assigneeId) || (isAssignee && isEdit) || isChiefAdmin ? (
           <AssigneeSelect
             assignee={assignee}
             setAssignee={setAssignee}

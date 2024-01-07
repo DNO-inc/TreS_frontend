@@ -132,7 +132,12 @@ const LoginStep: FC<LoginStepProps> = ({
         </FormControl>
         <Typography
           fontSize={14}
-          sx={{ color: palette.whiteAlpha.default, mt: -1, mb: -1 }}
+          sx={{
+            color: palette.whiteAlpha.default,
+            mt: -1,
+            mb: -1,
+            textAlign: "center",
+          }}
         >
           {t("login.resetQuestion")}
           <span

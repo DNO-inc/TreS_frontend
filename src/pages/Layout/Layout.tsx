@@ -50,7 +50,8 @@ const Layout: FC = () => {
               bgcolor: palette.grey.background,
               zIndex: 100,
               "& > .MuiTypography-root": {
-                fontSize: { xs: 36, sm: 40 },
+                fontSize: { xs: 30, sm: 40 },
+                mb: { xs: 2, sm: 0 },
               },
             },
             "& > .MuiGrid-root > .MuiBox-root:nth-of-type(2)": {

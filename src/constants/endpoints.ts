@@ -16,6 +16,7 @@ const endpoints = {
   error: "/error",
   privacyPolicy: "/privacy-policy",
   resetPassword: "/profile/access_renew/",
+  statistic: "/statistic",
 };
 
 export { endpoints };

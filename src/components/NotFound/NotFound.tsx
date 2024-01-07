@@ -45,9 +45,10 @@ const NotFound: FC<NotFoundProps> = ({
       />
       <Typography
         sx={{
-          fontSize: { xs: 24, sm: 36 },
+          fontSize: { xs: 24, sm: 32 },
           fontWeight: 500,
           ml: 1,
+          textAlign: "center",
         }}
       >
         {t(`common.notFound.${title}Title`)}
@@ -57,6 +58,7 @@ const NotFound: FC<NotFoundProps> = ({
           <Typography
             sx={{
               fontSize: { xs: 14, sm: 18 },
+              textAlign: "center",
               color: palette.whiteAlpha.default,
               ml: 1,
             }}

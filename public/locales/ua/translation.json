@@ -26,22 +26,22 @@
     "group": "Група",
     "selectGroup": "Оберіть групу",
     "password": "Пароль",
-    "createButton": "Створити тікет",
+    "createButton": "Створити звернення",
     "profile": "Профіль",
     "error": "Помилка",
     "noAssignee": "немає відповідального",
     "notFound": {
       "title": "Не знайдено",
-      "ticketsTitle": "Тікетів не знайдено",
+      "ticketsTitle": "Звернень не знайдено",
       "notificationsTitle": "Сповіщень не знайдено",
       "postscript": "*Не втрачаючи нагоди",
-      "createLink": "створи тікет "
+      "createLink": "створи звернення "
     },
     "permissionDenied": "Дозвіл заборонено :(",
     "tooltip": {
-      "report": "Тікет - скарга",
-      "suggestion": "Тікет - пропозиція",
-      "question": "Тікет - питання"
+      "report": "Скарга",
+      "suggestion": "Пропозиція",
+      "question": "Питання"
     }
   },
   "dialog": {
@@ -105,15 +105,15 @@
   },
   "snackbar": {
     "report": "Поки що я не знаю, що буде",
-    "follow": "Ви почали стежити за тікетом",
-    "unfollow": "Ви більше не стежите за тікетом",
-    "like": "Вам сподобався цей тікет",
-    "unlike": "Вам більше не подобається цей тікет?"
+    "follow": "Ви почали стежити за зверненням",
+    "unfollow": "Ви більше не стежите за зверненням",
+    "like": "Вам сподобалось це звернення",
+    "unlike": "Вам більше не подобається це звернення?"
   },
   "sidebar": {
-    "queue": "Черга",
+    "queue": "Черги",
     "myTickets": {
-      "title": "Мої тікети",
+      "title": "Мої звернення",
       "sent": "Надіслані",
       "received": "Отримані",
       "followed": "Відстежувані",
@@ -121,12 +121,12 @@
       "deleted": "Видалені"
     },
     "notification": "Сповіщення",
-    "generalTickets": "Поточні тікети",
+    "generalTickets": "Поточні звернення",
     "settings": "Налаштування",
     "lightMode": "Світлий режим"
   },
   "queue": {
-    "heading": "Черга",
+    "heading": "Черги",
     "scopes": {
       "reportTitle": "Скарги",
       "questionTitle": "Питання",
@@ -153,7 +153,7 @@
     "heading": "Сповіщення"
   },
   "generalTickets": {
-    "heading": "Поточні тікети",
+    "heading": "Поточні звернення",
     "facultyFilter": "Всі факультети"
   },
   "settings": {
@@ -202,31 +202,31 @@
       "delete": "видалити"
     },
     "dialog": {
-      "title": "Видалити тікет",
-      "body": "Ви впевнені, що хочете видалити цей тікет?",
+      "title": "Видалити звернення",
+      "body": "Ви впевнені, що хочете видалити це звернення?",
       "delete": "Видалити",
       "cancel": "Скасувати"
     }
   },
   "createTicket": {
-    "heading": "Створення тікета",
+    "heading": "Створення звернення",
     "queue": "Категорія",
     "faculty": "Факультет",
     "selectQueue": "Оберіть чергу",
-    "ticketTitle": "Назва тікета *",
-    "ticketTitlePlaceholder": "Введіть назву тікета",
-    "ticketBody": "Опис тікета *",
+    "ticketTitle": "Назва звернення *",
+    "ticketTitlePlaceholder": "Введіть назву звернення",
+    "ticketBody": "Опис звернення *",
     "ticketBodyPlaceholder": "Почніть друкувати...",
-    "ticketOptions": "Параметри тікета",
-    "anonymousTitle": "Зробити анонімом",
+    "ticketOptions": "Параметри звернення",
+    "anonymousTitle": "Зробити анонімним",
     "anonymousPart1": "Ваше",
     "anonymousPart2": "ім'я буде приховано",
     "anonymousPart3": "всюди",
     "hiddenTitle": "Приватний звіт",
-    "hiddenPart1": "Ваш",
-    "hiddenPart2": "тікет не буде показано",
-    "hiddenPart3": "в поточних тікетах",
-    "sentTicket": "Надіслати тікет",
+    "hiddenPart1": "Ваше",
+    "hiddenPart2": "звернення не буде показано",
+    "hiddenPart3": "на головній сторінці",
+    "sentTicket": "Надіслати звернення",
     "clear": "Очистити",
     "preview": "Переглянути",
     "edit": "Редагувати"
@@ -247,6 +247,9 @@
     "waiting": "Очікується",
     "rejected": "Відхилений",
     "close": "Вирішений"
+  },
+  "statistic": {
+    "heading": "Статистика"
   },
   "privacyPolicy": {
     "postscript": {

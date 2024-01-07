@@ -1,0 +1,1 @@
+export { GlobalStatistic } from "./GlobalStatistic";

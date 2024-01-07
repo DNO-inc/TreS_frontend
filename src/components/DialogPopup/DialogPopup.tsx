@@ -54,10 +54,11 @@ const DialogPopup: FC<DialogPopupProps> = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={handleClose}>
+        <Button color="inherit" variant="outlined" onClick={handleClose}>
           {t("dialog.disagree")}
         </Button>
         <Button
+          color="error"
           variant="contained"
           onClick={() => {
             handleAgree();
