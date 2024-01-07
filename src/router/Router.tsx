@@ -34,6 +34,7 @@ const ErrorPage = lazy(() => import("../pages/ErrorPage"));
 const FullTicketInfo = lazy(() => import("../pages/FullTicketInfo"));
 const CreateTicketForm = lazy(() => import("../pages/CreateTicketForm"));
 const PermissionDenied = lazy(() => import("../pages/PermissionDenied"));
+const Statistic = lazy(() => import("../pages/Statistic"));
 
 type ApiResponse = {
   data?: { access_token: string };
@@ -128,6 +129,7 @@ const Router: FC = () => {
               <>
                 <Route path={endpoints.queue} element={<Queue />} />
                 <Route path={endpoints.received} element={<Received />} />
+                <Route path={endpoints.statistic} element={<Statistic />} />
               </>
             )}
           </>

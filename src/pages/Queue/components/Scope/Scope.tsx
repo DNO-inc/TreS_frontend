@@ -139,6 +139,7 @@ const Scope: FC<ScopeProps> = ({
           scope={scope.name}
           queues={queues}
           facultyId={facultyId}
+          isHaveQueues={!!scope.queues.length}
         />
       </Box>
     </Card>

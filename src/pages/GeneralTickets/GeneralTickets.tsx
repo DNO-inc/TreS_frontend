@@ -50,6 +50,7 @@ const GeneralTickets: FC = () => {
 
   const { isAuth } = useAuth();
   const isAdmin = checkIsAdmin();
+
   const option: string = !isAuth
     ? "anon"
     : isAdmin
@@ -101,6 +102,8 @@ const GeneralTickets: FC = () => {
       if (res.data) {
         setTickets(res.data.ticket_list);
         setTotalPage(res.data.total_pages);
+
+        window.scrollTo({ top: 0 });
       }
     });
   }, [requestBody, ticketsPerRow]);

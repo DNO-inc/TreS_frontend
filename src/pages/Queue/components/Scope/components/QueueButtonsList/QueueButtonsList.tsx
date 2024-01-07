@@ -155,7 +155,7 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({
   const handleWheelScroll = (event: WheelEvent<HTMLInputElement>) => {
     const container = containerRef.current;
     if (container) {
-      container.scrollLeft -= event.deltaY;
+      container.scrollLeft += event.deltaY;
     }
   };
 
