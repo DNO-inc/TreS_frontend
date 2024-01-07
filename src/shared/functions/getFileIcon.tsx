@@ -9,7 +9,7 @@ import AudioFileIcon from "@mui/icons-material/AudioFile";
 import ImageIcon from "@mui/icons-material/Image";
 
 const getFileIcon = (fileName: string) => {
-  const fileNameArray = fileName.split(".");
+  const fileNameArray = fileName.split("/");
   const extensionName = fileNameArray[fileNameArray.length - 1];
 
   switch (extensionName) {
@@ -33,6 +33,7 @@ const getFileIcon = (fileName: string) => {
       );
     case "jpg":
     case "jif":
+    case "png":
     case "webp":
       return (
         <SvgIcon>

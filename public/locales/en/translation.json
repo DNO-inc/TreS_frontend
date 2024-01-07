@@ -248,6 +248,9 @@
     "rejected": "Rejected",
     "close": "Close"
   },
+  "statistic": {
+    "heading": "Statistic"
+  },
   "privacyPolicy": {
     "postscript": {
       "1": "By continuing, you agree to TreS's ",

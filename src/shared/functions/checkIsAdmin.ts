@@ -1,10 +1,10 @@
 import { getUserRole } from "./getLocalStorageData";
 
-const checkIsAdmin = () => {
+const checkIsAdmin = (role = "ADMIN") => {
   let isAdmin = false;
-  const role = getUserRole();
+  const userRole = getUserRole();
 
-  if (role?.includes("ADMIN")) {
+  if (userRole?.includes(role)) {
     isAdmin = true;
   }
 

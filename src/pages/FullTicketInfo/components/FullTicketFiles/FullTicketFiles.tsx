@@ -18,6 +18,7 @@ import Chip from "@mui/material/Chip";
 
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { LinearProgress } from "@mui/material";
 
 import { DialogPopup } from "../../../../components/DialogPopup";
 
@@ -36,9 +37,19 @@ interface FullTicketFilesProps {
 }
 
 interface IFile {
+  content_type: string;
   file_id: string;
   file_name: string;
+  owner_id: number;
   ticket_id: number;
+}
+
+interface ILoadingFile {
+  lastModified: number;
+  name: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
 }
 
 type ApiResponse = {
@@ -55,7 +66,7 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
 
   const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
 
-  const [files, setFiles] = useState<IFile[]>([]);
+  const [files, setFiles] = useState<IFile[] | ILoadingFile[]>([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [deletedFileId, setDeletedFileId] = useState<string>("");
 
@@ -101,6 +112,18 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
       return;
     }
 
+    const loadingFiles: ILoadingFile[] = [];
+
+    for (const key in files) {
+      if (files.hasOwnProperty(key)) {
+        loadingFiles.push(files[key]);
+      }
+    }
+
+    setFiles(
+      prevFiles => [...prevFiles, ...loadingFiles] as IFile[] | ILoadingFile[]
+    );
+
     const formData = new FormData();
 
     formData.append("ticket_id", ticketId.toString());
@@ -109,7 +132,7 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
       formData.append("file_list", files[file]);
     });
 
-    uploadFiles(formData);
+    uploadFiles(formData).then(res => {});
   };
 
   const handleClick = (fileId: string, fileName: string) => {
@@ -179,31 +202,56 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
             </IconButton>
           </>
         )}
-        {files.map(file => {
-          return (
-            <Chip
-              sx={{
-                bgcolor: palette.grey.card,
-                border: `2px solid ${palette.grey.divider}`,
-                borderRadius: 1,
-                textTransform: "none",
-                height: "43px",
-              }}
-              icon={getFileIcon(file.file_name)}
-              label={
-                <span style={{ fontSize: "16px", marginRight: 6 }}>
-                  {file.file_name}
-                </span>
-              }
-              variant="outlined"
-              onClick={() => handleClick(file.file_id, file.file_name)}
-              deleteIcon={isCanManipulateFile ? <CancelIcon /> : <></>}
-              onDelete={() => {
-                handleOpenDialog(file.file_id);
-              }}
-              key={file.file_id}
-            />
-          );
+        {files.map((file: IFile | ILoadingFile) => {
+          if ("type" in file) {
+            return (
+              <Chip
+                sx={{
+                  bgcolor: palette.grey.card,
+                  border: `2px solid ${palette.grey.divider}`,
+                  borderRadius: 1,
+                  textTransform: "none",
+                  height: "43px",
+                }}
+                icon={getFileIcon(file.type)}
+                label={
+                  <>
+                    <span style={{ fontSize: "16px", marginRight: 6 }}>
+                      {file.name}
+                    </span>
+                    <LinearProgress />
+                  </>
+                }
+                variant="outlined"
+                key={file.name}
+              />
+            );
+          } else {
+            return (
+              <Chip
+                sx={{
+                  bgcolor: palette.grey.card,
+                  border: `2px solid ${palette.grey.divider}`,
+                  borderRadius: 1,
+                  textTransform: "none",
+                  height: "43px",
+                }}
+                icon={getFileIcon(file.content_type)}
+                label={
+                  <span style={{ fontSize: "16px", marginRight: 6 }}>
+                    {file.file_name}
+                  </span>
+                }
+                variant="outlined"
+                onClick={() => handleClick(file.file_id, file.file_name)}
+                deleteIcon={isCanManipulateFile ? <CancelIcon /> : <></>}
+                onDelete={() => {
+                  handleOpenDialog(file.file_id);
+                }}
+                key={file.file_id}
+              />
+            );
+          }
         })}
       </Grid>
       <DialogPopup

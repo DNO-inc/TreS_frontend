@@ -71,7 +71,7 @@ const Profile: FC = () => {
 
   const isCanChangeProfile = permissions.includes("UPDATE_PROFILE");
 
-  const isAdmin = checkIsAdmin();
+  const isAdmin = checkIsAdmin("CHIEF_ADMIN");
 
   const userId = pathname.split("/")[2];
   const myId = getUserId().toString();

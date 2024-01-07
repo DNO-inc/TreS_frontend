@@ -20,6 +20,7 @@ interface ScopeTicketListProps {
   scope: string;
   queues: number[];
   facultyId: number;
+  isHaveQueues: boolean;
 }
 
 interface RequestQueuesParams {
@@ -36,6 +37,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
   scope,
   queues,
   facultyId,
+  isHaveQueues,
 }) => {
   const { palette }: IPalette = useTheme();
 
@@ -160,7 +162,9 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
           </Grid>
         </>
       ) : (
-        <NotFound size={250} />
+        <Box sx={{ mt: isHaveQueues ? 0 : 14 }}>
+          <NotFound size={250} />
+        </Box>
       )}
     </Box>
   );
