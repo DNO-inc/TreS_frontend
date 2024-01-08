@@ -24,7 +24,7 @@ const SimpleTicket: ForwardRefExoticComponent<
   const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   const handleClick = (): void => {
-    navigate(`${endpoints.fullTicket}/${ticket.ticket_id}`);
+    navigate(`${endpoints.FULL_TICKET}/${ticket.ticket_id}`);
   };
 
   return (

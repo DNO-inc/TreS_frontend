@@ -47,7 +47,7 @@ const AdditionActions: FC<AdditionActionsProps> = (
   // };
 
   const handleRedirect = (): void => {
-    navigate(endpoints.createTicket);
+    navigate(endpoints.GENERAL_TICKETS);
   };
 
   // const handleColorMode = (): void => {

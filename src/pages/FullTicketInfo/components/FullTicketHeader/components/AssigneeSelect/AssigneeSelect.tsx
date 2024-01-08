@@ -20,8 +20,8 @@ import useTheme from "@mui/material/styles/useTheme";
 import { Loader } from "../../../../../../components/Loader";
 
 import IPalette from "../../../../../../theme/IPalette.interface";
-import { useGetAdminsMutation } from "../../../../../../store/api/api";
 import { getUserId } from "../../../../../../shared/functions/getLocalStorageData";
+import { useGetAdminsMutation } from "../../../../../../store/api/meta.api";
 
 interface AssigneeSelectProps {
   assignee: number;

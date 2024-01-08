@@ -20,7 +20,7 @@ import { endpoints } from "../../constants";
 import { useCheckScope, useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
-import { useToggleBookmarkMutation } from "../../store/api/tickets/tickets.api";
+import { useToggleBookmarkMutation } from "../../store/api/tickets.api";
 import { useMediaQuery } from "@mui/material";
 
 interface TicketRowProps {
@@ -68,7 +68,7 @@ const TicketRow: FC<TicketRowProps> = ({
       target.tagName !== "path" &&
       !target.closest(".evadeItem")
     ) {
-      navigate(`${endpoints.fullTicket}/${ticket.ticket_id}`);
+      navigate(`${endpoints.FULL_TICKET}/${ticket.ticket_id}`);
     }
   };
 

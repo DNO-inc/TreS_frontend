@@ -22,7 +22,7 @@ import { PersonalInfoStep } from "./components/PersonalInfoStep";
 import { AccountDetailStep } from "./components/AccountDetailStep";
 import { VerificationStep } from "./components/VerificationStep";
 import { Actions } from "./components/Actions";
-import { useRegistrationMutation } from "../../store/api/registration/registration.api";
+import { useRegistrationMutation } from "../../store/api/registration.api";
 
 interface SignUpModalProps {
   open: boolean;

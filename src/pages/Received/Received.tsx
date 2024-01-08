@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import { MyTicketPage } from "../MyTicketPage";
 
-import { useGetAdminTicketsMutation } from "../../store/api/admin/admin.api";
+import { useGetAdminTicketsMutation } from "../../store/api/admin.api";
 import { getUserId } from "../../shared/functions/getLocalStorageData";
 
 const Received: FC = () => {

@@ -17,7 +17,7 @@ import {
 } from "../shared/functions/getLocalStorageData";
 import { checkIsAdmin } from "../shared/functions";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
-import { useResetPasswordMutation } from "../store/api/auth/auth.api";
+import { useAccessRenewMutation } from "../store/api/profile.api";
 
 const Layout = lazy(() => import("../pages/Layout"));
 const GeneralTickets = lazy(() => import("../pages/GeneralTickets"));
@@ -54,13 +54,13 @@ const Router: FC = () => {
 
   const [searchParams] = useSearchParams();
 
-  const [resetPassword] = useResetPasswordMutation({});
+  const [resetPassword] = useAccessRenewMutation({});
 
   useEffect(() => {
     const authToken = getAccessToken();
 
     if (pathname === "/") {
-      navigate(endpoints.generalTickets);
+      navigate(endpoints.GENERAL_TICKETS);
     } else if (searchParams.has("reset_token")) {
       const resetToken = searchParams.get("reset_token");
 
@@ -70,73 +70,73 @@ const Router: FC = () => {
         registerUser(accessToken);
       });
 
-      navigate(endpoints.generalTickets);
+      navigate(endpoints.GENERAL_TICKETS);
     } else if (
       !authToken &&
-      pathname !== endpoints.generalTickets &&
-      pathname !== endpoints.privacyPolicy
+      pathname !== endpoints.GENERAL_TICKETS &&
+      pathname !== endpoints.PRIVACY_POLICY
     ) {
-      navigate(endpoints.generalTickets);
+      navigate(endpoints.GENERAL_TICKETS);
     }
   }, [pathname, search, isAuth]);
 
   return (
     <Routes>
       <Route
-        path={endpoints.base}
+        path={endpoints.BASE}
         element={
           <Suspense fallback={<Loader />}>
             <Layout />
           </Suspense>
         }
       >
-        <Route path={endpoints.generalTickets} element={<GeneralTickets />} />
+        <Route path={endpoints.GENERAL_TICKETS} element={<GeneralTickets />} />
         {isAuth && (
           <>
             {isCanReadTicket ? (
               <Route
-                path={`${endpoints.fullTicket}/:ticketId`}
+                path={`${endpoints.FULL_TICKET}/:ticketId`}
                 element={<FullTicketInfo />}
               />
             ) : (
               <Route
-                path={endpoints.createTicket}
+                path={endpoints.CREATE_TICKET}
                 element={<PermissionDenied />}
               />
             )}
             {isCanCreateTicket ? (
               <Route
-                path={endpoints.createTicket}
+                path={endpoints.CREATE_TICKET}
                 element={<CreateTicketForm />}
               />
             ) : (
               <Route
-                path={endpoints.createTicket}
+                path={endpoints.CREATE_TICKET}
                 element={<PermissionDenied />}
               />
             )}
-            <Route path={endpoints.sent} element={<Sent />} />
-            <Route path={endpoints.followed} element={<Followed />} />
-            <Route path={endpoints.bookmarks} element={<Bookmarks />} />
-            <Route path={endpoints.deleted} element={<Deleted />} />
-            <Route path={endpoints.notifications} element={<Notifications />} />
-            <Route path={endpoints.settings} element={<Settings />} />
+            <Route path={endpoints.SENT} element={<Sent />} />
+            <Route path={endpoints.FOLLOWED} element={<Followed />} />
+            <Route path={endpoints.BOOKMARKS} element={<Bookmarks />} />
+            <Route path={endpoints.DELETED} element={<Deleted />} />
+            <Route path={endpoints.NOTIFICATIONS} element={<Notifications />} />
+            <Route path={endpoints.SETTINGS} element={<Settings />} />
             <Route
-              path={`${endpoints.profile}/:userId`}
+              path={`${endpoints.PROFILE}/:userId`}
               element={<Profile />}
             />
             {isAdmin && (
               <>
-                <Route path={endpoints.queue} element={<Queue />} />
-                <Route path={endpoints.received} element={<Received />} />
-                <Route path={endpoints.statistic} element={<Statistic />} />
+                <Route path={endpoints.QUEUE} element={<Queue />} />
+                <Route path={endpoints.RECEIVED} element={<Received />} />
+                <Route path={endpoints.STATISTIC} element={<Statistic />} />
               </>
             )}
           </>
         )}
         <Route path={"*"} element={<ErrorPage />} />
       </Route>
-      <Route path={endpoints.privacyPolicy} element={<PrivacyPolicy />} />
+      <Route path={endpoints.PRIVACY_POLICY} element={<PrivacyPolicy />} />
       <Route path={"*" || "/error"} element={<ErrorPage />} />
     </Routes>
   );

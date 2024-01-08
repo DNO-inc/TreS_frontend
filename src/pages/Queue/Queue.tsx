@@ -15,9 +15,9 @@ import { useTheme } from "@mui/material";
 
 import { Scope } from "./components/Scope";
 import IPalette from "../../theme/IPalette.interface";
-import { useGetQueueByFacultyMutation } from "../../store/api/api";
 import { getUserFacultyId } from "../../shared/functions/getLocalStorageData";
 import { FacultySelect } from "./components/FacultySelect";
+import { useGetQueuesByFacultyMutation } from "../../store/api/meta.api";
 
 type ApiResponse = {
   data?: { queues_list: IQueue[] };
@@ -96,7 +96,7 @@ const Queue: FC = () => {
     Suggestion: 2,
   };
 
-  const [getQueues] = useGetQueueByFacultyMutation({});
+  const [getQueues] = useGetQueuesByFacultyMutation({});
 
   useEffect(() => {
     getQueues({ body: JSON.stringify({ faculty: faculty }) }).then(

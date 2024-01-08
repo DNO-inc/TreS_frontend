@@ -1,10 +1,17 @@
-import { api } from "../api";
+import { api } from "./api";
 
 export const adminApi = api.injectEndpoints({
   endpoints: builder => ({
+    adminUpdateTicket: builder.mutation({
+      query: ({ body }) => ({
+        url: "/admin/tickets/update",
+        method: "POST",
+        body,
+      }),
+    }),
     getAdminTickets: builder.mutation({
       query: ({ body }) => ({
-        url: `/admin/tickets/ticket_list`,
+        url: "/admin/tickets/ticket_list",
         method: "POST",
         body,
       }),
@@ -12,13 +19,6 @@ export const adminApi = api.injectEndpoints({
     adminShowTicket: builder.mutation({
       query: ({ body }) => ({
         url: "admin/tickets/show",
-        method: "POST",
-        body,
-      }),
-    }),
-    adminUpdateTicket: builder.mutation({
-      query: ({ body }) => ({
-        url: "/admin/tickets/update",
         method: "POST",
         body,
       }),
@@ -41,9 +41,9 @@ export const adminApi = api.injectEndpoints({
 });
 
 export const {
+  useAdminUpdateTicketMutation,
   useGetAdminTicketsMutation,
   useAdminShowTicketMutation,
-  useAdminUpdateTicketMutation,
   useAdminRemoveTicketMutation,
   useAdminUpdateProfileMutation,
 } = adminApi;

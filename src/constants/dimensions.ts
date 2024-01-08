@@ -1,5 +1,5 @@
 const dimensions = {
-  drawerWidth: 300,
+  DRAWER_WIDTH: 300,
 };
 
 export { dimensions };

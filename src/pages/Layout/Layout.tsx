@@ -16,7 +16,7 @@ const Layout: FC = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const { palette }: IPalette = useTheme();
 
-  const drawerWidth = dimensions.drawerWidth;
+  const drawerWidth = dimensions.DRAWER_WIDTH;
 
   const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen);

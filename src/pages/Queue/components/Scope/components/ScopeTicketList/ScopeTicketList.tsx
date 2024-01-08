@@ -15,6 +15,7 @@ import { ITicket } from "../../../../../../components/Ticket/ticket.interface";
 import IPalette from "../../../../../../theme/IPalette.interface";
 import axios from "axios";
 import { NotFound } from "../../../../../../components/NotFound";
+import { storage } from "../../../../../../constants";
 
 interface ScopeTicketListProps {
   scope: string;
@@ -96,7 +97,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
         data: requestParams,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+          Authorization: `Bearer ${localStorage.getItem(storage.ACCESS_TOKEN)}`,
         },
       })
         .then(response => {

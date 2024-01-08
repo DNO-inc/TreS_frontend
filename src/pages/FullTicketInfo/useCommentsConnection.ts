@@ -4,12 +4,10 @@ import { SerializedError } from "@reduxjs/toolkit";
 
 import { getAccessToken } from "../../shared/functions/getLocalStorageData";
 import { useAuth } from "../../context/AuthContext";
-import {
-  useGetActionByIdMutation,
-  useGetCommentByIdMutation,
-} from "../../store/api/comments/comments.api";
+import { useGetCommentByIdMutation } from "../../store/api/comments.api";
 import { IComment } from "./components/FullTicketComments/components/Comment/Comment";
 import { IAction } from "./components/FullTicketComments/components/Action/Action";
+import { useGetActionByIdMutation } from "../../store/api/tickets.api";
 
 type ApiResponse = {
   data?: IComment | IAction;

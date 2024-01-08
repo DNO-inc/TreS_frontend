@@ -25,7 +25,7 @@ import { ProfileInput } from "./components/ProfileInput";
 import {
   useGetProfileMutation,
   useUpdateProfileMutation,
-} from "../../store/api/profile/profile.api";
+} from "../../store/api/profile.api";
 import IPalette from "../../theme/IPalette.interface";
 import {
   getPermissions,
@@ -34,8 +34,8 @@ import {
 import { checkIsAdmin } from "../../shared/functions";
 import { RolesSelect } from "./components/RolesSelect";
 import king from "../../assets/king.jpg";
-import { useAdminUpdateProfileMutation } from "../../store/api/admin/admin.api";
-import { permissions, roles } from "../../constants";
+import { useAdminUpdateProfileMutation } from "../../store/api/admin.api";
+import { permissions, roles, storage } from "../../constants";
 
 type ApiResponse = {
   data?: {
@@ -131,7 +131,10 @@ const Profile: FC = () => {
   const onSubmit = (data: ProfileUpdateBody): void => {
     updateProfile({ body: JSON.stringify(data) });
     setIsEditMode(prevState => !prevState);
-    localStorage.setItem("user-name", `${data.firstname} ${data.lastname}`);
+    localStorage.setItem(
+      storage.USER_NAME,
+      `${data.firstname} ${data.lastname}`
+    );
     reset();
   };
 

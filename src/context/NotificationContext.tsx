@@ -12,7 +12,7 @@ import { SerializedError } from "@reduxjs/toolkit";
 
 import { getAccessToken } from "../shared/functions/getLocalStorageData";
 import { useAuth } from "./AuthContext";
-import { useGetNotificationsMutation } from "../store/api/notifications/notifications.api";
+import { useGetNotificationsMutation } from "../store/api/notifications.api";
 
 interface NotificationContextProps {
   notifications: INotification[];

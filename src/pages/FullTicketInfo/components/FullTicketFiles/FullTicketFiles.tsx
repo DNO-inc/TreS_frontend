@@ -28,7 +28,7 @@ import {
   useGetFileMutation,
   useGetFilesIdsMutation,
   useUploadFileMutation,
-} from "../../../../store/api/iofiles/iofiles.api";
+} from "../../../../store/api/iofiles.api";
 import { getFileIcon } from "../../../../shared/functions";
 
 interface FullTicketFilesProps {

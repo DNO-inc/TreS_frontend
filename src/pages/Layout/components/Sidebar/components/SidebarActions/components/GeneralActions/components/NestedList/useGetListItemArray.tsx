@@ -28,37 +28,37 @@ const useGetListItemsArray = (selectedKey: string): ListItem[] => {
     {
       text: t("sidebar.myTickets.sent"),
       icon:
-        selectedKey === endpoints.sent ? <FolderIcon /> : <FolderOpenIcon />,
-      endpoint: endpoints.sent,
+        selectedKey === endpoints.SENT ? <FolderIcon /> : <FolderOpenIcon />,
+      endpoint: endpoints.SENT,
       isHaveNewMessage: false,
     },
     {
       text: t("sidebar.myTickets.followed"),
       icon:
-        selectedKey === endpoints.followed ? <StarIcon /> : <StarBorderIcon />,
-      endpoint: endpoints.followed,
+        selectedKey === endpoints.FOLLOWED ? <StarIcon /> : <StarBorderIcon />,
+      endpoint: endpoints.FOLLOWED,
       isHaveNewMessage: false,
     },
     {
       text: t("sidebar.myTickets.bookmarks"),
       icon:
-        selectedKey === endpoints.bookmarks ? (
+        selectedKey === endpoints.BOOKMARKS ? (
           <BookmarkIcon />
         ) : (
           <BookmarkBorderIcon />
         ),
-      endpoint: endpoints.bookmarks,
+      endpoint: endpoints.BOOKMARKS,
       isHaveNewMessage: false,
     },
     {
       text: t("sidebar.myTickets.deleted"),
       icon:
-        selectedKey === endpoints.deleted ? (
+        selectedKey === endpoints.DELETED ? (
           <DeleteIcon />
         ) : (
           <DeleteOutlineIcon />
         ),
-      endpoint: endpoints.deleted,
+      endpoint: endpoints.DELETED,
       isHaveNewMessage: false,
     },
   ];
@@ -67,7 +67,7 @@ const useGetListItemsArray = (selectedKey: string): ListItem[] => {
     {
       text: t("sidebar.myTickets.received"),
       icon: <FolderOpenIcon />,
-      endpoint: endpoints.received,
+      endpoint: endpoints.RECEIVED,
       isHaveNewMessage: false,
     },
     ...listItemsArrayForUser,

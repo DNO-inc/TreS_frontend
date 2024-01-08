@@ -25,7 +25,7 @@ const MobileDrawer: FC<MobileDrawerProps> = ({
   handleDrawerToggle,
 }) => {
   const { palette }: IPalette = useTheme();
-  const drawerWidth = dimensions.drawerWidth;
+  const drawerWidth = dimensions.DRAWER_WIDTH;
 
   return (
     <Drawer

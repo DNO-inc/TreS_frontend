@@ -11,7 +11,8 @@ import {
   getAccessToken,
   getRefreshToken,
 } from "../../shared/functions/getLocalStorageData";
-import { endpoints } from "../../constants";
+import { endpoints, storage } from "../../constants";
+import { clearLocalStorage } from "../../shared/functions";
 
 export interface IJwtDecodeData {
   role: string;
@@ -26,7 +27,7 @@ export interface IJwtDecodeData {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: endpoints.baseUrl,
+  baseUrl: endpoints.BASE_URL,
   prepareHeaders: headers => {
     const token = getAccessToken();
 
@@ -61,18 +62,11 @@ const baseQueryWithReauth: BaseQueryFn<
       const expirationTime = decodeRefreshToken.exp * 1000;
 
       if (Date.now() >= expirationTime) {
-        localStorage.removeItem("access-token");
-        localStorage.removeItem("user-name");
-        localStorage.removeItem("login");
-        localStorage.removeItem("faculty-id");
-        localStorage.removeItem("user-id");
-        localStorage.removeItem("role");
-        localStorage.removeItem("refresh-token");
-        localStorage.removeItem("permissions");
+        clearLocalStorage();
       }
 
       const refreshResult = await axios({
-        url: `${endpoints.baseUrl}auth/token/refresh`,
+        url: `${endpoints.BASE_URL}auth/token/refresh`,
         method: "POST",
         headers: {
           Authorization: `Bearer ${refreshToken}`,
@@ -80,17 +74,14 @@ const baseQueryWithReauth: BaseQueryFn<
       });
 
       if (refreshResult?.data?.access_token) {
-        localStorage.setItem("access-token", refreshResult.data.access_token);
+        localStorage.setItem(
+          storage.ACCESS_TOKEN,
+          refreshResult.data.access_token
+        );
 
         result = await baseQuery(args, api, extraOptions);
       } else {
-        localStorage.removeItem("access-token");
-        localStorage.removeItem("user-name");
-        localStorage.removeItem("login");
-        localStorage.removeItem("faculty-id");
-        localStorage.removeItem("user-id");
-        localStorage.removeItem("role");
-        localStorage.removeItem("permissions");
+        clearLocalStorage(false);
       }
     }
   }

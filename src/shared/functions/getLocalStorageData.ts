@@ -1,18 +1,20 @@
 import jwtDecode from "jwt-decode";
 import { IJwtDecodeData } from "../../store/api/useBaseQuery";
+import { storage } from "../../constants";
 
-export const getUserName = () => localStorage.getItem("user-name");
+export const getUserName = () => localStorage.getItem(storage.USER_NAME);
 
-export const getUserLogin = () => localStorage.getItem("login");
+export const getUserLogin = () => localStorage.getItem(storage.LOGIN);
 
-export const getUserId = () => Number(localStorage.getItem("user-id"));
+export const getUserId = () => Number(localStorage.getItem(storage.USER_ID));
 
-export const getAccessToken = () => localStorage.getItem("access-token");
+export const getAccessToken = () => localStorage.getItem(storage.ACCESS_TOKEN);
 
-export const getRefreshToken = () => localStorage.getItem("refresh-token");
+export const getRefreshToken = () =>
+  localStorage.getItem(storage.REFRESH_TOKEN);
 
 export const getPermissions = () => {
-  const permissions = localStorage.getItem("permissions");
+  const permissions = localStorage.getItem(storage.PERMISSIONS);
 
   if (!permissions) {
     return [] as string[];
@@ -37,7 +39,7 @@ export const getIsTokensExpired = () => {
   return isAccessExpired;
 };
 
-export const getUserRole = () => localStorage.getItem("role");
+export const getUserRole = () => localStorage.getItem(storage.ROLE);
 
 export const getUserFacultyId = () =>
-  Number(localStorage.getItem("faculty-id"));
+  Number(localStorage.getItem(storage.FACULTY_ID));

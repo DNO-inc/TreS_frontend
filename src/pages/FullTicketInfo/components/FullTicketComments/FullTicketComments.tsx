@@ -22,8 +22,7 @@ import {
   useCreateCommentMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
-  useGetFullHistoryMutation,
-} from "../../../../store/api/comments/comments.api";
+} from "../../../../store/api/comments.api";
 import { CommentsTextField } from "./components/CommentsTextField";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
@@ -39,6 +38,7 @@ import {
 } from "../../../../shared/functions/getLocalStorageData";
 import { IAction } from "./components/Action/Action";
 import { permissions } from "../../../../constants";
+import { useGetFullHistoryMutation } from "../../../../store/api/tickets.api";
 
 export type IHistoryItem =
   | {

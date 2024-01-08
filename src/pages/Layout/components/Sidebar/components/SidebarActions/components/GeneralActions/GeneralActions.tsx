@@ -79,13 +79,13 @@ const GeneralActions: FC<GeneralActionsProps> = ({
         }}
       >
         <ListItem key={"General tickets"} disablePadding>
-          <NavLink to={endpoints.generalTickets}>
+          <NavLink to={endpoints.GENERAL_TICKETS}>
             <ListItemButton
-              selected={selectedKey === endpoints.generalTickets}
-              onClick={() => handleListItemClick(endpoints.generalTickets)}
+              selected={selectedKey === endpoints.GENERAL_TICKETS}
+              onClick={() => handleListItemClick(endpoints.GENERAL_TICKETS)}
             >
               <ListItemIcon>
-                {selectedKey === endpoints.generalTickets ? (
+                {selectedKey === endpoints.GENERAL_TICKETS ? (
                   <ArticleIcon />
                 ) : (
                   <ArticleOutlinedIcon />
@@ -112,16 +112,16 @@ const GeneralActions: FC<GeneralActionsProps> = ({
         {isAdmin && (
           <ListItem key={"Queue"} disablePadding>
             <NavLink
-              to={!isAuth ? "" : endpoints.queue}
+              to={!isAuth ? "" : endpoints.QUEUE}
               style={{ cursor: !isAuth ? "default" : "pointer" }}
             >
               <ListItemButton
                 disabled={!isAuth}
-                selected={selectedKey === endpoints.queue}
-                onClick={() => handleListItemClick(endpoints.queue)}
+                selected={selectedKey === endpoints.QUEUE}
+                onClick={() => handleListItemClick(endpoints.QUEUE)}
               >
                 <ListItemIcon>
-                  {selectedKey === endpoints.queue ? (
+                  {selectedKey === endpoints.QUEUE ? (
                     <GridViewSharpIcon />
                   ) : (
                     <GridViewIcon />
@@ -134,16 +134,16 @@ const GeneralActions: FC<GeneralActionsProps> = ({
         )}
         <ListItem key={"Notifications"} disablePadding>
           <NavLink
-            to={!isAuth ? "" : endpoints.notifications}
+            to={!isAuth ? "" : endpoints.NOTIFICATIONS}
             style={{ cursor: !isAuth ? "default" : "pointer" }}
           >
             <ListItemButton
               disabled={!isAuth}
-              selected={selectedKey === endpoints.notifications}
-              onClick={() => handleListItemClick(endpoints.notifications)}
+              selected={selectedKey === endpoints.NOTIFICATIONS}
+              onClick={() => handleListItemClick(endpoints.NOTIFICATIONS)}
             >
               <ListItemIcon>
-                {selectedKey === endpoints.notifications ? (
+                {selectedKey === endpoints.NOTIFICATIONS ? (
                   <NotificationsIcon />
                 ) : (
                   <NotificationsOutlinedIcon />

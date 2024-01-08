@@ -1,4 +1,5 @@
 import jwt_decode from "jwt-decode";
+import { storage } from "../../constants";
 
 interface IJwtDecodeData {
   role: string;
@@ -16,19 +17,15 @@ const decodeJwt = (jwt: string | null) => {
   const jwtDecodeData: "" | IJwtDecodeData | null = jwt && jwt_decode(jwt);
 
   if (jwt) {
-    localStorage.setItem("access-token", jwt);
+    localStorage.setItem(storage.ACCESS_TOKEN, jwt);
   }
 
-  // if (typeof jwtDecodeData !== "string" && jwtDecodeData?.exp) {
-  //   localStorage.setItem("token-exp", jwtDecodeData.exp.toString());
-  // }
-
   if (jwtDecodeData && jwtDecodeData?.role) {
-    localStorage.setItem("role", jwtDecodeData.role);
+    localStorage.setItem(storage.ROLE, jwtDecodeData.role);
   }
 
   if (jwtDecodeData && jwtDecodeData?.user_id) {
-    localStorage.setItem("user-id", jwtDecodeData.user_id.toString());
+    localStorage.setItem(storage.USER_ID, jwtDecodeData.user_id.toString());
   }
 };
 

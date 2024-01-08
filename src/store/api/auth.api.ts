@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { api } from "./api";
 
 export const authApi = api.injectEndpoints({
   endpoints: builder => ({
@@ -16,16 +16,10 @@ export const authApi = api.injectEndpoints({
         body,
       }),
     }),
-    sendEmailForReset: builder.mutation({
-      query: email => ({
-        url: `/profile/access_renew?email=${email}`,
-        method: "GET",
-      }),
-    }),
-    resetPassword: builder.mutation({
-      query: reset_token => ({
-        url: `/profile/access_renew/${reset_token}`,
-        method: "GET",
+    refreshToken: builder.mutation({
+      query: () => ({
+        url: "/auth/token/refresh",
+        method: "POST",
       }),
     }),
     deleteToken: builder.mutation({
@@ -40,7 +34,6 @@ export const authApi = api.injectEndpoints({
 export const {
   useLoginMutation,
   useCabinetLoginMutation,
-  useSendEmailForResetMutation,
-  useResetPasswordMutation,
+  useRefreshTokenMutation,
   useDeleteTokenMutation,
 } = authApi;

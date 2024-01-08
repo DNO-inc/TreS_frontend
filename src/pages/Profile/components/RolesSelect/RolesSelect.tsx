@@ -10,7 +10,6 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { Loader } from "../../../../components/Loader";
 
-import { useGetRolesQuery } from "../../../../store/api/api";
 import IPalette from "../../../../theme/IPalette.interface";
 import { getUserRole } from "../../../../shared/functions/getLocalStorageData";
 import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
@@ -20,6 +19,7 @@ import {
   FetchBaseQueryError,
   MutationDefinition,
 } from "@reduxjs/toolkit/query";
+import { useGetRolesQuery } from "../../../../store/api/meta.api";
 
 interface RolesSelectProps {
   userId: string;
@@ -61,8 +61,14 @@ const RolesSelect: FC<RolesSelectProps> = ({
     const selectedRole: number = parseInt(event.target.value);
 
     setUserRole(selectedRole);
+
+    const adminProfileUpdateBody = JSON.stringify({
+      user_id: Number(userId),
+      role_id: selectedRole,
+    });
+
     adminUpdateProfile({
-      body: JSON.stringify({ user_id: Number(userId), role_id: selectedRole }),
+      body: adminProfileUpdateBody,
     });
   };
 

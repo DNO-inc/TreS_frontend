@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useEmailVerificationMutation } from "../../../../store/api/registration/registration.api";
+import { useEmailVerificationMutation } from "../../../../store/api/registration.api";
 import { useAuth } from "../../../../context/AuthContext";
 
 interface ActionsProps {

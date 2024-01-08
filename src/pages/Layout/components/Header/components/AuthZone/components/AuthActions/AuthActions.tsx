@@ -58,7 +58,7 @@ const AuthActions: FC = () => {
   };
 
   const handleRedirectToProfile = (): void => {
-    navigate(`${endpoints.profile}/${userId}`);
+    navigate(`${endpoints.PROFILE}/${userId}`);
     setOpen(false);
   };
 
@@ -150,7 +150,7 @@ const AuthActions: FC = () => {
       {matches && isCanCreateTicket && (
         <>
           <VerticalDivider />
-          <Link to={endpoints.createTicket}>
+          <Link to={endpoints.CREATE_TICKET}>
             <Button
               variant={"contained"}
               sx={{ fontSize: 14, textTransform: "none" }}

@@ -126,7 +126,7 @@ const TicketBody: FC<TicketBodyProps> = ({
       <Grid sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
         {isAuth && creator ? (
           <NavLink
-            to={!userId ? "" : `${endpoints.profile}/${userId}`}
+            to={!userId ? "" : `${endpoints.PROFILE}/${userId}`}
             style={{ cursor: !userId ? "default" : "pointer" }}
           >
             <CustomTooltip

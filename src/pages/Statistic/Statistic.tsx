@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from "react";
-import { useGetStatisticsMutation } from "../../store/api/statistics/statistics.api";
+import { useGetStatisticsMutation } from "../../store/api/statistics.api";
 import { GlobalStatistic } from "./components/GlobalStatistic";
 import { Box, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useGetStatusesQuery } from "../../store/api/api";
+import { useGetStatusesQuery } from "../../store/api/meta.api";
 
 export interface IGlobalStatus {
   status_id: number;

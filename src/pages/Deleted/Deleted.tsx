@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import { MyTicketPage } from "../MyTicketPage";
 
-import { useGetDeletedTicketsMutation } from "../../store/api/tickets/tickets.api";
+import { useGetDeletedTicketsMutation } from "../../store/api/tickets.api";
 
 const Deleted: FC = () => {
   const [getTickets, { isLoading, isSuccess }] = useGetDeletedTicketsMutation();

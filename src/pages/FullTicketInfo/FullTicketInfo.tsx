@@ -12,18 +12,18 @@ import { FullTicketComments } from "./components/FullTicketComments";
 import { FullTicketAdditionInfo } from "./components/FullTicketAdditionInfo";
 import { FullTicketFiles } from "./components/FullTicketFiles";
 
-import { useShowTicketMutation } from "../../store/api/tickets/tickets.api";
+import { useShowTicketMutation } from "../../store/api/tickets.api";
 import { checkIsAdmin } from "../../shared/functions";
 import IPalette from "../../theme/IPalette.interface";
 import {
   useAdminShowTicketMutation,
   useAdminUpdateTicketMutation,
-} from "../../store/api/admin/admin.api";
+} from "../../store/api/admin.api";
 import { getUserId } from "../../shared/functions/getLocalStorageData";
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
-} from "../../store/api/tickets/tickets.api";
+} from "../../store/api/tickets.api";
 import { useCommentsConnection } from "./useCommentsConnection";
 
 export interface IPerson {

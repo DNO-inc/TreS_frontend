@@ -21,12 +21,15 @@ import { FilterPanel } from "../../components/FilterPanel";
 import { CustomPagination } from "../../components/CustomPagination";
 import { TicketRow } from "../../components/TicketRow/TicketRow";
 
-import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
 import {
   useDeleteTicketMutation,
   useUndeleteTicketMutation,
-} from "../../store/api/tickets/tickets.api";
+} from "../../store/api/tickets.api";
 import { ITicket } from "../../components/Ticket/ticket.interface";
+import {
+  useGetFacultiesQuery,
+  useGetStatusesQuery,
+} from "../../store/api/meta.api";
 
 interface MyTicketPageProps {
   title: string;

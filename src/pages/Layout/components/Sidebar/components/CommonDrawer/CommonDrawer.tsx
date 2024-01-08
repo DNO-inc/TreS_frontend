@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 const CommonDrawer: FC = () => {
   const { palette }: IPalette = useTheme();
 
-  const drawerWidth = dimensions.drawerWidth;
+  const drawerWidth = dimensions.DRAWER_WIDTH;
 
   return (
     <Drawer
@@ -53,7 +53,7 @@ const CommonDrawer: FC = () => {
         }}
       >
         <Grid container justifyContent={"space-between"}>
-          <Link to={endpoints.generalTickets}>
+          <Link to={endpoints.GENERAL_TICKETS}>
             <Grid display={"flex"} flexDirection={"row"} alignItems={"center"}>
               <Avatar alt="Logo" src={Logo} sx={{ width: 36, height: 36 }} />
               <Typography

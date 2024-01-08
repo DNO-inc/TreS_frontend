@@ -33,11 +33,11 @@ import IPalette from "../../../../theme/IPalette.interface";
 import { checkIsAdmin, checkStatus } from "../../../../shared/functions";
 import { getUserId } from "../../../../shared/functions/getLocalStorageData";
 import { endpoints, roles } from "../../../../constants";
-import { useAdminRemoveTicketMutation } from "../../../../store/api/admin/admin.api";
+import { useAdminRemoveTicketMutation } from "../../../../store/api/admin.api";
 
 import styles from "./FullTicketHeader.module.css";
 import { IAction } from "../FullTicketComments/components/Action/Action";
-import { useGetStatusesQuery } from "../../../../store/api/api";
+import { useGetStatusesQuery } from "../../../../store/api/meta.api";
 
 interface FullTicketHeaderProps {
   assigneeId: number;
@@ -344,7 +344,7 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
         ) : (
           assigneeId && (
             <NavLink
-              to={`${endpoints.profile}/${ticketAssignee.user_id}`}
+              to={`${endpoints.PROFILE}/${ticketAssignee.user_id}`}
               style={{
                 display: "flex",
                 alignItems: "center",

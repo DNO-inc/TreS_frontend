@@ -1,6 +1,6 @@
 const general = {
-  maxTitleLength: 50,
-  maxBodyLength: 5000,
+  MAX_TITLE_LENGTH: 50,
+  MAX_BODY_LENGTH: 5000,
 };
 
 export { general };

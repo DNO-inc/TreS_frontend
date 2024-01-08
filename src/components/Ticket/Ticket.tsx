@@ -24,7 +24,7 @@ import { SlideNotification } from "../SlideNotification";
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
-} from "../../store/api/tickets/tickets.api";
+} from "../../store/api/tickets.api";
 import { endpoints } from "../../constants";
 import { useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
@@ -156,7 +156,7 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
       target.tagName !== "path" &&
       !target.closest(".evadeItem")
     ) {
-      isAuth && navigate(`${endpoints.fullTicket}/${ticket.ticket_id}`);
+      isAuth && navigate(`${endpoints.FULL_TICKET}/${ticket.ticket_id}`);
     }
   };
 

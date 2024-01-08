@@ -10,7 +10,7 @@ import Select from "@mui/material/Select";
 import { SelectChangeEvent } from "@mui/material/Select";
 
 import IPalette from "../../../../theme/IPalette.interface";
-import { useGetFacultiesQuery } from "../../../../store/api/api";
+import { useGetFacultiesQuery } from "../../../../store/api/meta.api";
 
 const FacultiesFilter: FC = () => {
   const { t } = useTranslation();

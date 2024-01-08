@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { api } from "./api";
 
 export const commentsApi = api.injectEndpoints({
   endpoints: builder => ({
@@ -23,23 +23,9 @@ export const commentsApi = api.injectEndpoints({
         body,
       }),
     }),
-    getFullHistory: builder.mutation({
-      query: ({ body }) => ({
-        url: "/tickets/full_history",
-        method: "POST",
-        body,
-      }),
-    }),
     getCommentById: builder.mutation({
       query: ({ body }) => ({
         url: "/comments/get_comment_by_id",
-        method: "POST",
-        body,
-      }),
-    }),
-    getActionById: builder.mutation({
-      query: ({ body }) => ({
-        url: "/tickets/get_action",
         method: "POST",
         body,
       }),
@@ -52,6 +38,4 @@ export const {
   useEditCommentMutation,
   useDeleteCommentMutation,
   useGetCommentByIdMutation,
-  useGetFullHistoryMutation,
-  useGetActionByIdMutation,
 } = commentsApi;

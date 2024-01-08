@@ -16,12 +16,13 @@ import {
   getIsTokensExpired,
   getUserId,
 } from "../shared/functions/getLocalStorageData";
-import { useGetProfileMutation } from "../store/api/profile/profile.api";
-import { decodeJwt } from "../shared/functions";
+import { useGetProfileMutation } from "../store/api/profile.api";
+import { clearLocalStorage, decodeJwt } from "../shared/functions";
 import {
   useCabinetLoginMutation,
   useLoginMutation,
-} from "../store/api/auth/auth.api";
+} from "../store/api/auth.api";
+import { storage } from "../constants";
 
 interface AuthContextProps {
   isAuth: boolean;
@@ -138,25 +139,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         if (userInfo?.faculty?.faculty_id) {
           localStorage.setItem(
-            "faculty-id",
+            storage.FACULTY_ID,
             userInfo.faculty.faculty_id.toString()
           );
         }
 
         if (userInfo?.firstname && userInfo?.lastname) {
           localStorage.setItem(
-            "user-name",
+            storage.USER_NAME,
             `${userInfo.firstname} ${userInfo.lastname}`
           );
         }
 
         if (userInfo?.login) {
-          localStorage.setItem("login", `${userInfo.login}`);
+          localStorage.setItem(storage.LOGIN, `${userInfo.login}`);
         }
 
         if (userInfo?.role) {
           localStorage.setItem(
-            "permissions",
+            storage.PERMISSIONS,
             `${userInfo.role.permission_list}`
           );
         }
@@ -168,7 +169,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         getUserData(loginInfo);
       } else if (typeof loginInfo === "object") {
         if (loginInfo?.refresh_token) {
-          localStorage.setItem("refresh-token", loginInfo?.refresh_token);
+          localStorage.setItem(storage.REFRESH_TOKEN, loginInfo?.refresh_token);
         }
 
         if (loginInfo?.access_token) {
@@ -206,15 +207,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logoutUser = () => {
     setAuthToken(null);
-    // setUser(null)
-    localStorage.removeItem("access-token");
-    localStorage.removeItem("refresh-token");
-    localStorage.removeItem("user-name");
-    localStorage.removeItem("login");
-    localStorage.removeItem("faculty-id");
-    localStorage.removeItem("user-id");
-    localStorage.removeItem("role");
-    localStorage.removeItem("permissions");
+    clearLocalStorage();
 
     setIsAuth(false);
 

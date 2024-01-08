@@ -124,7 +124,7 @@ const Action: ForwardRefExoticComponent<
         <Box>
           <Typography sx={{ fontWeight: 400, textAlign: "center" }}>
             <NavLink
-              to={`${endpoints.profile}/${action.author.user_id}`}
+              to={`${endpoints.PROFILE}/${action.author.user_id}`}
               style={{ color: action.color, fontWeight: 600 }}
             >
               {action.nick}

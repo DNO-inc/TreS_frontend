@@ -21,7 +21,7 @@ const SidebarActions: FC = () => {
   const { palette }: IPalette = useTheme();
 
   const [selectedKey, setSelectedKey] = useState<string>(
-    endpoints.generalTickets
+    endpoints.GENERAL_TICKETS
   );
 
   const changeLanguage = (language: string): void => {

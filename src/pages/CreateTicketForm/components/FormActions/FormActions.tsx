@@ -21,7 +21,7 @@ const FormActions: FC<FormActionsProps> = ({ handleClear, ticketId }) => {
 
   useEffect(() => {
     if (ticketId) {
-      navigate(`${endpoints.fullTicket}/${ticketId}`);
+      navigate(`${endpoints.FULL_TICKET}/${ticketId}`);
     }
   }, [ticketId]);
 

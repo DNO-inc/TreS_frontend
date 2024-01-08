@@ -10,9 +10,9 @@ import { SelectChangeEvent } from "@mui/material/Select";
 
 import { Loader } from "../../../../components/Loader";
 
-import { useGetFacultiesQuery } from "../../../../store/api/api";
 import { useTheme } from "@mui/material";
 import IPalette from "../../../../theme/IPalette.interface";
+import { useGetFacultiesQuery } from "../../../../store/api/meta.api";
 
 interface FacultySelectProps {
   faculty: number | null;

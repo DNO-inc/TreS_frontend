@@ -99,7 +99,7 @@ const AccountDetailStep: FC<AccountDetailStepProps> = ({
       >
         {t("privacyPolicy.postscript.1")}
         <NavLink
-          to={endpoints.privacyPolicy}
+          to={endpoints.PRIVACY_POLICY}
           target="blank"
           style={{ fontWeight: "bold", textDecoration: "underline" }}
         >

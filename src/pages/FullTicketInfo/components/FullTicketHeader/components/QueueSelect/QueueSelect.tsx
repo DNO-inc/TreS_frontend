@@ -12,8 +12,8 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { Loader } from "../../../../../../components/Loader";
 
-import { useGetQueueByFacultyMutation } from "../../../../../../store/api/api";
 import IPalette from "../../../../../../theme/IPalette.interface";
+import { useGetQueuesByFacultyMutation } from "../../../../../../store/api/meta.api";
 
 interface QueueSelectProps {
   facultyId: number | null;
@@ -29,7 +29,7 @@ const QueueSelect: FC<QueueSelectProps> = ({ facultyId, queue, setQueue }) => {
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
 
   const [getQueues, { data, isSuccess, isLoading }] =
-    useGetQueueByFacultyMutation();
+    useGetQueuesByFacultyMutation();
 
   const handleChange = (event: SelectChangeEvent): void => {
     const selectedQueue: number = parseInt(event.target.value);

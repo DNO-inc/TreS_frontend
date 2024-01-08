@@ -11,7 +11,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import { Loader } from "../../../../components/Loader";
 
 import IPalette from "../../../../theme/IPalette.interface";
-import { useGetFacultiesQuery } from "../../../../store/api/api";
+import { useGetFacultiesQuery } from "../../../../store/api/meta.api";
 
 interface FacultySelectProps {
   facultyId: number;

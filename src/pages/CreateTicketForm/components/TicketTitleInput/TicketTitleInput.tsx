@@ -43,7 +43,7 @@ const TicketTitleInput: FC<TicketTitleInputProps> = ({
         fullWidth
         {...register("subject", {
           required: true,
-          maxLength: general.maxTitleLength,
+          maxLength: general.MAX_TITLE_LENGTH,
         })}
         value={title}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +64,7 @@ const TicketTitleInput: FC<TicketTitleInputProps> = ({
           color: palette.whiteAlpha.default,
         }}
       >
-        {title.length} / {general.maxTitleLength}
+        {title.length} / {general.MAX_TITLE_LENGTH}
       </span>
     </Box>
   );

@@ -61,7 +61,7 @@ const FullTicketAdditionInfo: FC<FullTicketAdditionInfoProps> = ({
         <Grid>
           <Typography>{t("fullTicket.author")}</Typography>
           <NavLink
-            to={!creator ? "" : `${endpoints.profile}/${creator.user_id}`}
+            to={!creator ? "" : `${endpoints.PROFILE}/${creator.user_id}`}
             style={{ color: palette.semantic.info }}
           >
             @{!creator ? "anonymous" : creator.login}

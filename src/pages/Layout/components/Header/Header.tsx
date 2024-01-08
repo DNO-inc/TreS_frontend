@@ -26,10 +26,10 @@ const Header: FC<HeaderProps> = ({ handleDrawerToggle }) => {
   const navigate = useNavigate();
   const { ticketId } = useParams();
 
-  const drawerWidth = dimensions.drawerWidth;
+  const drawerWidth = dimensions.DRAWER_WIDTH;
 
   const isFullTicketInfo: boolean = !!ticketId;
-  const isCreateTicket: boolean = pathname === endpoints.createTicket;
+  const isCreateTicket: boolean = pathname === endpoints.CREATE_TICKET;
 
   const isDrawStepBackAction: boolean = isFullTicketInfo || isCreateTicket;
 

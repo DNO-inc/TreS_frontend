@@ -143,7 +143,7 @@ const Comment: ForwardRefExoticComponent<
           <Link
             to={
               comment.author?.user_id
-                ? `${endpoints.profile}/${comment.author.user_id}`
+                ? `${endpoints.PROFILE}/${comment.author.user_id}`
                 : ""
             }
           >
@@ -209,7 +209,7 @@ const Comment: ForwardRefExoticComponent<
                 <Link
                   to={
                     comment.author?.user_id
-                      ? `${endpoints.profile}/${comment.author.user_id}`
+                      ? `${endpoints.PROFILE}/${comment.author.user_id}`
                       : ""
                   }
                 >

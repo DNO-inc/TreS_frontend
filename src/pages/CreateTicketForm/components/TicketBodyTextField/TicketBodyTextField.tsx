@@ -85,7 +85,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
         fullWidth
         {...register("body", {
           required: true,
-          maxLength: general.maxBodyLength,
+          maxLength: general.MAX_BODY_LENGTH,
         })}
         value={formattedText}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +123,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
           color: palette.whiteAlpha.default,
         }}
       >
-        {formattedText.length} / {general.maxBodyLength}
+        {formattedText.length} / {general.MAX_BODY_LENGTH}
       </span>
       {/* <MarkdownControls
         text={formattedText}

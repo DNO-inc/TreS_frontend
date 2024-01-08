@@ -96,7 +96,7 @@ const TicketHeader: FC<TicketHeaderProps> = ({
       </Grid>
       {isAuth ? (
         <NavLink
-          to={assigneeId ? `${endpoints.profile}/${assigneeId}` : ""}
+          to={assigneeId ? `${endpoints.PROFILE}/${assigneeId}` : ""}
           style={{ cursor: assigneeId ? "pointer" : "default" }}
         >
           <AssigneeLabel assigneeName={assigneeName} />

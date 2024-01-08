@@ -16,7 +16,7 @@ const Sidebar: FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => {
   const container: (() => HTMLElement) | undefined =
     window !== undefined ? () => window.document.body : undefined;
 
-  const drawerWidth = dimensions.drawerWidth;
+  const drawerWidth = dimensions.DRAWER_WIDTH;
 
   return (
     <Box

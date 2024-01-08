@@ -65,7 +65,7 @@ const NotFound: FC<NotFoundProps> = ({
           >
             {t("common.notFound.postscript") + " "}
             <NavLink
-              to={endpoints.createTicket}
+              to={endpoints.CREATE_TICKET}
               style={{
                 fontSize: matches ? 18 : 14,
                 color: palette.semantic.info,

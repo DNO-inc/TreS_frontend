@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 import { Box, useMediaQuery } from "@mui/material";
 
 import IPalette from "../../../../theme/IPalette.interface";
-import { useSendEmailForResetMutation } from "../../../../store/api/auth/auth.api";
+import { useSendEmailForAccessMutation } from "../../../../store/api/profile.api";
 
 interface SendEmailStepProps {
   setActiveStep: Dispatch<SetStateAction<number>>;
@@ -22,7 +22,7 @@ const SendEmailStep: FC<SendEmailStepProps> = ({ setActiveStep }) => {
 
   const [email, setEmail] = useState<string>("");
 
-  const [sendEmailForReset] = useSendEmailForResetMutation({});
+  const [sendEmailForReset] = useSendEmailForAccessMutation({});
 
   const handleSendEmail = (): void => {
     sendEmailForReset(email);

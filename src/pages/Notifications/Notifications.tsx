@@ -44,7 +44,7 @@ const Notifications: FC = () => {
 
             return (
               <Link
-                to={`${endpoints.fullTicket}/${notification.ticket_id}`}
+                to={`${endpoints.FULL_TICKET}/${notification.ticket_id}`}
                 key={index}
               >
                 <Box

@@ -14,12 +14,15 @@ import { FilterPanel } from "../../components/FilterPanel";
 import { CustomPagination } from "../../components/CustomPagination";
 import { NotFound } from "../../components/NotFound";
 
-import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
-import { useGetFacultiesQuery, useGetStatusesQuery } from "../../store/api/api";
+import { useGetTicketsMutation } from "../../store/api/tickets.api";
 import { ITicket } from "../../components/Ticket/ticket.interface";
 import { useAuth } from "../../context/AuthContext";
 import { useWindowWidth } from "../../shared/hooks";
 import { checkIsAdmin } from "../../shared/functions";
+import {
+  useGetFacultiesQuery,
+  useGetStatusesQuery,
+} from "../../store/api/meta.api";
 
 interface GeneralTicketsPageInfo {
   data?: {
