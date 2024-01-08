@@ -23,9 +23,9 @@ import {
 
 interface RolesSelectProps {
   userId: string;
-  role: number | null;
-  setRole: Dispatch<SetStateAction<number | null>>;
-  updateProfile: MutationTrigger<
+  userRole: number | null;
+  setUserRole: Dispatch<SetStateAction<number | null>>;
+  adminUpdateProfile: MutationTrigger<
     MutationDefinition<
       any,
       BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>,
@@ -42,9 +42,9 @@ interface IRole {
 }
 
 const RolesSelect: FC<RolesSelectProps> = ({
-  role,
-  setRole,
-  updateProfile,
+  userRole,
+  setUserRole,
+  adminUpdateProfile,
   userId,
 }) => {
   const { palette }: IPalette = useTheme();
@@ -53,7 +53,6 @@ const RolesSelect: FC<RolesSelectProps> = ({
 
   const myRole = getUserRole();
 
-  const userRole = "USER_ALL";
   const selectedRoleId =
     isSuccess &&
     data.roles.find((role: IRole) => role.name === myRole)?.role_id;
@@ -61,8 +60,8 @@ const RolesSelect: FC<RolesSelectProps> = ({
   const handleChange = (event: SelectChangeEvent): void => {
     const selectedRole: number = parseInt(event.target.value);
 
-    setRole(selectedRole);
-    updateProfile({
+    setUserRole(selectedRole);
+    adminUpdateProfile({
       body: JSON.stringify({ user_id: Number(userId), role_id: selectedRole }),
     });
   };
@@ -87,7 +86,7 @@ const RolesSelect: FC<RolesSelectProps> = ({
         {isSuccess && (
           <Select
             id="roles-select"
-            value={role || selectedRoleId?.toString()}
+            value={userRole?.toString()}
             onChange={handleChange}
             MenuProps={{
               PaperProps: {
@@ -100,7 +99,7 @@ const RolesSelect: FC<RolesSelectProps> = ({
             {data.roles.map((role: IRole) => {
               let isSelected = false;
 
-              if (role.name === userRole) {
+              if (role.role_id === userRole) {
                 isSelected = true;
               }
 

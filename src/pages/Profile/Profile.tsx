@@ -34,6 +34,7 @@ import {
 import { checkIsAdmin } from "../../shared/functions";
 import { RolesSelect } from "./components/RolesSelect";
 import king from "../../assets/king.jpg";
+import { useAdminUpdateProfileMutation } from "../../store/api/admin/admin.api";
 
 type ApiResponse = {
   data?: {
@@ -80,6 +81,8 @@ const Profile: FC = () => {
   const [getProfile, { data, isSuccess }] = useGetProfileMutation();
   const [updateProfile, { isSuccess: isProfileUpdated }] =
     useUpdateProfileMutation();
+  const [adminUpdateProfile, { isSuccess: isAdminProfileUpdated }] =
+    useAdminUpdateProfileMutation();
 
   const {
     register,
@@ -94,7 +97,7 @@ const Profile: FC = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<number | null>(null);
+  const [userRole, setUserRole] = useState<number | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -109,7 +112,7 @@ const Profile: FC = () => {
         setLogin(login);
         setEmail(email);
         setPhone(phone);
-        setRole(role.role_id);
+        setUserRole(role.role_id);
       }
     });
   };
@@ -119,8 +122,8 @@ const Profile: FC = () => {
   }, [userId]);
 
   useEffect(() => {
-    isProfileUpdated && setProfile();
-  }, [isProfileUpdated]);
+    (isProfileUpdated || isAdminProfileUpdated) && setProfile();
+  }, [isProfileUpdated, isAdminProfileUpdated]);
 
   const onSubmit = (data: ProfileUpdateBody): void => {
     updateProfile({ body: JSON.stringify(data) });
@@ -166,7 +169,11 @@ const Profile: FC = () => {
             }}
           >
             <Avatar
-              src={(isMyProfile && isAdmin) || (role && role >= 9) ? king : ""}
+              src={
+                (isMyProfile && isAdmin) || (userRole && userRole >= 9)
+                  ? king
+                  : ""
+              }
               sx={{ width: { xs: 180, sm: 140 }, height: { xs: 180, sm: 140 } }}
             />
             <Box
@@ -239,9 +246,9 @@ const Profile: FC = () => {
               <Box>
                 <Typography>{t("profile.role")}</Typography>
                 <RolesSelect
-                  role={role}
-                  setRole={setRole}
-                  updateProfile={updateProfile}
+                  userRole={userRole}
+                  setUserRole={setUserRole}
+                  adminUpdateProfile={adminUpdateProfile}
                   userId={userId}
                 />
               </Box>
