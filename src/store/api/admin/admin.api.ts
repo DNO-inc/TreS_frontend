@@ -30,6 +30,13 @@ export const adminApi = api.injectEndpoints({
         body,
       }),
     }),
+    adminUpdateProfile: builder.mutation({
+      query: ({ body }) => ({
+        url: "/admin/profile/update",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -38,4 +45,5 @@ export const {
   useAdminShowTicketMutation,
   useAdminUpdateTicketMutation,
   useAdminRemoveTicketMutation,
+  useAdminUpdateProfileMutation,
 } = adminApi;
