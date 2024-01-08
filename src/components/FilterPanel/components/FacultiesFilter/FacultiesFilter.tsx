@@ -11,33 +11,23 @@ import { SelectChangeEvent } from "@mui/material/Select";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import { useGetFacultiesQuery } from "../../../../store/api/meta.api";
+import { useChangeURL } from "../../../../shared/hooks";
+import { urlKeys } from "../../../../constants";
 
 const FacultiesFilter: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
-  const { data, isSuccess } = useGetFacultiesQuery({});
+  const [searchParams] = useSearchParams();
+  const putFacultyInURL = useChangeURL();
+  const faculty = searchParams.get(urlKeys.FACULTY) || "all";
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const faculty = searchParams.get("faculty") || "all";
+  const { data, isSuccess } = useGetFacultiesQuery({});
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     const newFaculty = event.target.value;
-    const params = new URLSearchParams(searchParams.toString());
 
-    if (params.has("faculty")) {
-      params.set("faculty", newFaculty);
-    } else {
-      params.append("faculty", newFaculty);
-    }
-
-    if (params.has("current_page")) {
-      params.set("current_page", "1");
-    } else {
-      params.append("current_page", "1");
-    }
-
-    setSearchParams(params);
+    putFacultyInURL(urlKeys.FACULTY, newFaculty, true);
   };
 
   return (
@@ -49,7 +39,7 @@ const FacultiesFilter: FC = () => {
             value={faculty}
             onChange={handleChange}
             sx={{
-              "& .MuiInputBase-input": { pt: 1, pb: 1, width: 150 },
+              ".MuiInputBase-input": { pt: 1, pb: 1, width: 150 },
             }}
             MenuProps={{
               PaperProps: {

@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next";
 import useTheme from "@mui/material/styles/useTheme";
 
 import IPalette from "../../../../theme/IPalette.interface";
+import { statuses } from "../../../../constants";
 
-interface StatusFullObject {
+export interface IStatusFullObject {
   id: number;
-  query: string;
-  label: string;
+  name: string;
   color: string;
   checked: boolean;
   onChange:
@@ -20,97 +20,52 @@ export const useGetStatusesFullObject = (
   checked: boolean[],
   isAllStatuses: boolean,
   handleChange: (id: number) => (event: ChangeEvent<HTMLInputElement>) => void
-): StatusFullObject[] => {
+): IStatusFullObject[] => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
-  if (!isAllStatuses) {
-    return [
-      {
-        id: 0,
-        query: "accepted",
-        label: t("statusesFilter.accepted"),
-        color: palette.semantic.warning,
-      },
-      {
-        id: 1,
-        query: "open",
-        label: t("statusesFilter.open"),
-        color: palette.semantic.info,
-      },
-      {
-        id: 2,
-        query: "waiting",
-        label: t("statusesFilter.waiting"),
-        color: palette.semantic.waiting,
-      },
-      {
-        id: 3,
-        query: "close",
-        label: t("statusesFilter.close"),
-        color: palette.semantic.success,
-      },
-      {
-        id: 4,
-        query: "rejected",
-        label: t("statusesFilter.rejected"),
-        color: palette.semantic.error,
-      },
-    ].map(status => ({
-      ...status,
-      checked: !!checked[status.id],
-      onChange: handleChange(status.id),
-    }));
-  }
+  const getStatusObject = (
+    id: number,
+    name: string,
+    color: string,
+    checked: boolean
+  ) => ({
+    id,
+    name: t(`statusesFilter.${name}`),
+    color: palette.semantic[color],
+    checked,
+    onChange: handleChange(id),
+  });
 
-  return [
-    {
-      id: 0,
-      query: "accepted",
-      label: t("statusesFilter.accepted"),
-      color: palette.semantic.warning,
-    },
-    {
-      id: 1,
-      query: "open",
-      label: t("statusesFilter.open"),
-      color: palette.semantic.info,
-    },
-    {
-      id: 2,
-      query: "waiting",
-      label: t("statusesFilter.waiting"),
-      color: palette.semantic.waiting,
-    },
-    {
-      id: 3,
-      query: "close",
-      label: t("statusesFilter.close"),
-      color: palette.semantic.success,
-    },
-    {
-      id: 4,
-      query: "new",
-      label: t("statusesFilter.new"),
-      color: palette.semantic.new,
-    },
-    {
-      id: 5,
-      query: "rejected",
-      label: t("statusesFilter.rejected"),
-      color: palette.semantic.error,
-    },
-  ].map(status => ({
-    ...status,
-    checked: !!checked[status.id],
-    onChange: handleChange(status.id),
-  }));
+  const commonStatuses = [
+    { id: 0, name: statuses.ACCEPTED, color: "warning" },
+    { id: 1, name: statuses.OPEN, color: "info" },
+    { id: 2, name: statuses.WAITING, color: "waiting" },
+    { id: 3, name: statuses.CLOSE, color: "success" },
+    { id: 4, name: statuses.REJECTED, color: "error" },
+  ];
+
+  const additionalStatuses = isAllStatuses
+    ? [{ id: 5, name: statuses.NEW, color: "new" }]
+    : [];
+
+  return [...commonStatuses, ...additionalStatuses].map(status =>
+    getStatusObject(status.id, status.name, status.color, !!checked[status.id])
+  );
 };
 
 export const useGetStatusesName = (isAllStatuses: boolean): string[] => {
+  const commonStatusesName = [
+    statuses.ACCEPTED,
+    statuses.OPEN,
+    statuses.WAITING,
+    statuses.CLOSE,
+    statuses.REJECTED,
+  ];
+
   if (!isAllStatuses) {
-    return ["accepted", "open", "waiting", "close", "rejected"];
+    return commonStatusesName;
   }
 
-  return ["accepted", "open", "waiting", "close", "new", "rejected"];
+  return [...commonStatusesName, statuses.NEW];
 };

@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import Grid from "@mui/material/Grid";
-import { CircularProgress } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface LoaderProps {
   size?: "small" | "large";
@@ -12,7 +12,7 @@ const Loader: FC<LoaderProps> = ({ size = "large" }) => {
     <Grid
       container
       sx={{
-        height: size === "small" ? "none" : "calc(100vh - 200px)",
+        height: size === "small" ? "none" : "calc(100vh / 1.5)",
         width: "100%",
         alignItems: "center",
         justifyContent: "center",

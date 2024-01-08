@@ -86,7 +86,7 @@ const TicketHeader: FC<TicketHeaderProps> = ({
         <Grid gap={1} display={"flex"} sx={{ ml: 2 }}>
           <Badge
             customStyle={{
-              bgcolor: color,
+              backgroundColor: color,
               color: status === "NEW" ? "#000" : "#fff",
             }}
             text={t(`ticketStatus.${status.toLowerCase()}`)}
