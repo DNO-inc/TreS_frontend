@@ -9,7 +9,7 @@ import {
 
 import { Loader } from "../components/Loader";
 
-import { endpoints } from "../constants";
+import { endpoints, permissions } from "../constants";
 import { useAuth } from "../context/AuthContext";
 import {
   getAccessToken,
@@ -45,9 +45,9 @@ const Router: FC = () => {
   const { isAuth, registerUser } = useAuth();
   const isAdmin = checkIsAdmin();
 
-  const permissions = getPermissions();
-  const isCanCreateTicket = permissions.includes("CREATE_TICKET");
-  const isCanReadTicket = permissions.includes("READ_TICKET");
+  const userPermissions = getPermissions();
+  const isCanCreateTicket = userPermissions.includes(permissions.CREATE_TICKET);
+  const isCanReadTicket = userPermissions.includes(permissions.READ_TICKET);
 
   const navigate = useNavigate();
   const { pathname, search } = useLocation();

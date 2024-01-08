@@ -14,7 +14,6 @@ import { VerticalDivider } from "../../../../../../components/VerticalDivider";
 
 import { endpoints } from "../../../../../../constants";
 import IPalette from "../../../../../../theme/IPalette.interface";
-// import { EllipsisMenu } from "../../../../../../components/EllipsisMenu";
 
 const SidebarActions: FC = () => {
   const { pathname } = useLocation();
@@ -89,7 +88,6 @@ const SidebarActions: FC = () => {
             UA
           </Button>
         </Box>
-        {/* <EllipsisMenu /> */}
       </Box>
     </Grid>
   );

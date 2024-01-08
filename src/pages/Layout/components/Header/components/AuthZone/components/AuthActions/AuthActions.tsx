@@ -18,7 +18,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
 import { VerticalDivider } from "../../../../../../../../components/VerticalDivider";
 
-import { endpoints } from "../../../../../../../../constants";
+import { endpoints, permissions } from "../../../../../../../../constants";
 import Logo from "../../../../../../../../assets/Logomark.svg";
 import {
   getUserId,
@@ -42,8 +42,8 @@ const AuthActions: FC = () => {
 
   const isAdmin = checkIsAdmin();
 
-  const permissions = getPermissions();
-  const isCanCreateTicket = permissions.includes("CREATE_TICKET");
+  const userPermissions = getPermissions();
+  const isCanCreateTicket = userPermissions.includes(permissions.CREATE_TICKET);
 
   const userId: number | null = getUserId();
   const userLogin = getUserLogin();

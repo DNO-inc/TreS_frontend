@@ -35,6 +35,7 @@ import { checkIsAdmin } from "../../shared/functions";
 import { RolesSelect } from "./components/RolesSelect";
 import king from "../../assets/king.jpg";
 import { useAdminUpdateProfileMutation } from "../../store/api/admin/admin.api";
+import { permissions, roles } from "../../constants";
 
 type ApiResponse = {
   data?: {
@@ -68,11 +69,13 @@ const Profile: FC = () => {
   const { palette }: IPalette = useTheme();
   const { pathname } = useLocation();
 
-  const permissions = getPermissions();
+  const userPermissions = getPermissions();
 
-  const isCanChangeProfile = permissions.includes("UPDATE_PROFILE");
+  const isCanChangeProfile = userPermissions.includes(
+    permissions.UPDATE_PROFILE
+  );
 
-  const isAdmin = checkIsAdmin("CHIEF_ADMIN");
+  const isAdmin = checkIsAdmin(roles.CHIEF_ADMIN);
 
   const userId = pathname.split("/")[2];
   const myId = getUserId().toString();

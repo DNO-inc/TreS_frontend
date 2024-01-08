@@ -24,14 +24,11 @@ import ReplyIcon from "@mui/icons-material/Reply";
 
 import { CommentMenu } from "./components/CommentMenu";
 
-import IPalette from "../../theme/IPalette.interface";
-import { endpoints } from "../../constants";
-import { getUserId } from "../../shared/functions/getLocalStorageData";
-import { useFormatDate, useRandomNick } from "../../shared/hooks";
-import {
-  EditedComment,
-  RepliedComment,
-} from "../../pages/FullTicketInfo/components/FullTicketComments/FullTicketComments";
+import IPalette from "../../../../../../theme/IPalette.interface";
+import { endpoints } from "../../../../../../constants/endpoints";
+import { getUserId } from "../../../../../../shared/functions/getLocalStorageData";
+import { useFormatDate, useRandomNick } from "../../../../../../shared/hooks";
+import { EditedComment, RepliedComment } from "../../FullTicketComments";
 
 export type IComment = {
   color: string;

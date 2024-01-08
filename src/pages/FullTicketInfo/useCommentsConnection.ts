@@ -8,8 +8,8 @@ import {
   useGetActionByIdMutation,
   useGetCommentByIdMutation,
 } from "../../store/api/comments/comments.api";
-import { IComment } from "../../components/Comment/Comment";
-import { IAction } from "../../components/Action/Action";
+import { IComment } from "./components/FullTicketComments/components/Comment/Comment";
+import { IAction } from "./components/FullTicketComments/components/Action/Action";
 
 type ApiResponse = {
   data?: IComment | IAction;

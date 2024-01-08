@@ -32,11 +32,11 @@ import { DialogPopup } from "./components/DialogPopup";
 import IPalette from "../../../../theme/IPalette.interface";
 import { checkIsAdmin, checkStatus } from "../../../../shared/functions";
 import { getUserId } from "../../../../shared/functions/getLocalStorageData";
-import { endpoints } from "../../../../constants";
+import { endpoints, roles } from "../../../../constants";
 import { useAdminRemoveTicketMutation } from "../../../../store/api/admin/admin.api";
 
 import styles from "./FullTicketHeader.module.css";
-import { IAction } from "../../../../components/Action/Action";
+import { IAction } from "../FullTicketComments/components/Action/Action";
 import { useGetStatusesQuery } from "../../../../store/api/api";
 
 interface FullTicketHeaderProps {
@@ -106,7 +106,7 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
   const isAssignee = userId == assigneeId;
 
   const isAdmin = checkIsAdmin();
-  const isChiefAdmin = checkIsAdmin("CHIEF_ADMIN");
+  const isChiefAdmin = checkIsAdmin(roles.CHIEF_ADMIN);
 
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [isCopyLink, setIsCopyLink] = useState<boolean>(false);

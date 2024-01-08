@@ -14,8 +14,8 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Comment } from "../../../../components/Comment";
-import { Action } from "../../../../components/Action";
+import { Comment } from "./components/Comment";
+import { Action } from "./components/Action";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import {
@@ -28,7 +28,7 @@ import { CommentsTextField } from "./components/CommentsTextField";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { FloatingPanel } from "./components/FloatingPanel";
-import { IComment } from "../../../../components/Comment/Comment";
+import { IComment } from "./components/Comment/Comment";
 import { useRandomNick } from "../../../../shared/hooks";
 import { getRandomNickColor } from "../../../../shared/functions";
 import { IPerson } from "../../FullTicketInfo";
@@ -37,7 +37,8 @@ import {
   getPermissions,
   getUserId,
 } from "../../../../shared/functions/getLocalStorageData";
-import { IAction } from "../../../../components/Action/Action";
+import { IAction } from "./components/Action/Action";
+import { permissions } from "../../../../constants";
 
 export type IHistoryItem =
   | {
@@ -127,8 +128,8 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
 
   const { palette }: IPalette = useTheme();
 
-  const permissions = getPermissions();
-  const isCanSendMessage = permissions.includes("SEND_MESSAGE");
+  const userPermissions = getPermissions();
+  const isCanSendMessage = userPermissions.includes(permissions.SEND_MESSAGE);
 
   const commentFieldRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
