@@ -1,6 +1,5 @@
-import { ChangeEvent, FC, useState } from "react";
+import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -13,9 +12,9 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 import { VerticalDivider } from "../../../VerticalDivider";
 
-import { useGetStatusesFullObject, useGetStatusesName } from "./getStatuses";
+import { useGetStatusesFullInfo } from "./hooks/useGetStatusesFullInfo";
 import IPalette from "../../../../theme/IPalette.interface";
-import { urlKeys } from "../../../../constants";
+import { dimensions, urlKeys } from "../../../../constants";
 import { useChangeURL } from "../../../../shared/hooks";
 import { CustomCheckbox } from "./components/CustomCheckbox";
 
@@ -28,25 +27,20 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
-  const matches = useMediaQuery("(max-width: 1420px)");
-
-  const [searchParams] = useSearchParams();
-  const putStatusesInURL = useChangeURL();
+  const matches = useMediaQuery(
+    `(max-width: ${dimensions.STATUSES_FILTER_BREAK_POINT}px)`
+  );
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const statusesName: string[] = useGetStatusesName(isAllStatuses);
-  const statusesQueryParams: string[] | undefined = searchParams
-    .get(urlKeys.STATUSES)
-    ?.split(",");
+  const putStatusesInURL = useChangeURL();
 
-  const checked: boolean[] = statusesQueryParams
-    ? statusesName.map(status => {
-        return statusesQueryParams.includes(status);
-      })
-    : statusesName.map(() => false);
+  const [statusesFullInfo, checked] = useGetStatusesFullInfo(isAllStatuses);
+  const isAllUnchecked: boolean = checked && !checked.some(value => value);
 
-  const processSelectStatus = (updatedChecked: boolean[]): void => {
+  const handleParentChange = () => {
+    const updatedChecked = checked.map(() => false);
+
     const selectedStatuses = statusesFullInfo
       .filter(status => updatedChecked[status.id])
       .map(status => status.name.toLowerCase())
@@ -55,32 +49,9 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
     putStatusesInURL(urlKeys.STATUSES, selectedStatuses, true);
   };
 
-  const handleChange =
-    (index: number) =>
-    (event: ChangeEvent<HTMLInputElement>): void => {
-      const updatedChecked = [...checked];
-      updatedChecked[index] = event.target.checked;
-
-      processSelectStatus(updatedChecked);
-    };
-
-  const handleParentChange = () => {
-    const updatedChecked = checked.map(() => false);
-
-    processSelectStatus(updatedChecked);
-  };
-
-  const statusesFullInfo = useGetStatusesFullObject(
-    checked,
-    isAllStatuses,
-    handleChange
-  );
-
   const handleFilterOpen = () => {
     setIsOpen(prevState => !prevState);
   };
-
-  const isAllUnchecked: boolean = checked && !checked.some(value => value);
 
   return (
     <>

@@ -3,14 +3,18 @@ import { FC } from "react";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import useTheme from "@mui/material/styles/useTheme";
 
-import { IStatusFullObject } from "../../getStatuses";
+import { IStatus } from "../../hooks/useGetStatusesFullInfo";
+import IPalette from "../../../../../../theme/IPalette.interface";
 
 interface CustomCheckboxProps {
-  status: IStatusFullObject;
+  status: IStatus;
 }
 
 const CustomCheckbox: FC<CustomCheckboxProps> = ({ status }) => {
+  const { palette }: IPalette = useTheme();
+
   return (
     <FormControlLabel
       label={status.name}
@@ -36,7 +40,10 @@ const CustomCheckbox: FC<CustomCheckboxProps> = ({ status }) => {
                 left: "50%",
                 width: 13,
                 height: 13,
-                bgcolor: status.color === "#FFFFFF" ? "#000000" : "#ffffff",
+                bgcolor:
+                  status.color === "#FFFFFF"
+                    ? palette.common.black
+                    : palette.common.white,
                 transform: "translate(-50%, -50%)",
               }}
             ></Box>
