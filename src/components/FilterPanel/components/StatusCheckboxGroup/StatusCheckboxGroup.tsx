@@ -28,7 +28,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
   const matches = useMediaQuery(
-    `(max-width: ${dimensions.STATUSES_FILTER_BREAK_POINT}px)`
+    `(max-width: ${dimensions.BREAK_POINTS.STATUSES_FILTER}px)`
   );
 
   const [isOpen, setIsOpen] = useState(false);

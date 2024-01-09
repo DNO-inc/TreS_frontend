@@ -1,6 +1,9 @@
 const dimensions = {
   DRAWER_WIDTH: 300,
-  STATUSES_FILTER_BREAK_POINT: 1420,
+  BREAK_POINTS: {
+    STATUSES_FILTER: 1420,
+    LOGIN_MODAL: 500,
+  },
 };
 
 export { dimensions };

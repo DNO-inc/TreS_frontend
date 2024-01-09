@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, MouseEvent } from "react";
+import { FC, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -9,16 +9,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Avatar, Button, useTheme } from "@mui/material";
-import {
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-} from "@mui/material";
-
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { ProfileInput } from "./components/ProfileInput";
 
@@ -36,6 +26,7 @@ import { RolesSelect } from "./components/RolesSelect";
 import king from "../../assets/king.jpg";
 import { useAdminUpdateProfileMutation } from "../../store/api/admin.api";
 import { permissions, roles, storage } from "../../constants";
+import { PasswordField } from "../../components/PasswordField";
 
 type ApiResponse = {
   data?: {
@@ -141,14 +132,6 @@ const Profile: FC = () => {
   const handelChangePassword = (): void => {
     updateProfile({ body: JSON.stringify({ password: password }) });
     setPassword("");
-  };
-
-  const passwordPlaceholder = t("profile.editMode.password");
-
-  const handleClickShowPassword = () => setShowPassword(show => !show);
-
-  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
   };
 
   return (
@@ -314,30 +297,13 @@ const Profile: FC = () => {
               <Typography fontSize={24}>
                 {t("profile.passwordTitle")}
               </Typography>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel htmlFor="outlined-adornment-password">
-                  {passwordPlaceholder}
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={event => setPassword(event.target.value)}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  label="Password"
-                />
-              </FormControl>
+              <PasswordField
+                password={password}
+                setPassword={setPassword}
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
+                placeholder="profile.editMode.password"
+              />
               <Button
                 sx={{ flexGrow: 1 }}
                 variant="outlined"
