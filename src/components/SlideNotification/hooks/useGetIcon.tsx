@@ -1,32 +1,23 @@
 import { useTheme } from "@mui/material";
 import SvgIcon from "@mui/material/SvgIcon";
 
-import ReportIcon from "@mui/icons-material/Report";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-import IPalette from "../../theme/IPalette.interface";
+import IPalette from "../../../theme/IPalette.interface";
 
 const useGetIcon = (variant: string) => {
   const { palette }: IPalette = useTheme();
 
   switch (variant) {
-    case "report":
-      return (
-        <SvgIcon
-          sx={{ color: palette.semantic.error }}
-          component={ReportIcon}
-        />
-      );
-
-    case "follow":
+    case "bookmark":
       return (
         <SvgIcon sx={{ color: palette.semantic.info }} component={StarIcon} />
       );
 
-    case "unfollow":
+    case "unbookmark":
       return <SvgIcon component={StarBorderIcon} />;
 
     case "like":

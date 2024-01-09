@@ -71,7 +71,7 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
   userId,
   assignee,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [totalPage, setTotalPage] = useState<number>(1);
@@ -205,7 +205,6 @@ const MyTicketPage: FC<MyTicketPageProps> = ({
                 return (
                   <TicketRow
                     ticket={ticket}
-                    lang={i18n.language}
                     additionalAction={title}
                     isHaveBookmarks={isSentPage}
                     handleDelete={isSentPage ? handleDelete : null}

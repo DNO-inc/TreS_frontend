@@ -70,8 +70,8 @@ const SimpleTicket: ForwardRefExoticComponent<
           <Badge
             text={ticket.queue.name}
             customStyle={{
-              backgroundColor: "#fff",
-              color: "#000",
+              backgroundColor: palette.common.white,
+              color: palette.common.black,
               fontWeight: 500,
             }}
           />
@@ -96,7 +96,6 @@ const SimpleTicket: ForwardRefExoticComponent<
         <Typography
           sx={{
             color: palette.whiteAlpha.text,
-
             overflowWrap: "break-word",
           }}
         >

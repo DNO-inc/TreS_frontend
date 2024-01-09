@@ -30,6 +30,7 @@
     "profile": "Profile",
     "error": "Error",
     "noAssignee": "no assignee",
+    "hasAssignee": "has an assignee",
     "notFound": {
       "title": "Not found",
       "ticketsTitle": "Tickets not found",
@@ -105,8 +106,8 @@
   },
   "snackbar": {
     "report": "For now, I don't know what's going to happen",
-    "follow": "You followed this ticket",
-    "unfollow": "You are no longer following this ticket",
+    "bookmark": "You followed this ticket",
+    "unbookmark": "You are no longer following this ticket",
     "like": "You liked this ticket",
     "unlike": "You don't like this ticket anymore?"
   },

@@ -1,31 +1,26 @@
 import { MouseEvent, FC, useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
 import useTheme from "@mui/material/styles/useTheme";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
+import { TicketActions } from "./components/TicketActions";
+import { AdditionalInfo } from "./components/AdditionalInfo";
+import { DeletionActions } from "./components/DeletionActions";
 
-import { checkStatus } from "../../shared/functions";
-import { endpoints } from "../../constants";
-import { useCheckScope, useFormatDate } from "../../shared/hooks";
+import { dimensions, endpoints } from "../../constants";
+import { useCheckScope } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
-import { useToggleBookmarkMutation } from "../../store/api/tickets.api";
-import { useMediaQuery } from "@mui/material";
+import { useStyles } from "./styles/useStyles";
 
 interface TicketRowProps {
   ticket: ITicket;
-  lang: string;
   additionalAction?: string;
   isHaveBookmarks?: boolean;
   handleDelete: ((ticketId: number[]) => void) | null;
@@ -35,30 +30,35 @@ interface TicketRowProps {
 
 const TicketRow: FC<TicketRowProps> = ({
   ticket,
-  lang,
   additionalAction = "",
   isHaveBookmarks = false,
   handleDelete,
   handleRestore,
   setDeletedList,
 }) => {
+  const { i18n } = useTranslation();
   const { palette }: IPalette = useTheme();
   const navigate = useNavigate();
-  const matches = useMediaQuery("(min-width: 750px)");
+  const matches = useMediaQuery(
+    `(min-width: ${dimensions.BREAK_POINTS.SIMPLE_TICKET}px)`
+  );
 
   const [isBookmarked, setIsBookmarked] = useState<boolean>(
     ticket.is_bookmarked
   );
 
-  const [toggleBookmark] = useToggleBookmarkMutation();
+  const [ticketRowStyles, gridColumnStyles, tooltipStyles] = useStyles({
+    ticketStatus: ticket.status.name,
+    isHaveBookmarks,
+    matches,
+    language: i18n.language,
+  });
 
   const isSent = additionalAction === "sent";
   const isDeleted = additionalAction === "deleted";
 
-  const color: string = checkStatus(ticket.status.name);
   const { icon, tooltipText }: { icon: JSX.Element; tooltipText: string } =
     useCheckScope(ticket.queue?.scope);
-  const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   const handleClick = (event: MouseEvent): void => {
     const { target } = event;
@@ -72,52 +72,8 @@ const TicketRow: FC<TicketRowProps> = ({
     }
   };
 
-  const handleToggleBookmark = (): void => {
-    const option = !isBookmarked ? "bookmark" : "unbookmark";
-
-    toggleBookmark({
-      option: option,
-      body: JSON.stringify({ ticket_id: ticket.ticket_id }),
-    });
-
-    setIsBookmarked((prevIsBookmarked: boolean) => !prevIsBookmarked);
-  };
-
-  const handleSetDeleted = () => {
-    if (setDeletedList) {
-      setDeletedList(prevState => {
-        let newDeletedList = [...prevState];
-
-        if (newDeletedList.includes(ticket.ticket_id)) {
-          newDeletedList = newDeletedList.filter(id => id !== ticket.ticket_id);
-        } else {
-          newDeletedList.push(ticket.ticket_id);
-        }
-
-        return newDeletedList;
-      });
-    }
-  };
-
   return (
-    <Grid
-      container
-      sx={{
-        gap: 1,
-        flexWrap: "no-wrap",
-        "& > div, button": {
-          bgcolor:
-            ticket.status.name.toLowerCase() === "new"
-              ? palette.grey.divider
-              : palette.grey.card,
-          border: `2px solid ${palette.grey.border}`,
-          overflow: "hidden",
-        },
-        "& > .MuiGrid-root > .MuiBox-root": {
-          p: isHaveBookmarks ? "16px" : "16px 16px 16px 8px",
-        },
-      }}
-    >
+    <Grid container sx={ticketRowStyles}>
       <Grid
         sx={{
           width: `calc(100% ${isSent || isDeleted ? "- 40px" : ""} )`,
@@ -125,73 +81,17 @@ const TicketRow: FC<TicketRowProps> = ({
         }}
         onClick={handleClick}
       >
-        <Box
-          sx={{
-            display: matches ? "grid" : "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gridTemplateColumns:
-              lang === "en"
-                ? `${
-                    isHaveBookmarks ? "48px" : "0px"
-                  } minmax(30px, 1fr) minmax(40px, 3fr) 24px 45px 102px`
-                : `${
-                    isHaveBookmarks ? "48px" : "0px"
-                  } minmax(30px, 0.8fr) minmax(40px, 3fr) 24px 45px 118px`,
-            gap: 2,
-            borderLeft: `8px solid ${color}`,
-            "& .MuiTypography-root": {
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-            },
-          }}
-        >
+        <Box sx={gridColumnStyles}>
           {matches ? (
             <>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                }}
-              >
-                {isSent && (
-                  <Checkbox
-                    onClick={handleSetDeleted}
-                    color="default"
-                    className="evadeItem"
-                    sx={{
-                      width: 32,
-                      height: 32,
-                      m: "-6px",
-                      "& > .MuiSvgIcon-root": { fontSize: "20px" },
-                      p: 0,
-                      color: palette.common.white,
-                    }}
-                  />
-                )}
-                {isHaveBookmarks && (
-                  <IconButton
-                    onClick={handleToggleBookmark}
-                    className="evadeItem"
-                    sx={{
-                      width: 32,
-                      height: 32,
-                      m: "-6px",
-                      p: 0,
-                      border: "none !important",
-                      "& > .MuiSvgIcon-root": { fontSize: "20px" },
-                    }}
-                  >
-                    {isBookmarked ? (
-                      <BookmarkIcon />
-                    ) : (
-                      <BookmarkBorderOutlinedIcon />
-                    )}
-                  </IconButton>
-                )}
-              </Box>
+              <TicketActions
+                isCheckboxVisible={isSent}
+                isHaveBookmarks={isHaveBookmarks}
+                setDeletedList={setDeletedList}
+                ticketId={ticket.ticket_id}
+                isBookmarked={isBookmarked}
+                setIsBookmarked={setIsBookmarked}
+              />
               <Box>
                 <Typography component={"p"}>{ticket.subject}</Typography>
               </Box>
@@ -204,35 +104,13 @@ const TicketRow: FC<TicketRowProps> = ({
                 </Typography>
               </Box>
               <Tooltip title={tooltipText} arrow>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: 24,
-                    height: 24,
-                    bgcolor: palette.grey.active,
-                    borderRadius: 1,
-                    "& > .MuiSvgIcon-root": {
-                      fontSize: 16,
-                    },
-                  }}
-                >
-                  {icon}
-                </Box>
+                <Box sx={tooltipStyles}>{icon}</Box>
               </Tooltip>
-              <Typography
-                component={"p"}
-                sx={{ color: palette.whiteAlpha.default }}
-              >
-                {ticket.faculty.name}
-              </Typography>
-              <Typography
-                component={"p"}
-                sx={{ color: palette.whiteAlpha.default }}
-              >
-                {formattedDate}
-              </Typography>
+              <AdditionalInfo
+                facultyName={ticket.faculty.name}
+                dateOfCreation={ticket.date}
+                matches={matches}
+              />
             </>
           ) : (
             <>
@@ -250,49 +128,14 @@ const TicketRow: FC<TicketRowProps> = ({
                     gap: isSent || isBookmarked ? 1 : 0,
                   }}
                 >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                    }}
-                  >
-                    {isSent && (
-                      <Checkbox
-                        onClick={handleSetDeleted}
-                        color="default"
-                        className="evadeItem"
-                        sx={{
-                          width: 32,
-                          height: 32,
-                          m: "-6px",
-                          "& > .MuiSvgIcon-root": { fontSize: "20px" },
-                          p: 0,
-                          color: palette.common.white,
-                        }}
-                      />
-                    )}
-                    {isHaveBookmarks && (
-                      <IconButton
-                        onClick={handleToggleBookmark}
-                        className="evadeItem"
-                        sx={{
-                          width: 32,
-                          height: 32,
-                          m: "-6px",
-                          p: 0,
-                          border: "none !important",
-                          "& > .MuiSvgIcon-root": { fontSize: "20px" },
-                        }}
-                      >
-                        {isBookmarked ? (
-                          <BookmarkIcon />
-                        ) : (
-                          <BookmarkBorderOutlinedIcon />
-                        )}
-                      </IconButton>
-                    )}
-                  </Box>
+                  <TicketActions
+                    isCheckboxVisible={isSent}
+                    isHaveBookmarks={isHaveBookmarks}
+                    setDeletedList={setDeletedList}
+                    ticketId={ticket.ticket_id}
+                    isBookmarked={isBookmarked}
+                    setIsBookmarked={setIsBookmarked}
+                  />
                   <Box
                     sx={{
                       width: `calc(80vw - ${
@@ -313,75 +156,25 @@ const TicketRow: FC<TicketRowProps> = ({
                   </Box>
                 </Box>
                 <Tooltip title={tooltipText} arrow>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: 24,
-                      height: 24,
-                      bgcolor: palette.grey.active,
-                      borderRadius: 1,
-                      "& > .MuiSvgIcon-root": {
-                        fontSize: 16,
-                      },
-                    }}
-                  >
-                    {icon}
-                  </Box>
+                  <Box sx={tooltipStyles}>{icon}</Box>
                 </Tooltip>
               </Box>
-              <Box
-                sx={{
-                  pl: 1,
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography
-                  component={"p"}
-                  sx={{ color: palette.whiteAlpha.default }}
-                >
-                  {ticket.faculty.name}
-                </Typography>
-                <Typography
-                  component={"p"}
-                  sx={{ color: palette.whiteAlpha.default }}
-                >
-                  {formattedDate}
-                </Typography>
-              </Box>
+              <AdditionalInfo
+                facultyName={ticket.faculty.name}
+                dateOfCreation={ticket.date}
+                matches={matches}
+              />
             </>
           )}
         </Box>
       </Grid>
-      {isSent && (
-        <Button
-          color="inherit"
-          onClick={() => handleDelete && handleDelete([ticket.ticket_id])}
-          sx={{
-            color: palette.common.white,
-            p: 0,
-            minWidth: 32,
-          }}
-        >
-          <DeleteForeverIcon />
-        </Button>
-      )}
-      {isDeleted && (
-        <Button
-          color="inherit"
-          onClick={() => handleRestore && handleRestore(ticket.ticket_id)}
-          sx={{
-            color: palette.common.white,
-            p: 0,
-            minWidth: 32,
-          }}
-        >
-          <RestoreFromTrashIcon />
-        </Button>
-      )}
+      <DeletionActions
+        isSent={isSent}
+        isDeleted={isDeleted}
+        handleDelete={handleDelete}
+        handleRestore={handleRestore}
+        ticketId={ticket.ticket_id}
+      />
     </Grid>
   );
 };

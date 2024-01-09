@@ -4,12 +4,10 @@ const useGetDescription = (variant: string) => {
   const { t } = useTranslation();
 
   switch (variant) {
-    case "report":
-      return t("snackbar.report");
-    case "follow":
-      return t("snackbar.follow");
-    case "unfollow":
-      return t("snackbar.unfollow");
+    case "bookmark":
+      return t("snackbar.bookmark");
+    case "unbookmark":
+      return t("snackbar.unbookmark");
     case "like":
       return t("snackbar.like");
     case "unlike":
@@ -19,4 +17,4 @@ const useGetDescription = (variant: string) => {
   }
 };
 
-export default useGetDescription;
+export { useGetDescription };
