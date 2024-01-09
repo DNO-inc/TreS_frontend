@@ -1,13 +1,15 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { NavLink } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import useTheme from "@mui/material/styles/useTheme";
+
 import notFound from "../../assets/not_found.svg";
-import { NavLink } from "react-router-dom";
-import { endpoints } from "../../constants";
+import { dimensions, endpoints } from "../../constants";
 import IPalette from "../../theme/IPalette.interface";
-import { useMediaQuery, useTheme } from "@mui/material";
 
 interface NotFoundProps {
   size?: number;
@@ -16,14 +18,15 @@ interface NotFoundProps {
 }
 
 const NotFound: FC<NotFoundProps> = ({
-  size = 300,
+  size = dimensions.NOT_FOUND_SIZE,
   title = "tickets",
   withPostscript = false,
 }) => {
-  const { palette }: IPalette = useTheme();
   const { t } = useTranslation();
-
-  const matches = useMediaQuery("(min-width: 600px)");
+  const { palette }: IPalette = useTheme();
+  const matches = useMediaQuery(
+    `(min-width: ${dimensions.BREAK_POINTS.NOT_FOUND}px)`
+  );
 
   return (
     <Grid

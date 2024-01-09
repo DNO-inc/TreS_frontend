@@ -13,10 +13,11 @@ import { Loader } from "../../../../components/Loader";
 import { useTheme } from "@mui/material";
 import IPalette from "../../../../theme/IPalette.interface";
 import { useGetFacultiesQuery } from "../../../../store/api/meta.api";
+import { ISignUpData } from "../../SignUpModal";
 
 interface FacultySelectProps {
   faculty: number | null;
-  setFaculty: Dispatch<SetStateAction<number | null>>;
+  setFaculty: Dispatch<SetStateAction<ISignUpData>>;
   isError: boolean;
 }
 
@@ -37,7 +38,7 @@ const FacultySelect: FC<FacultySelectProps> = ({
   const handleChange = (event: SelectChangeEvent): void => {
     const selectedFaculty: number = parseInt(event.target.value);
 
-    setFaculty(selectedFaculty);
+    setFaculty(prevState => ({ ...prevState, faculty: selectedFaculty }));
   };
 
   return (

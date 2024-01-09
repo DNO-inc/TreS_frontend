@@ -2,44 +2,41 @@ import { Dispatch, FC, SetStateAction } from "react";
 
 import { FacultySelect } from "../FacultySelect";
 import { SignUpTextField } from "../SignUpTextField";
+import { ISignUpData } from "../../SignUpModal";
 
 interface PersonalInfoStepProps {
-  firstname: string;
-  setFirstname: Dispatch<SetStateAction<string>>;
-  lastname: string;
-  setLastname: Dispatch<SetStateAction<string>>;
-  faculty: number | null;
-  setFaculty: Dispatch<SetStateAction<number | null>>;
+  signUpData: ISignUpData;
+  setSignUpData: Dispatch<SetStateAction<ISignUpData>>;
   isError: boolean;
-  handleOpenLogInModal: () => void;
 }
 
+const ACTION_TYPES = {
+  FIRSTNAME: "firstname",
+  LASTNAME: "lastname",
+};
+
 const PersonalInfoStep: FC<PersonalInfoStepProps> = ({
-  firstname,
-  setFirstname,
-  lastname,
-  setLastname,
-  faculty,
-  setFaculty,
+  signUpData,
+  setSignUpData,
   isError,
 }) => {
   return (
     <>
       <SignUpTextField
-        type={"firstname"}
-        value={firstname}
-        setValue={setFirstname}
+        type={ACTION_TYPES.FIRSTNAME}
+        value={signUpData.firstname}
+        setValue={setSignUpData}
         hasError={isError}
       />
       <SignUpTextField
-        type={"lastname"}
-        value={lastname}
-        setValue={setLastname}
+        type={ACTION_TYPES.LASTNAME}
+        value={signUpData.lastname}
+        setValue={setSignUpData}
         hasError={isError}
       />
       <FacultySelect
-        faculty={faculty}
-        setFaculty={setFaculty}
+        faculty={signUpData.faculty}
+        setFaculty={setSignUpData}
         isError={isError}
       />
     </>

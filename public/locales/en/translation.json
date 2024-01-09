@@ -39,9 +39,9 @@
     },
     "permissionDenied": "Permission denied :(",
     "tooltip": {
-      "report": "Report ticket",
-      "suggestion": "Suggestion ticket",
-      "question": "Question ticket"
+      "report": "Report",
+      "suggestion": "Suggestion",
+      "question": "Question"
     }
   },
   "dialog": {

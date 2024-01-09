@@ -3,17 +3,14 @@ import { useTranslation } from "react-i18next";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+
 import { useEmailVerificationMutation } from "../../../../store/api/registration.api";
 import { useAuth } from "../../../../context/AuthContext";
+import { ISignUpData } from "../../SignUpModal";
+import { NextButton } from "./components/NextButton";
 
 interface ActionsProps {
-  firstname: string;
-  lastname: string;
-  faculty: number | null;
-  login: string;
-  email: string;
-  password: string;
-  confirmedPassword: string;
+  signUpData: ISignUpData;
   secretKey: string;
   steps: string[];
   activeStep: number;
@@ -24,13 +21,7 @@ interface ActionsProps {
 }
 
 const Actions: FC<ActionsProps> = ({
-  firstname,
-  lastname,
-  faculty,
-  login,
-  email,
-  password,
-  confirmedPassword,
+  signUpData,
   secretKey,
   steps,
   activeStep,
@@ -40,6 +31,16 @@ const Actions: FC<ActionsProps> = ({
   handleClose,
 }) => {
   const { t } = useTranslation();
+
+  const {
+    firstname,
+    lastname,
+    faculty,
+    login,
+    email,
+    password,
+    confirmedPassword,
+  } = signUpData;
 
   const { registerUser } = useAuth();
   const [emailVerification] = useEmailVerificationMutation();
@@ -73,37 +74,11 @@ const Actions: FC<ActionsProps> = ({
     }
   };
 
-  const NextButton = () => {
-    if (activeStep === 0) {
-      return (
-        <Button
-          variant="contained"
-          onClick={handleNext}
-          disabled={!firstname || !lastname || !faculty}
-        >
-          {t("signUp.next")}
-        </Button>
-      );
-    }
-
-    if (activeStep === 1) {
-      return (
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={
-            !login ||
-            !email ||
-            !password ||
-            !confirmedPassword ||
-            !(password === confirmedPassword)
-          }
-        >
-          {t("signUp.next")}
-        </Button>
-      );
-    }
-  };
+  const isDisabled =
+    activeStep === 0
+      ? ![firstname, lastname, faculty].every(Boolean)
+      : ![login, email, password, confirmedPassword].every(Boolean) ||
+        password !== confirmedPassword;
 
   return (
     <Box
@@ -111,7 +86,7 @@ const Actions: FC<ActionsProps> = ({
         display: "flex",
         justifyContent: "center",
         gap: 2,
-        "& > .MuiButton-root": {
+        ".MuiButton-root": {
           minWidth: 100,
         },
       }}
@@ -130,7 +105,11 @@ const Actions: FC<ActionsProps> = ({
           {t("signUp.back")}
         </Button>
       )}
-      <NextButton />
+      <NextButton
+        activeStep={activeStep}
+        disabled={isDisabled}
+        handleNext={handleNext}
+      />
       {activeStep === steps.length - 1 && (
         <Button
           variant="contained"

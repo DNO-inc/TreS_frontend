@@ -2,17 +2,15 @@ import { Dispatch, FC, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 
 import Typography from "@mui/material/Typography";
-import { TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
 
 interface VerificationStepProps {
-  email: string;
   secretKey: string;
   setSecretKey: Dispatch<SetStateAction<string>>;
   isError: boolean;
 }
 
 const VerificationStep: FC<VerificationStepProps> = ({
-  // email,
   secretKey,
   setSecretKey,
   isError,
@@ -38,10 +36,10 @@ const VerificationStep: FC<VerificationStepProps> = ({
         helperText={isError ? t("signUp.invalidKey") : " "}
         sx={{
           mb: 1,
-          "& .MuiFormLabel-root": {
+          ".MuiFormLabel-root": {
             top: 4,
           },
-          "& .MuiInputBase-input": {
+          ".MuiInputBase-input": {
             p: "12px 14px",
           },
         }}
