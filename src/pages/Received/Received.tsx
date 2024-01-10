@@ -1,21 +1,19 @@
 import { FC } from "react";
 
-import { MyTicketPage } from "../MyTicketPage";
+import { MyTicketsLayout } from "../../layouts/MyTicketsLayout";
 
 import { useGetAdminTicketsMutation } from "../../store/api/admin.api";
 import { getUserId } from "../../shared/functions/getLocalStorageData";
 
 const Received: FC = () => {
-  const [getTickets, { isLoading, isSuccess }] = useGetAdminTicketsMutation();
+  const [getTickets] = useGetAdminTicketsMutation();
 
   const userId: boolean | number = getUserId();
 
   return (
-    <MyTicketPage
+    <MyTicketsLayout
       title={"received"}
       useGetQuery={getTickets}
-      isLoading={isLoading}
-      isSuccess={isSuccess}
       option={"tickets"}
       assignee={userId}
     />

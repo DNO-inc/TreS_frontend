@@ -6,13 +6,13 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
+import { ErrorBoundary } from "../../components/ErrorBoundary";
+import { Loader } from "../../components/Loader";
 
 import IPalette from "../../theme/IPalette.interface";
-import { Loader } from "../../components/Loader";
 import { dimensions } from "../../constants";
-import { ErrorBoundary } from "../../components/ErrorBoundary";
 
-const Layout: FC = () => {
+const MainLayout: FC = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const { palette }: IPalette = useTheme();
 
@@ -70,4 +70,4 @@ const Layout: FC = () => {
   );
 };
 
-export { Layout };
+export { MainLayout };

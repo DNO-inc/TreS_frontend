@@ -19,22 +19,22 @@ import { checkIsAdmin } from "../shared/functions";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import { useAccessRenewMutation } from "../store/api/profile.api";
 
-const Layout = lazy(() => import("../pages/Layout"));
+const Layout = lazy(() => import("../layouts/MainLayout"));
 const GeneralTickets = lazy(() => import("../pages/GeneralTickets"));
-const Queue = lazy(() => import("../pages/Queue"));
-const Sent = lazy(() => import("../pages/Sent"));
 const Received = lazy(() => import("../pages/Received"));
+const Sent = lazy(() => import("../pages/Sent"));
 const Followed = lazy(() => import("../pages/Followed"));
 const Bookmarks = lazy(() => import("../pages/Bookmarks"));
 const Deleted = lazy(() => import("../pages/Deleted"));
-const Notifications = lazy(() => import("../pages/Notifications"));
 const Settings = lazy(() => import("../pages/Settings"));
 const Profile = lazy(() => import("../pages/Profile"));
+const Queue = lazy(() => import("../pages/Queue"));
+const Notifications = lazy(() => import("../pages/Notifications"));
 const ErrorPage = lazy(() => import("../pages/ErrorPage"));
 const FullTicketInfo = lazy(() => import("../pages/FullTicketInfo"));
+const Statistic = lazy(() => import("../pages/Statistic"));
 const CreateTicketForm = lazy(() => import("../pages/CreateTicketForm"));
 const PermissionDenied = lazy(() => import("../pages/PermissionDenied"));
-const Statistic = lazy(() => import("../pages/Statistic"));
 
 type ApiResponse = {
   data?: { access_token: string };
