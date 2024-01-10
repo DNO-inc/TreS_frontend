@@ -177,20 +177,21 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
               left: 0,
               width: "100%",
               height: "100%",
-              bgcolor: "rgba(0, 0, 0, 0.6)",
+              bgcolor: "rgba(0, 0, 0, 0.4)",
               zIndex: 2,
             }
           : {},
         "&::after": isHiddenTicket
           ? {
-              content: "'Заспокойся, ніхто не бачить'",
+              content: "'🤫'",
               textAlign: "center",
-              fontSize: 40,
-              fontWeight: 900,
-              transform: "rotate(20deg) translate(-10%, -20%)",
+              fontSize: 170,
               position: "absolute",
-              top: "40%",
-              left: "15%",
+              top: "53%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              filter: "grayscale(80%)",
+              opacity: 0.15,
               zIndex: 3,
             }
           : {},

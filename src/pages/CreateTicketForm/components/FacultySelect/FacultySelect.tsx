@@ -1,4 +1,4 @@
-import { useEffect, FC } from "react";
+import { FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
@@ -8,103 +8,83 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
-import { SelectChangeEvent } from "@mui/material/Select";
 import useTheme from "@mui/material/styles/useTheme";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 import { Loader } from "../../../../components/Loader";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import { useGetFacultiesQuery } from "../../../../store/api/meta.api";
+import { createFormKeys } from "../../../../constants";
 
 interface FacultySelectProps {
   facultyId: number;
-  faculty: number;
   register: UseFormRegister<ICreateTicketRequestBody>;
   setValue: UseFormSetValue<ICreateTicketRequestBody>;
-  setFaculty: (faculty: number) => void;
 }
 
-interface faculty {
+interface IFaculty {
   faculty_id: number;
   name: string;
 }
 
-const FacultySelect: FC<FacultySelectProps> = ({
-  facultyId,
-  register,
-  setValue,
-  faculty,
-  setFaculty,
-}) => {
-  const { t } = useTranslation();
-  const { palette }: IPalette = useTheme();
+const FacultySelect: FC<FacultySelectProps> = memo(
+  ({ facultyId, register, setValue }) => {
+    const { t } = useTranslation();
+    const { palette }: IPalette = useTheme();
 
-  const { data, isLoading, isSuccess } = useGetFacultiesQuery({});
+    const { data, isLoading, isSuccess } = useGetFacultiesQuery({});
 
-  const handleChange = (event: SelectChangeEvent): void => {
-    const selectedFaculty: number = parseInt(event.target.value);
+    const handleChange = (event: SelectChangeEvent) => {
+      const selectedFaculty = parseInt(event.target.value);
+      setValue(createFormKeys.FACULTY, selectedFaculty);
+    };
 
-    setFaculty(selectedFaculty);
-    setValue("faculty", selectedFaculty);
-  };
-
-  useEffect(() => {
-    setValue("faculty", facultyId);
-  }, []);
-
-  return (
-    <Box
-      sx={{
-        width: {
-          xs: "100%",
-          md: "calc(100% / 2 - 12px)",
-          xl: "calc(100% / 3 - 16px)",
-        },
-      }}
-    >
-      <Typography variant="h3">{t("createTicket.faculty")}</Typography>
-      <FormControl
-        size="small"
-        fullWidth
-        sx={{ bgcolor: palette.grey.card }}
-        {...register("queue")}
+    return (
+      <Box
+        sx={{
+          width: {
+            xs: "100%",
+            md: "calc(100% / 2 - 12px)",
+            xl: "calc(100% / 3 - 16px)",
+          },
+        }}
       >
-        {isLoading && <Loader size="small" />}
-        {isSuccess && (
-          <Select
-            id="faculty-select"
-            value={faculty.toString()}
-            onChange={handleChange}
-            MenuProps={{
-              PaperProps: {
-                style: {
-                  maxHeight: 300,
+        <Typography variant="h3">{t("createTicket.faculty")}</Typography>
+        <FormControl
+          size="small"
+          fullWidth
+          sx={{ bgcolor: palette.grey.card }}
+          {...register(createFormKeys.FACULTY)}
+        >
+          {isLoading && <Loader size="small" />}
+          {isSuccess && (
+            <Select
+              id="faculty-select"
+              value={facultyId.toString()}
+              onChange={handleChange}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 300,
+                  },
                 },
-              },
-            }}
-          >
-            {data.faculties_list.map((faculty: faculty) => {
-              let isSelected = false;
-
-              if (faculty.faculty_id === facultyId) {
-                isSelected = true;
-              }
-
-              return (
+              }}
+            >
+              {data.faculties_list.map((faculty: IFaculty) => (
                 <MenuItem
-                  value={faculty.faculty_id}
+                  value={faculty.faculty_id.toString()}
                   key={`menuItem-${faculty.faculty_id}`}
-                  selected={isSelected}
                 >
                   <ListItemText primary={faculty.name} />
                 </MenuItem>
-              );
-            })}
-          </Select>
-        )}
-      </FormControl>
-    </Box>
-  );
-};
+              ))}
+            </Select>
+          )}
+        </FormControl>
+      </Box>
+    );
+  }
+);
 
 export { FacultySelect };

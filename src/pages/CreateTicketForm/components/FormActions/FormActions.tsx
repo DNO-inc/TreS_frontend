@@ -20,9 +20,7 @@ const FormActions: FC<FormActionsProps> = ({ handleClear, ticketId }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (ticketId) {
-      navigate(`${endpoints.FULL_TICKET}/${ticketId}`);
-    }
+    ticketId && navigate(`${endpoints.FULL_TICKET}/${ticketId}`);
   }, [ticketId]);
 
   return (
@@ -30,7 +28,7 @@ const FormActions: FC<FormActionsProps> = ({ handleClear, ticketId }) => {
       container
       sx={{
         gap: 1,
-        "& > .MuiButton-root": {
+        ".MuiButton-root": {
           width: "100%",
         },
       }}
