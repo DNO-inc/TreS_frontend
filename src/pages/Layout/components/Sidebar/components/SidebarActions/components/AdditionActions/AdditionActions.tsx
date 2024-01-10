@@ -15,7 +15,7 @@ import useTheme from "@mui/material/styles/useTheme";
 // import SettingsIcon from "@mui/icons-material/Settings";
 
 import { endpoints } from "../../../../../../../../constants";
-import { useAuth } from "../../../../../../../../context/AuthContext";
+import { useAuth } from "../../../../../../../../context/AuthContext/AuthContext";
 import { Button, useMediaQuery } from "@mui/material";
 // import { ColorModeContext } from "../../../../../../../../theme";
 

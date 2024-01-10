@@ -22,9 +22,9 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import { endpoints } from "../../../../../../../../constants";
-import { useAuth } from "../../../../../../../../context/AuthContext";
+import { useAuth } from "../../../../../../../../context/AuthContext/AuthContext";
 import { checkIsAdmin } from "../../../../../../../../shared/functions";
-import { useNotification } from "../../../../../../../../context/NotificationContext";
+import { useNotification } from "../../../../../../../../context/NotificationContext/NotificationContext";
 
 const NestedList = lazy(() => import("./components/NestedList"));
 

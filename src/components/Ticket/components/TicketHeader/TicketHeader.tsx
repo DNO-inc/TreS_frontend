@@ -11,7 +11,7 @@ import IPalette from "../../../../theme/IPalette.interface";
 import { endpoints, statuses } from "../../../../constants";
 import { ScopeLabel } from "../../../ScopeLabel";
 import { Badge } from "../../../Badge";
-import { useAuth } from "../../../../context/AuthContext";
+import { useAuth } from "../../../../context/AuthContext/AuthContext";
 import { useFormatName } from "../../hooks/useFormatName";
 
 export interface IAssignee {

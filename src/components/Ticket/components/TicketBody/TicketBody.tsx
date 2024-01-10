@@ -11,7 +11,7 @@ import { MarkdownWithStyles } from "../../../../utils/markdown";
 import { endpoints } from "../../../../constants";
 import { Creator } from "../../ticket.interface";
 import IPalette from "../../../../theme/IPalette.interface";
-import { useAuth } from "../../../../context/AuthContext";
+import { useAuth } from "../../../../context/AuthContext/AuthContext";
 import { ProfileTooltip } from "./components/ProfileTooltip";
 
 export interface ICreator {

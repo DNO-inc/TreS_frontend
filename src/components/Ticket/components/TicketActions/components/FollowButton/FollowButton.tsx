@@ -7,7 +7,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 
 import IPalette from "../../../../../../theme/IPalette.interface";
-import { useAuth } from "../../../../../../context/AuthContext";
+import { useAuth } from "../../../../../../context/AuthContext/AuthContext";
 
 interface FollowButtonProps {
   isFollowed: boolean;

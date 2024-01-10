@@ -3,7 +3,7 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 
 import { getAccessToken } from "../../shared/functions/getLocalStorageData";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext/AuthContext";
 import { useGetCommentByIdMutation } from "../../store/api/comments.api";
 import { IComment } from "./components/FullTicketComments/components/Comment/Comment";
 import { IAction } from "./components/FullTicketComments/components/Action/Action";

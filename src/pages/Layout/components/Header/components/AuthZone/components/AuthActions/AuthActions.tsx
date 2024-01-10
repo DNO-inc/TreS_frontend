@@ -26,7 +26,7 @@ import {
   getUserLogin,
   getPermissions,
 } from "../../../../../../../../shared/functions/getLocalStorageData";
-import { useAuth } from "../../../../../../../../context/AuthContext";
+import { useAuth } from "../../../../../../../../context/AuthContext/AuthContext";
 import IPalette from "../../../../../../../../theme/IPalette.interface";
 import { CustomTooltip } from "../../../../../../../../components/CustomTooltip";
 import { checkIsAdmin } from "../../../../../../../../shared/functions";

@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 import { SxProps, Theme } from "@mui/material";
 
 import IPalette from "../../../../theme/IPalette.interface";
-import { useAuth } from "../../../../context/AuthContext";
+import { useAuth } from "../../../../context/AuthContext/AuthContext";
 import { PasswordField } from "../../../PasswordField";
 
 interface LoginStepProps {

@@ -30,7 +30,7 @@ import IPalette from "../../theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
 import { getUserId } from "../../shared/functions/getLocalStorageData";
 import { checkStatus } from "../../shared/functions";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext/AuthContext";
 import { useToggleAction } from "./hooks/useToggleAction";
 
 interface TicketProps {

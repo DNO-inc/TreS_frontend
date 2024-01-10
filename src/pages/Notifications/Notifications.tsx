@@ -9,7 +9,7 @@ import { Badge, useTheme } from "@mui/material";
 
 import ChatIcon from "@mui/icons-material/Chat";
 
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification } from "../../context/NotificationContext/NotificationContext";
 import IPalette from "../../theme/IPalette.interface";
 import { endpoints } from "../../constants";
 import { NotFound } from "../../components/NotFound";
