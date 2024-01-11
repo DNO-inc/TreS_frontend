@@ -24,7 +24,9 @@ import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from "../../store/api/tickets.api";
-import { useCommentsConnection } from "./useCommentsConnection";
+import { useCommentsConnection } from "./hooks/useCommentsConnection";
+import { useToggleAction } from "../../shared/hooks";
+import { toggleOptions } from "../../constants";
 
 export interface IPerson {
   color: string;
@@ -35,23 +37,27 @@ const FullTicketInfo: FC = () => {
   const { palette }: IPalette = useTheme();
   const { pathname } = useLocation();
 
+  const ticketId = parseInt(pathname.split("/")[2]);
+  const commentsConnection = useCommentsConnection(ticketId);
+  const isAdmin = checkIsAdmin();
+  const userId = Number(getUserId());
+
   const [peopleSettings, setPeopleSettings] = useState(
     new Map<number, IPerson>()
   );
-
-  const ticketId: number = parseInt(pathname.split("/")[2]);
-  const isAdmin = checkIsAdmin();
+  const [upvotes, setUpvotes] = useState<number>(0);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [isFollowed, setIsFollowed] = useState<boolean>(false);
 
   const [showTicket, { data: ticket, isSuccess, isLoading }] = isAdmin
     ? useAdminShowTicketMutation()
     : useShowTicketMutation();
   const [updateTicket, { isSuccess: isSuccessUpdate }] =
     useAdminUpdateTicketMutation();
+  const [toggleLike] = useToggleLikeMutation();
+  const [toggleFollowed] = useToggleBookmarkMutation();
 
-  const userId = Number(getUserId());
-  const creatorId = ticket?.creator && ticket?.creator.user_id;
-  const assigneeId = ticket?.assignee && ticket?.assignee.user_id;
-  const isMyTicket = userId == creatorId;
+  const isMyTicket = userId == ticket?.creator.user_id;
   const isCanManipulateFile = isMyTicket || isAdmin;
 
   useEffect(() => {
@@ -66,50 +72,34 @@ const FullTicketInfo: FC = () => {
     }
   }, [isSuccess]);
 
-  // ======================================
+  const likeOption = !isLiked ? toggleOptions.LIKE : toggleOptions.UNLIKE;
 
-  const commentsConnection = useCommentsConnection(ticketId);
-
-  // ======================================
-
-  const [upvotes, setUpvotes] = useState<number>(ticket?.upvotes);
-  const [isLiked, setIsLiked] = useState<boolean>(ticket?.is_liked);
-  const [isFollowed, setIsFollowed] = useState<boolean>(ticket?.is_followed);
-  const [isReported, setIsReported] = useState<boolean>(false);
-
-  const [toggleLike] = useToggleLikeMutation();
-  const [toggleBookmark] = useToggleBookmarkMutation();
-
-  const handleToggleReported = (): void => {
-    setIsReported(prevIsReported => !prevIsReported);
+  const likeOptions = {
+    toggleMutation: toggleLike,
+    option: likeOption,
+    setState: setIsLiked,
+    ticketId: ticket?.ticket_id,
+    dependencies: [isLiked],
+    callback: () => {
+      setUpvotes((prevUpvote: number) =>
+        likeOption === "like" ? prevUpvote + 1 : prevUpvote - 1
+      );
+    },
   };
+  const handleToggleLike = useToggleAction(likeOptions);
 
-  const handleToggleLike = (): void => {
-    const option = !isLiked ? "like" : "unlike";
+  const followedOption = !isFollowed
+    ? toggleOptions.BOOKMARK
+    : toggleOptions.UNBOOKMARK;
 
-    toggleLike({
-      option: option,
-      body: JSON.stringify({ ticket_id: ticket.ticket_id }),
-    });
-
-    setUpvotes((prevUpvote: number) =>
-      option === "like" ? prevUpvote + 1 : prevUpvote - 1
-    );
-
-    setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
+  const followedOptions = {
+    toggleMutation: toggleFollowed,
+    option: followedOption,
+    setState: setIsFollowed,
+    ticketId: ticket?.ticket_id,
+    dependencies: [isFollowed],
   };
-
-  const handleToggleFollowed = (): void => {
-    const option = !isFollowed ? "bookmark" : "unbookmark";
-
-    toggleBookmark({
-      option: option,
-      body: JSON.stringify({ ticket_id: ticket.ticket_id }),
-    });
-
-    setIsFollowed((prevIsBookmarked: boolean) => !prevIsBookmarked);
-  };
-  // ======================================
+  const handleToggleFollowed = useToggleAction(followedOptions);
 
   return (
     <Grid container>
@@ -127,7 +117,7 @@ const FullTicketInfo: FC = () => {
           }}
         >
           <FullTicketHeader
-            assigneeId={assigneeId}
+            assigneeId={ticket?.assignee?.user_id}
             ticketFaculty={ticket.faculty.faculty_id}
             ticketStatus={ticket.status}
             ticketQueue={ticket.queue}
@@ -167,13 +157,11 @@ const FullTicketInfo: FC = () => {
           />
           <ActionPanel
             isLiked={isLiked}
-            isReported={isReported}
             upvotes={upvotes}
             isFollowed={isFollowed}
             handleToggleLike={handleToggleLike}
             handleToggleFollowed={handleToggleFollowed}
-            handleToggleReported={handleToggleReported}
-            isMyTicket={isMyTicket}
+            isMyTicket={userId === ticket?.creator?.user_id}
           />
         </Grid>
       )}

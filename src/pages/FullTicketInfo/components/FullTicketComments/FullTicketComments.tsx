@@ -40,52 +40,7 @@ import { IAction } from "./components/Action/Action";
 import { permissions } from "../../../../constants";
 import { useGetFullHistoryMutation } from "../../../../store/api/tickets.api";
 
-export type IHistoryItem =
-  | {
-      color: string;
-      nick: string;
-      action_id: string;
-      author: {
-        user_id: number;
-        firstname: string;
-        lastname: string;
-        login: string;
-        faculty: { faculty_id: number; name: string };
-        group: { group_id: number; name: string };
-      };
-      creation_date: string;
-      field_name: string;
-      file_meta_action: string;
-      value: string;
-      new_value: string;
-      old_value: string;
-      ticket_id: number;
-      type_: "action";
-    }
-  | {
-      color: string;
-      nick: string;
-      comment_id: string;
-      author: {
-        user_id: number;
-        firstname: string;
-        lastname: string;
-        login: string;
-        faculty: { faculty_id: number; name: string };
-        group: { group_id: number; name: string };
-      };
-      reply_to: {
-        author: {
-          user_id: number;
-          firstname: string;
-          lastname: string;
-        };
-        body: string;
-      } | null;
-      body: string;
-      creation_date: string;
-      type_: "comment";
-    };
+export type IHistoryItem = IAction | IComment;
 
 interface CreateCommentResponse {
   data?: {
@@ -125,14 +80,12 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
   setPeopleSettings,
 }) => {
   const { t, i18n } = useTranslation();
-
   const { palette }: IPalette = useTheme();
 
   const userPermissions = getPermissions();
   const isCanSendMessage = userPermissions.includes(permissions.SEND_MESSAGE);
 
   const commentFieldRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
-
   const userId = getUserId();
 
   const [getComments] = useGetFullHistoryMutation();

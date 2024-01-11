@@ -24,29 +24,19 @@ import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from "../../store/api/tickets.api";
-import { endpoints } from "../../constants";
+import { endpoints, toggleOptions } from "../../constants";
 import { useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
 import { getUserId } from "../../shared/functions/getLocalStorageData";
 import { checkStatus } from "../../shared/functions";
 import { useAuth } from "../../context/AuthContext/AuthContext";
-import { useToggleAction } from "./hooks/useToggleAction";
+import { useToggleAction } from "../../shared/hooks/useToggleAction";
 
 interface TicketProps {
   ticket: ITicket;
   ticketsPerRow: number;
 }
-
-const TOGGLE_LIKE_OPTION = {
-  LIKE: "like",
-  UNLIKE: "unlike",
-};
-
-const TOGGLE_BOOKMARK_OPTION = {
-  BOOKMARK: "bookmark",
-  UNBOOKMARK: "unbookmark",
-};
 
 const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
   const { palette }: IPalette = useTheme();
@@ -95,9 +85,7 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
   const [toggleLike] = useToggleLikeMutation();
   const [toggleFollowed] = useToggleBookmarkMutation();
 
-  const likeOption = !isLiked
-    ? TOGGLE_LIKE_OPTION.LIKE
-    : TOGGLE_LIKE_OPTION.UNLIKE;
+  const likeOption = !isLiked ? toggleOptions.LIKE : toggleOptions.UNLIKE;
 
   const likeOptions = {
     toggleMutation: toggleLike,
@@ -117,8 +105,8 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
   const handleToggleLike = useToggleAction(likeOptions);
 
   const followedOption = !isFollowed
-    ? TOGGLE_BOOKMARK_OPTION.BOOKMARK
-    : TOGGLE_BOOKMARK_OPTION.UNBOOKMARK;
+    ? toggleOptions.BOOKMARK
+    : toggleOptions.UNBOOKMARK;
 
   const followedOptions = {
     toggleMutation: toggleFollowed,

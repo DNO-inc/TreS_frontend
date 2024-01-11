@@ -1,11 +1,4 @@
-import {
-  FC,
-  useEffect,
-  useState,
-  useRef,
-  MutableRefObject,
-  ChangeEvent,
-} from "react";
+import { FC, useEffect, useState, useRef, MutableRefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
@@ -14,29 +7,25 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import useTheme from "@mui/material/styles/useTheme";
-import Chip from "@mui/material/Chip";
 
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import CancelIcon from "@mui/icons-material/Cancel";
-import { LinearProgress } from "@mui/material";
 
 import { DialogPopup } from "../../../../components/DialogPopup";
+import { File } from "./components/File";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import {
   useDeleteFileMutation,
-  useGetFileMutation,
   useGetFilesIdsMutation,
-  useUploadFileMutation,
 } from "../../../../store/api/iofiles.api";
-import { getFileIcon } from "../../../../shared/functions";
+import { useUploadFile } from "./components/hooks/useUploadFile";
 
 interface FullTicketFilesProps {
   ticketId: number;
   isCanManipulateFile: boolean;
 }
 
-interface IFile {
+export interface IFile {
   content_type: string;
   file_id: string;
   file_name: string;
@@ -44,7 +33,7 @@ interface IFile {
   ticket_id: number;
 }
 
-interface ILoadingFile {
+export interface ILoadingFile {
   lastModified: number;
   name: string;
   size: number;
@@ -52,7 +41,7 @@ interface ILoadingFile {
   webkitRelativePath: string;
 }
 
-type ApiResponse = {
+export type ApiResponse = {
   data?: any;
   error?: FetchBaseQueryError | SerializedError;
 };
@@ -70,9 +59,7 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [deletedFileId, setDeletedFileId] = useState<string>("");
 
-  const [uploadFiles, { isSuccess: isFileUploaded }] = useUploadFileMutation();
   const [getFilesId] = useGetFilesIdsMutation();
-  const [getFile] = useGetFileMutation();
   const [deleteFile, { isSuccess: isFileDeleted }] = useDeleteFileMutation();
 
   const textBody = {
@@ -80,9 +67,13 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
     description: "deleteFile.description",
   };
 
+  const { handleUploadFile, isFileUploaded } = useUploadFile({
+    ticketId,
+    setFiles,
+  });
+
   const uploadFileList = () => {
     const formData = new FormData();
-
     formData.append("ticket_id", ticketId.toString());
 
     getFilesId(formData).then((res: ApiResponse) => {
@@ -103,54 +94,6 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
       uploadFileList();
     }
   }, [isFileUploaded, isFileDeleted]);
-
-  const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-
-    if (!files) {
-      alert("Select File");
-      return;
-    }
-
-    const loadingFiles: ILoadingFile[] = [];
-
-    for (const key in files) {
-      if (files.hasOwnProperty(key)) {
-        loadingFiles.push(files[key]);
-      }
-    }
-
-    setFiles(
-      prevFiles => [...prevFiles, ...loadingFiles] as IFile[] | ILoadingFile[]
-    );
-
-    const formData = new FormData();
-
-    formData.append("ticket_id", ticketId.toString());
-
-    Object.keys(files).map(file => {
-      formData.append("file_list", files[file]);
-    });
-
-    uploadFiles(formData);
-  };
-
-  const handleClick = (fileId: string, fileName: string) => {
-    getFile(fileId).then((res: ApiResponse) => {
-      if (res?.data) {
-        const file = res.data;
-        const url = URL.createObjectURL(file);
-
-        const anchor = document.createElement("a");
-        anchor.href = url;
-        anchor.download = fileName;
-        document.body.append(anchor);
-        anchor.setAttribute("style", "display: none");
-        anchor.click();
-        anchor.remove();
-      }
-    });
-  };
 
   const handlePick = () => {
     inputRef?.current?.click();
@@ -187,7 +130,7 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
               style={{ width: 0 }}
               type="file"
               multiple
-              onChange={handleUpload}
+              onChange={handleUploadFile}
             />
             <IconButton
               onClick={handlePick}
@@ -205,49 +148,21 @@ const FullTicketFiles: FC<FullTicketFilesProps> = ({
         {files.map((file: IFile | ILoadingFile) => {
           if ("type" in file) {
             return (
-              <Chip
-                sx={{
-                  bgcolor: palette.grey.card,
-                  border: `2px solid ${palette.grey.divider}`,
-                  borderRadius: 1,
-                  textTransform: "none",
-                  height: "43px",
-                }}
-                icon={getFileIcon(file.type)}
-                label={
-                  <>
-                    <span style={{ fontSize: "16px", marginRight: 6 }}>
-                      {file.name}
-                    </span>
-                    <LinearProgress />
-                  </>
-                }
-                variant="outlined"
+              <File
+                type={file.type}
+                name={file.name}
+                isLoading={true}
                 key={file.name}
               />
             );
           } else {
             return (
-              <Chip
-                sx={{
-                  bgcolor: palette.grey.card,
-                  border: `2px solid ${palette.grey.divider}`,
-                  borderRadius: 1,
-                  textTransform: "none",
-                  height: "43px",
-                }}
-                icon={getFileIcon(file.content_type)}
-                label={
-                  <span style={{ fontSize: "16px", marginRight: 6 }}>
-                    {file.file_name}
-                  </span>
-                }
-                variant="outlined"
-                onClick={() => handleClick(file.file_id, file.file_name)}
-                deleteIcon={isCanManipulateFile ? <CancelIcon /> : <></>}
-                onDelete={() => {
-                  handleOpenDialog(file.file_id);
-                }}
+              <File
+                type={file.content_type}
+                name={file.file_name}
+                fileId={file.file_id}
+                handleOpenDialog={handleOpenDialog}
+                isCanManipulateFile={isCanManipulateFile}
                 key={file.file_id}
               />
             );

@@ -46,15 +46,17 @@ const Action: ForwardRefExoticComponent<
 
   const formattedDate: string = useFormatDate(action.creation_date, "full");
 
+  console.log(1);
+
   const getActionText = () => {
     if (lang === "ua") {
       return (
         <>
           {action.field_name === "file" ? (
             action.file_meta_action === "upload" ? (
-              <>{` on ${formattedDate} завантажив(-ла) файл ${action.value}`}</>
+              <>{` ${formattedDate} завантажив(-ла) файл ${action.value}`}</>
             ) : (
-              <>{` on ${formattedDate} видалив(-ла) файл ${action.value}`}</>
+              <>{` ${formattedDate} видалив(-ла) файл ${action.value}`}</>
             )
           ) : (
             <>

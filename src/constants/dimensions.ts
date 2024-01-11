@@ -6,6 +6,7 @@ const dimensions = {
     LOGIN_MODAL: 500,
     SIGNUP_MODAL: 500,
     NOT_FOUND: 600,
+    COMMENTS_TEXTFIELD: 600,
     SIMPLE_TICKET: 750,
   },
 };

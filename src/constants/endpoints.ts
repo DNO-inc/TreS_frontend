@@ -11,7 +11,6 @@ const endpoints = {
   DELETED: "/deleted",
   NOTIFICATIONS: "/notifications",
   GENERAL_TICKETS: "/general_tickets",
-  SETTINGS: "/settings",
   PROFILE: "/profile",
   CREATE_TICKET: "/tickets/create",
   ERROR: "/error",

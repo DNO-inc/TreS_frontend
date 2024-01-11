@@ -14,17 +14,12 @@ const useWebSocket = (
       const newWs = new WebSocket(wsUrl);
       setWs(newWs);
 
-      function ping() {
-        if (!newWs) return;
-        if (newWs.readyState !== 1) return;
+      const ping = () => {
+        if (!newWs || newWs.readyState !== 1) return;
         newWs.send("PING");
-        if (isFirstLoad) {
-          setTimeout(ping, 25000);
-          setIsFirstLoad(false);
-        } else {
-          setTimeout(ping, 60000);
-        }
-      }
+        setTimeout(ping, isFirstLoad ? 25000 : 60000);
+        setIsFirstLoad(false);
+      };
 
       const openConnection = () => {
         const accessToken = getAccessToken() || "";

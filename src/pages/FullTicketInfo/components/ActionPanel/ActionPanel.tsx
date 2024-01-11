@@ -5,7 +5,6 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-// import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
@@ -17,22 +16,18 @@ import IPalette from "../../../../theme/IPalette.interface";
 
 interface ActionPanelProps {
   isMyTicket: boolean;
-  isReported: boolean;
   isLiked: boolean;
   isFollowed: boolean;
   upvotes: number;
-  handleToggleReported: () => void;
   handleToggleLike: () => void;
   handleToggleFollowed: () => void;
 }
 
 const ActionPanel: FC<ActionPanelProps> = ({
   isMyTicket,
-  // isReported,
   isLiked,
   isFollowed,
   upvotes,
-  // handleToggleReported,
   handleToggleLike,
   handleToggleFollowed,
 }) => {
@@ -54,14 +49,6 @@ const ActionPanel: FC<ActionPanelProps> = ({
         transform: "translateX(-50%)",
       }}
     >
-      {/* {isAdmin && (
-        <>
-          <IconButton onClick={handleToggleReported}>
-            <DoNotDisturbAltOutlinedIcon />
-          </IconButton>
-          <VerticalDivider />
-        </>
-      )} */}
       {!isMyTicket && (
         <>
           <IconButton onClick={handleToggleFollowed}>

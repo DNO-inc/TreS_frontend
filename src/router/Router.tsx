@@ -26,7 +26,6 @@ const Sent = lazy(() => import("../pages/Sent"));
 const Followed = lazy(() => import("../pages/Followed"));
 const Bookmarks = lazy(() => import("../pages/Bookmarks"));
 const Deleted = lazy(() => import("../pages/Deleted"));
-const Settings = lazy(() => import("../pages/Settings"));
 const Profile = lazy(() => import("../pages/Profile"));
 const Queue = lazy(() => import("../pages/Queue"));
 const Notifications = lazy(() => import("../pages/Notifications"));
@@ -120,7 +119,6 @@ const Router: FC = () => {
             <Route path={endpoints.BOOKMARKS} element={<Bookmarks />} />
             <Route path={endpoints.DELETED} element={<Deleted />} />
             <Route path={endpoints.NOTIFICATIONS} element={<Notifications />} />
-            <Route path={endpoints.SETTINGS} element={<Settings />} />
             <Route
               path={`${endpoints.PROFILE}/:userId`}
               element={<Profile />}
