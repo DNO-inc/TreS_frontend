@@ -236,10 +236,12 @@ const Comment: ForwardRefExoticComponent<
             {comment?.reply_to && (
               <Box
                 sx={{
-                  borderLeft: `3px solid ${
+                  borderLeft: `4px solid ${
                     isMyComment ? palette.common.white : comment.color
                   }`,
-                  borderRadius: "2px",
+                  bgcolor: "rgba(255, 255, 255, 0.2)",
+                  borderRadius: "4px 8px 8px 4px",
+                  pr: 2,
                   mb: 1,
                 }}
               >
