@@ -81,6 +81,7 @@ const GeneralActions: FC<GeneralActionsProps> = ({
         <NavbarListItem
           title={"generalTickets"}
           endpoint={endpoints.GENERAL_TICKETS}
+          disabled={false}
           selectedKey={selectedKey}
           handleListItemClick={handleListItemClick}
           activeIcon={<ArticleIcon />}
@@ -104,6 +105,7 @@ const GeneralActions: FC<GeneralActionsProps> = ({
           <NavbarListItem
             title={"queue"}
             endpoint={endpoints.QUEUE}
+            disabled={!isAuth}
             selectedKey={selectedKey}
             handleListItemClick={handleListItemClick}
             activeIcon={<GridViewSharpIcon />}
@@ -113,6 +115,7 @@ const GeneralActions: FC<GeneralActionsProps> = ({
         <NavbarListItem
           title={"notification"}
           endpoint={endpoints.NOTIFICATIONS}
+          disabled={!isAuth}
           selectedKey={selectedKey}
           handleListItemClick={handleListItemClick}
           activeIcon={<NotificationsIcon />}

@@ -16,6 +16,7 @@ const endpoints = {
   ERROR: "/error",
   PRIVACY_POLICY: "/privacy-policy",
   ACCESS_RENEW: "/profile/access_renew/",
+  PERMISSION_DENIED: "/permission_denied",
   STATISTIC: "/statistic",
 };
 

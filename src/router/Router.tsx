@@ -11,11 +11,6 @@ import { Loader } from "../components/Loader";
 
 import { endpoints, permissions } from "../constants";
 import { useAuth } from "../context/AuthContext/AuthContext";
-import {
-  getAccessToken,
-  getPermissions,
-} from "../shared/functions/getLocalStorageData";
-import { checkIsAdmin } from "../shared/functions";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import { useAccessRenewMutation } from "../store/api/profile.api";
 
@@ -34,6 +29,9 @@ const FullTicketInfo = lazy(() => import("../pages/FullTicketInfo"));
 const Statistic = lazy(() => import("../pages/Statistic"));
 const CreateTicketForm = lazy(() => import("../pages/CreateTicketForm"));
 const PermissionDenied = lazy(() => import("../pages/PermissionDenied"));
+const PrivateRoute = lazy(() => import("./PrivateRoute"));
+const PermissionRote = lazy(() => import("./PermissionRote"));
+const AdminRoute = lazy(() => import("./AdminRoute"));
 
 type ApiResponse = {
   data?: { access_token: string };
@@ -42,11 +40,6 @@ type ApiResponse = {
 
 const Router: FC = () => {
   const { isAuth, registerUser } = useAuth();
-  const isAdmin = checkIsAdmin();
-
-  const userPermissions = getPermissions();
-  const isCanCreateTicket = userPermissions.includes(permissions.CREATE_TICKET);
-  const isCanReadTicket = userPermissions.includes(permissions.READ_TICKET);
 
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
@@ -56,8 +49,6 @@ const Router: FC = () => {
   const [resetPassword] = useAccessRenewMutation({});
 
   useEffect(() => {
-    const authToken = getAccessToken();
-
     if (pathname === "/") {
       navigate(endpoints.GENERAL_TICKETS);
     } else if (searchParams.has("reset_token")) {
@@ -69,12 +60,6 @@ const Router: FC = () => {
         registerUser(accessToken);
       });
 
-      navigate(endpoints.GENERAL_TICKETS);
-    } else if (
-      !authToken &&
-      pathname !== endpoints.GENERAL_TICKETS &&
-      pathname !== endpoints.PRIVACY_POLICY
-    ) {
       navigate(endpoints.GENERAL_TICKETS);
     }
   }, [pathname, search, isAuth]);
@@ -90,48 +75,35 @@ const Router: FC = () => {
         }
       >
         <Route path={endpoints.GENERAL_TICKETS} element={<GeneralTickets />} />
-        {isAuth && (
-          <>
-            {isCanReadTicket ? (
-              <Route
-                path={`${endpoints.FULL_TICKET}/:ticketId`}
-                element={<FullTicketInfo />}
-              />
-            ) : (
-              <Route
-                path={endpoints.CREATE_TICKET}
-                element={<PermissionDenied />}
-              />
-            )}
-            {isCanCreateTicket ? (
-              <Route
-                path={endpoints.CREATE_TICKET}
-                element={<CreateTicketForm />}
-              />
-            ) : (
-              <Route
-                path={endpoints.CREATE_TICKET}
-                element={<PermissionDenied />}
-              />
-            )}
-            <Route path={endpoints.SENT} element={<Sent />} />
-            <Route path={endpoints.FOLLOWED} element={<Followed />} />
-            <Route path={endpoints.BOOKMARKS} element={<Bookmarks />} />
-            <Route path={endpoints.DELETED} element={<Deleted />} />
-            <Route path={endpoints.NOTIFICATIONS} element={<Notifications />} />
+        <Route element={<PrivateRoute />}>
+          <Route
+            element={<PermissionRote permission={permissions.CREATE_TICKET} />}
+          >
             <Route
-              path={`${endpoints.PROFILE}/:userId`}
-              element={<Profile />}
+              path={endpoints.CREATE_TICKET}
+              element={<CreateTicketForm />}
             />
-            {isAdmin && (
-              <>
-                <Route path={endpoints.QUEUE} element={<Queue />} />
-                <Route path={endpoints.RECEIVED} element={<Received />} />
-                <Route path={endpoints.STATISTIC} element={<Statistic />} />
-              </>
-            )}
-          </>
-        )}
+          </Route>
+          <Route
+            path={`${endpoints.FULL_TICKET}/:ticketId`}
+            element={<FullTicketInfo />}
+          />
+          <Route path={endpoints.SENT} element={<Sent />} />
+          <Route path={endpoints.FOLLOWED} element={<Followed />} />
+          <Route path={endpoints.BOOKMARKS} element={<Bookmarks />} />
+          <Route path={endpoints.DELETED} element={<Deleted />} />
+          <Route path={endpoints.NOTIFICATIONS} element={<Notifications />} />
+          <Route path={`${endpoints.PROFILE}/:userId`} element={<Profile />} />
+          <Route element={<AdminRoute />}>
+            <Route path={endpoints.QUEUE} element={<Queue />} />
+            <Route path={endpoints.RECEIVED} element={<Received />} />
+            <Route path={endpoints.STATISTIC} element={<Statistic />} />
+          </Route>
+        </Route>
+        <Route
+          path={endpoints.PERMISSION_DENIED}
+          element={<PermissionDenied />}
+        />
         <Route path={"*"} element={<ErrorPage />} />
       </Route>
       <Route path={endpoints.PRIVACY_POLICY} element={<PrivacyPolicy />} />

@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import ListItem from "@mui/material/ListItem";
@@ -10,6 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 interface NavbarListItemProps {
   title: string;
   endpoint: string;
+  disabled?: boolean;
   selectedKey: string;
   handleListItemClick: (key: string) => void;
   activeIcon: ReactNode;
@@ -20,6 +21,7 @@ interface NavbarListItemProps {
 const NavbarListItem: FC<NavbarListItemProps> = ({
   title,
   endpoint,
+  disabled = true,
   selectedKey,
   handleListItemClick,
   activeIcon,
@@ -27,21 +29,27 @@ const NavbarListItem: FC<NavbarListItemProps> = ({
   children,
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    handleListItemClick(endpoint);
+
+    !disabled && navigate(endpoint);
+  };
 
   return (
     <ListItem key={title} disablePadding>
-      <NavLink to={endpoint}>
-        <ListItemButton
-          selected={selectedKey === endpoint}
-          onClick={() => handleListItemClick(endpoint)}
-        >
-          <ListItemIcon>
-            {selectedKey === endpoint ? activeIcon : disableIcon}
-          </ListItemIcon>
-          <ListItemText primary={t(`sidebar.${title}`)} />
-          {children}
-        </ListItemButton>
-      </NavLink>
+      <ListItemButton
+        disabled={disabled}
+        selected={selectedKey === endpoint}
+        onClick={handleRedirect}
+      >
+        <ListItemIcon>
+          {selectedKey === endpoint ? activeIcon : disableIcon}
+        </ListItemIcon>
+        <ListItemText primary={t(`sidebar.${title}`)} />
+        {children}
+      </ListItemButton>
     </ListItem>
   );
 };
