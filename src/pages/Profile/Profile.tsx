@@ -161,6 +161,7 @@ const Profile: FC = () => {
               <ProfileActions
                 isEditMode={isEditMode}
                 handelReset={handelReset}
+                setIsEditMode={setIsEditMode}
               />
               <PasswordChangeSection
                 password={data?.password}
