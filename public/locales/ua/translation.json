@@ -129,9 +129,9 @@
   "queue": {
     "heading": "Черги",
     "scopes": {
-      "reportTitle": "Скарги",
-      "questionTitle": "Питання",
-      "suggestionTitle": "Пропозиції"
+      "reportsTitle": "Скарги",
+      "q/aTitle": "Питання",
+      "suggestionsTitle": "Пропозиції"
     },
     "showAll": "Показати всі"
   },

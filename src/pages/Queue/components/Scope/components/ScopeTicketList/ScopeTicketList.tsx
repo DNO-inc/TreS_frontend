@@ -7,7 +7,9 @@ import {
   MutableRefObject,
 } from "react";
 
-import { Box, Grid, useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { SimpleTicket } from "../../../../../../components/SimpleTicket/SimpleTicket";
 
@@ -15,7 +17,7 @@ import { ITicket } from "../../../../../../components/Ticket/ticket.interface";
 import IPalette from "../../../../../../theme/IPalette.interface";
 import axios from "axios";
 import { NotFound } from "../../../../../../components/NotFound";
-import { storage } from "../../../../../../constants";
+import { endpoints, storage } from "../../../../../../constants";
 
 interface ScopeTicketListProps {
   scope: string;
@@ -93,7 +95,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
 
       axios({
         method: "POST",
-        url: `${import.meta.env.VITE_API_URL}/admin/tickets/ticket_list`,
+        url: `${endpoints.BASE_URL}/admin/tickets/ticket_list`,
         data: requestParams,
         headers: {
           "Content-Type": "application/json",

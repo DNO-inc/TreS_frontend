@@ -129,9 +129,9 @@
   "queue": {
     "heading": "Queue",
     "scopes": {
-      "reportTitle": "Reports",
-      "questionTitle": "Questions",
-      "suggestionTitle": "Suggestions"
+      "reportsTitle": "Reports",
+      "q/aTitle": "Questions",
+      "suggestionsTitle": "Suggestions"
     },
     "showAll": "Show all"
   },

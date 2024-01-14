@@ -63,17 +63,11 @@ const FacultySelect: FC<FacultySelectProps> = ({
             }}
           >
             {data.faculties_list.map((faculty: faculty) => {
-              let isSelected = false;
-
-              if (faculty.faculty_id === facultyId) {
-                isSelected = true;
-              }
-
               return (
                 <MenuItem
                   value={faculty.faculty_id}
                   key={`menuItem-${faculty.faculty_id}`}
-                  selected={isSelected}
+                  selected={faculty.faculty_id === facultyId}
                 >
                   <ListItemText primary={faculty.name} />
                 </MenuItem>

@@ -1,29 +1,27 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material";
-
-// import EditIcon from "@mui/icons-material/Edit";
-
-// import { EditQueuesPopup } from "./components/EditQueuesPopup";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { Scope } from "./components/Scope";
 import IPalette from "../../theme/IPalette.interface";
 import { getUserFacultyId } from "../../shared/functions/getLocalStorageData";
 import { FacultySelect } from "./components/FacultySelect";
-import { useGetQueuesByFacultyMutation } from "../../store/api/meta.api";
+import { useScopeList } from "./hooks/useScopeList";
+import { useChangeURL } from "../../shared/hooks";
+import { urlKeys } from "../../constants";
+import { useSearchParams } from "react-router-dom";
 
-type ApiResponse = {
+export type ApiResponse = {
   data?: { queues_list: IQueue[] };
   error?: FetchBaseQueryError | SerializedError;
 };
-interface IQueue {
+export interface IQueue {
   queue_id: number;
   faculty: number;
   name: string;
@@ -38,119 +36,30 @@ export interface IScope {
 }
 
 const Queue: FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
+  const [searchParams] = useSearchParams();
+
+  const putFacultyInURL = useChangeURL();
 
   const facultyId = getUserFacultyId();
+  const urlFaculty = parseInt(searchParams.get(urlKeys.FACULTY) || "", 10);
 
-  const [faculty, setFaculty] = useState(facultyId);
-
-  const [searchParams] = useSearchParams();
-  const searchParamOrder = searchParams.get("order");
-
-  const queue: number[] = searchParamOrder
-    ? searchParamOrder.split(",").map(item => Number(item))
-    : [];
-
-  // const [open, setOpen] = useState(false);
-  const [currentScope, setCurrentScope] = useState<IScope | null>(null);
-  const [scopesList, setScopesList] = useState<IScope[]>([
-    {
-      id: 1,
-      order: queue[0] || 1,
-      name: "Reports",
-      title: t("queue.scopes.reportTitle"),
-      queues: [],
-    },
-    {
-      id: 2,
-      order: queue[1] || 2,
-      name: "Q/A",
-      title: t("queue.scopes.questionTitle"),
-      queues: [],
-    },
-    {
-      id: 3,
-      order: queue[2] || 3,
-      name: "Suggestion",
-      title: t("queue.scopes.suggestionTitle"),
-      queues: [],
-    },
-  ]);
+  const [faculty, setFaculty] = useState(urlFaculty || facultyId);
 
   useEffect(() => {
-    setScopesList(prevState => {
-      const newScopeList = [...prevState];
-
-      newScopeList[0].title = t("queue.scopes.reportTitle");
-      newScopeList[1].title = t("queue.scopes.questionTitle");
-      newScopeList[2].title = t("queue.scopes.suggestionTitle");
-
-      return newScopeList;
-    });
-  }, [i18n.language]);
-
-  const mapScopeToIndex: { [key: string]: number } = {
-    Reports: 0,
-    "Q/A": 1,
-    Suggestion: 2,
-  };
-
-  const [getQueues] = useGetQueuesByFacultyMutation({});
-
-  useEffect(() => {
-    getQueues({ body: JSON.stringify({ faculty: faculty }) }).then(
-      (res: ApiResponse) => {
-        const queuesData = res.data && res.data.queues_list;
-
-        if (queuesData) {
-          const newScopeList = [...scopesList].sort((a, b) => a.id - b.id);
-
-          newScopeList.forEach(scope => {
-            if (scope.queues.length !== 0) {
-              scope.queues = [];
-            }
-          });
-
-          queuesData.forEach((queue: IQueue) => {
-            const scopeIndex = mapScopeToIndex[queue.scope];
-
-            if (typeof scopeIndex === "number") {
-              newScopeList[scopeIndex].queues.push(queue);
-            }
-          });
-
-          setScopesList(newScopeList);
-        }
-      }
-    );
+    putFacultyInURL(urlKeys.FACULTY, faculty.toString());
   }, [faculty]);
 
-  const sortCards = (a: { order: number }, b: { order: number }) => {
-    return a.order - b.order;
-  };
-
-  // const handleOpenDialog = () => {
-  //   setOpen(true);
-  // };
+  const [currentScope, setCurrentScope] = useState<IScope | null>(null);
+  const { scopesList, setScopesList, sortedScopesList } = useScopeList({
+    faculty,
+  });
 
   return (
     <Grid container>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h1">{t("queue.heading")}</Typography>
-        {/* <Button
-          color="inherit"
-          variant="contained"
-          onClick={handleOpenDialog}
-          startIcon={<EditIcon sx={{ color: palette.common.black }} />}
-          sx={{
-            bgcolor: palette.common.white,
-            color: palette.common.black,
-            borderRadius: 4,
-          }}
-        >
-          Queue management
-        </Button> */}
         <FacultySelect
           facultyId={facultyId}
           faculty={faculty}
@@ -183,7 +92,7 @@ const Queue: FC = () => {
           },
         }}
       >
-        {scopesList.sort(sortCards).map((scope: IScope) => (
+        {sortedScopesList.map((scope: IScope) => (
           <Scope
             scope={scope}
             currentScope={currentScope}
@@ -195,7 +104,6 @@ const Queue: FC = () => {
           />
         ))}
       </Box>
-      {/* <EditQueuesPopup open={open} setOpen={setOpen} /> */}
     </Grid>
   );
 };

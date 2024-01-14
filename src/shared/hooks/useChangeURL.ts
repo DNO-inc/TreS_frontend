@@ -4,14 +4,14 @@ import { urlKeys } from "../../constants";
 const useChangeURL = (): ((
   urlKey: string,
   value: string,
-  isStartPage: boolean
+  isReturnToStart?: boolean
 ) => void) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const changeURL = (
     urlKey: string,
     value: string,
-    isStartPage: boolean = false
+    isReturnToStart: boolean = false
   ): void => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -21,7 +21,7 @@ const useChangeURL = (): ((
       params.append(urlKey, value);
     }
 
-    if (isStartPage) {
+    if (isReturnToStart) {
       if (params.has(urlKeys.CURRENT_PAGE)) {
         params.set(urlKeys.CURRENT_PAGE, "1");
       } else {

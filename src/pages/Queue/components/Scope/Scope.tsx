@@ -6,16 +6,13 @@ import {
   DragEvent,
   useEffect,
 } from "react";
-import { useSearchParams } from "react-router-dom";
 
-import {
-  Card,
-  Divider,
-  useTheme,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
 import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Divider from "@mui/material/Divider";
+import useTheme from "@mui/material/styles/useTheme";
+import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -25,6 +22,8 @@ import { ScopeTicketList } from "./components/ScopeTicketList";
 import IPalette from "../../../../theme/IPalette.interface";
 import { ScopeLabel } from "../../../../components/ScopeLabel";
 import { IScope } from "../../Queue";
+import { dimensions, urlKeys } from "../../../../constants";
+import { useChangeURL } from "../../../../shared/hooks";
 
 interface ScopeProps {
   scope: IScope;
@@ -43,12 +42,13 @@ const Scope: FC<ScopeProps> = ({
   setScopesList,
   facultyId,
 }) => {
-  const matches = useMediaQuery("(min-width: 480px)");
+  const matches = useMediaQuery(
+    `(min-width: ${dimensions.BREAK_POINTS.QUEUE}px)`
+  );
   const { palette }: IPalette = useTheme();
-
-  const [searchParams, setSearchParams] = useSearchParams();
-
   const [queues, setQueues] = useState<number[]>([]);
+
+  const setOrderInURL = useChangeURL();
 
   const handleDragStart = () => {
     setCurrentScope(scope);
@@ -78,21 +78,13 @@ const Scope: FC<ScopeProps> = ({
   };
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-
     const newOrder = scopesList
       .sort((a, b) => a.id - b.id)
       .map(item => item.order)
       .join(",");
 
-    if (params.has("order")) {
-      params.set("order", newOrder);
-    } else {
-      params.append("order", newOrder);
-    }
-
-    setSearchParams(params);
-  }, scopesList);
+    setOrderInURL(urlKeys.ORDER, newOrder);
+  }, [scopesList]);
 
   return (
     <Card
@@ -129,11 +121,7 @@ const Scope: FC<ScopeProps> = ({
       <Divider />
       <Box sx={{ pt: 3, pb: 3 }}>
         {!!scope.queues.length && scope.name !== "Not defined" && (
-          <QueueButtonsList
-            queues={scope.queues}
-            setQueues={setQueues}
-            facultyId={facultyId}
-          />
+          <QueueButtonsList queues={scope.queues} setQueues={setQueues} />
         )}
         <ScopeTicketList
           scope={scope.name}
