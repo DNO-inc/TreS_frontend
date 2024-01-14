@@ -1,5 +1,4 @@
 import { useEffect, useState, FC, Dispatch, SetStateAction, lazy } from "react";
-import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import List from "@mui/material/List";
@@ -25,6 +24,7 @@ import { endpoints } from "../../../../../../../../constants";
 import { useAuth } from "../../../../../../../../context/AuthContext/AuthContext";
 import { checkIsAdmin } from "../../../../../../../../shared/functions";
 import { useNotification } from "../../../../../../../../context/NotificationContext/NotificationContext";
+import { NavbarListItem } from "./components/NavbarListItem";
 
 const NestedList = lazy(() => import("./components/NestedList"));
 
@@ -78,23 +78,14 @@ const GeneralActions: FC<GeneralActionsProps> = ({
           },
         }}
       >
-        <ListItem key={"General tickets"} disablePadding>
-          <NavLink to={endpoints.GENERAL_TICKETS}>
-            <ListItemButton
-              selected={selectedKey === endpoints.GENERAL_TICKETS}
-              onClick={() => handleListItemClick(endpoints.GENERAL_TICKETS)}
-            >
-              <ListItemIcon>
-                {selectedKey === endpoints.GENERAL_TICKETS ? (
-                  <ArticleIcon />
-                ) : (
-                  <ArticleOutlinedIcon />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={t("sidebar.generalTickets")} />
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
+        <NavbarListItem
+          title={"generalTickets"}
+          endpoint={endpoints.GENERAL_TICKETS}
+          selectedKey={selectedKey}
+          handleListItemClick={handleListItemClick}
+          activeIcon={<ArticleIcon />}
+          disableIcon={<ArticleOutlinedIcon />}
+        />
         <ListItem key={"My Tickets"} disablePadding>
           <ListItemButton disabled={!isAuth} onClick={handleClick}>
             <ListItemIcon>
@@ -110,60 +101,33 @@ const GeneralActions: FC<GeneralActionsProps> = ({
           handleListItemClick={handleListItemClick}
         />
         {isAdmin && (
-          <ListItem key={"Queue"} disablePadding>
-            <NavLink
-              to={!isAuth ? "" : endpoints.QUEUE}
-              style={{ cursor: !isAuth ? "default" : "pointer" }}
-            >
-              <ListItemButton
-                disabled={!isAuth}
-                selected={selectedKey === endpoints.QUEUE}
-                onClick={() => handleListItemClick(endpoints.QUEUE)}
-              >
-                <ListItemIcon>
-                  {selectedKey === endpoints.QUEUE ? (
-                    <GridViewSharpIcon />
-                  ) : (
-                    <GridViewIcon />
-                  )}
-                </ListItemIcon>
-                <ListItemText primary={t("sidebar.queue")} />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
+          <NavbarListItem
+            title={"queue"}
+            endpoint={endpoints.QUEUE}
+            selectedKey={selectedKey}
+            handleListItemClick={handleListItemClick}
+            activeIcon={<GridViewSharpIcon />}
+            disableIcon={<GridViewIcon />}
+          />
         )}
-        <ListItem key={"Notifications"} disablePadding>
-          <NavLink
-            to={!isAuth ? "" : endpoints.NOTIFICATIONS}
-            style={{ cursor: !isAuth ? "default" : "pointer" }}
-          >
-            <ListItemButton
-              disabled={!isAuth}
-              selected={selectedKey === endpoints.NOTIFICATIONS}
-              onClick={() => handleListItemClick(endpoints.NOTIFICATIONS)}
-            >
-              <ListItemIcon>
-                {selectedKey === endpoints.NOTIFICATIONS ? (
-                  <NotificationsIcon />
-                ) : (
-                  <NotificationsOutlinedIcon />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={t("sidebar.notification")} />
-              {isAuth && (
-                <IconButton
-                  aria-label={notificationsLabel(countOfNotification)}
-                >
-                  <Badge
-                    badgeContent={countOfNotification}
-                    color="primary"
-                    sx={{ "& > span": { color: "white" } }}
-                  ></Badge>
-                </IconButton>
-              )}
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
+        <NavbarListItem
+          title={"notification"}
+          endpoint={endpoints.NOTIFICATIONS}
+          selectedKey={selectedKey}
+          handleListItemClick={handleListItemClick}
+          activeIcon={<NotificationsIcon />}
+          disableIcon={<NotificationsOutlinedIcon />}
+        >
+          {isAuth && (
+            <IconButton aria-label={notificationsLabel(countOfNotification)}>
+              <Badge
+                badgeContent={countOfNotification}
+                color="primary"
+                sx={{ "& > span": { color: "white" } }}
+              ></Badge>
+            </IconButton>
+          )}
+        </NavbarListItem>
       </List>
     </>
   );

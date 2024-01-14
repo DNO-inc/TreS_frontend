@@ -5,20 +5,22 @@ import { Link, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import {
-  Divider,
-  IconButton,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import useTheme from "@mui/material/styles/useTheme";
 
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
 import { VerticalDivider } from "../../../../../../../../components/VerticalDivider";
 
-import { endpoints, permissions } from "../../../../../../../../constants";
+import {
+  dimensions,
+  endpoints,
+  permissions,
+} from "../../../../../../../../constants";
 import Logo from "../../../../../../../../assets/Logomark.svg";
 import {
   getUserId,
@@ -36,7 +38,9 @@ const AuthActions: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
   const navigate = useNavigate();
-  const matches = useMediaQuery("(min-width: 600px)");
+  const matches = useMediaQuery(
+    `(min-width: ${dimensions.BREAK_POINTS.AUTH_ACTIONS}px)`
+  );
 
   const { logoutUser } = useAuth();
 

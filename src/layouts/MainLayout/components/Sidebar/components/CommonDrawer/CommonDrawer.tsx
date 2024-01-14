@@ -1,6 +1,11 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
 
-import { Drawer, Avatar, Grid, Toolbar, Typography } from "@mui/material";
+import Drawer from "@mui/material/Drawer";
+import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { SidebarActions } from "../SidebarActions";
@@ -8,7 +13,6 @@ import { SidebarActions } from "../SidebarActions";
 import Logo from "../../../../../../assets/Logomark.svg";
 import IPalette from "../../../../../../theme/IPalette.interface";
 import { dimensions, endpoints } from "../../../../../../constants";
-import { Link } from "react-router-dom";
 
 const CommonDrawer: FC = () => {
   const { palette }: IPalette = useTheme();

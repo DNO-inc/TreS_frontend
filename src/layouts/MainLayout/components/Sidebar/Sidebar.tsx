@@ -1,11 +1,11 @@
-import { FC } from "react";
+import { FC, lazy } from "react";
 
 import Box from "@mui/material/Box";
 
-import { MobileDrawer } from "./components/MobileDrawer/MobileDrawer";
-import { CommonDrawer } from "./components/CommonDrawer/CommonDrawer";
-
 import { dimensions } from "../../../../constants";
+
+const MobileDrawer = lazy(() => import("./components/MobileDrawer"));
+const CommonDrawer = lazy(() => import("./components/CommonDrawer"));
 
 interface SidebarProps {
   mobileOpen: boolean;

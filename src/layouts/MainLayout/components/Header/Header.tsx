@@ -30,7 +30,6 @@ const Header: FC<HeaderProps> = ({ handleDrawerToggle }) => {
 
   const isFullTicketInfo: boolean = !!ticketId;
   const isCreateTicket: boolean = pathname === endpoints.CREATE_TICKET;
-
   const isDrawStepBackAction: boolean = isFullTicketInfo || isCreateTicket;
 
   const handleClick = (): void => {

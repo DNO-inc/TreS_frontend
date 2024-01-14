@@ -28,6 +28,15 @@ const SidebarActions: FC = () => {
     i18n.changeLanguage(language);
   };
 
+  const checkColor = (
+    language: string,
+    isStandard: boolean = false
+  ): string => {
+    return i18n.language === language || isStandard
+      ? palette.primary.main
+      : palette.common.white;
+  };
+
   useEffect(() => {
     setSelectedKey(pathname);
   }, [pathname]);
@@ -65,10 +74,7 @@ const SidebarActions: FC = () => {
               changeLanguage("en");
             }}
             sx={{
-              color:
-                i18n.language === "en" || !i18n.language
-                  ? palette.primary.main
-                  : palette.common.white,
+              color: checkColor("en", !i18n.language),
             }}
           >
             EN
@@ -79,10 +85,7 @@ const SidebarActions: FC = () => {
               changeLanguage("ua");
             }}
             sx={{
-              color:
-                i18n.language === "ua"
-                  ? palette.primary.main
-                  : palette.common.white,
+              color: checkColor("ua"),
             }}
           >
             UA

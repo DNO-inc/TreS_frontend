@@ -1,1 +1,1 @@
-export { MobileDrawer } from "./MobileDrawer";
+export { MobileDrawer as default } from "./MobileDrawer";

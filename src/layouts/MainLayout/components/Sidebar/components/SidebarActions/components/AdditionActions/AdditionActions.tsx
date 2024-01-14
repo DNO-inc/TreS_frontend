@@ -1,13 +1,13 @@
-import { useEffect, useState, FC } from "react";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import List from "@mui/material/List";
-import useTheme from "@mui/material/styles/useTheme";
+import Button from "@mui/material/Button";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-import { endpoints } from "../../../../../../../../constants";
+import { dimensions, endpoints } from "../../../../../../../../constants";
 import { useAuth } from "../../../../../../../../context/AuthContext/AuthContext";
-import { Button, useMediaQuery } from "@mui/material";
 
 interface AdditionActionsProps {
   selectedKey: string;
@@ -15,24 +15,17 @@ interface AdditionActionsProps {
 }
 
 const AdditionActions: FC<AdditionActionsProps> = () => {
-  const theme = useTheme();
-  const navigate = useNavigate();
-  const matches = useMediaQuery("(max-width: 600px)");
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const matches = useMediaQuery(
+    `(max-width: ${dimensions.BREAK_POINTS.ADDITION_ACTIONS}px)`
+  );
 
   const { isAuth } = useAuth();
 
-  const [checked, setChecked] = useState<boolean>(
-    theme.palette.mode === "dark"
-  );
-
   const handleRedirect = (): void => {
-    navigate(endpoints.GENERAL_TICKETS);
+    navigate(endpoints.CREATE_TICKET);
   };
-
-  useEffect(() => {
-    setChecked(!checked);
-  }, [theme.palette.mode]);
 
   return (
     <List

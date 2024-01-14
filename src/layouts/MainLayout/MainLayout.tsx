@@ -1,16 +1,17 @@
-import { useState, FC, Suspense } from "react";
+import { useState, FC, Suspense, lazy } from "react";
 import { Outlet } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Header } from "./components/Header";
-import { Sidebar } from "./components/Sidebar";
 import { ErrorBoundary } from "../../components/ErrorBoundary";
 import { Loader } from "../../components/Loader";
 
 import IPalette from "../../theme/IPalette.interface";
 import { dimensions } from "../../constants";
+
+const Header = lazy(() => import("./components/Header"));
+const Sidebar = lazy(() => import("./components/Sidebar"));
 
 const MainLayout: FC = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);

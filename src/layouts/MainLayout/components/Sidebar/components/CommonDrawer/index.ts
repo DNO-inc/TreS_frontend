@@ -1,1 +1,1 @@
-export { CommonDrawer } from "./CommonDrawer";
+export { CommonDrawer as default } from "./CommonDrawer";
