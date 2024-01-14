@@ -1,32 +1,39 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldValues, UseFormRegister } from "react-hook-form";
+import { FieldValues, UseFormRegister, UseFormWatch } from "react-hook-form";
 
-import { TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
+
+import { profileFormKeys } from "../../../../constants";
+import { ProfileUpdateBody } from "../../Profile";
 
 interface ProfileInputProps {
   register: UseFormRegister<FieldValues>;
-  value: string | number | null;
+  defaultValue: string | undefined;
+  watch: UseFormWatch<ProfileUpdateBody>;
   inputType: string;
 }
 
 const ProfileInput: FC<ProfileInputProps> = ({
   register,
-  value,
+  defaultValue,
+  watch,
   inputType,
 }) => {
   const { t } = useTranslation();
 
+  const profileKey = profileFormKeys[inputType.toUpperCase()];
+  const value = watch(profileKey, defaultValue);
   const placeholder = t(`profile.editMode.${inputType}`);
 
   return (
     <TextField
-      id="ticket-title"
+      id={`profile-${inputType}`}
       placeholder={placeholder}
-      defaultValue={value}
+      value={value}
       variant="standard"
       fullWidth
-      {...register(inputType)}
+      {...register(profileKey)}
       sx={{ maxWidth: 170 }}
     />
   );

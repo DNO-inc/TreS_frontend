@@ -4,8 +4,7 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { SelectChangeEvent } from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { Loader } from "../../../../../../components/Loader";

@@ -1,15 +1,11 @@
-import { useState, FC, lazy } from "react";
+import { useState, FC } from "react";
 import { useTranslation } from "react-i18next";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-const LogInModal = lazy(
-  () => import("../../../../../../../../components/LogInModal")
-);
-const SignUpModal = lazy(
-  () => import("../../../../../../../../components/SignUpModal")
-);
+import LogInModal from "../../../../../../../../components/LogInModal";
+import SignUpModal from "../../../../../../../../components/SignUpModal";
 
 const NoAuthActions: FC = () => {
   const { t } = useTranslation();

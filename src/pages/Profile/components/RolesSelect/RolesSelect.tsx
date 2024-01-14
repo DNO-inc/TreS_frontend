@@ -1,39 +1,26 @@
-import { FC, Dispatch, SetStateAction } from "react";
+import { FC } from "react";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { SelectChangeEvent } from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { Loader } from "../../../../components/Loader";
 
 import IPalette from "../../../../theme/IPalette.interface";
-import { getUserRole } from "../../../../shared/functions/getLocalStorageData";
-import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
-import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  MutationDefinition,
-} from "@reduxjs/toolkit/query";
 import { useGetRolesQuery } from "../../../../store/api/meta.api";
+import { profileFormKeys } from "../../../../constants";
+import { useAdminUpdateProfileMutation } from "../../../../store/api/admin.api";
+import { ProfileUpdateBody } from "../../Profile";
 
 interface RolesSelectProps {
-  userId: string;
-  userRole: number | null;
-  setUserRole: Dispatch<SetStateAction<number | null>>;
-  adminUpdateProfile: MutationTrigger<
-    MutationDefinition<
-      any,
-      BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>,
-      never,
-      any,
-      "api"
-    >
-  >;
+  userId: number;
+  userRole: number | undefined;
+  register: UseFormRegister<ProfileUpdateBody>;
+  setValue: UseFormSetValue<ProfileUpdateBody>;
 }
 
 interface IRole {
@@ -42,28 +29,22 @@ interface IRole {
 }
 
 const RolesSelect: FC<RolesSelectProps> = ({
-  userRole,
-  setUserRole,
-  adminUpdateProfile,
   userId,
+  userRole,
+  register,
+  setValue,
 }) => {
   const { palette }: IPalette = useTheme();
 
   const { data, isLoading, isSuccess } = useGetRolesQuery({});
-
-  const myRole = getUserRole();
-
-  const selectedRoleId =
-    isSuccess &&
-    data.roles.find((role: IRole) => role.name === myRole)?.role_id;
+  const [adminUpdateProfile] = useAdminUpdateProfileMutation();
 
   const handleChange = (event: SelectChangeEvent): void => {
     const selectedRole: number = parseInt(event.target.value);
-
-    setUserRole(selectedRole);
+    setValue(profileFormKeys.ROLE, selectedRole);
 
     const adminProfileUpdateBody = JSON.stringify({
-      user_id: Number(userId),
+      user_id: userId,
       role_id: selectedRole,
     });
 
@@ -77,6 +58,7 @@ const RolesSelect: FC<RolesSelectProps> = ({
       <FormControl
         size="small"
         fullWidth
+        {...register(profileFormKeys.ROLE)}
         sx={{
           bgcolor: palette.grey.card,
           width: 170,
@@ -103,21 +85,11 @@ const RolesSelect: FC<RolesSelectProps> = ({
             }}
           >
             {data.roles.map((role: IRole) => {
-              let isSelected = false;
-
-              if (role.role_id === userRole) {
-                isSelected = true;
-              }
-
-              if (role.role_id > selectedRoleId) {
-                return;
-              }
-
               return (
                 <MenuItem
                   value={role.role_id}
                   key={`menuItem-${role.role_id}`}
-                  selected={isSelected}
+                  selected={role.role_id === userRole}
                 >
                   <ListItemText primary={role.name} />
                 </MenuItem>

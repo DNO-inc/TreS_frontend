@@ -30,7 +30,7 @@ import { useAuth } from "../../../../../../../../context/AuthContext/AuthContext
 import IPalette from "../../../../../../../../theme/IPalette.interface";
 import { CustomTooltip } from "../../../../../../../../components/CustomTooltip";
 import { checkIsAdmin } from "../../../../../../../../shared/functions";
-import king from "../../../../../../../../assets/king.jpg";
+import admin from "../../../../../../../../assets/admin.png";
 
 const AuthActions: FC = () => {
   const { t } = useTranslation();
@@ -77,7 +77,7 @@ const AuthActions: FC = () => {
             <IconButton onClick={handleOpenMenu} sx={{ p: 0 }}>
               <Avatar
                 alt="Avatar"
-                src={isAdmin ? king : Logo}
+                src={isAdmin ? admin : Logo}
                 sx={{ width: 32, height: 32 }}
               />
             </IconButton>
@@ -95,7 +95,7 @@ const AuthActions: FC = () => {
             >
               <Avatar
                 alt="Avatar"
-                src={isAdmin ? king : Logo}
+                src={isAdmin ? admin : Logo}
                 sx={{
                   width: { xs: 50, md: 60 },
                   height: { xs: 50, md: 60 },

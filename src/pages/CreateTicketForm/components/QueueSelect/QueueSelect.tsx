@@ -4,9 +4,8 @@ import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
-import { SelectChangeEvent } from "@mui/material/Select";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { Loader } from "../../../../components/Loader";

@@ -1,0 +1,1 @@
+export { PasswordChangeSection } from "./PasswordChangeSection";

@@ -12,7 +12,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 interface PasswordFieldProps {
   password: string;
-  setPassword: Dispatch<SetStateAction<string>>;
+  setPassword: Dispatch<SetStateAction<string>> | ((value: string) => void);
   showPassword: boolean;
   setShowPassword: Dispatch<SetStateAction<boolean>>;
   placeholder: string;
@@ -50,6 +50,12 @@ const PasswordField: FC<PasswordFieldProps> = ({
         value={password}
         onChange={handleChange}
         error={hasError}
+        inputProps={{
+          autoComplete: "new-password",
+          form: {
+            autoComplete: "off",
+          },
+        }}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
