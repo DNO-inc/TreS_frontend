@@ -47,7 +47,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
         })}
         value={body}
         onChange={handleChange}
-        error={!!errors.body}
+        error={!!errors.body || body.length > general.MAX_BODY_LENGTH}
         sx={{
           overflow: "hidden",
           bgcolor: palette.grey.card,

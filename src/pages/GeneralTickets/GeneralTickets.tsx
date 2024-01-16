@@ -8,11 +8,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-import { Ticket } from "../../components/Ticket/Ticket";
-import { Loader } from "../../components/Loader";
 import { FilterPanel } from "../../components/FilterPanel";
-import { CustomPagination } from "../../components/CustomPagination";
-import { NotFound } from "../../components/NotFound";
 
 import { useGetTicketsMutation } from "../../store/api/tickets.api";
 import { ITicket } from "../../components/Ticket/ticket.interface";
@@ -20,6 +16,7 @@ import { useAuth } from "../../context/AuthContext/AuthContext";
 import { useWindowWidth } from "../../shared/hooks";
 import { checkIsAdmin } from "../../shared/functions";
 import { useGetRequestBody } from "./hooks/useGetRequestBody";
+import { useRenderElements } from "./hooks/useRenderElements";
 
 interface GeneralTicketsPageInfo {
   data?: {
@@ -70,6 +67,15 @@ const GeneralTickets: FC = () => {
     setTicketsPerRow(Math.round(width / 600));
   }, [width]);
 
+  const { renderSkeletonTickets, renderTickets, renderNotFound } =
+    useRenderElements(
+      ticketsPerRow,
+      tickets,
+      totalPage,
+      currentPage,
+      isLoading
+    );
+
   return (
     <Grid container flexDirection={"column"}>
       <Box>
@@ -77,26 +83,9 @@ const GeneralTickets: FC = () => {
         <FilterPanel isAllStatuses={isAdmin} />
       </Box>
       <Box>
-        {isLoading && <Loader />}
+        {isLoading && renderSkeletonTickets()}
         {isTicketsSuccess &&
-          (tickets.length ? (
-            <>
-              <Grid container gap={2}>
-                {tickets.map(ticket => {
-                  return (
-                    <Ticket
-                      ticketsPerRow={ticketsPerRow}
-                      ticket={ticket}
-                      key={ticket.ticket_id}
-                    />
-                  );
-                })}
-              </Grid>
-              <CustomPagination total={totalPage} current={currentPage} />
-            </>
-          ) : (
-            <NotFound withPostscript={true} />
-          ))}
+          (tickets.length ? renderTickets() : renderNotFound())}
       </Box>
     </Grid>
   );

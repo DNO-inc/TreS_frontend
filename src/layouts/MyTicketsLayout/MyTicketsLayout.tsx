@@ -13,13 +13,9 @@ import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import FormGroup from "@mui/material/FormGroup";
 import Button from "@mui/material/Button";
 
 import { FilterPanel } from "../../components/FilterPanel";
-import { TicketRow } from "../../components/TicketRow/TicketRow";
-import { CustomPagination } from "../../components/CustomPagination";
-import { NotFound } from "../../components/NotFound";
 
 import { useGetRequestBody } from "./hooks/useGetRequestBody";
 import { ITicket } from "../../components/Ticket/ticket.interface";
@@ -27,6 +23,7 @@ import {
   useDeleteTicketMutation,
   useUndeleteTicketMutation,
 } from "../../store/api/tickets.api";
+import { useRenderElements } from "./hooks/useRenderElements";
 
 interface MyTicketsLayoutProps {
   title: string;
@@ -39,6 +36,8 @@ interface MyTicketsLayoutProps {
       "api"
     >
   >;
+  isLoading: boolean;
+  isSuccess: boolean;
   option?: "bookmarked" | "followed" | "tickets";
   userId?: boolean | number;
   assignee?: number;
@@ -55,6 +54,8 @@ interface MyTicketsLayoutInfo {
 const MyTicketsLayout: FC<MyTicketsLayoutProps> = ({
   title,
   useGetQuery,
+  isLoading,
+  isSuccess,
   option,
   userId,
   assignee,
@@ -111,6 +112,19 @@ const MyTicketsLayout: FC<MyTicketsLayoutProps> = ({
     undeleteTicket({ body: JSON.stringify({ ticket_id: ticketId }) });
   };
 
+  const { renderSkeletonTickets, renderTickets, renderNotFound } =
+    useRenderElements({
+      tickets,
+      title,
+      isHaveBookmarks: isSentPage,
+      handleDelete: isSentPage ? handleDelete : null,
+      handleRestore: isDeletedPage ? handleRestore : null,
+      setDeletedList: isSentPage ? setDeletedList : null,
+      totalPage,
+      currentPage,
+      isLoading,
+    });
+
   return (
     <Grid container flexDirection={"column"}>
       <Box>
@@ -129,36 +143,8 @@ const MyTicketsLayout: FC<MyTicketsLayoutProps> = ({
         </Button>
       )}
       <Box sx={{ pt: isSentPage && deletedList.length ? 1 : 20 }}>
-        {tickets && tickets.length ? (
-          <>
-            <FormGroup
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                gap: 1,
-              }}
-            >
-              {tickets.map(ticket => {
-                return (
-                  <TicketRow
-                    ticket={ticket}
-                    additionalAction={title}
-                    isHaveBookmarks={isSentPage}
-                    handleDelete={isSentPage ? handleDelete : null}
-                    handleRestore={isDeletedPage ? handleRestore : null}
-                    setDeletedList={isSentPage ? setDeletedList : null}
-                    key={ticket.ticket_id}
-                  />
-                );
-              })}
-            </FormGroup>
-            {totalPage > 1 && (
-              <CustomPagination total={totalPage} current={currentPage} />
-            )}
-          </>
-        ) : (
-          <NotFound withPostscript={isSentPage} />
-        )}
+        {isLoading && renderSkeletonTickets()}
+        {isSuccess && (tickets.length ? renderTickets() : renderNotFound())}
       </Box>
     </Grid>
   );

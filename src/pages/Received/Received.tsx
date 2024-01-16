@@ -6,7 +6,7 @@ import { useGetAdminTicketsMutation } from "../../store/api/admin.api";
 import { getUser } from "../../shared/functions/manipulateLocalStorage";
 
 const Received: FC = () => {
-  const [getTickets] = useGetAdminTicketsMutation();
+  const [getTickets, { isLoading, isSuccess }] = useGetAdminTicketsMutation();
 
   const { userId } = getUser();
 
@@ -14,6 +14,8 @@ const Received: FC = () => {
     <MyTicketsLayout
       title={"received"}
       useGetQuery={getTickets}
+      isLoading={isLoading}
+      isSuccess={isSuccess}
       option={"tickets"}
       assignee={userId}
     />

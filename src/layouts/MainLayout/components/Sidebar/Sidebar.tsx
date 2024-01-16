@@ -2,9 +2,10 @@ import { FC, lazy } from "react";
 
 import Box from "@mui/material/Box";
 
+import MobileDrawer from "./components/MobileDrawer";
+
 import { dimensions } from "../../../../constants";
 
-const MobileDrawer = lazy(() => import("./components/MobileDrawer"));
 const CommonDrawer = lazy(() => import("./components/CommonDrawer"));
 
 interface SidebarProps {

@@ -50,7 +50,7 @@ const TicketTitleInput: FC<TicketTitleInputProps> = ({
         })}
         value={title}
         onChange={handleChange}
-        error={!!errors.subject}
+        error={!!errors.subject || title.length > general.MAX_TITLE_LENGTH}
         sx={{
           bgcolor: palette.grey.card,
           "&  .MuiInputBase-input": { p: "13px 66px 13px 8.5px" },
