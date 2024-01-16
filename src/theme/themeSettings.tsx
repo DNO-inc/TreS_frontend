@@ -127,10 +127,9 @@ const themeSettings = (mode: string): any => {
           tooltip: {
             fontSize: 14,
             padding: "8px 12px",
-            // backgroundColor: colors.grey[300],
           },
           arrow: {
-            // color: colors.grey[300],
+            color: colors.grey[300],
           },
         },
       },

@@ -47,7 +47,7 @@ const useGetRequestBody = ({
     }
 
     return matchingStatusesId;
-  }, [statuses, searchParams]);
+  }, [searchParams]);
 
   const facultyData = useMemo(() => {
     let facultyId: number | null = null;
@@ -63,7 +63,7 @@ const useGetRequestBody = ({
     }
 
     return facultyId;
-  }, [faculties, facultyQuery]);
+  }, [facultyQuery]);
 
   const requestBody = useMemo(() => {
     const data: {

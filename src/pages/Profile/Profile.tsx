@@ -19,7 +19,7 @@ import {
   getUserRole,
 } from "../../shared/functions/manipulateLocalStorage";
 import { checkIsAdmin } from "../../shared/functions";
-import admin from "../../assets/admin.png";
+import admin from "../../assets/admin.webp";
 import { permissions, profileFormKeys, roles, storage } from "../../constants";
 import { PasswordChangeSection } from "./components/PasswordChangeSection";
 import { ProfileHeader } from "./components/ProfileHeader";

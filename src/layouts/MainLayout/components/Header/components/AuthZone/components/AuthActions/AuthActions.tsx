@@ -30,7 +30,7 @@ import { useAuth } from "../../../../../../../../context/AuthContext/AuthContext
 import IPalette from "../../../../../../../../theme/IPalette.interface";
 import { CustomTooltip } from "../../../../../../../../components/CustomTooltip";
 import { checkIsAdmin } from "../../../../../../../../shared/functions";
-import admin from "../../../../../../../../assets/admin.png";
+import admin from "../../../../../../../../assets/admin.webp";
 
 const AuthActions: FC = () => {
   const { t } = useTranslation();
@@ -44,7 +44,7 @@ const AuthActions: FC = () => {
 
   const isAdmin = checkIsAdmin();
 
-  const { userId, userLogin, userName } = getUser();
+  const { userId, login, userName } = getUser();
   const { permissionList } = getUserRole();
   const isCanCreateTicket = permissionList.includes(permissions.CREATE_TICKET);
 
@@ -110,7 +110,7 @@ const AuthActions: FC = () => {
                   mt: -0.5,
                 }}
               >
-                @{userLogin}
+                @{login}
               </Typography>
             </Box>
             <Divider sx={{ borderWidth: 1, width: "70%", m: "0 auto 16px" }} />
