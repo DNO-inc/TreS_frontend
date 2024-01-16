@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAccessToken } from "../../../shared/functions/getLocalStorageData";
+import { getAccessToken } from "../../../shared/functions/manipulateLocalStorage";
 
 const useWebSocket = (
   wsUrl: string,

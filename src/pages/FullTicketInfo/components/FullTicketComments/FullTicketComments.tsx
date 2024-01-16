@@ -33,9 +33,9 @@ import { getRandomNickColor } from "../../../../shared/functions";
 import { IPerson } from "../../FullTicketInfo";
 import { ArrowDown } from "./components/ArrowDown";
 import {
-  getPermissions,
-  getUserId,
-} from "../../../../shared/functions/getLocalStorageData";
+  getUser,
+  getUserRole,
+} from "../../../../shared/functions/manipulateLocalStorage";
 import { IAction } from "./components/Action/Action";
 import { permissions } from "../../../../constants";
 import { useGetFullHistoryMutation } from "../../../../store/api/tickets.api";
@@ -82,11 +82,11 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
   const { t, i18n } = useTranslation();
   const { palette }: IPalette = useTheme();
 
-  const userPermissions = getPermissions();
-  const isCanSendMessage = userPermissions.includes(permissions.SEND_MESSAGE);
+  const { userId } = getUser();
+  const { permissionList } = getUserRole();
+  const isCanSendMessage = permissionList.includes(permissions.SEND_MESSAGE);
 
   const commentFieldRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
-  const userId = getUserId();
 
   const [getComments] = useGetFullHistoryMutation();
   const [createComment] = useCreateCommentMutation();
@@ -199,7 +199,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
           }
         })
         .catch(error => {
-          console.log(error);
+          console.error(error);
         });
   }, [currentPage]);
 

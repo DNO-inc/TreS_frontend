@@ -6,12 +6,7 @@ const clearLocalStorage = (isRemoveRefreshToken = true) => {
   }
 
   localStorage.removeItem(storage.ACCESS_TOKEN);
-  localStorage.removeItem(storage.USER_NAME);
-  localStorage.removeItem(storage.LOGIN);
-  localStorage.removeItem(storage.FACULTY_ID);
-  localStorage.removeItem(storage.USER_ID);
-  localStorage.removeItem(storage.ROLE);
-  localStorage.removeItem(storage.PERMISSIONS);
+  localStorage.removeItem(storage.USER.FIELD_KEY);
 };
 
 export { clearLocalStorage };

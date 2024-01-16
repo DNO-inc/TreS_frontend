@@ -14,7 +14,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   getAccessToken,
   getIsTokensExpired,
-} from "../../shared/functions/getLocalStorageData";
+} from "../../shared/functions/manipulateLocalStorage";
 import { clearLocalStorage } from "../../shared/functions";
 import {
   useCabinetLoginMutation,

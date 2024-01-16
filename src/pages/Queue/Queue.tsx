@@ -10,7 +10,7 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { Scope } from "./components/Scope";
 import IPalette from "../../theme/IPalette.interface";
-import { getUserFacultyId } from "../../shared/functions/getLocalStorageData";
+import { getUser } from "../../shared/functions/manipulateLocalStorage";
 import { FacultySelect } from "./components/FacultySelect";
 import { useScopeList } from "./hooks/useScopeList";
 import { useChangeURL } from "../../shared/hooks";
@@ -42,7 +42,7 @@ const Queue: FC = () => {
 
   const putFacultyInURL = useChangeURL();
 
-  const facultyId = getUserFacultyId();
+  const { facultyId } = getUser();
   const urlFaculty = parseInt(searchParams.get(urlKeys.FACULTY) || "", 10);
 
   const [faculty, setFaculty] = useState(urlFaculty || facultyId);

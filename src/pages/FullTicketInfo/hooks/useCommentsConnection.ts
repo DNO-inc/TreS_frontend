@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getAccessToken } from "../../../shared/functions/getLocalStorageData";
+import { getAccessToken } from "../../../shared/functions/manipulateLocalStorage";
 import { useAuth } from "../../../context/AuthContext/AuthContext";
 import { IComment } from "../components/FullTicketComments/components/Comment/Comment";
 import { IAction } from "../components/FullTicketComments/components/Action/Action";

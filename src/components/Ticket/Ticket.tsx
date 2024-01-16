@@ -25,11 +25,10 @@ import {
   useToggleLikeMutation,
 } from "../../store/api/tickets.api";
 import { endpoints, toggleOptions } from "../../constants";
-import { useFormatDate } from "../../shared/hooks";
+import { useCheckStatus, useFormatDate } from "../../shared/hooks";
 import IPalette from "../../theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
-import { getUserId } from "../../shared/functions/getLocalStorageData";
-import { checkStatus } from "../../shared/functions";
+import { getUser } from "../../shared/functions/manipulateLocalStorage";
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import { useToggleAction } from "../../shared/hooks/useToggleAction";
 
@@ -43,7 +42,7 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
   const { isAuth } = useAuth();
   const navigate = useNavigate();
 
-  const userId = Number(getUserId());
+  const { userId } = getUser();
   const creatorId = ticket?.creator?.user_id;
   const isMyTicket = userId === creatorId;
   const isHiddenTicket = isMyTicket && ticket.hidden;
@@ -57,7 +56,7 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
 
-  const color: string = checkStatus(ticket.status.name);
+  const color: string = useCheckStatus(ticket.status.name);
   const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   useEffect(() => {

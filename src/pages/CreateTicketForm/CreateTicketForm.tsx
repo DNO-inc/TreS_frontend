@@ -17,7 +17,7 @@ import { TicketVisibilityOptions } from "./components/TicketVisibilityOptions";
 
 import { useCreateTicketMutation } from "../../store/api/tickets.api";
 import IPalette from "../../theme/IPalette.interface";
-import { getUserFacultyId } from "../../shared/functions/getLocalStorageData";
+import { getUser } from "../../shared/functions/manipulateLocalStorage";
 import { createFormKeys } from "../../constants";
 
 type ApiResponse = {
@@ -31,7 +31,7 @@ const CreateTicketForm: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
-  const facultyId = getUserFacultyId();
+  const { facultyId } = getUser();
 
   const [ticketId, setTicketId] = useState<number | null>(null);
 

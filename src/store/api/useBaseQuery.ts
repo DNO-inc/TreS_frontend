@@ -10,7 +10,7 @@ import jwtDecode from "jwt-decode";
 import {
   getAccessToken,
   getRefreshToken,
-} from "../../shared/functions/getLocalStorageData";
+} from "../../shared/functions/manipulateLocalStorage";
 import { endpoints, storage } from "../../constants";
 import { clearLocalStorage } from "../../shared/functions";
 

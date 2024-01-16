@@ -1,15 +1,15 @@
 import { Navigate, Outlet } from "react-router";
 
 import { endpoints } from "../../constants";
-import { getPermissions } from "../../shared/functions/getLocalStorageData";
+import { getUserRole } from "../../shared/functions/manipulateLocalStorage";
 
 interface PermissionRoteProps {
   permission: string;
 }
 
 const PermissionRote = ({ permission }: PermissionRoteProps) => {
-  const userPermissions = getPermissions() || [];
-  const isHavePermission = userPermissions.includes(permission);
+  const { permissionList } = getUserRole() || [];
+  const isHavePermission = permissionList.includes(permission);
 
   return isHavePermission ? (
     <Outlet />

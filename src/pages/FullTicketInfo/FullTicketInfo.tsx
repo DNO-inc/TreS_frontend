@@ -19,7 +19,7 @@ import {
   useAdminShowTicketMutation,
   useAdminUpdateTicketMutation,
 } from "../../store/api/admin.api";
-import { getUserId } from "../../shared/functions/getLocalStorageData";
+import { getUser } from "../../shared/functions/manipulateLocalStorage";
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
@@ -40,7 +40,7 @@ const FullTicketInfo: FC = () => {
   const ticketId = parseInt(pathname.split("/")[2]);
   const commentsConnection = useCommentsConnection(ticketId);
   const isAdmin = checkIsAdmin();
-  const userId = Number(getUserId());
+  const { userId } = getUser();
 
   const [peopleSettings, setPeopleSettings] = useState(
     new Map<number, IPerson>()

@@ -3,12 +3,12 @@ import { FC } from "react";
 import { MyTicketsLayout } from "../../layouts/MyTicketsLayout";
 
 import { useGetTicketsMutation } from "../../store/api/tickets.api";
-import { getUserId } from "../../shared/functions/getLocalStorageData";
+import { getUser } from "../../shared/functions/manipulateLocalStorage";
 
 const Sent: FC = () => {
   const [getTickets] = useGetTicketsMutation();
 
-  const userId: null | number = getUserId();
+  const { userId } = getUser();
 
   return (
     <MyTicketsLayout

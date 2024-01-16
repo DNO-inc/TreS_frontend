@@ -26,7 +26,7 @@ import { CommentMenu } from "./components/CommentMenu";
 
 import IPalette from "../../../../../../theme/IPalette.interface";
 import { endpoints } from "../../../../../../constants/endpoints";
-import { getUserId } from "../../../../../../shared/functions/getLocalStorageData";
+import { getUser } from "../../../../../../shared/functions/manipulateLocalStorage";
 import { useFormatDate, useRandomNick } from "../../../../../../shared/hooks";
 import { EditedComment, RepliedComment } from "../../FullTicketComments";
 
@@ -86,7 +86,7 @@ const Comment: ForwardRefExoticComponent<
   ) => {
     const { palette }: IPalette = useTheme();
 
-    const userId = getUserId();
+    const { userId } = getUser();
     const isMyComment = userId === comment.author.user_id;
 
     const formattedDate: string = useFormatDate(comment.creation_date, "time");

@@ -14,9 +14,10 @@ import {
   useUpdateProfileMutation,
 } from "../../store/api/profile.api";
 import {
-  getPermissions,
-  getUserId,
-} from "../../shared/functions/getLocalStorageData";
+  changeUserField,
+  getUser,
+  getUserRole,
+} from "../../shared/functions/manipulateLocalStorage";
 import { checkIsAdmin } from "../../shared/functions";
 import admin from "../../assets/admin.png";
 import { permissions, profileFormKeys, roles, storage } from "../../constants";
@@ -59,14 +60,14 @@ const Profile: FC = () => {
 
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const userPermissions = getPermissions();
-  const isCanChangeProfile = userPermissions.includes(
+  const { userId: myId } = getUser();
+  const { permissionList } = getUserRole();
+  const isCanChangeProfile = permissionList.includes(
     permissions.UPDATE_PROFILE
   );
 
   const isAdmin = checkIsAdmin(roles.CHIEF_ADMIN);
   const userId = parseInt(pathname.split("/")[2]);
-  const myId = getUserId();
   const isMyProfile = userId === myId;
 
   const [getUserProfile, { data, isSuccess }] = useGetProfileMutation();
@@ -106,10 +107,7 @@ const Profile: FC = () => {
     updateProfile({ body: JSON.stringify(data) });
 
     handelReset();
-    localStorage.setItem(
-      storage.USER_NAME,
-      `${data.firstname} ${data.lastname}`
-    );
+    changeUserField(storage.USER.NAME, `${data.firstname} ${data.lastname}`);
   };
 
   const handelReset = (): void => {

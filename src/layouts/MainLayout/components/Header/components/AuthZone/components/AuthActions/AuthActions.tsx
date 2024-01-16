@@ -23,11 +23,9 @@ import {
 } from "../../../../../../../../constants";
 import Logo from "../../../../../../../../assets/Logomark.svg";
 import {
-  getUserId,
-  getUserName,
-  getUserLogin,
-  getPermissions,
-} from "../../../../../../../../shared/functions/getLocalStorageData";
+  getUser,
+  getUserRole,
+} from "../../../../../../../../shared/functions/manipulateLocalStorage";
 import { useAuth } from "../../../../../../../../context/AuthContext/AuthContext";
 import IPalette from "../../../../../../../../theme/IPalette.interface";
 import { CustomTooltip } from "../../../../../../../../components/CustomTooltip";
@@ -46,12 +44,10 @@ const AuthActions: FC = () => {
 
   const isAdmin = checkIsAdmin();
 
-  const userPermissions = getPermissions();
-  const isCanCreateTicket = userPermissions.includes(permissions.CREATE_TICKET);
+  const { userId, userLogin, userName } = getUser();
+  const { permissionList } = getUserRole();
+  const isCanCreateTicket = permissionList.includes(permissions.CREATE_TICKET);
 
-  const userId: number | null = getUserId();
-  const userLogin = getUserLogin();
-  const userName = getUserName();
   const [open, setOpen] = useState(false);
 
   const handleLogOut = (event: MouseEvent): void => {

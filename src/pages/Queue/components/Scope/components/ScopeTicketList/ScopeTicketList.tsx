@@ -112,7 +112,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
           setIsLoading(false);
         })
         .catch(error => {
-          console.log(error);
+          console.error(error);
         });
     }
   }, [queues, currentPage, facultyId]);

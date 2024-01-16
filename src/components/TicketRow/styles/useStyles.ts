@@ -1,8 +1,8 @@
 import useTheme from "@mui/material/styles/useTheme";
 import IPalette from "../../../theme/IPalette.interface";
 
-import { checkStatus } from "../../../shared/functions";
 import { statuses } from "../../../constants";
+import { useCheckStatus } from "../../../shared/hooks";
 
 interface StyleProps {
   ticketStatus: string;
@@ -19,7 +19,7 @@ const useStyles = ({
 }: StyleProps) => {
   const { palette }: IPalette = useTheme();
 
-  const color: string = checkStatus(ticketStatus);
+  const color: string = useCheckStatus(ticketStatus);
 
   const ticketRowStyles = {
     gap: 1,

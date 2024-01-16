@@ -30,14 +30,15 @@ import { VerticalDivider } from "../../../../components/VerticalDivider";
 import { DialogPopup } from "./components/DialogPopup";
 
 import IPalette from "../../../../theme/IPalette.interface";
-import { checkIsAdmin, checkStatus } from "../../../../shared/functions";
-import { getUserId } from "../../../../shared/functions/getLocalStorageData";
+import { checkIsAdmin } from "../../../../shared/functions";
+import { getUser } from "../../../../shared/functions/manipulateLocalStorage";
 import { endpoints, roles } from "../../../../constants";
 import { useAdminRemoveTicketMutation } from "../../../../store/api/admin.api";
 
 import styles from "./FullTicketHeader.module.css";
 import { IAction } from "../FullTicketComments/components/Action/Action";
 import { useGetStatusesQuery } from "../../../../store/api/meta.api";
+import { useCheckStatus } from "../../../../shared/hooks";
 
 interface FullTicketHeaderProps {
   assigneeId: number;
@@ -102,7 +103,7 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
   const { palette }: IPalette = useTheme();
   const navigate = useNavigate();
 
-  const userId = Number(getUserId());
+  const { user_id: userId } = getUser();
   const isAssignee = userId == assigneeId;
 
   const isAdmin = checkIsAdmin();
@@ -243,9 +244,9 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
               sx={{
                 textAlign: "center",
                 p: "4px 12px",
-                bgcolor: checkStatus(status.name),
+                bgcolor: useCheckStatus(status.name),
                 color:
-                  checkStatus(status.name) === "#FFFFFF"
+                  useCheckStatus(status.name) === palette.common.white
                     ? palette.common.black
                     : palette.common.white,
                 borderRadius: 1,

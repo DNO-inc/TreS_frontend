@@ -1,19 +1,49 @@
 import { useState, useEffect } from "react";
 
+const DELAY = 800;
+
+function throttle(callback, delay = DELAY) {
+  let shouldWait = false;
+  let waitingArgs;
+
+  const timeoutFunc = () => {
+    if (waitingArgs === null) {
+      shouldWait = false;
+    } else {
+      callback(...waitingArgs);
+      waitingArgs = null;
+      setTimeout(timeoutFunc, delay);
+    }
+  };
+
+  return (...args) => {
+    if (shouldWait) {
+      waitingArgs = args;
+      return;
+    }
+
+    callback(...args);
+    shouldWait = true;
+
+    setTimeout(timeoutFunc, delay);
+  };
+}
+
 const useWindowWidth = () => {
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
+    const handleThrottledResize = throttle(width => {
       const isTablet = width < 900;
       setWindowWidth(isTablet ? width * 1.5 : width);
-    };
+    });
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", () => {
+      handleThrottledResize(window.innerWidth);
+    });
 
-    return () => window.removeEventListener("resize", handleResize);
-  });
+    return () => window.removeEventListener("resize", handleThrottledResize);
+  }, []);
 
   return windowWidth;
 };

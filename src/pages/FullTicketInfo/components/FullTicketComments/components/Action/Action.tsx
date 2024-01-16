@@ -46,8 +46,6 @@ const Action: ForwardRefExoticComponent<
 
   const formattedDate: string = useFormatDate(action.creation_date, "full");
 
-  console.log(1);
-
   const getActionText = () => {
     if (lang === "ua") {
       return (

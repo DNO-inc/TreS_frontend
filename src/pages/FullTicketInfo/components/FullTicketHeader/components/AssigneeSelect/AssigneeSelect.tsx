@@ -19,7 +19,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import { Loader } from "../../../../../../components/Loader";
 
 import IPalette from "../../../../../../theme/IPalette.interface";
-import { getUserId } from "../../../../../../shared/functions/getLocalStorageData";
+import { getUser } from "../../../../../../shared/functions/manipulateLocalStorage";
 import { useGetAdminsMutation } from "../../../../../../store/api/meta.api";
 
 interface AssigneeSelectProps {
@@ -63,7 +63,7 @@ const AssigneeSelect: FC<AssigneeSelectProps> = ({
   const { palette }: IPalette = useTheme();
 
   const [admins, setAdmins] = useState<IAssignee[]>([]);
-  const userId = getUserId();
+  const { userId } = getUser();
 
   const [getAdmins, { isLoading, isSuccess }] = useGetAdminsMutation();
 

@@ -1,5 +1,7 @@
 import jwt_decode from "jwt-decode";
+
 import { storage } from "../../constants";
+import { changeUserField } from "./manipulateLocalStorage";
 
 interface IJwtDecodeData {
   role: string;
@@ -20,12 +22,8 @@ const decodeJwt = (jwt: string | null) => {
     localStorage.setItem(storage.ACCESS_TOKEN, jwt);
   }
 
-  if (jwtDecodeData && jwtDecodeData?.role) {
-    localStorage.setItem(storage.ROLE, jwtDecodeData.role);
-  }
-
   if (jwtDecodeData && jwtDecodeData?.user_id) {
-    localStorage.setItem(storage.USER_ID, jwtDecodeData.user_id.toString());
+    changeUserField(storage.USER.ID, jwtDecodeData.user_id);
   }
 };
 

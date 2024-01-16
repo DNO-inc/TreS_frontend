@@ -67,7 +67,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
           }
         })
         .catch(err => {
-          console.log(err);
+          console.error(err);
         });
   }, [isAuth]);
 

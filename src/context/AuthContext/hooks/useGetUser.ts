@@ -3,7 +3,7 @@ import { SerializedError } from "@reduxjs/toolkit";
 
 import { ILoginInfo } from "../AuthContext";
 import { decodeJwt } from "../../../shared/functions";
-import { getUserId } from "../../../shared/functions/getLocalStorageData";
+import { getUser as getLocalStorageUser } from "../../../shared/functions/manipulateLocalStorage";
 import { useGetProfileMutation } from "../../../store/api/profile.api";
 import { storage } from "../../../constants";
 import { Dispatch, SetStateAction, useCallback } from "react";
@@ -41,36 +41,38 @@ const useGetUser = (setIsAuth: Dispatch<SetStateAction<boolean>>) => {
       const getUserData = async (accessToken: string) => {
         decodeJwt(accessToken);
 
-        const userId = getUserId();
+        const user = getLocalStorageUser();
+        const userId = user?.userId;
 
         const { data: userInfo }: UserInfoProps = await getProfile({
           userId: userId,
         });
 
         if (userInfo?.faculty?.faculty_id) {
-          localStorage.setItem(
-            storage.FACULTY_ID,
-            userInfo.faculty.faculty_id.toString()
-          );
+          user[storage.USER.FACULTY_ID] = userInfo.faculty.faculty_id;
         }
 
         if (userInfo?.firstname && userInfo?.lastname) {
-          localStorage.setItem(
-            storage.USER_NAME,
-            `${userInfo.firstname} ${userInfo.lastname}`
-          );
+          user[
+            storage.USER.NAME
+          ] = `${userInfo.firstname} ${userInfo.lastname}`;
         }
 
         if (userInfo?.login) {
-          localStorage.setItem(storage.LOGIN, `${userInfo.login}`);
+          user[storage.USER.LOGIN] = userInfo.login;
         }
 
         if (userInfo?.role) {
-          localStorage.setItem(
-            storage.PERMISSIONS,
-            `${userInfo.role.permission_list}`
-          );
+          const role = storage.USER.ROLE;
+
+          user[role.FIELD_KEY] = {};
+          user[role.FIELD_KEY][role.ID] = userInfo.role.role_id;
+          user[role.FIELD_KEY][role.NAME] = userInfo.role.name;
+          user[role.FIELD_KEY][role.PERMISSIONS] =
+            userInfo.role.permission_list;
         }
+
+        localStorage.setItem(storage.USER.FIELD_KEY, JSON.stringify(user));
 
         setIsAuth(true);
       };

@@ -1,13 +1,20 @@
 const storage = {
-  USER_ID: "user-id",
-  LOGIN: "login",
-  ROLE: "role",
-  FACULTY_ID: "faculty-id",
-  ACCESS_TOKEN: "access-token",
-  REFRESH_TOKEN: "refresh-token",
+  USER: {
+    FIELD_KEY: "user",
+    ID: "userId",
+    NAME: "userName",
+    LOGIN: "login",
+    FACULTY_ID: "facultyId",
+    ROLE: {
+      FIELD_KEY: "role",
+      ID: "roleId",
+      NAME: "name",
+      PERMISSIONS: "permissionList",
+    },
+  },
+  ACCESS_TOKEN: "accessToken",
+  REFRESH_TOKEN: "refreshToken",
   I18NEXT_LNG: "i18nextLng",
-  USER_NAME: "user-name",
-  PERMISSIONS: "permissions",
 };
 
 export { storage };
