@@ -12,18 +12,17 @@ import Grid from "@mui/material/Grid";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { SimpleTicket } from "../../../../../../components/SimpleTicket/SimpleTicket";
+import { NotFound } from "../../../../../../components/NotFound";
 
 import { ITicket } from "../../../../../../components/Ticket/ticket.interface";
 import IPalette from "../../../../../../theme/IPalette.interface";
 import axios from "axios";
-import { NotFound } from "../../../../../../components/NotFound";
 import { endpoints, storage } from "../../../../../../constants";
 
 interface ScopeTicketListProps {
   scope: string;
   queues: number[];
   facultyId: number;
-  isHaveQueues: boolean;
 }
 
 interface RequestQueuesParams {
@@ -40,7 +39,6 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
   scope,
   queues,
   facultyId,
-  isHaveQueues,
 }) => {
   const { palette }: IPalette = useTheme();
 
@@ -73,7 +71,17 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
     setIsLoading(true);
 
     const isQueuesChanged = prevQueues.toString() !== queues.toString();
+
     setPrevQueues(queues);
+
+    const requestParams: RequestQueuesParams = {
+      assignee: -1,
+      scope: scope,
+      queue: queues,
+      faculty: facultyId,
+      items_count: Math.floor(window.innerHeight / 140),
+      start_page: isQueuesChanged ? 1 : currentPage,
+    };
 
     if (isQueuesChanged && currentPage !== 1) {
       setCurrentPage(1);
@@ -84,15 +92,6 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
         container.scrollTop = 0;
       }
     } else {
-      const requestParams: RequestQueuesParams = {
-        assignee: -1,
-        scope: scope,
-        queue: queues,
-        faculty: facultyId,
-        items_count: Math.floor(window.innerHeight / 200),
-        start_page: isQueuesChanged ? 1 : currentPage,
-      };
-
       axios({
         method: "POST",
         url: `${endpoints.BASE_URL}/admin/tickets/ticket_list`,
@@ -115,7 +114,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
           console.error(error);
         });
     }
-  }, [queues, currentPage, facultyId]);
+  }, [queues, currentPage]);
 
   return (
     <Box sx={{ mt: 1 }}>
@@ -165,7 +164,7 @@ const ScopeTicketList: FC<ScopeTicketListProps> = ({
           </Grid>
         </>
       ) : (
-        <Box sx={{ mt: isHaveQueues ? 0 : 14 }}>
+        <Box>
           <NotFound size={250} />
         </Box>
       )}

@@ -11,11 +11,12 @@ import { Loader } from "../../../../components/Loader";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import { useGetFacultiesQuery } from "../../../../store/api/meta.api";
+import { urlKeys } from "../../../../constants";
+import { useChangeURL } from "../../../../shared/hooks";
 
 interface FacultySelectProps {
   facultyId: number;
   faculty: number;
-  setFaculty: (faculty: number) => void;
 }
 
 interface faculty {
@@ -23,19 +24,16 @@ interface faculty {
   name: string;
 }
 
-const FacultySelect: FC<FacultySelectProps> = ({
-  facultyId,
-  faculty,
-  setFaculty,
-}) => {
+const FacultySelect: FC<FacultySelectProps> = ({ facultyId, faculty }) => {
   const { palette }: IPalette = useTheme();
 
   const { data, isLoading, isSuccess } = useGetFacultiesQuery({});
 
+  const putFacultyInURL = useChangeURL();
   const handleChange = (event: SelectChangeEvent): void => {
-    const selectedFaculty: number = parseInt(event.target.value);
+    const selectedFaculty = event.target.value;
 
-    setFaculty(selectedFaculty);
+    putFacultyInURL(urlKeys.FACULTY, selectedFaculty);
   };
 
   return (

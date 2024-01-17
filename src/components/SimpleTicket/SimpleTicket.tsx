@@ -34,7 +34,7 @@ const SimpleTicket: ForwardRefExoticComponent<
         display: "inline-flex",
         position: "relative",
         flexDirection: "column",
-        height: 200,
+        height: 180,
         width: "97%",
         gap: 2,
         p: 2,

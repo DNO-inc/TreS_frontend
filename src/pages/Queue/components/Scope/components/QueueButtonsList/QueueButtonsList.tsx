@@ -18,16 +18,22 @@ interface IQueue {
 interface QueueButtonsListProps {
   queues: IQueue[];
   setQueues: Dispatch<SetStateAction<number[]>>;
+  facultyId: number;
 }
 
-const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues, setQueues }) => {
+const QueueButtonsList: FC<QueueButtonsListProps> = ({
+  queues,
+  setQueues,
+  facultyId,
+}) => {
   const containerRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   const { children, handleParentChange, isAllChecked } = useQueueState(
     queues,
-    setQueues
+    setQueues,
+    facultyId
   );
 
   const handleWheelScroll = (event: WheelEvent<HTMLInputElement>) => {
@@ -66,7 +72,7 @@ const QueueButtonsList: FC<QueueButtonsListProps> = ({ queues, setQueues }) => {
         "& > .MuiFormControlLabel-root, & > .MuiBox-root > .MuiFormControlLabel-root":
           {
             fontSize: 14,
-            p: "12px 20px",
+            p: "8px 16px",
             m: 0,
             borderRadius: 1,
             whiteSpace: "nowrap",

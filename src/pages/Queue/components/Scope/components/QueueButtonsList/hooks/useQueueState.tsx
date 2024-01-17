@@ -25,7 +25,8 @@ interface IUseQueueState {
 
 const useQueueState = (
   queues: IQueue[],
-  setQueues: React.Dispatch<React.SetStateAction<number[]>>
+  setQueues: React.Dispatch<React.SetStateAction<number[]>>,
+  facultyId: number
 ): IUseQueueState => {
   const { palette }: IPalette = useTheme();
   const [searchParams] = useSearchParams();
@@ -92,7 +93,7 @@ const useQueueState = (
     const filteredQueues = queuesFullInfo.filter(queue => queue.checked);
 
     setQueues(filteredQueues.map(queue => queue.queue_id));
-  }, [checked]);
+  }, [checked, queues, facultyId]);
 
   const children: JSX.Element = (
     <Box sx={{ display: "flex", gap: 1.5, ml: 2 }}>

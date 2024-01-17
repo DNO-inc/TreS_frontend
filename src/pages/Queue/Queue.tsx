@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
@@ -9,13 +9,13 @@ import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { Scope } from "./components/Scope";
+
 import IPalette from "../../theme/IPalette.interface";
 import { getUser } from "../../shared/functions/manipulateLocalStorage";
 import { FacultySelect } from "./components/FacultySelect";
-import { useScopeList } from "./hooks/useScopeList";
-import { useChangeURL } from "../../shared/hooks";
 import { urlKeys } from "../../constants";
 import { useSearchParams } from "react-router-dom";
+import { useGetQueuesByFacultyMutation } from "../../store/api/meta.api";
 
 export type ApiResponse = {
   data?: { queues_list: IQueue[] };
@@ -28,43 +28,69 @@ export interface IQueue {
   scope: string;
 }
 export interface IScope {
-  id: number;
-  order: number;
   name: string;
   title: string;
   queues: IQueue[];
 }
 
+const scopeNames = ["Reports", "Q/A", "Suggestions"];
+
 const Queue: FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { palette }: IPalette = useTheme();
   const [searchParams] = useSearchParams();
 
-  const putFacultyInURL = useChangeURL();
+  const [scopesList, setScopesList] = useState<IScope[]>(
+    scopeNames.map(name => ({
+      name,
+      title: t(`queue.scopes.${name.toLowerCase()}Title`),
+      queues: [],
+    }))
+  );
 
   const { facultyId } = getUser();
   const urlFaculty = parseInt(searchParams.get(urlKeys.FACULTY) || "", 10);
+  const faculty = urlFaculty || facultyId;
 
-  const [faculty, setFaculty] = useState(urlFaculty || facultyId);
+  const [getQueues] = useGetQueuesByFacultyMutation({});
+
+  const updateScopesListTitle = useCallback(() => {
+    setScopesList(prevScopesList =>
+      prevScopesList.map(prevScope => ({
+        ...prevScope,
+        title: t(`queue.scopes.${prevScope.name.toLowerCase()}Title`),
+      }))
+    );
+  }, [i18n.language]);
 
   useEffect(() => {
-    putFacultyInURL(urlKeys.FACULTY, faculty.toString());
-  }, [faculty]);
+    updateScopesListTitle();
+  }, [updateScopesListTitle]);
 
-  const [currentScope, setCurrentScope] = useState<IScope | null>(null);
-  const { scopesList, setScopesList, sortedScopesList } = useScopeList({
-    faculty,
-  });
+  useEffect(() => {
+    getQueues({ body: JSON.stringify({ faculty: faculty }) }).then(
+      (res: ApiResponse) => {
+        const queuesData = res.data && res.data.queues_list;
+
+        if (queuesData) {
+          setScopesList(prevScopesList =>
+            prevScopesList.map(scope => ({
+              ...scope,
+              queues: queuesData.filter(
+                (queue: IQueue) => queue.scope === scope.name
+              ),
+            }))
+          );
+        }
+      }
+    );
+  }, [faculty]);
 
   return (
     <Grid container>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h1">{t("queue.heading")}</Typography>
-        <FacultySelect
-          facultyId={facultyId}
-          faculty={faculty}
-          setFaculty={setFaculty}
-        />
+        <FacultySelect facultyId={facultyId} faculty={faculty} />
       </Box>
       <Box
         sx={{
@@ -92,17 +118,9 @@ const Queue: FC = () => {
           },
         }}
       >
-        {sortedScopesList.map((scope: IScope) => (
-          <Scope
-            scope={scope}
-            currentScope={currentScope}
-            setCurrentScope={setCurrentScope}
-            scopesList={scopesList}
-            setScopesList={setScopesList}
-            facultyId={faculty}
-            key={scope.name}
-          />
-        ))}
+        {scopesList.map((scope: IScope) => {
+          return <Scope scope={scope} facultyId={faculty} key={scope.name} />;
+        })}
       </Box>
     </Grid>
   );
