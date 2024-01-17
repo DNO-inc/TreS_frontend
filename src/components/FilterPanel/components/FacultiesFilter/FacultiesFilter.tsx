@@ -35,6 +35,7 @@ const FacultiesFilter: FC = () => {
         <FormControl size="small" sx={{ bgcolor: palette.grey.card }}>
           <Select
             id="faculty-select"
+            aria-label="faculty-select"
             value={faculty}
             onChange={handleChange}
             sx={{

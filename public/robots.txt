@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: 
+Disallow: /tickets
+Disallow: /queue
+Disallow: /sent
+Disallow: /received
+Disallow: /followed
+Disallow: /bookmarks

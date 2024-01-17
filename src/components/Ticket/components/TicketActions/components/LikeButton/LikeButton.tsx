@@ -28,6 +28,7 @@ const LikeButton: FC<LikeButtonProps> = ({
     <IconButton
       onClick={handleToggleLike}
       disabled={!isAuth}
+      aria-label="like-button"
       className="evadeItem"
       sx={{
         pt: "10px",

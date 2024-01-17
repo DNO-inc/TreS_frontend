@@ -27,6 +27,7 @@ const FollowButton: FC<FollowButtonProps> = ({
     <IconButton
       onClick={handleToggleFollowed}
       disabled={!isAuth}
+      aria-label="follow-button"
       className="evadeItem"
       sx={{
         width: 26,

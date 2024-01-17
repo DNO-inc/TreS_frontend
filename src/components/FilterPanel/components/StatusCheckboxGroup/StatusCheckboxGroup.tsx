@@ -84,6 +84,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
           >
             <Button
               color="inherit"
+              aria-label="reset-statuses-button"
               onClick={handleParentChange}
               disabled={isAllUnchecked}
               sx={{ textTransform: "initial" }}
@@ -103,6 +104,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
           <Button
             color="inherit"
             variant="contained"
+            aria-label="reset-statuses-button"
             onClick={handleParentChange}
             disabled={isAllUnchecked}
             sx={{ mr: 1, textTransform: "initial" }}
