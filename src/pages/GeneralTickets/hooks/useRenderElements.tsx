@@ -32,7 +32,7 @@ const useRenderElements = (
           />
         ))}
       </Grid>
-      {tickets.length > 1 && (
+      {totalPage > 1 && (
         <CustomPagination total={totalPage} current={currentPage} />
       )}
     </>

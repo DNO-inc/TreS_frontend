@@ -16,6 +16,7 @@ interface PasswordFieldProps {
   showPassword: boolean;
   setShowPassword: Dispatch<SetStateAction<boolean>>;
   placeholder: string;
+  isAutocomplete?: boolean;
   hasError?: boolean;
 }
 
@@ -25,6 +26,7 @@ const PasswordField: FC<PasswordFieldProps> = ({
   showPassword,
   setShowPassword,
   placeholder,
+  isAutocomplete = false,
   hasError,
 }) => {
   const { t } = useTranslation();
@@ -50,12 +52,16 @@ const PasswordField: FC<PasswordFieldProps> = ({
         value={password}
         onChange={handleChange}
         error={hasError}
-        // inputProps={{
-        //   autoComplete: "new-password",
-        //   form: {
-        //     autoComplete: "off",
-        //   },
-        // }}
+        inputProps={
+          isAutocomplete
+            ? {}
+            : {
+                autoComplete: "new-password",
+                form: {
+                  autoComplete: "off",
+                },
+              }
+        }
         endAdornment={
           <InputAdornment position="end">
             <IconButton

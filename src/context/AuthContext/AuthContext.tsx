@@ -21,6 +21,7 @@ import {
   useLoginMutation,
 } from "../../store/api/auth.api";
 import { useGetUser } from "./hooks/useGetUser";
+import { general } from "../../constants";
 
 interface AuthContextProps {
   isAuth: boolean;
@@ -70,8 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
 
   const cabinetKey = searchParams.get("key");
-  const DEFAULT_CABINET_TOKEN = "q87nfWyQ"; // delete
-  const cabinetToken = searchParams.get("token") || DEFAULT_CABINET_TOKEN;
+  const cabinetToken = searchParams.get("token") || general.TRES_TOKEN;
 
   const IsTokensExpired = getIsTokensExpired();
   const [isAuth, setIsAuth] = useState(!IsTokensExpired);

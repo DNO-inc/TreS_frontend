@@ -6,11 +6,13 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { SxProps, Theme } from "@mui/material";
+import Divider from "@mui/material/Divider";
+import { Theme, SxProps } from "@mui/material/styles";
 
 import IPalette from "../../../../theme/IPalette.interface";
 import { useAuth } from "../../../../context/AuthContext/AuthContext";
 import { PasswordField } from "../../../PasswordField";
+import { CabinetAuthButton } from "./components/CabinetAuthButton";
 
 interface LoginStepProps {
   handleSignUn: () => void;
@@ -72,6 +74,7 @@ const LoginStep: FC<LoginStepProps> = ({
           showPassword={showPassword}
           setShowPassword={setShowPassword}
           placeholder="common.password"
+          isAutocomplete={true}
           hasError={hasError}
         />
         <Typography
@@ -99,7 +102,21 @@ const LoginStep: FC<LoginStepProps> = ({
         <Button variant="contained" color="primary" type="submit">
           {t("login.comeInButton")}
         </Button>
-        <Typography fontSize={14} sx={{ color: palette.whiteAlpha.default }}>
+        <Divider
+          sx={{
+            color: palette.whiteAlpha.default,
+            width: "100%",
+            mt: -0.5,
+            mb: -1.5,
+          }}
+        >
+          {t("login.additionalOptions")}
+        </Divider>
+        <CabinetAuthButton />
+        <Typography
+          fontSize={14}
+          sx={{ color: palette.whiteAlpha.default, mt: -2 }}
+        >
           {t("login.signUpQuestion")}
           <span
             onClick={handleOpenSignUpModal}

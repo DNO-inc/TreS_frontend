@@ -103,7 +103,7 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
   const { palette }: IPalette = useTheme();
   const navigate = useNavigate();
 
-  const { user_id: userId } = getUser();
+  const { userId } = getUser();
   const isAssignee = userId == assigneeId;
 
   const isAdmin = checkIsAdmin();
@@ -195,7 +195,6 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
           variant="h1"
           component="div"
           sx={{
-            // maxWidth: { xs: "100%", md: "65%" },
             "& > .MuiTypography-root": {
               fontSize: { xs: 24, md: 28 },
             },
