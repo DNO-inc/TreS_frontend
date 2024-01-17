@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import Box from "@mui/material/Box";
@@ -32,11 +32,33 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
   );
 
   const [isOpen, setIsOpen] = useState(false);
+  const iconButtonRef = useRef<HTMLElement>(null);
+  const boxRef = useRef<HTMLElement>(null);
 
   const putStatusesInURL = useChangeURL();
 
   const [statusesFullInfo, checked] = useGetStatusesFullInfo(isAllStatuses);
   const isAllUnchecked: boolean = checked && !checked.some(value => value);
+
+  useEffect(() => {
+    const handleClickOutside = event => {
+      const isIconButtonClicked =
+        iconButtonRef.current && iconButtonRef.current.contains(event.target);
+
+      const isBoxClicked =
+        boxRef.current && boxRef.current.contains(event.target);
+
+      if (!isIconButtonClicked && !isBoxClicked) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [iconButtonRef, boxRef]);
 
   const handleParentChange = () => {
     const updatedChecked = checked.map(() => false);
@@ -56,20 +78,23 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
   return (
     <>
       {matches && (
-        <IconButton
-          sx={{
-            position: "relative",
-            borderRadius: 1,
-            border: `2px solid ${palette.grey.border}`,
-          }}
-          onClick={handleFilterOpen}
-        >
-          <FilterAltIcon />
-        </IconButton>
+        <Box ref={iconButtonRef}>
+          <IconButton
+            sx={{
+              position: "relative",
+              borderRadius: 1,
+              border: `2px solid ${palette.grey.border}`,
+            }}
+            onClick={handleFilterOpen}
+          >
+            <FilterAltIcon />
+          </IconButton>
+        </Box>
       )}
       {matches ? (
         isOpen && (
           <Box
+            ref={boxRef}
             sx={{
               position: "absolute",
               top: 125,
@@ -87,7 +112,7 @@ const StatusCheckboxGroup: FC<StatusCheckboxGroupProps> = ({
               aria-label="reset-statuses-button"
               onClick={handleParentChange}
               disabled={isAllUnchecked}
-              sx={{ textTransform: "initial" }}
+              sx={{ textTransform: "initial", width: "100%" }}
             >
               {t("statusesFilter.reset")}
             </Button>

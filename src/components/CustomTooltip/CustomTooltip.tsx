@@ -28,12 +28,22 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   };
 });
 
-const CustomTooltip: FC<CustomTooltipProps> = ({ base, open, children }) => {
+const CustomTooltip: FC<CustomTooltipProps> = ({
+  base,
+  open,
+  setOpen,
+  children,
+}) => {
+  const handleClose = () => {
+    setOpen && setOpen(false);
+  };
+
   return (
     <LightTooltip
       arrow
       disableHoverListener={open !== undefined}
       open={open}
+      onClose={handleClose}
       placement="top"
       title={children}
     >

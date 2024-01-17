@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { NavLink } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -8,11 +7,11 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { MarkdownWithStyles } from "../../../../utils/markdown";
 
-import { endpoints } from "../../../../constants";
+import { ProfileTooltip } from "./components/ProfileTooltip";
+
 import { Creator } from "../../ticket.interface";
 import IPalette from "../../../../theme/IPalette.interface";
 import { useAuth } from "../../../../context/AuthContext/AuthContext";
-import { ProfileTooltip } from "./components/ProfileTooltip";
 
 export interface ICreator {
   faculty: { faculty_id: number; name: string };
@@ -40,7 +39,6 @@ const TicketBody: FC<TicketBodyProps> = ({
 
   const { isAuth } = useAuth();
 
-  const userId: number | null = creator?.user_id;
   const creatorLogin = creator?.login;
   let userLogin = "anonymous";
 
@@ -90,12 +88,7 @@ const TicketBody: FC<TicketBodyProps> = ({
       </Box>
       <Grid sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
         {isAuth && creator ? (
-          <NavLink
-            to={!userId ? "" : `${endpoints.PROFILE}/${userId}`}
-            style={{ cursor: !userId ? "default" : "pointer" }}
-          >
-            <ProfileTooltip creator={creator} userLogin={userLogin} />
-          </NavLink>
+          <ProfileTooltip creator={creator} userLogin={userLogin} />
         ) : (
           <Typography color="text.secondary" className="evadeItem">
             {userLogin}
