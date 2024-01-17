@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useState } from "react";
+import { FC, MouseEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -49,6 +49,28 @@ const AuthActions: FC = () => {
   const isCanCreateTicket = permissionList.includes(permissions.CREATE_TICKET);
 
   const [open, setOpen] = useState(false);
+  const iconButtonRef = useRef<HTMLElement>(null);
+  const boxRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = event => {
+      const isIconButtonClicked =
+        iconButtonRef.current && iconButtonRef.current.contains(event.target);
+
+      const isBoxClicked =
+        boxRef.current && boxRef.current.contains(event.target);
+
+      if (!isIconButtonClicked && !isBoxClicked) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [iconButtonRef, boxRef]);
 
   const handleLogOut = (event: MouseEvent): void => {
     event.preventDefault();
@@ -72,18 +94,19 @@ const AuthActions: FC = () => {
         <span>{userName}</span>
         <CustomTooltip
           open={open}
-          setOpen={setOpen}
           base={
-            <IconButton onClick={handleOpenMenu} sx={{ p: 0 }}>
-              <Avatar
-                alt="Avatar"
-                src={isAdmin ? admin : Logo}
-                sx={{ width: 32, height: 32 }}
-              />
-            </IconButton>
+            <Box ref={iconButtonRef}>
+              <IconButton onClick={handleOpenMenu} sx={{ p: 0 }}>
+                <Avatar
+                  alt="Avatar"
+                  src={isAdmin ? admin : Logo}
+                  sx={{ width: 32, height: 32 }}
+                />
+              </IconButton>
+            </Box>
           }
         >
-          <div style={{ padding: "8px 16px 16px" }}>
+          <Box ref={boxRef} sx={{ p: "8px 16px 16px" }}>
             <Box
               sx={{
                 display: "flex",
@@ -144,7 +167,7 @@ const AuthActions: FC = () => {
                 {t("common.logout")}
               </Button>
             </Box>
-          </div>
+          </Box>
         </CustomTooltip>
       </Box>
       {matches && isCanCreateTicket && (

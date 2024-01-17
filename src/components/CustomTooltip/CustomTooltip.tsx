@@ -1,4 +1,4 @@
-import { Dispatch, FC, ReactElement, ReactNode, SetStateAction } from "react";
+import { FC, ReactElement, ReactNode } from "react";
 
 import { useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -9,7 +9,6 @@ import IPalette from "../../theme/IPalette.interface";
 interface CustomTooltipProps {
   base: ReactElement;
   open?: boolean;
-  setOpen?: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
 }
 
@@ -28,22 +27,12 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   };
 });
 
-const CustomTooltip: FC<CustomTooltipProps> = ({
-  base,
-  open,
-  setOpen,
-  children,
-}) => {
-  const handleClose = () => {
-    setOpen && setOpen(false);
-  };
-
+const CustomTooltip: FC<CustomTooltipProps> = ({ base, open, children }) => {
   return (
     <LightTooltip
       arrow
       disableHoverListener={open !== undefined}
       open={open}
-      onClose={handleClose}
       placement="top"
       title={children}
     >
