@@ -123,10 +123,9 @@
       "bookmarks": "Закладки",
       "deleted": "Видалені"
     },
-    "notification": "Сповіщення",
+    "notifications": "Сповіщення",
     "generalTickets": "Поточні звернення",
-    "settings": "Налаштування",
-    "lightMode": "Світлий режим"
+    "settings": "Налаштування"
   },
   "queue": {
     "heading": "Черги",
@@ -152,7 +151,7 @@
   "deleted": {
     "heading": "Видалені"
   },
-  "notification": {
+  "notifications": {
     "heading": "Сповіщення"
   },
   "generalTickets": {

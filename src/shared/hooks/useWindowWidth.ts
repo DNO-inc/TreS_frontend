@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 
 const DELAY = 800;
 
-function throttle(callback, delay = DELAY) {
+const throttle = (callback, delay = DELAY) => {
   let shouldWait = false;
-  let waitingArgs;
+  let waitingArgs: null | unknown[] = null;
 
   const timeoutFunc = () => {
     if (waitingArgs === null) {
@@ -27,7 +27,7 @@ function throttle(callback, delay = DELAY) {
 
     setTimeout(timeoutFunc, delay);
   };
-}
+};
 
 const useWindowWidth = () => {
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);

@@ -46,7 +46,7 @@ const useRenderElements = ({
         gap: 1,
       }}
     >
-      {Array.from({ length: 6 }).map((_, index) => (
+      {Array.from({ length: 8 }).map((_, index) => (
         <SkeletonTicketRow
           matches={matches}
           isHaveActions={!!handleDelete || !!handleRestore}

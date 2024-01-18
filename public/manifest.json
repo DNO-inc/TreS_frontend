@@ -18,12 +18,12 @@
       "purpose": "any"
     },
     {
-      "src": "/assets/Logomark.svg",
+      "src": "/assets/logo.svg",
       "sizes": "56x56",
       "purpose": "maskable"
     },
     {
-      "src": "/assets/big_logomark.png",
+      "src": "/assets/big_logo.png",
       "sizes": "512x512",
       "purpose": "maskable"
     },

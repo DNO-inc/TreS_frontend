@@ -123,10 +123,9 @@
       "bookmarks": "Bookmarks",
       "deleted": "Deleted"
     },
-    "notification": "Notification",
+    "notifications": "Notifications",
     "generalTickets": "General Tickets",
-    "settings": "Settings",
-    "lightMode": "Light Mode"
+    "settings": "Settings"
   },
   "queue": {
     "heading": "Queue",
@@ -152,8 +151,8 @@
   "deleted": {
     "heading": "Deleted"
   },
-  "notification": {
-    "heading": "Notification"
+  "notifications": {
+    "heading": "Notifications"
   },
   "generalTickets": {
     "heading": "General Tickets",

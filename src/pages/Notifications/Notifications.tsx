@@ -22,7 +22,7 @@ const Notifications: FC = () => {
   return (
     <Grid container>
       <Box>
-        <Typography variant="h1">{t("notification.heading")}</Typography>
+        <Typography variant="h1">{t("notifications.heading")}</Typography>
       </Box>
       <Box
         sx={{

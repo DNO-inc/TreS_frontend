@@ -17,7 +17,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { VerticalDivider } from "components/VerticalDivider";
 import { CustomTooltip } from "components/CustomTooltip";
 
-import Logo from "../../../../../../../../assets/Logomark.svg";
+import Logo from "../../../../../../../../assets/logo.svg";
 import admin from "../../../../../../../../assets/admin.webp";
 import { dimensions, endpoints, permissions } from "constants";
 import { getUser, getUserRole } from "functions/manipulateLocalStorage";

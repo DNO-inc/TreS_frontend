@@ -114,7 +114,7 @@ const GeneralActions: FC<GeneralActionsProps> = ({
           />
         )}
         <NavbarListItem
-          title={"notification"}
+          title={"notifications"}
           endpoint={endpoints.NOTIFICATIONS}
           disabled={!isAuth}
           selectedKey={selectedKey}
