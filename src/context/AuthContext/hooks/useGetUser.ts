@@ -1,12 +1,12 @@
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 
 import { ILoginInfo } from "../AuthContext";
-import { decodeJwt } from "../../../shared/functions";
-import { getUser as getLocalStorageUser } from "../../../shared/functions/manipulateLocalStorage";
-import { useGetProfileMutation } from "../../../store/api/profile.api";
-import { storage } from "../../../constants";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { decodeJwt } from "functions/index";
+import { getUser as getLocalStorageUser } from "functions/manipulateLocalStorage";
+import { useGetProfileMutation } from "api/profile.api";
+import { storage } from "constants";
 
 interface UserInfoProps {
   data?: {

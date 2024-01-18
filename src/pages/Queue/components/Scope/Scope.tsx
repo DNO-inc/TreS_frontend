@@ -9,12 +9,12 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { QueueButtonsList } from "./components/QueueButtonsList";
 import { ScopeTicketList } from "./components/ScopeTicketList";
-import { NotFound } from "../../../../components/NotFound";
+import { NotFound } from "components/NotFound";
+import { ScopeLabel } from "components/ScopeLabel";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { ScopeLabel } from "../../../../components/ScopeLabel";
-import { IScope } from "../../Queue";
-import { dimensions } from "../../../../constants";
+import IPalette from "theme/IPalette.interface";
+import { dimensions } from "constants";
+import { IScope } from "pages/Queue/Queue";
 
 interface ScopeProps {
   scope: IScope;

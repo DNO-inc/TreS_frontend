@@ -1,5 +1,5 @@
 import { getUser } from "./manipulateLocalStorage";
-import { roles } from "../../constants";
+import { roles } from "constants";
 
 const checkIsAdmin = (role = roles.ADMIN) => {
   let isAdmin = false;

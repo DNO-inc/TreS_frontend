@@ -17,20 +17,20 @@ import { SlideProps } from "@mui/material/Slide";
 import { TicketHeader } from "./components/TicketHeader";
 import { TicketBody } from "./components/TicketBody";
 import { TicketActions } from "./components/TicketActions";
-import { SnackbarNotification } from "../SnackbarNotification";
-import { SlideNotification } from "../SlideNotification";
+import { SnackbarNotification } from "components/SnackbarNotification";
+import { SlideNotification } from "components/SlideNotification";
 
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
-} from "../../store/api/tickets.api";
-import { endpoints, toggleOptions } from "../../constants";
-import { useCheckStatus, useFormatDate } from "../../shared/hooks";
-import IPalette from "../../theme/IPalette.interface";
+} from "api/tickets.api";
+import { endpoints, toggleOptions } from "constants";
+import { useCheckStatus, useFormatDate } from "hooks/index";
+import IPalette from "theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
-import { getUser } from "../../shared/functions/manipulateLocalStorage";
-import { useAuth } from "../../context/AuthContext/AuthContext";
-import { useToggleAction } from "../../shared/hooks/useToggleAction";
+import { getUser } from "functions/manipulateLocalStorage";
+import { useAuth } from "context/AuthContext/AuthContext";
+import { useToggleAction } from "hooks/useToggleAction";
 
 interface TicketProps {
   ticket: ITicket;

@@ -7,9 +7,9 @@ import Box from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material";
 
-import IPalette from "../../../../../../theme/IPalette.interface";
-import { endpoints } from "../../../../../../constants";
-import { useFormatDate } from "../../../../../../shared/hooks";
+import IPalette from "theme/IPalette.interface";
+import { endpoints } from "constants";
+import { useFormatDate } from "hooks/index";
 
 export type IAction = {
   color: string;

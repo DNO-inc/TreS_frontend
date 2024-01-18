@@ -15,10 +15,10 @@ import { TicketBodyTextField } from "./components/TicketBodyTextField";
 import { FormActions } from "./components/FormActions";
 import { TicketVisibilityOptions } from "./components/TicketVisibilityOptions";
 
-import { useCreateTicketMutation } from "../../store/api/tickets.api";
-import IPalette from "../../theme/IPalette.interface";
-import { getUser } from "../../shared/functions/manipulateLocalStorage";
-import { createFormKeys } from "../../constants";
+import { useCreateTicketMutation } from "api/tickets.api";
+import IPalette from "theme/IPalette.interface";
+import { getUser } from "functions/manipulateLocalStorage";
+import { createFormKeys } from "constants";
 
 type ApiResponse = {
   data?: {

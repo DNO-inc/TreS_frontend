@@ -11,11 +11,11 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 
 import { useAuth } from "../AuthContext/AuthContext";
-import { useGetNotificationsMutation } from "../../store/api/notifications.api";
+import { useGetNotificationsMutation } from "api/notifications.api";
 import { handleWebSocketMessage } from "./functions/handleWebSocketMessage";
 import { stackCommentNotifications } from "./functions/stackCommentNotifications";
 import { useWebSocket } from "./hooks/useWebSocket";
-import { endpoints } from "../../constants";
+import { endpoints } from "constants";
 
 interface NotificationContextProps {
   notifications: INotification[];

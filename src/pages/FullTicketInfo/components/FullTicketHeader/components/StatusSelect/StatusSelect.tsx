@@ -1,4 +1,11 @@
 import { FC, Dispatch, SetStateAction } from "react";
+import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
+import {
+  BaseQueryFn,
+  FetchBaseQueryError,
+  QueryDefinition,
+} from "@reduxjs/toolkit/query";
+import { FetchArgs } from "@reduxjs/toolkit/query";
 
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
@@ -7,16 +14,9 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Loader } from "../../../../../../components/Loader";
+import { Loader } from "components/Loader";
 
-import IPalette from "../../../../../../theme/IPalette.interface";
-import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
-import {
-  BaseQueryFn,
-  FetchBaseQueryError,
-  QueryDefinition,
-} from "@reduxjs/toolkit/query";
-import { FetchArgs } from "@reduxjs/toolkit/query";
+import IPalette from "theme/IPalette.interface";
 
 interface StatusSelectProps {
   status: IStatus;

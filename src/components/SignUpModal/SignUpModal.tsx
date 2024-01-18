@@ -18,15 +18,14 @@ import useTheme from "@mui/material/styles/useTheme";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import { PersonalInfoStep } from "./components/PersonalInfoStep";
-
 import { AccountDetailStep } from "./components/AccountDetailStep";
-import { VerificationStep } from "./components/VerificationStep";
 import { Actions } from "./components/Actions";
+import { PersonalInfoStep } from "./components/PersonalInfoStep";
+import { VerificationStep } from "./components/VerificationStep";
 
-import { useRegistrationMutation } from "../../store/api/registration.api";
-import IPalette from "../../theme/IPalette.interface";
-import { dimensions } from "../../constants";
+import { useRegistrationMutation } from "api/registration.api";
+import IPalette from "theme/IPalette.interface";
+import { dimensions } from "constants";
 
 interface SignUpModalProps {
   open: boolean;

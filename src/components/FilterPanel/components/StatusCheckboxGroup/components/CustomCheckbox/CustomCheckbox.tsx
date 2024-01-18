@@ -6,7 +6,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { IStatus } from "../../hooks/useGetStatusesFullInfo";
-import IPalette from "../../../../../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 
 interface CustomCheckboxProps {
   status: IStatus;

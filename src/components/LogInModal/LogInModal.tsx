@@ -8,8 +8,9 @@ import useTheme from "@mui/material/styles/useTheme";
 import { SendEmailStep } from "./components/SendEmailStep";
 import { LoginStep } from "./components/LoginStep/LoginStep";
 import { ConfirmStep } from "./components/ConfirmStep";
-import { dimensions } from "../../constants";
-import IPalette from "../../theme/IPalette.interface";
+
+import { dimensions } from "constants";
+import IPalette from "theme/IPalette.interface";
 
 interface LogInModalProps {
   open: boolean;

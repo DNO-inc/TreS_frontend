@@ -9,8 +9,8 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 
-import { endpoints } from "../../../../../../../../../../constants";
-import { checkIsAdmin } from "../../../../../../../../../../shared/functions";
+import { endpoints } from "constants";
+import { checkIsAdmin } from "functions/index";
 
 interface ListItem {
   text: string;

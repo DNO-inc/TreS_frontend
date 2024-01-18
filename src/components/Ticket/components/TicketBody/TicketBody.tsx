@@ -10,8 +10,8 @@ import { MarkdownWithStyles } from "../../../../utils/markdown";
 import { ProfileTooltip } from "./components/ProfileTooltip";
 
 import { Creator } from "../../ticket.interface";
-import IPalette from "../../../../theme/IPalette.interface";
-import { useAuth } from "../../../../context/AuthContext/AuthContext";
+import IPalette from "theme/IPalette.interface";
+import { useAuth } from "context/AuthContext/AuthContext";
 
 export interface ICreator {
   faculty: { faculty_id: number; name: string };

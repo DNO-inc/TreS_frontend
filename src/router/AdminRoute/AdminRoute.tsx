@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router";
 
-import { endpoints } from "../../constants";
-import { checkIsAdmin } from "../../shared/functions";
+import { endpoints } from "constants";
+import { checkIsAdmin } from "functions/index";
 
 const AdminRoute = () => {
   const isAdmin = checkIsAdmin();

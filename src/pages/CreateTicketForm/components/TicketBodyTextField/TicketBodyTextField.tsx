@@ -7,8 +7,8 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { createFormKeys, general } from "../../../../constants";
+import IPalette from "theme/IPalette.interface";
+import { createFormKeys, general } from "constants";
 
 interface TicketBodyTextFieldProps {
   register: UseFormRegister<ICreateTicketRequestBody>;

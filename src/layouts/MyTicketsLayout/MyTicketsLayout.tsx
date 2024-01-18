@@ -15,14 +15,14 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-import { FilterPanel } from "../../components/FilterPanel";
+import { FilterPanel } from "components/FilterPanel";
 
 import { useGetRequestBody } from "./hooks/useGetRequestBody";
-import { ITicket } from "../../components/Ticket/ticket.interface";
+import { ITicket } from "components/Ticket/ticket.interface";
 import {
   useDeleteTicketMutation,
   useUndeleteTicketMutation,
-} from "../../store/api/tickets.api";
+} from "api/tickets.api";
 import { useRenderElements } from "./hooks/useRenderElements";
 
 interface MyTicketsLayoutProps {

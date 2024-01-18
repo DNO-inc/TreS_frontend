@@ -12,21 +12,21 @@ import { FullTicketComments } from "./components/FullTicketComments";
 import { FullTicketAdditionInfo } from "./components/FullTicketAdditionInfo";
 import { FullTicketFiles } from "./components/FullTicketFiles";
 
-import { useShowTicketMutation } from "../../store/api/tickets.api";
-import { checkIsAdmin } from "../../shared/functions";
-import IPalette from "../../theme/IPalette.interface";
+import { useShowTicketMutation } from "api/tickets.api";
+import { checkIsAdmin } from "functions/index";
+import IPalette from "theme/IPalette.interface";
 import {
   useAdminShowTicketMutation,
   useAdminUpdateTicketMutation,
-} from "../../store/api/admin.api";
-import { getUser } from "../../shared/functions/manipulateLocalStorage";
+} from "api/admin.api";
+import { getUser } from "functions/manipulateLocalStorage";
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
-} from "../../store/api/tickets.api";
+} from "api/tickets.api";
 import { useCommentsConnection } from "./hooks/useCommentsConnection";
-import { useToggleAction } from "../../shared/hooks";
-import { toggleOptions } from "../../constants";
+import { useToggleAction } from "hooks/index";
+import { toggleOptions } from "constants";
 
 export interface IPerson {
   color: string;

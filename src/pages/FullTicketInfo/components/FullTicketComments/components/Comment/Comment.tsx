@@ -24,10 +24,10 @@ import ReplyIcon from "@mui/icons-material/Reply";
 
 import { CommentMenu } from "./components/CommentMenu";
 
-import IPalette from "../../../../../../theme/IPalette.interface";
-import { endpoints } from "../../../../../../constants/endpoints";
-import { getUser } from "../../../../../../shared/functions/manipulateLocalStorage";
-import { useFormatDate, useRandomNick } from "../../../../../../shared/hooks";
+import IPalette from "theme/IPalette.interface";
+import { endpoints } from "constants/endpoints";
+import { getUser } from "functions/manipulateLocalStorage";
+import { useFormatDate, useRandomNick } from "hooks/index";
 import { EditedComment, RepliedComment } from "../../FullTicketComments";
 
 export type IComment = {

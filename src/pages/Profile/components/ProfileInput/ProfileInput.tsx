@@ -4,8 +4,8 @@ import { FieldValues, UseFormRegister, UseFormWatch } from "react-hook-form";
 
 import TextField from "@mui/material/TextField";
 
-import { profileFormKeys } from "../../../../constants";
-import { ProfileUpdateBody } from "../../Profile";
+import { profileFormKeys } from "constants";
+import { ProfileUpdateBody } from "pages/Profile/Profile";
 
 interface ProfileInputProps {
   register: UseFormRegister<FieldValues>;

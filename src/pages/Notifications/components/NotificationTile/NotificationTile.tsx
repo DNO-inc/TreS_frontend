@@ -7,8 +7,8 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import ChatIcon from "@mui/icons-material/Chat";
 
-import { endpoints } from "../../../../constants";
-import IPalette from "../../../../theme/IPalette.interface";
+import { endpoints } from "constants";
+import IPalette from "theme/IPalette.interface";
 
 interface NotificationTileProps {
   ticketId: number;

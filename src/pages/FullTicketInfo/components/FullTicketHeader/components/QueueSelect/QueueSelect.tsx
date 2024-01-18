@@ -9,10 +9,10 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Loader } from "../../../../../../components/Loader";
+import { Loader } from "components/Loader";
 
-import IPalette from "../../../../../../theme/IPalette.interface";
-import { useGetQueuesByFacultyMutation } from "../../../../../../store/api/meta.api";
+import IPalette from "theme/IPalette.interface";
+import { useGetQueuesByFacultyMutation } from "api/meta.api";
 
 interface QueueSelectProps {
   facultyId: number | null;

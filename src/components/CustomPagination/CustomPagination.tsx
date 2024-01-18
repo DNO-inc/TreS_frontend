@@ -4,9 +4,9 @@ import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../theme/IPalette.interface";
-import { useChangeURL } from "../../shared/hooks";
-import { urlKeys } from "../../constants";
+import IPalette from "theme/IPalette.interface";
+import { useChangeURL } from "hooks/useChangeURL";
+import { urlKeys } from "constants/urlKeys";
 
 interface CustomPaginationProps {
   total: number;

@@ -7,8 +7,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { useGetQueuesFullObject, useGetQueuesName } from "./getQueues";
-import { useChangeURL } from "../../../../../../../shared/hooks";
-import IPalette from "../../../../../../../theme/IPalette.interface";
+import { useChangeURL } from "hooks/index";
+import IPalette from "theme/IPalette.interface";
 
 interface IQueue {
   queue_id: number;

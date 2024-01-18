@@ -1,7 +1,7 @@
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../theme/IPalette.interface";
-import { statuses } from "../../constants";
+import IPalette from "theme/IPalette.interface";
+import { statuses } from "constants";
 
 const useCheckStatus = (status: string): string => {
   const { palette }: IPalette = useTheme();

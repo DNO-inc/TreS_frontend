@@ -1,7 +1,7 @@
 import jwtDecode from "jwt-decode";
 
-import { IJwtDecodeData } from "../../store/api/useBaseQuery";
-import { storage } from "../../constants";
+import { IJwtDecodeData } from "api/useBaseQuery";
+import { storage } from "constants";
 
 export const getUser = () => {
   try {

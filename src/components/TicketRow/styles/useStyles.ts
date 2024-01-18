@@ -1,8 +1,8 @@
 import useTheme from "@mui/material/styles/useTheme";
-import IPalette from "../../../theme/IPalette.interface";
 
-import { statuses } from "../../../constants";
-import { useCheckStatus } from "../../../shared/hooks";
+import IPalette from "theme/IPalette.interface";
+import { statuses } from "constants";
+import { useCheckStatus } from "hooks/index";
 
 interface StyleProps {
   ticketStatus: string;

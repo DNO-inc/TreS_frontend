@@ -5,10 +5,11 @@ import Box from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-import { PasswordField } from "../../../../components/PasswordField";
+import { PasswordField } from "components/PasswordField";
+
 import { UseFormSetValue } from "react-hook-form";
-import { ProfileUpdateBody } from "../../Profile";
-import { profileFormKeys } from "../../../../constants";
+import { profileFormKeys } from "constants";
+import { ProfileUpdateBody } from "pages/Profile/Profile";
 
 interface PasswordChangeSectionProps {
   password: string;

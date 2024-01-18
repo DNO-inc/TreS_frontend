@@ -4,8 +4,8 @@ import { SerializedError } from "@reduxjs/toolkit";
 
 import { IAction } from "../components/FullTicketComments/components/Action/Action";
 import { IComment } from "../components/FullTicketComments/components/Comment/Comment";
-import { useGetCommentByIdMutation } from "../../../store/api/comments.api";
-import { useGetActionByIdMutation } from "../../../store/api/tickets.api";
+import { useGetCommentByIdMutation } from "api/comments.api";
+import { useGetActionByIdMutation } from "api/tickets.api";
 
 type ApiResponse = {
   data?: IComment | IAction;

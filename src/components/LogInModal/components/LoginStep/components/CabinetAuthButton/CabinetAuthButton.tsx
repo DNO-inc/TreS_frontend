@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import Button from "@mui/material/Button";
 
-import { general } from "../../../../../../constants";
+import { general } from "constants";
 
 const CabinetAuthButton = () => {
   const { t } = useTranslation();

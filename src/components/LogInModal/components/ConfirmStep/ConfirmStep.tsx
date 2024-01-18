@@ -5,9 +5,9 @@ import useTheme from "@mui/material/styles/useTheme";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { SxProps, Theme } from "@mui/material";
+import { Theme, SxProps } from "@mui/material/styles";
 
-import IPalette from "../../../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 
 interface ConfirmStepProps {
   setOpen: Dispatch<SetStateAction<boolean>>;

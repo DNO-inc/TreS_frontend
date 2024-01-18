@@ -6,7 +6,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-import IPalette from "../../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 
 const useGetIcon = (variant: string) => {
   const { palette }: IPalette = useTheme();

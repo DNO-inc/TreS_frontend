@@ -6,7 +6,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 import { useQueueState } from "./hooks/useQueueState";
 
 interface IQueue {

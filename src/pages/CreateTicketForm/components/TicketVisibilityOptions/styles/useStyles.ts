@@ -1,6 +1,6 @@
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 
 const useStyles = () => {
   const { palette }: IPalette = useTheme();

@@ -6,8 +6,8 @@ import List from "@mui/material/List";
 import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import { dimensions, endpoints } from "../../../../../../../../constants";
-import { useAuth } from "../../../../../../../../context/AuthContext/AuthContext";
+import { dimensions, endpoints } from "constants";
+import { useAuth } from "context/AuthContext/AuthContext";
 
 interface AdditionActionsProps {
   selectedKey: string;

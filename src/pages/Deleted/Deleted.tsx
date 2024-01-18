@@ -1,8 +1,8 @@
 import { FC } from "react";
 
-import { MyTicketsLayout } from "../../layouts/MyTicketsLayout";
+import { MyTicketsLayout } from "layouts/MyTicketsLayout";
 
-import { useGetDeletedTicketsMutation } from "../../store/api/tickets.api";
+import { useGetDeletedTicketsMutation } from "api/tickets.api";
 
 const Deleted: FC = () => {
   const [getTickets, { isLoading, isSuccess }] = useGetDeletedTicketsMutation();

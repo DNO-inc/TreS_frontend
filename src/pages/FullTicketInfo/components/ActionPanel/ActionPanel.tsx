@@ -10,9 +10,9 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 
-import { VerticalDivider } from "../../../../components/VerticalDivider";
+import { VerticalDivider } from "components/VerticalDivider";
 
-import IPalette from "../../../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 
 interface ActionPanelProps {
   isMyTicket: boolean;

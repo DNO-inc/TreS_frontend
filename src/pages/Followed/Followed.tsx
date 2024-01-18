@@ -1,8 +1,8 @@
 import { FC } from "react";
 
-import { MyTicketsLayout } from "../../layouts/MyTicketsLayout";
+import { MyTicketsLayout } from "layouts/MyTicketsLayout";
 
-import { useGetSavedTicketsMutation } from "../../store/api/tickets.api";
+import { useGetSavedTicketsMutation } from "api/tickets.api";
 
 const Followed: FC = () => {
   const [getTickets, { isLoading, isSuccess }] = useGetSavedTicketsMutation();

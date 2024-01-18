@@ -8,8 +8,8 @@ import useTheme from "@mui/material/styles/useTheme";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useToggleBookmarkMutation } from "../../../../store/api/tickets.api";
+import IPalette from "theme/IPalette.interface";
+import { useToggleBookmarkMutation } from "api/tickets.api";
 
 interface TicketActionsProps {
   isCheckboxVisible: boolean;

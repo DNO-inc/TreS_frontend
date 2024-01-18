@@ -7,28 +7,29 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-import { Loader } from "../components/Loader";
+import { Loader } from "components/Loader";
+import PrivacyPolicy from "pages/PrivacyPolicy";
 
-import { endpoints, permissions } from "../constants";
-import { useAuth } from "../context/AuthContext/AuthContext";
-import PrivacyPolicy from "../pages/PrivacyPolicy";
-import { useAccessRenewMutation } from "../store/api/profile.api";
+import { endpoints, permissions } from "constants";
+import { useAuth } from "context/AuthContext/AuthContext";
+import { useAccessRenewMutation } from "api/profile.api";
 
-const Layout = lazy(() => import("../layouts/MainLayout"));
-const GeneralTickets = lazy(() => import("../pages/GeneralTickets"));
-const Received = lazy(() => import("../pages/Received"));
-const Sent = lazy(() => import("../pages/Sent"));
-const Followed = lazy(() => import("../pages/Followed"));
-const Bookmarks = lazy(() => import("../pages/Bookmarks"));
-const Deleted = lazy(() => import("../pages/Deleted"));
-const Profile = lazy(() => import("../pages/Profile"));
-const Queue = lazy(() => import("../pages/Queue"));
-const Notifications = lazy(() => import("../pages/Notifications"));
-const ErrorPage = lazy(() => import("../pages/ErrorPage"));
-const FullTicketInfo = lazy(() => import("../pages/FullTicketInfo"));
-const Statistic = lazy(() => import("../pages/Statistic"));
-const CreateTicketForm = lazy(() => import("../pages/CreateTicketForm"));
-const PermissionDenied = lazy(() => import("../pages/PermissionDenied"));
+const Layout = lazy(() => import("layouts/MainLayout"));
+const GeneralTickets = lazy(() => import("pages/GeneralTickets"));
+const Received = lazy(() => import("pages/Received"));
+const Sent = lazy(() => import("pages/Sent"));
+const Followed = lazy(() => import("pages/Followed"));
+const Bookmarks = lazy(() => import("pages/Bookmarks"));
+const Deleted = lazy(() => import("pages/Deleted"));
+const Profile = lazy(() => import("pages/Profile"));
+const Queue = lazy(() => import("pages/Queue"));
+const Notifications = lazy(() => import("pages/Notifications"));
+const ErrorPage = lazy(() => import("pages/ErrorPage"));
+const FullTicketInfo = lazy(() => import("pages/FullTicketInfo"));
+const Statistic = lazy(() => import("pages/Statistic"));
+const CreateTicketForm = lazy(() => import("pages/CreateTicketForm"));
+const PermissionDenied = lazy(() => import("pages/PermissionDenied"));
+
 const PrivateRoute = lazy(() => import("./PrivateRoute"));
 const PermissionRote = lazy(() => import("./PermissionRote"));
 const AdminRoute = lazy(() => import("./AdminRoute"));

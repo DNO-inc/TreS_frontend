@@ -8,8 +8,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import useTheme from "@mui/material/styles/useTheme";
 
 import notFound from "../../assets/not_found.svg";
-import { dimensions, endpoints } from "../../constants";
-import IPalette from "../../theme/IPalette.interface";
+import { dimensions, endpoints } from "constants";
+import IPalette from "theme/IPalette.interface";
 
 interface NotFoundProps {
   size?: number;

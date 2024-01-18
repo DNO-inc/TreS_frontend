@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router";
 
-import { endpoints } from "../../constants";
-import { getUserRole } from "../../shared/functions/manipulateLocalStorage";
+import { endpoints } from "constants";
+import { getUserRole } from "functions/manipulateLocalStorage";
 
 interface PermissionRoteProps {
   permission: string;

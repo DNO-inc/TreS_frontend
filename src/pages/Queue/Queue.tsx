@@ -2,6 +2,7 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
+import { useSearchParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -9,13 +10,12 @@ import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
 import { Scope } from "./components/Scope";
-
-import IPalette from "../../theme/IPalette.interface";
-import { getUser } from "../../shared/functions/manipulateLocalStorage";
 import { FacultySelect } from "./components/FacultySelect";
-import { urlKeys } from "../../constants";
-import { useSearchParams } from "react-router-dom";
-import { useGetQueuesByFacultyMutation } from "../../store/api/meta.api";
+
+import IPalette from "theme/IPalette.interface";
+import { getUser } from "functions/manipulateLocalStorage";
+import { urlKeys } from "constants";
+import { useGetQueuesByFacultyMutation } from "api/meta.api";
 
 export type ApiResponse = {
   data?: { queues_list: IQueue[] };

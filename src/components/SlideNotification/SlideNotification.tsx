@@ -6,7 +6,7 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { useGetIcon } from "./hooks/useGetIcon";
 import { useGetDescription } from "./hooks/useGetDescription";
-import IPalette from "../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 
 interface SlideNotificationProps {
   props: Omit<SlideProps, "direction">;

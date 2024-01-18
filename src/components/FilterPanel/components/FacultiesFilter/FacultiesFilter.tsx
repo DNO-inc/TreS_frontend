@@ -8,10 +8,10 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useGetFacultiesQuery } from "../../../../store/api/meta.api";
-import { useChangeURL } from "../../../../shared/hooks";
-import { urlKeys } from "../../../../constants";
+import IPalette from "theme/IPalette.interface";
+import { useGetFacultiesQuery } from "api/meta.api";
+import { useChangeURL } from "hooks/index";
+import { urlKeys } from "constants/index";
 
 const FacultiesFilter: FC = () => {
   const { t } = useTranslation();

@@ -9,6 +9,8 @@ import {
   SetStateAction,
 } from "react";
 import { useTranslation } from "react-i18next";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
 
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -16,29 +18,24 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { Comment } from "./components/Comment";
 import { Action } from "./components/Action";
+import { CommentsTextField } from "./components/CommentsTextField";
+import { FloatingPanel } from "./components/FloatingPanel";
+import { ArrowDown } from "./components/ArrowDown";
 
-import IPalette from "../../../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 import {
   useCreateCommentMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
-} from "../../../../store/api/comments.api";
-import { CommentsTextField } from "./components/CommentsTextField";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
-import { SerializedError } from "@reduxjs/toolkit";
-import { FloatingPanel } from "./components/FloatingPanel";
-import { IComment } from "./components/Comment/Comment";
-import { useRandomNick } from "../../../../shared/hooks";
-import { getRandomNickColor } from "../../../../shared/functions";
+} from "api/comments.api";
+import { useRandomNick } from "hooks/index";
+import { getRandomNickColor } from "functions/index";
 import { IPerson } from "../../FullTicketInfo";
-import { ArrowDown } from "./components/ArrowDown";
-import {
-  getUser,
-  getUserRole,
-} from "../../../../shared/functions/manipulateLocalStorage";
+import { getUser, getUserRole } from "functions/manipulateLocalStorage";
+import { IComment } from "./components/Comment/Comment";
 import { IAction } from "./components/Action/Action";
-import { permissions } from "../../../../constants";
-import { useGetFullHistoryMutation } from "../../../../store/api/tickets.api";
+import { permissions } from "constants";
+import { useGetFullHistoryMutation } from "api/tickets.api";
 
 export type IHistoryItem = IAction | IComment;
 

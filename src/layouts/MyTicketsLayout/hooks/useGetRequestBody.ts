@@ -1,10 +1,7 @@
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import {
-  useGetFacultiesQuery,
-  useGetStatusesQuery,
-} from "../../../store/api/meta.api";
+import { useGetFacultiesQuery, useGetStatusesQuery } from "api/meta.api";
 
 interface GetRequestBodyProps {
   currentPage: number;

@@ -15,30 +15,30 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 import Grid from "@mui/material/Grid";
-import { Avatar } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 
 import RedoIcon from "@mui/icons-material/Redo";
 import EditIcon from "@mui/icons-material/Edit";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import { VerticalDivider } from "components/VerticalDivider";
 import { FacultySelect } from "./components/FacultySelect";
 import { QueueSelect } from "./components/QueueSelect";
 import { StatusSelect } from "./components/StatusSelect";
 import { AssigneeSelect } from "./components/AssigneeSelect";
-import { VerticalDivider } from "../../../../components/VerticalDivider";
 import { DialogPopup } from "./components/DialogPopup";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { checkIsAdmin } from "../../../../shared/functions";
-import { getUser } from "../../../../shared/functions/manipulateLocalStorage";
-import { endpoints, roles } from "../../../../constants";
-import { useAdminRemoveTicketMutation } from "../../../../store/api/admin.api";
+import IPalette from "theme/IPalette.interface";
+import { checkIsAdmin } from "functions/index";
+import { getUser } from "functions/manipulateLocalStorage";
+import { endpoints, roles } from "constants";
+import { useAdminRemoveTicketMutation } from "api/admin.api";
 
 import styles from "./FullTicketHeader.module.css";
 import { IAction } from "../FullTicketComments/components/Action/Action";
-import { useGetStatusesQuery } from "../../../../store/api/meta.api";
-import { useCheckStatus } from "../../../../shared/hooks";
+import { useGetStatusesQuery } from "api/meta.api";
+import { useCheckStatus } from "hooks/index";
 
 interface FullTicketHeaderProps {
   assigneeId: number;

@@ -7,8 +7,8 @@ import useTheme from "@mui/material/styles/useTheme";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
-import IPalette from "../../../../../../theme/IPalette.interface";
-import { useAuth } from "../../../../../../context/AuthContext/AuthContext";
+import IPalette from "theme/IPalette.interface";
+import { useAuth } from "context/AuthContext/AuthContext";
 
 interface LikeButtonProps {
   isLiked: boolean;

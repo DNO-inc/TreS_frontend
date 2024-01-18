@@ -5,11 +5,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { endpoints } from "../../constants";
-import { useFormatDate } from "../../shared/hooks";
-import IPalette from "../../theme/IPalette.interface";
+import { Badge } from "components/Badge";
+
+import { endpoints } from "constants";
+import { useFormatDate } from "hooks/index";
+import IPalette from "theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
-import { Badge } from "../Badge";
 
 interface SimpleTicketProps {
   ticket: ITicket;

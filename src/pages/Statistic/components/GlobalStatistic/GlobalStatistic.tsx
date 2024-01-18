@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   Chart as ChartJS,
@@ -11,8 +12,7 @@ import { Bar } from "react-chartjs-2";
 import { useTheme } from "@mui/material";
 
 import { IGlobalStatus, IStatus } from "../../Statistic";
-import IPalette from "../../../../theme/IPalette.interface";
-import { useTranslation } from "react-i18next";
+import IPalette from "theme/IPalette.interface";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale);
 

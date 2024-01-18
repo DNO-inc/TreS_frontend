@@ -7,12 +7,12 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Loader } from "../../../../components/Loader";
+import { Loader } from "components/Loader";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useGetFacultiesQuery } from "../../../../store/api/meta.api";
-import { urlKeys } from "../../../../constants";
-import { useChangeURL } from "../../../../shared/hooks";
+import IPalette from "theme/IPalette.interface";
+import { useGetFacultiesQuery } from "api/meta.api";
+import { urlKeys } from "constants";
+import { useChangeURL } from "hooks/index";
 
 interface FacultySelectProps {
   facultyId: number;

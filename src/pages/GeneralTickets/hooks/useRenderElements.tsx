@@ -1,10 +1,10 @@
 import Grid from "@mui/material/Grid";
 
-import { Ticket } from "../../../components/Ticket/Ticket";
-import { SkeletonTicket } from "../../../components/SkeletonTicket";
-import { CustomPagination } from "../../../components/CustomPagination";
-import { NotFound } from "../../../components/NotFound";
-import { ITicket } from "../../../components/Ticket/ticket.interface";
+import { Ticket } from "components/Ticket/Ticket";
+import { SkeletonTicket } from "components/SkeletonTicket";
+import { CustomPagination } from "components/CustomPagination";
+import { NotFound } from "components/NotFound";
+import { ITicket } from "components/Ticket/ticket.interface";
 
 const useRenderElements = (
   ticketsPerRow: number,

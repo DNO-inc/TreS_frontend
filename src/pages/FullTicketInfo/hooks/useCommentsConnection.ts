@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { getAccessToken } from "../../../shared/functions/manipulateLocalStorage";
-import { useAuth } from "../../../context/AuthContext/AuthContext";
+import { getAccessToken } from "functions/manipulateLocalStorage";
+import { useAuth } from "context/AuthContext/AuthContext";
 import { IComment } from "../components/FullTicketComments/components/Comment/Comment";
 import { IAction } from "../components/FullTicketComments/components/Action/Action";
-import { endpoints } from "../../../constants";
+import { endpoints } from "constants";
 import { useMessageHandler } from "./useMessageHandler";
 
 const useCommentsConnection = (ticketId: number) => {

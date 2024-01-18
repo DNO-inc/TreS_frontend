@@ -9,22 +9,23 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-import {
-  useGetProfileMutation,
-  useUpdateProfileMutation,
-} from "../../store/api/profile.api";
-import {
-  changeUserField,
-  getUser,
-  getUserRole,
-} from "../../shared/functions/manipulateLocalStorage";
-import { checkIsAdmin } from "../../shared/functions";
-import admin from "../../assets/admin.webp";
-import { permissions, profileFormKeys, roles, storage } from "../../constants";
 import { PasswordChangeSection } from "./components/PasswordChangeSection";
 import { ProfileHeader } from "./components/ProfileHeader";
 import { ProfileFullInfo } from "./components/ProfileFullInfo";
 import { ProfileActions } from "./components/ProfileActions";
+
+import {
+  useGetProfileMutation,
+  useUpdateProfileMutation,
+} from "api/profile.api";
+import {
+  changeUserField,
+  getUser,
+  getUserRole,
+} from "functions/manipulateLocalStorage";
+import { checkIsAdmin } from "functions/index";
+import admin from "../../assets/admin.webp";
+import { permissions, profileFormKeys, roles, storage } from "constants";
 
 type ApiResponse = {
   data?: {

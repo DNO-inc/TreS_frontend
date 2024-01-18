@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 
-import { storage } from "../../constants";
+import { storage } from "constants";
 import { changeUserField } from "./manipulateLocalStorage";
 
 interface IJwtDecodeData {

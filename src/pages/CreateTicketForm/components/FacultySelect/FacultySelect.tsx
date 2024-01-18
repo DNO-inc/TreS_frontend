@@ -10,11 +10,11 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Loader } from "../../../../components/Loader";
+import { Loader } from "components/Loader";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useGetFacultiesQuery } from "../../../../store/api/meta.api";
-import { createFormKeys } from "../../../../constants";
+import IPalette from "theme/IPalette.interface";
+import { useGetFacultiesQuery } from "api/meta.api";
+import { createFormKeys } from "constants";
 
 interface FacultySelectProps {
   facultyId: number;

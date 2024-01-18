@@ -1,7 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 import { IFile, ILoadingFile } from "../../FullTicketFiles";
-import { useUploadFileMutation } from "../../../../../../store/api/iofiles.api";
+import { useUploadFileMutation } from "api/iofiles.api";
 
 interface UploadFileProps {
   ticketId: number;

@@ -10,7 +10,7 @@ import Badge from "@mui/material/Badge";
 import Collapse from "@mui/material/Collapse";
 
 import useGetListItemsArray from "./useGetListItemArray";
-import { useAuth } from "../../../../../../../../../../context/AuthContext/AuthContext";
+import { useAuth } from "context/AuthContext/AuthContext";
 
 interface NestedListProps {
   open: boolean;

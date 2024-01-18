@@ -13,8 +13,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { AuthZone } from "./components/AuthZone";
 
-import { dimensions, endpoints } from "../../../../constants";
-import IPalette from "../../../../theme/IPalette.interface";
+import { dimensions, endpoints } from "constants";
+import IPalette from "theme/IPalette.interface";
 
 interface HeaderProps {
   handleDrawerToggle: () => void;

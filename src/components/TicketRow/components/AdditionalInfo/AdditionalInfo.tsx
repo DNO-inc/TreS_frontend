@@ -4,8 +4,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useFormatDate } from "../../../../shared/hooks";
+import IPalette from "theme/IPalette.interface";
+import { useFormatDate } from "hooks/index";
 
 interface AdditionalInfoProps {
   facultyName: string;

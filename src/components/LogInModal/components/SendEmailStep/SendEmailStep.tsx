@@ -7,10 +7,10 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { SxProps, Theme } from "@mui/material";
+import { Theme, SxProps } from "@mui/material/styles";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useSendEmailForAccessMutation } from "../../../../store/api/profile.api";
+import IPalette from "theme/IPalette.interface";
+import { useSendEmailForAccessMutation } from "api/profile.api";
 
 interface SendEmailStepProps {
   setActiveStep: Dispatch<SetStateAction<number>>;

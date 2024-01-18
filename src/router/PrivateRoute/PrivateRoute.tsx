@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router";
 
-import { endpoints } from "../../constants";
-import { useAuth } from "../../context/AuthContext/AuthContext";
+import { endpoints } from "constants";
+import { useAuth } from "context/AuthContext/AuthContext";
 
 const PrivateRoute = () => {
   const { isAuth } = useAuth();

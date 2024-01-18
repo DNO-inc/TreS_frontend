@@ -8,9 +8,9 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { ProfileInput } from "../ProfileInput";
 
-import { profileFormKeys } from "../../../../constants";
-import IPalette from "../../../../theme/IPalette.interface";
-import { ProfileUpdateBody } from "../../Profile";
+import { profileFormKeys } from "constants";
+import IPalette from "theme/IPalette.interface";
+import { ProfileUpdateBody } from "pages/Profile/Profile";
 
 interface ProfileHeaderProps {
   avatar: string;

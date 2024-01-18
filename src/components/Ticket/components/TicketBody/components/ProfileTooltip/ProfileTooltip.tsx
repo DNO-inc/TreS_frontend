@@ -5,10 +5,10 @@ import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 
-import { CustomTooltip } from "../../../../../CustomTooltip";
+import { CustomTooltip } from "components/CustomTooltip";
 
 import { Creator } from "../../../../ticket.interface";
-import { useFormatName } from "../../../../hooks/useFormatName";
+import { useFormatName } from "components/Ticket/hooks/useFormatName";
 
 type ProfileTooltipProps = Creator & { userLogin: string };
 

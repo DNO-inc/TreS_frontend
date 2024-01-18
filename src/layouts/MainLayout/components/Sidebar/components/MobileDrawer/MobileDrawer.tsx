@@ -10,8 +10,8 @@ import useTheme from "@mui/material/styles/useTheme";
 import { SidebarActions } from "../SidebarActions";
 
 import Logo from "../../../../../../assets/Logomark.svg";
-import IPalette from "../../../../../../theme/IPalette.interface";
-import { dimensions } from "../../../../../../constants";
+import IPalette from "theme/IPalette.interface";
+import { dimensions } from "constants";
 
 interface MobileDrawerProps {
   container: (() => HTMLElement) | undefined;

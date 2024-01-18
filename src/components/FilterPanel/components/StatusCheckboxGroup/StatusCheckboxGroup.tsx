@@ -10,13 +10,13 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
-import { VerticalDivider } from "../../../VerticalDivider";
+import { CustomCheckbox } from "./components/CustomCheckbox";
+import { VerticalDivider } from "components/VerticalDivider";
 
 import { useGetStatusesFullInfo } from "./hooks/useGetStatusesFullInfo";
-import IPalette from "../../../../theme/IPalette.interface";
-import { dimensions, urlKeys } from "../../../../constants";
-import { useChangeURL } from "../../../../shared/hooks";
-import { CustomCheckbox } from "./components/CustomCheckbox";
+import IPalette from "theme/IPalette.interface";
+import { dimensions, urlKeys } from "constants";
+import { useChangeURL } from "hooks/index";
 
 interface StatusCheckboxGroupProps {
   isAllStatuses: boolean;

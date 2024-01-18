@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 
-import { urlKeys } from "../../constants";
+import { urlKeys } from "constants";
 
 const useChangeURL = (): ((
   urlKey: string,

@@ -8,13 +8,13 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-import { FilterPanel } from "../../components/FilterPanel";
+import { FilterPanel } from "components/FilterPanel";
 
-import { useGetTicketsMutation } from "../../store/api/tickets.api";
-import { ITicket } from "../../components/Ticket/ticket.interface";
-import { useAuth } from "../../context/AuthContext/AuthContext";
-import { useWindowWidth } from "../../shared/hooks";
-import { checkIsAdmin } from "../../shared/functions";
+import { useGetTicketsMutation } from "api/tickets.api";
+import { ITicket } from "components/Ticket/ticket.interface";
+import { useAuth } from "context/AuthContext/AuthContext";
+import { useWindowWidth } from "hooks/index";
+import { checkIsAdmin } from "functions/index";
 import { useGetRequestBody } from "./hooks/useGetRequestBody";
 import { useRenderElements } from "./hooks/useRenderElements";
 

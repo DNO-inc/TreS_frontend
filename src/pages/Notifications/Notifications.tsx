@@ -5,9 +5,10 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-import { useNotification } from "../../context/NotificationContext/NotificationContext";
-import { NotFound } from "../../components/NotFound";
+import { NotFound } from "components/NotFound";
 import { NotificationTile } from "./components/NotificationTile";
+
+import { useNotification } from "context/NotificationContext/NotificationContext";
 
 const Notifications: FC = () => {
   const { t, i18n } = useTranslation();

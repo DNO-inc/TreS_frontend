@@ -1,4 +1,4 @@
-import { storage } from "../../constants";
+import { storage } from "constants";
 
 const clearLocalStorage = (isRemoveRefreshToken = true) => {
   if (isRemoveRefreshToken) {

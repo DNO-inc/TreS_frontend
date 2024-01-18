@@ -7,10 +7,10 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { formatDate } from "../../../../shared/functions";
-import { endpoints } from "../../../../constants";
-import { ICreator } from "../../../../components/Ticket/components/TicketBody/TicketBody";
+import IPalette from "theme/IPalette.interface";
+import { formatDate } from "functions/index";
+import { endpoints } from "constants";
+import { ICreator } from "components/Ticket/components/TicketBody/TicketBody";
 
 interface FullTicketAdditionInfoProps {
   creator: ICreator;

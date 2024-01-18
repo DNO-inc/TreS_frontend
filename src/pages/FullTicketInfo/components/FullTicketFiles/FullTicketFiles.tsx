@@ -10,14 +10,11 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
-import { DialogPopup } from "../../../../components/DialogPopup";
+import { DialogPopup } from "components/DialogPopup";
 import { File } from "./components/File";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import {
-  useDeleteFileMutation,
-  useGetFilesIdsMutation,
-} from "../../../../store/api/iofiles.api";
+import IPalette from "theme/IPalette.interface";
+import { useDeleteFileMutation, useGetFilesIdsMutation } from "api/iofiles.api";
 import { useUploadFile } from "./components/hooks/useUploadFile";
 
 interface FullTicketFilesProps {

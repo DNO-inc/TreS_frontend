@@ -2,6 +2,7 @@ import { Dispatch, FC, SetStateAction } from "react";
 
 import { FacultySelect } from "../FacultySelect";
 import { SignUpTextField } from "../SignUpTextField";
+
 import { ISignUpData } from "../../SignUpModal";
 
 interface PersonalInfoStepProps {

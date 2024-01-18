@@ -15,8 +15,8 @@ import { ProfileInput } from "../ProfileInput";
 import { RolesSelect } from "../RolesSelect";
 import { ProfileInfoBox } from "./components/ProfileInfoBox";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { ProfileUpdateBody } from "../../Profile";
+import IPalette from "theme/IPalette.interface";
+import { ProfileUpdateBody } from "pages/Profile/Profile";
 
 interface ProfileFullInfoProps {
   isEditMode: boolean;

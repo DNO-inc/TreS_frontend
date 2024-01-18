@@ -6,7 +6,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
 
-import IPalette from "../../../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 
 interface DeletionActionsProps {
   isSent: boolean;

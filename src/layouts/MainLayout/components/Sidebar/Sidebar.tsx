@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 
 import MobileDrawer from "./components/MobileDrawer";
 
-import { dimensions } from "../../../../constants";
+import { dimensions } from "constants";
 
 const CommonDrawer = lazy(() => import("./components/CommonDrawer"));
 

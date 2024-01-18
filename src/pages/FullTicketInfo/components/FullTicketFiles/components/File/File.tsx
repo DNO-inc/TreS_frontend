@@ -6,9 +6,9 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import CancelIcon from "@mui/icons-material/Cancel";
 
-import IPalette from "../../../../../../theme/IPalette.interface";
-import { getFileIcon } from "../../../../../../shared/functions";
-import { useGetFileMutation } from "../../../../../../store/api/iofiles.api";
+import IPalette from "theme/IPalette.interface";
+import { getFileIcon } from "functions/index";
+import { useGetFileMutation } from "api/iofiles.api";
 import { ApiResponse } from "../../FullTicketFiles";
 
 interface FileProps {

@@ -12,8 +12,8 @@ import { GeneralActions } from "./components/GeneralActions";
 import { AdditionActions } from "./components/AdditionActions";
 import { VerticalDivider } from "../../../../../../components/VerticalDivider";
 
-import { endpoints } from "../../../../../../constants";
-import IPalette from "../../../../../../theme/IPalette.interface";
+import { endpoints } from "constants";
+import IPalette from "theme/IPalette.interface";
 
 const SidebarActions: FC = () => {
   const { pathname } = useLocation();

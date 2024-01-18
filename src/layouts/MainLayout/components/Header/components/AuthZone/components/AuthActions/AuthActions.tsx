@@ -14,23 +14,16 @@ import useTheme from "@mui/material/styles/useTheme";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
-import { VerticalDivider } from "../../../../../../../../components/VerticalDivider";
+import { VerticalDivider } from "components/VerticalDivider";
+import { CustomTooltip } from "components/CustomTooltip";
 
-import {
-  dimensions,
-  endpoints,
-  permissions,
-} from "../../../../../../../../constants";
 import Logo from "../../../../../../../../assets/Logomark.svg";
-import {
-  getUser,
-  getUserRole,
-} from "../../../../../../../../shared/functions/manipulateLocalStorage";
-import { useAuth } from "../../../../../../../../context/AuthContext/AuthContext";
-import IPalette from "../../../../../../../../theme/IPalette.interface";
-import { CustomTooltip } from "../../../../../../../../components/CustomTooltip";
-import { checkIsAdmin } from "../../../../../../../../shared/functions";
 import admin from "../../../../../../../../assets/admin.webp";
+import { dimensions, endpoints, permissions } from "constants";
+import { getUser, getUserRole } from "functions/manipulateLocalStorage";
+import { useAuth } from "context/AuthContext/AuthContext";
+import IPalette from "theme/IPalette.interface";
+import { checkIsAdmin } from "functions/index";
 
 const AuthActions: FC = () => {
   const { t } = useTranslation();

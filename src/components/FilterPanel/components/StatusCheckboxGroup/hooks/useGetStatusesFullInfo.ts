@@ -4,9 +4,9 @@ import { useSearchParams } from "react-router-dom";
 
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../../theme/IPalette.interface";
-import { statuses, urlKeys } from "../../../../../constants";
-import { useChangeURL } from "../../../../../shared/hooks";
+import IPalette from "theme/IPalette.interface";
+import { statuses, urlKeys } from "constants";
+import { useChangeURL } from "hooks/index";
 
 export interface IStatus {
   id: number;

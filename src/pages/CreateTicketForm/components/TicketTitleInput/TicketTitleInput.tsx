@@ -7,8 +7,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { createFormKeys, general } from "../../../../constants";
+import IPalette from "theme/IPalette.interface";
+import { createFormKeys, general } from "constants";
 
 interface TicketTitleInputProps {
   register: UseFormRegister<ICreateTicketRequestBody>;

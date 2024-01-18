@@ -3,12 +3,13 @@ import { Dispatch, SetStateAction } from "react";
 import FormGroup from "@mui/material/FormGroup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import { NotFound } from "../../../components/NotFound";
-import { SkeletonTicketRow } from "../../../components/SkeletonTicketRow";
-import { TicketRow } from "../../../components/TicketRow";
-import { CustomPagination } from "../../../components/CustomPagination";
-import { ITicket } from "../../../components/TicketRow/ticket.interface";
-import { dimensions } from "../../../constants";
+import { NotFound } from "components/NotFound";
+import { SkeletonTicketRow } from "components/SkeletonTicketRow";
+import { TicketRow } from "components/TicketRow";
+import { CustomPagination } from "components/CustomPagination";
+
+import { ITicket } from "components/TicketRow/ticket.interface";
+import { dimensions } from "constants";
 
 interface RenderElementsProps {
   tickets: ITicket[];

@@ -13,9 +13,9 @@ import { TicketActions } from "./components/TicketActions";
 import { AdditionalInfo } from "./components/AdditionalInfo";
 import { DeletionActions } from "./components/DeletionActions";
 
-import { dimensions, endpoints } from "../../constants";
-import { useCheckScope } from "../../shared/hooks";
-import IPalette from "../../theme/IPalette.interface";
+import { dimensions, endpoints } from "constants";
+import { useCheckScope } from "hooks/index";
+import IPalette from "theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
 import { useStyles } from "./styles/useStyles";
 

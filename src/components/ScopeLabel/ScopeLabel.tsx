@@ -4,8 +4,8 @@ import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { useCheckScope } from "../../shared/hooks";
-import IPalette from "../../theme/IPalette.interface";
+import { useCheckScope } from "hooks/index";
+import IPalette from "theme/IPalette.interface";
 
 interface ScopeLabelProps {
   scope: string;

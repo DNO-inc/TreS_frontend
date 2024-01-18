@@ -8,13 +8,13 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Loader } from "../../../../components/Loader";
+import { Loader } from "components/Loader";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useGetRolesQuery } from "../../../../store/api/meta.api";
-import { profileFormKeys } from "../../../../constants";
-import { useAdminUpdateProfileMutation } from "../../../../store/api/admin.api";
-import { ProfileUpdateBody } from "../../Profile";
+import IPalette from "theme/IPalette.interface";
+import { useGetRolesQuery } from "api/meta.api";
+import { profileFormKeys } from "constants";
+import { useAdminUpdateProfileMutation } from "api/admin.api";
+import { ProfileUpdateBody } from "pages/Profile/Profile";
 
 interface RolesSelectProps {
   userId: number;

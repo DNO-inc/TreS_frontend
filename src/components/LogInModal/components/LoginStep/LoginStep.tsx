@@ -9,10 +9,11 @@ import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import { Theme, SxProps } from "@mui/material/styles";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useAuth } from "../../../../context/AuthContext/AuthContext";
-import { PasswordField } from "../../../PasswordField";
+import { PasswordField } from "components/PasswordField";
 import { CabinetAuthButton } from "./components/CabinetAuthButton";
+
+import IPalette from "theme/IPalette.interface";
+import { useAuth } from "context/AuthContext/AuthContext";
 
 interface LoginStepProps {
   handleSignUn: () => void;

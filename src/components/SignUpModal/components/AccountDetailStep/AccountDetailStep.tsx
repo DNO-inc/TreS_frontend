@@ -8,8 +8,8 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { SignUpTextField } from "../SignUpTextField";
 
-import { endpoints } from "../../../../constants";
-import IPalette from "../../../../theme/IPalette.interface";
+import { endpoints } from "constants";
+import IPalette from "theme/IPalette.interface";
 import { ISignUpData } from "../../SignUpModal";
 
 interface AccountDetailStepProps {

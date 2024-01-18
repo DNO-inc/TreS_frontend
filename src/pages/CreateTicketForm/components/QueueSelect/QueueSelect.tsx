@@ -8,12 +8,12 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Loader } from "../../../../components/Loader";
+import { Loader } from "components/Loader";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useGetQueuesByFacultyMutation } from "../../../../store/api/meta.api";
+import IPalette from "theme/IPalette.interface";
+import { useGetQueuesByFacultyMutation } from "api/meta.api";
 import { useGetMenuElements } from "./hooks/useGetMenuElements";
-import { createFormKeys } from "../../../../constants";
+import { createFormKeys } from "constants";
 
 interface QueueSelectProps {
   facultyId: number | null;

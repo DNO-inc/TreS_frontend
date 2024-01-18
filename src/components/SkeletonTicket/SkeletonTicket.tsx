@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import Skeleton from "@mui/material/Skeleton";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 
 interface SkeletonTicketProps {
   ticketsPerRow: number;

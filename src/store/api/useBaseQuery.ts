@@ -10,9 +10,9 @@ import jwtDecode from "jwt-decode";
 import {
   getAccessToken,
   getRefreshToken,
-} from "../../shared/functions/manipulateLocalStorage";
-import { endpoints, storage } from "../../constants";
-import { clearLocalStorage } from "../../shared/functions";
+} from "functions/manipulateLocalStorage";
+import { endpoints, storage } from "constants";
+import { clearLocalStorage } from "functions/index";
 
 export interface IJwtDecodeData {
   role: string;

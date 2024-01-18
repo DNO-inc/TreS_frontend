@@ -6,8 +6,8 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { endpoints } from "../../../../constants";
+import IPalette from "theme/IPalette.interface";
+import { endpoints } from "constants";
 
 interface FormActionsProps {
   handleClear: () => void;

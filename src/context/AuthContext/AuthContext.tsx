@@ -14,14 +14,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   getAccessToken,
   getIsTokensExpired,
-} from "../../shared/functions/manipulateLocalStorage";
-import { clearLocalStorage } from "../../shared/functions";
-import {
-  useCabinetLoginMutation,
-  useLoginMutation,
-} from "../../store/api/auth.api";
+} from "functions/manipulateLocalStorage";
+import { clearLocalStorage } from "functions/index";
+import { useCabinetLoginMutation, useLoginMutation } from "api/auth.api";
 import { useGetUser } from "./hooks/useGetUser";
-import { general } from "../../constants";
+import { general } from "constants";
 
 interface AuthContextProps {
   isAuth: boolean;

@@ -1,9 +1,9 @@
 import { FC } from "react";
 
-import { MyTicketsLayout } from "../../layouts/MyTicketsLayout";
+import { MyTicketsLayout } from "layouts/MyTicketsLayout";
 
-import { useGetAdminTicketsMutation } from "../../store/api/admin.api";
-import { getUser } from "../../shared/functions/manipulateLocalStorage";
+import { useGetAdminTicketsMutation } from "api/admin.api";
+import { getUser } from "functions/manipulateLocalStorage";
 
 const Received: FC = () => {
   const [getTickets, { isLoading, isSuccess }] = useGetAdminTicketsMutation();

@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-import LogInModal from "../../../../../../../../components/LogInModal";
-import SignUpModal from "../../../../../../../../components/SignUpModal";
+import LogInModal from "components/LogInModal";
+import SignUpModal from "components/SignUpModal";
 
 const NoAuthActions: FC = () => {
   const { t } = useTranslation();

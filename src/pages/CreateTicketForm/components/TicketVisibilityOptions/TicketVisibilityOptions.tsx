@@ -7,8 +7,9 @@ import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import Typography from "@mui/material/Typography";
 
-import { useStyles } from "./styles/useStyles";
 import { VisibilityCheckbox } from "./components/VisibilityCheckbox";
+
+import { useStyles } from "./styles/useStyles";
 
 interface TicketVisibilityOptionsProps {
   setValue: UseFormSetValue<ICreateTicketRequestBody>;

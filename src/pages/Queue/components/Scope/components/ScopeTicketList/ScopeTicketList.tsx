@@ -6,18 +6,18 @@ import {
   useCallback,
   MutableRefObject,
 } from "react";
+import axios from "axios";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { SimpleTicket } from "../../../../../../components/SimpleTicket/SimpleTicket";
-import { NotFound } from "../../../../../../components/NotFound";
+import { SimpleTicket } from "components/SimpleTicket/SimpleTicket";
+import { NotFound } from "components/NotFound";
 
-import { ITicket } from "../../../../../../components/Ticket/ticket.interface";
-import IPalette from "../../../../../../theme/IPalette.interface";
-import axios from "axios";
-import { endpoints, storage } from "../../../../../../constants";
+import { ITicket } from "components/Ticket/ticket.interface";
+import IPalette from "theme/IPalette.interface";
+import { endpoints, storage } from "constants";
 
 interface ScopeTicketListProps {
   scope: string;
