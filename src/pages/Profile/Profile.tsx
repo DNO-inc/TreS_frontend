@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, MouseEvent } from "react";
+import { FC, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -8,33 +8,24 @@ import { SerializedError } from "@reduxjs/toolkit";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Avatar, Button, useTheme } from "@mui/material";
-import {
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-} from "@mui/material";
 
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
-import { ProfileInput } from "./components/ProfileInput";
+import { PasswordChangeSection } from "./components/PasswordChangeSection";
+import { ProfileHeader } from "./components/ProfileHeader";
+import { ProfileFullInfo } from "./components/ProfileFullInfo";
+import { ProfileActions } from "./components/ProfileActions";
 
 import {
   useGetProfileMutation,
   useUpdateProfileMutation,
-} from "../../store/api/profile/profile.api";
-import IPalette from "../../theme/IPalette.interface";
+} from "api/profile.api";
 import {
-  getPermissions,
-  getUserId,
-} from "../../shared/functions/getLocalStorageData";
-import { checkIsAdmin } from "../../shared/functions";
-import { RolesSelect } from "./components/RolesSelect";
-import king from "../../assets/king.jpg";
-import { useAdminUpdateProfileMutation } from "../../store/api/admin/admin.api";
+  changeUserField,
+  getUser,
+  getUserRole,
+} from "functions/manipulateLocalStorage";
+import { checkIsAdmin } from "functions/index";
+import admin from "../../assets/admin.webp";
+import { permissions, profileFormKeys, roles, storage } from "constants";
 
 type ApiResponse = {
   data?: {
@@ -55,94 +46,81 @@ type ApiResponse = {
   error?: FetchBaseQueryError | SerializedError;
 };
 
-interface ProfileUpdateBody {
+export interface ProfileUpdateBody {
   firstname?: string;
   lastname?: string;
   login?: string;
-  email?: string;
   phone?: string;
+  password?: string;
+  role?: number;
 }
 
 const Profile: FC = () => {
   const { t } = useTranslation();
-  const { palette }: IPalette = useTheme();
   const { pathname } = useLocation();
 
-  const permissions = getPermissions();
+  const [isEditMode, setIsEditMode] = useState(false);
 
-  const isCanChangeProfile = permissions.includes("UPDATE_PROFILE");
+  const { userId: myId } = getUser();
+  const { permissionList } = getUserRole();
+  const isCanChangeProfile = permissionList.includes(
+    permissions.UPDATE_PROFILE
+  );
 
-  const isAdmin = checkIsAdmin("CHIEF_ADMIN");
-
-  const userId = pathname.split("/")[2];
-  const myId = getUserId().toString();
+  const isAdmin = checkIsAdmin(roles.CHIEF_ADMIN);
+  const userId = parseInt(pathname.split("/")[2]);
   const isMyProfile = userId === myId;
 
-  const [getProfile, { data, isSuccess }] = useGetProfileMutation();
+  const [getUserProfile, { data, isSuccess }] = useGetProfileMutation();
   const [updateProfile, { isSuccess: isProfileUpdated }] =
     useUpdateProfileMutation();
-  const [adminUpdateProfile, { isSuccess: isAdminProfileUpdated }] =
-    useAdminUpdateProfileMutation();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    // formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, setValue, getValues, reset, watch } =
+    useForm<ProfileUpdateBody>();
 
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [login, setLogin] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [userRole, setUserRole] = useState<number | null>(null);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const role = watch(profileFormKeys.ROLE);
+  const avatar =
+    (isMyProfile && isAdmin) || data?.role?.role_id >= 9 ? admin : "";
 
-  const setProfile = () => {
-    getProfile({ userId: userId }).then((response: ApiResponse) => {
+  const getProfile = () => {
+    getUserProfile({ userId: userId }).then((response: ApiResponse) => {
       if (response?.data) {
-        const { firstname, lastname, login, email, phone, role } =
-          response.data;
+        const { firstname, lastname, login, phone, role } = response.data;
 
-        setFirstname(firstname);
-        setLastname(lastname);
-        setLogin(login);
-        setEmail(email);
-        setPhone(phone);
-        setUserRole(role.role_id);
+        setValue(profileFormKeys.FIRSTNAME, firstname);
+        setValue(profileFormKeys.LASTNAME, lastname);
+        setValue(profileFormKeys.LOGIN, login);
+        setValue(profileFormKeys.PHONE, phone);
+        setValue(profileFormKeys.ROLE, role.role_id);
       }
     });
   };
 
   useEffect(() => {
-    setProfile();
+    getProfile();
   }, [userId]);
 
   useEffect(() => {
-    (isProfileUpdated || isAdminProfileUpdated) && setProfile();
-  }, [isProfileUpdated, isAdminProfileUpdated]);
+    isProfileUpdated && getProfile();
+  }, [isProfileUpdated]);
 
   const onSubmit = (data: ProfileUpdateBody): void => {
     updateProfile({ body: JSON.stringify(data) });
-    setIsEditMode(prevState => !prevState);
-    localStorage.setItem("user-name", `${data.firstname} ${data.lastname}`);
+
+    handelReset();
+    changeUserField(storage.USER.NAME, `${data.firstname} ${data.lastname}`);
+  };
+
+  const handelReset = (): void => {
+    setIsEditMode(false);
     reset();
   };
 
   const handelChangePassword = (): void => {
-    updateProfile({ body: JSON.stringify({ password: password }) });
-    setPassword("");
-  };
+    const newPassword = getValues("password");
 
-  const passwordPlaceholder = t("profile.editMode.password");
-
-  const handleClickShowPassword = () => setShowPassword(show => !show);
-
-  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+    updateProfile({ body: JSON.stringify({ password: newPassword }) });
+    setValue("password", "");
   };
 
   return (
@@ -160,186 +138,36 @@ const Profile: FC = () => {
             margin: "95px auto 0",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column", sm: "row" },
-              alignItems: { xs: "center", sm: "normal" },
-              gap: 5,
-            }}
-          >
-            <Avatar
-              src={
-                (isMyProfile && isAdmin) || (userRole && userRole >= 9)
-                  ? king
-                  : ""
-              }
-              sx={{ width: { xs: 180, sm: 140 }, height: { xs: 180, sm: 140 } }}
-            />
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: { xs: "center", sm: "normal" },
-                gap: isEditMode ? 3 : 1,
-              }}
-            >
-              {isEditMode ? (
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <ProfileInput
-                    register={register}
-                    value={firstname}
-                    inputType={"firstname"}
-                  />
-                  <ProfileInput
-                    register={register}
-                    value={lastname}
-                    inputType={"lastname"}
-                  />
-                </Box>
-              ) : (
-                <Typography
-                  component={"h2"}
-                  sx={{
-                    fontSize: 32,
-                    fontWeight: 600,
-                    color: palette.semantic.info,
-                  }}
-                >{`${data.firstname} ${lastname}`}</Typography>
-              )}
-              {isEditMode ? (
-                <ProfileInput
-                  register={register}
-                  value={login}
-                  inputType={"login"}
-                />
-              ) : (
-                <Typography
-                  sx={{ fontSize: 24, color: palette.whiteAlpha.default }}
-                >
-                  {"@" + login ?? t("common.notFound.title")}
-                </Typography>
-              )}
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              overflow: "hidden",
-              width: { xs: "90vw", sm: 535 },
-              bgcolor: palette.grey.divider,
-              p: 3,
-              "& > .MuiBox-root:not(:first-of-type)": {
-                mt: 3,
-              },
-              "& > .MuiBox-root": {
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                "& > .MuiTypography-root:first-of-type": {
-                  fontWeight: 500,
-                  mr: 5,
-                },
-              },
-            }}
-          >
-            {isAdmin && !isMyProfile && (
-              <Box>
-                <Typography>{t("profile.role")}</Typography>
-                <RolesSelect
-                  userRole={userRole}
-                  setUserRole={setUserRole}
-                  adminUpdateProfile={adminUpdateProfile}
-                  userId={userId}
-                />
-              </Box>
-            )}
-            <Box>
-              <Typography>{t("profile.email")}</Typography>
-              <Typography>{email ?? t("common.notFound.title")}</Typography>
-            </Box>
-            <Box>
-              <Typography>{t("profile.phone")}</Typography>
-              {isEditMode ? (
-                <ProfileInput
-                  register={register}
-                  value={phone}
-                  inputType={"phone"}
-                />
-              ) : (
-                <Typography>{phone ?? t("common.notFound.title")}</Typography>
-              )}
-            </Box>
-            <Box>
-              <Typography>{t("profile.faculty")}</Typography>
-              <Typography>
-                {data?.faculty?.name ?? t("common.notFound.title")}
-              </Typography>
-            </Box>
-            <Box>
-              <Typography>{t("profile.group")}</Typography>
-              <Typography>
-                {data?.group?.name ?? t("common.notFound.title")}
-              </Typography>
-            </Box>
-          </Box>
+          <ProfileHeader
+            avatar={avatar}
+            isEditMode={isEditMode}
+            register={register}
+            data={data}
+            watch={watch}
+          />
+          <ProfileFullInfo
+            isEditMode={isEditMode}
+            data={data}
+            role={role}
+            userId={userId}
+            register={register}
+            setValue={setValue}
+            watch={watch}
+            isCanChangeRole={isAdmin && !isMyProfile}
+          />
           {isMyProfile && isCanChangeProfile && (
-            <Box sx={{ display: "flex", gap: 1 }}>
-              <Button
-                sx={{ flexGrow: 1 }}
-                variant="outlined"
-                onClick={() => {
-                  setIsEditMode(prevState => !prevState);
-                  reset();
-                }}
-              >
-                {isEditMode
-                  ? t("profile.editMode.cancelButton")
-                  : t("profile.editMode.editButton")}
-              </Button>
-              {isEditMode && (
-                <Button sx={{ flexGrow: 1 }} type="submit" variant="contained">
-                  {t("profile.editMode.applyButton")}
-                </Button>
-              )}
-            </Box>
-          )}
-          {isMyProfile && isCanChangeProfile && (
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <Typography fontSize={24}>
-                {t("profile.passwordTitle")}
-              </Typography>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel htmlFor="outlined-adornment-password">
-                  {passwordPlaceholder}
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={event => setPassword(event.target.value)}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  label="Password"
-                />
-              </FormControl>
-              <Button
-                sx={{ flexGrow: 1 }}
-                variant="outlined"
-                onClick={handelChangePassword}
-              >
-                {t("profile.changePasswordButton")}
-              </Button>
-            </Box>
+            <>
+              <ProfileActions
+                isEditMode={isEditMode}
+                handelReset={handelReset}
+                setIsEditMode={setIsEditMode}
+              />
+              <PasswordChangeSection
+                password={data?.password}
+                setValue={setValue}
+                handelChangePassword={handelChangePassword}
+              />
+            </>
           )}
         </form>
       )}

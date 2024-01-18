@@ -13,14 +13,7 @@ const MarkdownWithStyles: FC<MarkdownWithStylesProps> = ({ innerText }) => {
     <ReactMarkdown
       components={{
         input: ({ checked }) => {
-          return (
-            <input
-              type="checkbox"
-              disabled={false}
-              checked={checked}
-              onChange={() => {}}
-            />
-          );
+          return <input type="checkbox" disabled={false} checked={checked} />;
         },
       }}
       className={styles.markdown}

@@ -15,29 +15,30 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 import Grid from "@mui/material/Grid";
-import { Avatar } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 
 import RedoIcon from "@mui/icons-material/Redo";
 import EditIcon from "@mui/icons-material/Edit";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import { VerticalDivider } from "components/VerticalDivider";
 import { FacultySelect } from "./components/FacultySelect";
 import { QueueSelect } from "./components/QueueSelect";
 import { StatusSelect } from "./components/StatusSelect";
 import { AssigneeSelect } from "./components/AssigneeSelect";
-import { VerticalDivider } from "../../../../components/VerticalDivider";
 import { DialogPopup } from "./components/DialogPopup";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { checkIsAdmin, checkStatus } from "../../../../shared/functions";
-import { getUserId } from "../../../../shared/functions/getLocalStorageData";
-import { endpoints } from "../../../../constants";
-import { useAdminRemoveTicketMutation } from "../../../../store/api/admin/admin.api";
+import IPalette from "theme/IPalette.interface";
+import { checkIsAdmin } from "functions/index";
+import { getUser } from "functions/manipulateLocalStorage";
+import { endpoints, roles } from "constants";
+import { useAdminRemoveTicketMutation } from "api/admin.api";
 
 import styles from "./FullTicketHeader.module.css";
-import { IAction } from "../../../../components/Action/Action";
-import { useGetStatusesQuery } from "../../../../store/api/api";
+import { IAction } from "../FullTicketComments/components/Action/Action";
+import { useGetStatusesQuery } from "api/meta.api";
+import { useCheckStatus } from "hooks/index";
 
 interface FullTicketHeaderProps {
   assigneeId: number;
@@ -102,11 +103,11 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
   const { palette }: IPalette = useTheme();
   const navigate = useNavigate();
 
-  const userId = Number(getUserId());
+  const { userId } = getUser();
   const isAssignee = userId == assigneeId;
 
   const isAdmin = checkIsAdmin();
-  const isChiefAdmin = checkIsAdmin("CHIEF_ADMIN");
+  const isChiefAdmin = checkIsAdmin(roles.CHIEF_ADMIN);
 
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [isCopyLink, setIsCopyLink] = useState<boolean>(false);
@@ -194,7 +195,6 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
           variant="h1"
           component="div"
           sx={{
-            // maxWidth: { xs: "100%", md: "65%" },
             "& > .MuiTypography-root": {
               fontSize: { xs: 24, md: 28 },
             },
@@ -243,9 +243,9 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
               sx={{
                 textAlign: "center",
                 p: "4px 12px",
-                bgcolor: checkStatus(status.name),
+                bgcolor: useCheckStatus(status.name),
                 color:
-                  checkStatus(status.name) === "#FFFFFF"
+                  useCheckStatus(status.name) === palette.common.white
                     ? palette.common.black
                     : palette.common.white,
                 borderRadius: 1,
@@ -344,7 +344,7 @@ const FullTicketHeader: FC<FullTicketHeaderProps> = ({
         ) : (
           assigneeId && (
             <NavLink
-              to={`${endpoints.profile}/${ticketAssignee.user_id}`}
+              to={`${endpoints.PROFILE}/${ticketAssignee.user_id}`}
               style={{
                 display: "flex",
                 alignItems: "center",

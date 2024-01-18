@@ -7,25 +7,29 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { endpoints } from "../../../../constants";
-import { ScopeLabel } from "../../../ScopeLabel";
-import { Badge } from "../../../Badge";
-import { useAuth } from "../../../../context/AuthContext";
+import { ScopeLabel } from "components/ScopeLabel";
+import { Badge } from "components/Badge";
+
+import IPalette from "theme/IPalette.interface";
+import { endpoints, statuses } from "constants";
+import { useAuth } from "context/AuthContext/AuthContext";
+import { useFormatName } from "components/Ticket/hooks/useFormatName";
+
+export interface IAssignee {
+  faculty: { faculty_id: number; name: string };
+  firstname: string;
+  group: { group_id: number; name: string };
+  lastname: string;
+  login: string;
+  user_id: number;
+}
 
 interface TicketHeaderProps {
   scope: string;
   color: string;
   subject: string;
   status: string;
-  assignee: {
-    faculty: { faculty_id: number; name: string };
-    firstname: string;
-    group: { group_id: number; name: string };
-    lastname: string;
-    login: string;
-    user_id: number;
-  };
+  assignee: IAssignee;
 }
 
 interface AssigneeLabelProps {
@@ -57,21 +61,7 @@ const TicketHeader: FC<TicketHeaderProps> = ({
   const { isAuth } = useAuth();
 
   const assigneeId = assignee?.user_id;
-  const assigneeFirstname = assignee?.firstname;
-  const assigneeLastname = assignee?.lastname;
-  let assigneeName = t("common.noAssignee");
-
-  if (assignee) {
-    if (assigneeFirstname && assigneeLastname) {
-      assigneeName = `${assigneeFirstname} ${assigneeLastname}`;
-    } else if (assigneeFirstname) {
-      assigneeName = `${assigneeFirstname} Lastname`;
-    } else if (assigneeLastname) {
-      assigneeName = `Firstname ${assigneeLastname}`;
-    } else {
-      assigneeName = "has an assignee";
-    }
-  }
+  const assigneeName = useFormatName(assignee);
 
   return (
     <Box maxHeight={80}>
@@ -86,8 +76,8 @@ const TicketHeader: FC<TicketHeaderProps> = ({
         <Grid gap={1} display={"flex"} sx={{ ml: 2 }}>
           <Badge
             customStyle={{
-              bgcolor: color,
-              color: status === "NEW" ? "#000" : "#fff",
+              backgroundColor: color,
+              color: status === statuses.NEW.toUpperCase() ? "#000" : "#fff",
             }}
             text={t(`ticketStatus.${status.toLowerCase()}`)}
           />
@@ -96,7 +86,7 @@ const TicketHeader: FC<TicketHeaderProps> = ({
       </Grid>
       {isAuth ? (
         <NavLink
-          to={assigneeId ? `${endpoints.profile}/${assigneeId}` : ""}
+          to={assigneeId ? `${endpoints.PROFILE}/${assigneeId}` : ""}
           style={{ cursor: assigneeId ? "pointer" : "default" }}
         >
           <AssigneeLabel assigneeName={assigneeName} />

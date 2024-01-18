@@ -1,11 +1,4 @@
-import {
-  FormEvent,
-  useState,
-  FC,
-  Dispatch,
-  SetStateAction,
-  MouseEvent,
-} from "react";
+import { FormEvent, useState, FC, Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 
 import useTheme from "@mui/material/styles/useTheme";
@@ -13,35 +6,30 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import {
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  useMediaQuery,
-} from "@mui/material";
+import Divider from "@mui/material/Divider";
+import { Theme, SxProps } from "@mui/material/styles";
 
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { PasswordField } from "components/PasswordField";
+import { CabinetAuthButton } from "./components/CabinetAuthButton";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useAuth } from "../../../../context/AuthContext";
+import IPalette from "theme/IPalette.interface";
+import { useAuth } from "context/AuthContext/AuthContext";
 
 interface LoginStepProps {
   handleSignUn: () => void;
   setActiveStep: Dispatch<SetStateAction<number>>;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  wrapperStyle: SxProps<Theme>;
 }
 
 const LoginStep: FC<LoginStepProps> = ({
   handleSignUn,
   setActiveStep,
   setOpen,
+  wrapperStyle,
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
-  const matches = useMediaQuery("(max-width: 500px)");
 
   const { loginUser } = useAuth();
 
@@ -50,10 +38,8 @@ const LoginStep: FC<LoginStepProps> = ({
   const [hasError, setHasError] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const handleClose = (): void => setOpen(false);
-
   const handleOpenSignUpModal = (): void => {
-    handleClose();
+    setOpen(false);
     handleSignUn();
   };
 
@@ -70,31 +56,9 @@ const LoginStep: FC<LoginStepProps> = ({
     }
   };
 
-  const handleClickShowPassword = () => setShowPassword(show => !show);
-
-  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-
   return (
     <form onSubmit={handleSubmit}>
-      <Grid
-        container
-        sx={{
-          flexDirection: "column",
-          alignItems: "center",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          borderRadius: 4,
-          gap: matches ? 3 : 4,
-          width: matches ? "90vw" : 450,
-          bgcolor: palette.grey.border,
-          border: `2px solid ${palette.grey.active}`,
-          p: matches ? "24px" : "32px 56px",
-        }}
-      >
+      <Grid container sx={wrapperStyle}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
           {t("login.loginHeader")}
         </Typography>
@@ -105,31 +69,15 @@ const LoginStep: FC<LoginStepProps> = ({
           error={hasError}
           fullWidth
         />
-        <FormControl variant="outlined" fullWidth>
-          <InputLabel htmlFor="outlined-adornment-password">
-            {t("common.password")}
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={event => setPassword(event.target.value)}
-            error={hasError}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Password"
-          />
-        </FormControl>
+        <PasswordField
+          password={password}
+          setPassword={setPassword}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+          placeholder="common.password"
+          isAutocomplete={true}
+          hasError={hasError}
+        />
         <Typography
           fontSize={14}
           sx={{
@@ -155,7 +103,21 @@ const LoginStep: FC<LoginStepProps> = ({
         <Button variant="contained" color="primary" type="submit">
           {t("login.comeInButton")}
         </Button>
-        <Typography fontSize={14} sx={{ color: palette.whiteAlpha.default }}>
+        <Divider
+          sx={{
+            color: palette.whiteAlpha.default,
+            width: "100%",
+            mt: -0.5,
+            mb: -1.5,
+          }}
+        >
+          {t("login.additionalOptions")}
+        </Divider>
+        <CabinetAuthButton />
+        <Typography
+          fontSize={14}
+          sx={{ color: palette.whiteAlpha.default, mt: -2 }}
+        >
           {t("login.signUpQuestion")}
           <span
             onClick={handleOpenSignUpModal}

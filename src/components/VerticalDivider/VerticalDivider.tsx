@@ -3,7 +3,7 @@ import { FC } from "react";
 import Box from "@mui/material/Box";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 
 interface VerticalDividerProps {
   color?: string;

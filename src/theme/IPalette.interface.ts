@@ -1,4 +1,4 @@
-import { Theme } from "@mui/material";
+import { Theme } from "@mui/material/styles";
 
 interface Palette {
   palette: {

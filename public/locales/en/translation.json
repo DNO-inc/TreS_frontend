@@ -30,6 +30,7 @@
     "profile": "Profile",
     "error": "Error",
     "noAssignee": "no assignee",
+    "hasAssignee": "has an assignee",
     "notFound": {
       "title": "Not found",
       "ticketsTitle": "Tickets not found",
@@ -39,9 +40,9 @@
     },
     "permissionDenied": "Permission denied :(",
     "tooltip": {
-      "report": "Report ticket",
-      "suggestion": "Suggestion ticket",
-      "question": "Question ticket"
+      "report": "Report",
+      "suggestion": "Suggestion",
+      "question": "Question"
     }
   },
   "dialog": {
@@ -55,11 +56,13 @@
   "login": {
     "loginHeader": "Log in",
     "loginInput": "Login",
-    "comeInButton": "Log in",
+    "comeInButton": "Login",
     "resetQuestion": "Forgot your login or password? ",
     "restoreAccess": "Restore access",
     "signUpQuestion": "Don't have an account? ",
     "signUpRedirect": "Create one",
+    "additionalOptions": "Additional options",
+    "cabinetButton": "Login with cabinet",
     "restore": {
       "header": "Restore access",
       "description": "Input your email address in the designated field. A confirmation message will be dispatched to the provided address.",
@@ -105,8 +108,8 @@
   },
   "snackbar": {
     "report": "For now, I don't know what's going to happen",
-    "follow": "You followed this ticket",
-    "unfollow": "You are no longer following this ticket",
+    "bookmark": "You followed this ticket",
+    "unbookmark": "You are no longer following this ticket",
     "like": "You liked this ticket",
     "unlike": "You don't like this ticket anymore?"
   },
@@ -120,17 +123,16 @@
       "bookmarks": "Bookmarks",
       "deleted": "Deleted"
     },
-    "notification": "Notification",
+    "notifications": "Notifications",
     "generalTickets": "General Tickets",
-    "settings": "Settings",
-    "lightMode": "Light Mode"
+    "settings": "Settings"
   },
   "queue": {
     "heading": "Queue",
     "scopes": {
-      "reportTitle": "Reports",
-      "questionTitle": "Questions",
-      "suggestionTitle": "Suggestions"
+      "reportsTitle": "Reports",
+      "q/aTitle": "Questions",
+      "suggestionsTitle": "Suggestions"
     },
     "showAll": "Show all"
   },
@@ -149,8 +151,8 @@
   "deleted": {
     "heading": "Deleted"
   },
-  "notification": {
-    "heading": "Notification"
+  "notifications": {
+    "heading": "Notifications"
   },
   "generalTickets": {
     "heading": "General Tickets",

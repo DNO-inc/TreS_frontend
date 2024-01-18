@@ -1,1 +1,1 @@
-export { LogInModal } from "./LogInModal";
+export { LogInModal as default } from "./LogInModal";

@@ -1,0 +1,36 @@
+{
+  "manifest_version": 1,
+  "short_name": "TreS",
+  "name": "Student Support System",
+  "version": "1.4.0",
+  "description": "Ticket system",
+  "author": "usenko.0265@gmail.com",
+  "default_locale": "en",
+  "start_url": "https://demo.tres.cyberbydlo.com/",
+  "theme_color": "#1991ff",
+  "background_color": "#1b1b1f",
+  "display": "minimal-ui",
+  "icons": [
+    {
+      "src": "/assets/admin.webp",
+      "type": "image/webp",
+      "sizes": "300x300",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/logo.svg",
+      "sizes": "56x56",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/big_logo.png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/not_found.svg",
+      "sizes": "408x372",
+      "purpose": "any"
+    }
+  ]
+}

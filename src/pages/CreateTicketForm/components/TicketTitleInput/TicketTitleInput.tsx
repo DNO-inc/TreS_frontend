@@ -1,32 +1,35 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { ChangeEvent, FC } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { general } from "../../../../constants";
+import IPalette from "theme/IPalette.interface";
+import { createFormKeys, general } from "constants";
 
 interface TicketTitleInputProps {
   register: UseFormRegister<ICreateTicketRequestBody>;
-  title: string;
-  setTitle: Dispatch<SetStateAction<string>>;
   errors: FieldErrors<ICreateTicketRequestBody>;
+  watch: UseFormWatch<ICreateTicketRequestBody>;
 }
 
 const TicketTitleInput: FC<TicketTitleInputProps> = ({
   register,
-  title,
-  setTitle,
   errors,
+  watch,
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   const placeholderText: string = t("createTicket.ticketTitlePlaceholder");
+
+  const title = watch(createFormKeys.SUBJECT, "");
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    register(createFormKeys.SUBJECT).onChange(event);
+  };
 
   return (
     <Box
@@ -41,15 +44,13 @@ const TicketTitleInput: FC<TicketTitleInputProps> = ({
         placeholder={placeholderText}
         variant="outlined"
         fullWidth
-        {...register("subject", {
+        {...register(createFormKeys.SUBJECT, {
           required: true,
-          maxLength: general.maxTitleLength,
+          maxLength: general.MAX_TITLE_LENGTH,
         })}
         value={title}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setTitle(event.target.value);
-        }}
-        error={!!errors.subject}
+        onChange={handleChange}
+        error={!!errors.subject || title.length > general.MAX_TITLE_LENGTH}
         sx={{
           bgcolor: palette.grey.card,
           "&  .MuiInputBase-input": { p: "13px 66px 13px 8.5px" },
@@ -64,7 +65,7 @@ const TicketTitleInput: FC<TicketTitleInputProps> = ({
           color: palette.whiteAlpha.default,
         }}
       >
-        {title.length} / {general.maxTitleLength}
+        {title.length} / {general.MAX_TITLE_LENGTH}
       </span>
     </Box>
   );

@@ -1,10 +1,12 @@
 import { FC } from "react";
 
-import { Box, Slide, SlideProps, useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
+import Slide, { SlideProps } from "@mui/material/Slide";
+import useTheme from "@mui/material/styles/useTheme";
 
-import { useGetIcon } from "./useGetIcon";
-import useGetDescription from "./useGetDescription";
-import IPalette from "../../theme/IPalette.interface";
+import { useGetIcon } from "./hooks/useGetIcon";
+import { useGetDescription } from "./hooks/useGetDescription";
+import IPalette from "theme/IPalette.interface";
 
 interface SlideNotificationProps {
   props: Omit<SlideProps, "direction">;
@@ -13,8 +15,8 @@ interface SlideNotificationProps {
 
 const SlideNotification: FC<SlideNotificationProps> = ({ props, variant }) => {
   const { palette }: IPalette = useTheme();
-  const icon = useGetIcon(variant);
 
+  const icon = useGetIcon(variant);
   const description = useGetDescription(variant);
 
   return (
@@ -27,7 +29,7 @@ const SlideNotification: FC<SlideNotificationProps> = ({ props, variant }) => {
           backgroundColor: palette.grey.border,
           backgroundImage: "none",
           border: `1px solid ${palette.grey.active}`,
-          "& > .MuiSvgIcon-root": {
+          ".MuiSvgIcon-root": {
             mr: 1.5,
             transform: "translateY(25%)",
           },

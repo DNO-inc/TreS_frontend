@@ -5,11 +5,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { endpoints } from "../../constants";
-import { useFormatDate } from "../../shared/hooks";
-import IPalette from "../../theme/IPalette.interface";
+import { Badge } from "components/Badge";
+
+import { endpoints } from "constants";
+import { useFormatDate } from "hooks/index";
+import IPalette from "theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
-import { Badge } from "../Badge";
 
 interface SimpleTicketProps {
   ticket: ITicket;
@@ -24,7 +25,7 @@ const SimpleTicket: ForwardRefExoticComponent<
   const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
 
   const handleClick = (): void => {
-    navigate(`${endpoints.fullTicket}/${ticket.ticket_id}`);
+    navigate(`${endpoints.FULL_TICKET}/${ticket.ticket_id}`);
   };
 
   return (
@@ -34,7 +35,7 @@ const SimpleTicket: ForwardRefExoticComponent<
         display: "inline-flex",
         position: "relative",
         flexDirection: "column",
-        height: 200,
+        height: 180,
         width: "97%",
         gap: 2,
         p: 2,
@@ -69,7 +70,11 @@ const SimpleTicket: ForwardRefExoticComponent<
         {ticket?.queue?.name && (
           <Badge
             text={ticket.queue.name}
-            customStyle={{ bgcolor: "#fff", color: "#000", fontWeight: 500 }}
+            customStyle={{
+              backgroundColor: palette.common.white,
+              color: palette.common.black,
+              fontWeight: 500,
+            }}
           />
         )}
       </Box>
@@ -92,7 +97,6 @@ const SimpleTicket: ForwardRefExoticComponent<
         <Typography
           sx={{
             color: palette.whiteAlpha.text,
-
             overflowWrap: "break-word",
           }}
         >

@@ -6,47 +6,35 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { Box, useMediaQuery } from "@mui/material";
+import Box from "@mui/material/Box";
+import { Theme, SxProps } from "@mui/material/styles";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useSendEmailForResetMutation } from "../../../../store/api/auth/auth.api";
+import IPalette from "theme/IPalette.interface";
+import { useSendEmailForAccessMutation } from "api/profile.api";
 
 interface SendEmailStepProps {
   setActiveStep: Dispatch<SetStateAction<number>>;
+  wrapperStyle: SxProps<Theme>;
 }
 
-const SendEmailStep: FC<SendEmailStepProps> = ({ setActiveStep }) => {
+const SendEmailStep: FC<SendEmailStepProps> = ({
+  setActiveStep,
+  wrapperStyle,
+}) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
-  const matches = useMediaQuery("(max-width: 500px)");
 
   const [email, setEmail] = useState<string>("");
 
-  const [sendEmailForReset] = useSendEmailForResetMutation({});
+  const [sendEmailForAccess] = useSendEmailForAccessMutation({});
 
   const handleSendEmail = (): void => {
-    sendEmailForReset(email);
+    sendEmailForAccess(email);
     setActiveStep(2);
   };
 
   return (
-    <Grid
-      container
-      sx={{
-        flexDirection: "column",
-        alignItems: "center",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        borderRadius: 4,
-        gap: matches ? 3 : 4,
-        width: matches ? "90vw" : 450,
-        bgcolor: palette.grey.border,
-        border: `2px solid ${palette.grey.active}`,
-        p: matches ? "24px" : "32px 56px",
-      }}
-    >
+    <Grid container sx={wrapperStyle}>
       <Typography id="modal-modal-title" variant="h6" component="h2">
         {t("login.restore.header")}
       </Typography>

@@ -1,0 +1,18 @@
+.path1 {
+  stroke: #00a3ff;
+  stroke-dasharray: 172;
+  stroke-dashoffset: 172;
+  animation: drawAnimation 2s ease-in-out infinite;
+}
+.path2 {
+  stroke: #13ff8e;
+  stroke-dasharray: 135;
+  stroke-dashoffset: 135;
+  animation: drawAnimation 2.1s ease-in-out infinite;
+}
+
+@keyframes drawAnimation {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

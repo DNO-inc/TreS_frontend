@@ -15,9 +15,10 @@ import { TicketBodyTextField } from "./components/TicketBodyTextField";
 import { FormActions } from "./components/FormActions";
 import { TicketVisibilityOptions } from "./components/TicketVisibilityOptions";
 
-import { useCreateTicketMutation } from "../../store/api/tickets/tickets.api";
-import IPalette from "../../theme/IPalette.interface";
-import { getUserFacultyId } from "../../shared/functions/getLocalStorageData";
+import { useCreateTicketMutation } from "api/tickets.api";
+import IPalette from "theme/IPalette.interface";
+import { getUser } from "functions/manipulateLocalStorage";
+import { createFormKeys } from "constants";
 
 type ApiResponse = {
   data?: {
@@ -30,28 +31,39 @@ const CreateTicketForm: FC = () => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
-  const facultyId = getUserFacultyId();
+  const { facultyId } = getUser();
 
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [queue, setQueue] = useState<number>(-1);
-  const [faculty, setFaculty] = useState<number>(facultyId);
-  const [title, setTitle] = useState("");
-  const [formattedText, setFormattedText] = useState("");
   const [ticketId, setTicketId] = useState<number | null>(null);
 
   const [createTicket] = useCreateTicketMutation();
 
-  const { register, handleSubmit, setValue, resetField, formState } =
-    useForm<ICreateTicketRequestBody>();
+  const { register, handleSubmit, setValue, formState, watch, reset } =
+    useForm<ICreateTicketRequestBody>({
+      defaultValues: {
+        faculty: facultyId,
+        subject: "",
+        body: "",
+        anonymous: false,
+        hidden: false,
+      },
+    });
+
+  const faculty = watch(createFormKeys.FACULTY, facultyId);
+  const queue = watch(createFormKeys.QUEUE);
+  const anonymous = watch(createFormKeys.ANONYMOUS);
+  const hidden = watch(createFormKeys.HIDDEN);
+
   const { errors } = formState;
 
   const handleClear = (): void => {
-    resetField("subject");
-    setValue("queue", null);
-    setTitle("");
-    setFormattedText("");
-    setQueue(-1);
-    setSelectedOptions([]);
+    reset({
+      faculty: facultyId,
+      subject: "",
+      body: "",
+      anonymous: false,
+      hidden: false,
+      queue: queue,
+    });
   };
 
   const onSubmit = (data: ICreateTicketRequestBody): void => {
@@ -89,35 +101,30 @@ const CreateTicketForm: FC = () => {
             }}
           >
             <FacultySelect
-              facultyId={facultyId}
-              register={register}
-              setValue={setValue}
-              faculty={faculty}
-              setFaculty={setFaculty}
-            />
-            <QueueSelect
               facultyId={faculty}
               register={register}
               setValue={setValue}
+            />
+            <QueueSelect
+              facultyId={faculty}
               queue={queue}
-              setQueue={setQueue}
+              register={register}
+              setValue={setValue}
             />
             <TicketTitleInput
               errors={errors}
               register={register}
-              title={title}
-              setTitle={setTitle}
+              watch={watch}
             />
             <TicketBodyTextField
               errors={errors}
               register={register}
-              formattedText={formattedText}
-              setFormattedText={setFormattedText}
+              watch={watch}
             />
             <TicketVisibilityOptions
               setValue={setValue}
-              selectedOptions={selectedOptions}
-              setSelectedOptions={setSelectedOptions}
+              anonymous={anonymous}
+              hidden={hidden}
             />
             <FormActions handleClear={handleClear} ticketId={ticketId} />
           </Grid>

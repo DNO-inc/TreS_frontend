@@ -1,36 +1,32 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { NavLink } from "react-router-dom";
 
-import { TextField, useTheme } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { SignUpTextField } from "../SignUpTextField";
-import { NavLink } from "react-router-dom";
-import { endpoints } from "../../../../constants";
-import IPalette from "../../../../theme/IPalette.interface";
+
+import { endpoints } from "constants";
+import IPalette from "theme/IPalette.interface";
+import { ISignUpData } from "../../SignUpModal";
 
 interface AccountDetailStepProps {
-  login: string;
-  setLogin: Dispatch<SetStateAction<string>>;
-  password: string;
-  setPassword: Dispatch<SetStateAction<string>>;
-  confirmedPassword: string;
-  setConfirmedPassword: Dispatch<SetStateAction<string>>;
-  email: string;
-  setEmail: Dispatch<SetStateAction<string>>;
-  isError: boolean;
+  signUpData: ISignUpData;
+  setSignUpData: Dispatch<SetStateAction<ISignUpData>>;
   errorMessage: string;
 }
 
+const ACTION_TYPES = {
+  LOGIN: "login",
+  EMAIL: "email",
+  PASSWORD: "password",
+};
+
 const AccountDetailStep: FC<AccountDetailStepProps> = ({
-  login,
-  setLogin,
-  password,
-  setPassword,
-  confirmedPassword,
-  setConfirmedPassword,
-  email,
-  setEmail,
+  signUpData,
+  setSignUpData,
   errorMessage,
 }) => {
   const { t } = useTranslation();
@@ -42,37 +38,49 @@ const AccountDetailStep: FC<AccountDetailStepProps> = ({
     return errorMessage.includes(word);
   };
 
+  const renderSignUpTextField = (
+    type: string,
+    value: string,
+    setValue: Dispatch<SetStateAction<ISignUpData>>
+  ) => (
+    <SignUpTextField
+      type={type}
+      value={value}
+      setValue={setValue}
+      hasError={checkError(type)}
+      helperText={checkError(type) ? errorMessage : ""}
+    />
+  );
+
   return (
     <>
-      <SignUpTextField
-        type={"login"}
-        value={login}
-        setValue={setLogin}
-        hasError={checkError("login")}
-        helperText={checkError("login") ? errorMessage : ""}
-      />
-      <SignUpTextField
-        type={"email"}
-        value={email}
-        setValue={setEmail}
-        hasError={checkError("email")}
-        helperText={checkError("email") ? errorMessage : ""}
-      />
-      <SignUpTextField
-        type={"password"}
-        value={password}
-        setValue={setPassword}
-        hasError={checkError("password")}
-        helperText={checkError("password") ? errorMessage : ""}
-      />
+      {renderSignUpTextField(
+        ACTION_TYPES.LOGIN,
+        signUpData.login,
+        setSignUpData
+      )}
+      {renderSignUpTextField(
+        ACTION_TYPES.EMAIL,
+        signUpData.email,
+        setSignUpData
+      )}
+      {renderSignUpTextField(
+        ACTION_TYPES.PASSWORD,
+        signUpData.password,
+        setSignUpData
+      )}
       <TextField
         size="small"
         label={t(`signUp.confirmPasswordInput`)}
-        value={confirmedPassword}
+        value={signUpData.confirmedPassword}
         onChange={event => {
           const newPassword = event.target.value;
-          setConfirmedPassword(newPassword);
-          setIsConfirmed(password === newPassword);
+
+          setSignUpData(prevState => ({
+            ...prevState,
+            confirmedPassword: newPassword,
+          }));
+          setIsConfirmed(signUpData.password === newPassword);
         }}
         error={!isConfirmed}
         required
@@ -80,10 +88,10 @@ const AccountDetailStep: FC<AccountDetailStepProps> = ({
         fullWidth
         type="password"
         sx={{
-          "& .MuiFormLabel-root": {
+          ".MuiFormLabel-root": {
             top: 4,
           },
-          "& .MuiInputBase-input": {
+          ".MuiInputBase-input": {
             p: "12px 14px",
           },
         }}
@@ -99,7 +107,7 @@ const AccountDetailStep: FC<AccountDetailStepProps> = ({
       >
         {t("privacyPolicy.postscript.1")}
         <NavLink
-          to={endpoints.privacyPolicy}
+          to={endpoints.PRIVACY_POLICY}
           target="blank"
           style={{ fontWeight: "bold", textDecoration: "underline" }}
         >

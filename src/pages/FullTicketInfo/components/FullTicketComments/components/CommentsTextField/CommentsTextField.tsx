@@ -27,6 +27,7 @@ import CheckIcon from "@mui/icons-material/Check";
 
 import IPalette from "../../../../../../theme/IPalette.interface";
 import { EditedComment, RepliedComment } from "../../FullTicketComments";
+import { dimensions } from "../../../../../../constants";
 
 interface CommentsTextFieldProps {
   ticketId: number;
@@ -75,7 +76,9 @@ const CommentsTextField: FC<CommentsTextFieldProps> = ({
   setRepliedComment,
 }) => {
   const { t } = useTranslation();
-  const matches = useMediaQuery("(min-width: 600px)");
+  const matches = useMediaQuery(
+    `(min-width: ${dimensions.BREAK_POINTS.COMMENTS_TEXTFIELD}px)`
+  );
 
   const { palette }: IPalette = useTheme();
 

@@ -30,6 +30,7 @@
     "profile": "Профіль",
     "error": "Помилка",
     "noAssignee": "немає відповідального",
+    "hasAssignee": "має відповідального",
     "notFound": {
       "title": "Не знайдено",
       "ticketsTitle": "Звернень не знайдено",
@@ -60,6 +61,8 @@
     "restoreAccess": "Відновити доступ",
     "signUpQuestion": "Ще не маєте аккаунту? ",
     "signUpRedirect": "Створити",
+    "additionalOptions": "Додаткові опції",
+    "cabinetButton": "Вхід через кабінет",
     "restore": {
       "header": "Відновлення доступу",
       "description": "Введіть електрону пошту в призначене для цього поле. На вказану адресу буде надіслано повідомлення з підтвердженням.",
@@ -105,8 +108,8 @@
   },
   "snackbar": {
     "report": "Поки що я не знаю, що буде",
-    "follow": "Ви почали стежити за зверненням",
-    "unfollow": "Ви більше не стежите за зверненням",
+    "bookmark": "Ви почали стежити за зверненням",
+    "unbookmark": "Ви більше не стежите за зверненням",
     "like": "Вам сподобалось це звернення",
     "unlike": "Вам більше не подобається це звернення?"
   },
@@ -120,17 +123,16 @@
       "bookmarks": "Закладки",
       "deleted": "Видалені"
     },
-    "notification": "Сповіщення",
+    "notifications": "Сповіщення",
     "generalTickets": "Поточні звернення",
-    "settings": "Налаштування",
-    "lightMode": "Світлий режим"
+    "settings": "Налаштування"
   },
   "queue": {
     "heading": "Черги",
     "scopes": {
-      "reportTitle": "Скарги",
-      "questionTitle": "Питання",
-      "suggestionTitle": "Пропозиції"
+      "reportsTitle": "Скарги",
+      "q/aTitle": "Питання",
+      "suggestionsTitle": "Пропозиції"
     },
     "showAll": "Показати всі"
   },
@@ -149,7 +151,7 @@
   "deleted": {
     "heading": "Видалені"
   },
-  "notification": {
+  "notifications": {
     "heading": "Сповіщення"
   },
   "generalTickets": {

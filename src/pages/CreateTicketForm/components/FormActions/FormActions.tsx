@@ -6,8 +6,8 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { endpoints } from "../../../../constants";
+import IPalette from "theme/IPalette.interface";
+import { endpoints } from "constants";
 
 interface FormActionsProps {
   handleClear: () => void;
@@ -20,9 +20,7 @@ const FormActions: FC<FormActionsProps> = ({ handleClear, ticketId }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (ticketId) {
-      navigate(`${endpoints.fullTicket}/${ticketId}`);
-    }
+    ticketId && navigate(`${endpoints.FULL_TICKET}/${ticketId}`);
   }, [ticketId]);
 
   return (
@@ -30,7 +28,7 @@ const FormActions: FC<FormActionsProps> = ({ handleClear, ticketId }) => {
       container
       sx={{
         gap: 1,
-        "& > .MuiButton-root": {
+        ".MuiButton-root": {
           width: "100%",
         },
       }}

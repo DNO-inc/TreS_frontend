@@ -9,82 +9,35 @@ import {
   SetStateAction,
 } from "react";
 import { useTranslation } from "react-i18next";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
 
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Comment } from "../../../../components/Comment";
-import { Action } from "../../../../components/Action";
+import { Comment } from "./components/Comment";
+import { Action } from "./components/Action";
+import { CommentsTextField } from "./components/CommentsTextField";
+import { FloatingPanel } from "./components/FloatingPanel";
+import { ArrowDown } from "./components/ArrowDown";
 
-import IPalette from "../../../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 import {
   useCreateCommentMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
-  useGetFullHistoryMutation,
-} from "../../../../store/api/comments/comments.api";
-import { CommentsTextField } from "./components/CommentsTextField";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
-import { SerializedError } from "@reduxjs/toolkit";
-import { FloatingPanel } from "./components/FloatingPanel";
-import { IComment } from "../../../../components/Comment/Comment";
-import { useRandomNick } from "../../../../shared/hooks";
-import { getRandomNickColor } from "../../../../shared/functions";
+} from "api/comments.api";
+import { useRandomNick } from "hooks/index";
+import { getRandomNickColor } from "functions/index";
 import { IPerson } from "../../FullTicketInfo";
-import { ArrowDown } from "./components/ArrowDown";
-import {
-  getPermissions,
-  getUserId,
-} from "../../../../shared/functions/getLocalStorageData";
-import { IAction } from "../../../../components/Action/Action";
+import { getUser, getUserRole } from "functions/manipulateLocalStorage";
+import { IComment } from "./components/Comment/Comment";
+import { IAction } from "./components/Action/Action";
+import { permissions } from "constants";
+import { useGetFullHistoryMutation } from "api/tickets.api";
 
-export type IHistoryItem =
-  | {
-      color: string;
-      nick: string;
-      action_id: string;
-      author: {
-        user_id: number;
-        firstname: string;
-        lastname: string;
-        login: string;
-        faculty: { faculty_id: number; name: string };
-        group: { group_id: number; name: string };
-      };
-      creation_date: string;
-      field_name: string;
-      file_meta_action: string;
-      value: string;
-      new_value: string;
-      old_value: string;
-      ticket_id: number;
-      type_: "action";
-    }
-  | {
-      color: string;
-      nick: string;
-      comment_id: string;
-      author: {
-        user_id: number;
-        firstname: string;
-        lastname: string;
-        login: string;
-        faculty: { faculty_id: number; name: string };
-        group: { group_id: number; name: string };
-      };
-      reply_to: {
-        author: {
-          user_id: number;
-          firstname: string;
-          lastname: string;
-        };
-        body: string;
-      } | null;
-      body: string;
-      creation_date: string;
-      type_: "comment";
-    };
+export type IHistoryItem = IAction | IComment;
 
 interface CreateCommentResponse {
   data?: {
@@ -124,15 +77,13 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
   setPeopleSettings,
 }) => {
   const { t, i18n } = useTranslation();
-
   const { palette }: IPalette = useTheme();
 
-  const permissions = getPermissions();
-  const isCanSendMessage = permissions.includes("SEND_MESSAGE");
+  const { userId } = getUser();
+  const { permissionList } = getUserRole();
+  const isCanSendMessage = permissionList.includes(permissions.SEND_MESSAGE);
 
   const commentFieldRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
-
-  const userId = getUserId();
 
   const [getComments] = useGetFullHistoryMutation();
   const [createComment] = useCreateCommentMutation();
@@ -245,7 +196,7 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
           }
         })
         .catch(error => {
-          console.log(error);
+          console.error(error);
         });
   }, [currentPage]);
 

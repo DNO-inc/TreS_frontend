@@ -5,68 +5,66 @@ import {
   ComponentType,
   useEffect,
   memo,
-  useCallback,
 } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Divider from "@mui/material/Divider";
-import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import useTheme from "@mui/material/styles/useTheme";
-import { SlideProps } from "@mui/material";
+import { SlideProps } from "@mui/material/Slide";
 
 import { TicketHeader } from "./components/TicketHeader";
 import { TicketBody } from "./components/TicketBody";
 import { TicketActions } from "./components/TicketActions";
-import { SnackbarNotification } from "../SnackbarNotification";
-import { SlideNotification } from "../SlideNotification";
+import { SnackbarNotification } from "components/SnackbarNotification";
+import { SlideNotification } from "components/SlideNotification";
 
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
-} from "../../store/api/tickets/tickets.api";
-import { endpoints } from "../../constants";
-import { useFormatDate } from "../../shared/hooks";
-import IPalette from "../../theme/IPalette.interface";
-
+} from "api/tickets.api";
+import { endpoints, toggleOptions } from "constants";
+import { useCheckStatus, useFormatDate } from "hooks/index";
+import IPalette from "theme/IPalette.interface";
 import { ITicket } from "./ticket.interface";
-import { getUserId } from "../../shared/functions/getLocalStorageData";
-import { checkStatus } from "../../shared/functions";
-import { useAuth } from "../../context/AuthContext";
+import { getUser } from "functions/manipulateLocalStorage";
+import { useAuth } from "context/AuthContext/AuthContext";
+import { useToggleAction } from "hooks/useToggleAction";
 
 interface TicketProps {
   ticket: ITicket;
   ticketsPerRow: number;
 }
 
-const TOGGLE_LIKE_OPTION = {
-  LIKE: "like",
-  UNLIKE: "unlike",
-};
-
-const TOGGLE_BOOKMARK_OPTION = {
-  BOOKMARK: "bookmark",
-  UNBOOKMARK: "unbookmark",
-};
-
 const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
   const { palette }: IPalette = useTheme();
-
   const { isAuth } = useAuth();
+  const navigate = useNavigate();
 
-  ////////////////////////////////////////////
-  const userId = Number(getUserId());
-  const creatorId = ticket?.creator && ticket?.creator.user_id;
-  const isMyTicket = userId == creatorId;
-
+  const { userId } = getUser();
+  const creatorId = ticket?.creator?.user_id;
+  const isMyTicket = userId === creatorId;
   const isHiddenTicket = isMyTicket && ticket.hidden;
 
-  ////////////////////////////////////////
   const [open, setOpen] = useState(false);
   const [transition, setTransition] = useState<
-    ComponentType<TransitionProps> | undefined
+    ComponentType<SlideProps> | undefined
   >(undefined);
 
+  const [upvotes, setUpvotes] = useState<number>(ticket.upvotes);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [isFollowed, setIsFollowed] = useState<boolean>(false);
+
+  const color: string = useCheckStatus(ticket.status.name);
+  const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
+
+  useEffect(() => {
+    ticket.is_liked && setIsLiked(true);
+    ticket.is_followed && setIsFollowed(true);
+  }, [ticket.is_liked, ticket.is_followed]);
+
+  //================ refactor this ======================= //
   type TransitionProps = Omit<SlideProps, "direction">;
 
   function TransitionRight(props: TransitionProps, variant: string) {
@@ -79,74 +77,50 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
   };
 
   const handleClose = (_: React.SyntheticEvent | Event, reason: string) => {
-    if (reason === "timeout") {
-      setOpen(false);
-    }
+    if (reason === "timeout") setOpen(false);
   };
-
-  ////////////////////////////////////////
-
-  const [upvotes, setUpvotes] = useState<number>(ticket.upvotes);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [isFollowed, setIsFollowed] = useState<boolean>(false);
-  // const [isReported, setIsReported] = useState<boolean>(false);
-
-  useEffect(() => {
-    ticket.is_liked && setIsLiked(true);
-  }, [ticket.is_liked]);
-
-  useEffect(() => {
-    ticket.is_followed && setIsFollowed(true);
-  }, [ticket.is_followed]);
-
-  const navigate = useNavigate();
+  //================ refactor this ======================= //
 
   const [toggleLike] = useToggleLikeMutation();
-  const [toggleBookmark] = useToggleBookmarkMutation();
+  const [toggleFollowed] = useToggleBookmarkMutation();
 
-  const color: string = checkStatus(ticket.status.name);
-  const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
+  const likeOption = !isLiked ? toggleOptions.LIKE : toggleOptions.UNLIKE;
 
-  const handleToggleReported = (): void => {
-    // setIsReported(prevIsReported => !prevIsReported);
+  const likeOptions = {
+    toggleMutation: toggleLike,
+    option: likeOption,
+    setState: setIsLiked,
+    ticketId: ticket.ticket_id,
+    dependencies: [isLiked],
+    callback: () => {
+      setUpvotes((prevUpvote: number) =>
+        likeOption === "like" ? prevUpvote + 1 : prevUpvote - 1
+      );
 
-    handleSnackbarClick(props => TransitionRight(props, "report"));
+      handleSnackbarClick(props => TransitionRight(props, likeOption));
+    },
   };
 
-  const handleToggleLike = useCallback(() => {
-    const option = !isLiked
-      ? TOGGLE_LIKE_OPTION.LIKE
-      : TOGGLE_LIKE_OPTION.UNLIKE;
+  const handleToggleLike = useToggleAction(likeOptions);
 
-    toggleLike({
-      option: option,
-      body: JSON.stringify({ ticket_id: ticket.ticket_id }),
-    });
+  const followedOption = !isFollowed
+    ? toggleOptions.BOOKMARK
+    : toggleOptions.UNBOOKMARK;
 
-    setUpvotes((prevUpvote: number) =>
-      option === "like" ? prevUpvote + 1 : prevUpvote - 1
-    );
+  const followedOptions = {
+    toggleMutation: toggleFollowed,
+    option: followedOption,
+    setState: setIsFollowed,
+    ticketId: ticket.ticket_id,
+    dependencies: [isFollowed],
+    callback: () => {
+      handleSnackbarClick(props => TransitionRight(props, followedOption));
+    },
+  };
 
-    setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
+  const handleToggleFollowed = useToggleAction(followedOptions);
 
-    handleSnackbarClick(props => TransitionRight(props, option));
-  }, [isLiked, toggleLike, ticket]);
-
-  const handleToggleFollowed = useCallback(() => {
-    const option = !isFollowed
-      ? TOGGLE_BOOKMARK_OPTION.BOOKMARK
-      : TOGGLE_BOOKMARK_OPTION.UNBOOKMARK;
-    const notiOption = !isFollowed ? "follow" : "unfollow";
-
-    toggleBookmark({
-      option: option,
-      body: JSON.stringify({ ticket_id: ticket.ticket_id }),
-    });
-
-    setIsFollowed((prevIsBookmarked: boolean) => !prevIsBookmarked);
-
-    handleSnackbarClick(props => TransitionRight(props, notiOption));
-  }, [isFollowed, toggleBookmark, ticket]);
+  //================ refactor this ======================= //
 
   const handleClick = (event: MouseEvent): void => {
     const { target } = event;
@@ -156,12 +130,13 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
       target.tagName !== "path" &&
       !target.closest(".evadeItem")
     ) {
-      isAuth && navigate(`${endpoints.fullTicket}/${ticket.ticket_id}`);
+      isAuth && navigate(`${endpoints.FULL_TICKET}/${ticket.ticket_id}`);
     }
   };
 
   return (
     <Card
+      onClick={handleClick}
       sx={{
         position: "relative",
         flexBasis: `calc((100% - 16px * ${
@@ -181,7 +156,6 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
           ml: 2,
           mr: 2,
         },
-
         "&::before": isHiddenTicket
           ? {
               content: "''",
@@ -190,27 +164,27 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
               left: 0,
               width: "100%",
               height: "100%",
-              bgcolor: "rgba(0, 0, 0, 0.6)",
+              bgcolor: "rgba(0, 0, 0, 0.4)",
               zIndex: 2,
             }
           : {},
         "&::after": isHiddenTicket
           ? {
-              content: "'Заспокойся, ніхто не бачить'",
+              content: "'🤫'",
               textAlign: "center",
-              fontSize: 40,
-              fontWeight: 900,
-              transform: "rotate(20deg) translate(-10%, -20%)",
+              fontSize: 170,
               position: "absolute",
-              top: "40%",
-              left: "15%",
+              top: "53%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              filter: "grayscale(80%)",
+              opacity: 0.15,
               zIndex: 3,
             }
           : {},
       }}
-      onClick={handleClick}
     >
-      <Grid
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -236,12 +210,10 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
         <hr />
         <TicketActions
           isLiked={isLiked}
-          // isReported={isReported}
           upvotes={upvotes}
           isFollowed={isFollowed}
           handleToggleLike={handleToggleLike}
           handleToggleFollowed={handleToggleFollowed}
-          handleToggleReported={handleToggleReported}
           formattedDate={formattedDate}
           isMyTicket={isMyTicket}
         />
@@ -250,7 +222,7 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
           handleClose={handleClose}
           transition={transition}
         />
-      </Grid>
+      </Box>
     </Card>
   );
 });

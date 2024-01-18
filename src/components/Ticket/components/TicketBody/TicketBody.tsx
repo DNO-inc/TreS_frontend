@@ -1,69 +1,33 @@
 import { FC } from "react";
-import { NavLink } from "react-router-dom";
 
-import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
 
 import { MarkdownWithStyles } from "../../../../utils/markdown";
 
-import { endpoints } from "../../../../constants";
-import { Creator } from "../../ticket.interface";
-import IPalette from "../../../../theme/IPalette.interface";
-import { useAuth } from "../../../../context/AuthContext";
-import { CustomTooltip } from "../../../CustomTooltip";
+import { ProfileTooltip } from "./components/ProfileTooltip";
 
+import { Creator } from "../../ticket.interface";
+import IPalette from "theme/IPalette.interface";
+import { useAuth } from "context/AuthContext/AuthContext";
+
+export interface ICreator {
+  faculty: { faculty_id: number; name: string };
+  firstname: string;
+  group?: { group_id: number; name: string } | undefined;
+  lastname: string;
+  login: string;
+  user_id: number | null;
+}
 interface TicketBodyProps extends Creator {
   isMyTicket: boolean;
   body: string;
-  creator: {
-    faculty: { faculty_id: number; name: string };
-    firstname: string;
-    group?: { group_id: number; name: string } | undefined;
-    lastname: string;
-    login: string;
-    user_id: number | null;
-  };
+  creator: ICreator;
   faculty: string;
   isHiddenTicket: boolean;
 }
-
-const ProfileTooltip: FC<Creator> = ({ creator }) => {
-  const creatorFirstname = creator?.firstname;
-  const creatorLastname = creator?.lastname;
-  let creatorName = "Firstname Lastname";
-  const creatorFaculty = creator?.faculty?.name || "Faculty ";
-  const creatorGroup = creator?.group?.name || "Group";
-
-  if (creator) {
-    if (creatorFirstname && creatorLastname) {
-      creatorName = `${creatorFirstname} ${creatorLastname}`;
-    } else if (creatorFirstname) {
-      creatorName = `${creatorFirstname} Lastname`;
-    } else if (creatorLastname) {
-      creatorName = `Firstname ${creatorLastname}`;
-    } else {
-      creatorName = "has an assignee";
-    }
-  }
-
-  return (
-    <Grid
-      container
-      sx={{ justifyContent: "space-between", gap: 1, padding: 0.5 }}
-    >
-      <Box>
-        <Avatar sizes="10" />
-      </Box>
-      <Grid sx={{ display: "flex", gap: 0.5, flexDirection: "column" }}>
-        <Box>{creatorName}</Box>
-        <Box>{`${creatorFaculty}, ${creatorGroup}`}</Box>
-      </Grid>
-    </Grid>
-  );
-};
 
 const TicketBody: FC<TicketBodyProps> = ({
   body,
@@ -75,7 +39,6 @@ const TicketBody: FC<TicketBodyProps> = ({
 
   const { isAuth } = useAuth();
 
-  const userId: number | null = creator?.user_id;
   const creatorLogin = creator?.login;
   let userLogin = "anonymous";
 
@@ -125,20 +88,7 @@ const TicketBody: FC<TicketBodyProps> = ({
       </Box>
       <Grid sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
         {isAuth && creator ? (
-          <NavLink
-            to={!userId ? "" : `${endpoints.profile}/${userId}`}
-            style={{ cursor: !userId ? "default" : "pointer" }}
-          >
-            <CustomTooltip
-              base={
-                <Typography color="text.secondary" className="evadeItem">
-                  {userLogin}
-                </Typography>
-              }
-            >
-              <ProfileTooltip creator={creator} />
-            </CustomTooltip>
-          </NavLink>
+          <ProfileTooltip creator={creator} userLogin={userLogin} />
         ) : (
           <Typography color="text.secondary" className="evadeItem">
             {userLogin}
