@@ -1,0 +1,10 @@
+const permissions = {
+  UPDATE_PROFILE: "UPDATE_PROFILE",
+  CREATE_TICKET: "CREATE_TICKET",
+  READ_TICKET: "READ_TICKET",
+  SEND_MESSAGE: "SEND_MESSAGE",
+  ADMIN: "ADMIN",
+  GOD_MODE: "GOD_MODE",
+};
+
+export { permissions };

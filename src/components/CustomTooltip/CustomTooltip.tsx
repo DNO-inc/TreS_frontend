@@ -1,15 +1,14 @@
-import { Dispatch, FC, ReactElement, ReactNode, SetStateAction } from "react";
+import { FC, ReactElement, ReactNode } from "react";
 
 import { useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 
-import IPalette from "../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
 
 interface CustomTooltipProps {
   base: ReactElement;
   open?: boolean;
-  setOpen?: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
 }
 

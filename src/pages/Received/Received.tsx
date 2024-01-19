@@ -1,17 +1,17 @@
 import { FC } from "react";
 
-import { MyTicketPage } from "../MyTicketPage";
+import { MyTicketsLayout } from "layouts/MyTicketsLayout";
 
-import { useGetAdminTicketsMutation } from "../../store/api/admin/admin.api";
-import { getUserId } from "../../shared/functions/getLocalStorageData";
+import { useGetAdminTicketsMutation } from "api/admin.api";
+import { getUser } from "functions/manipulateLocalStorage";
 
 const Received: FC = () => {
   const [getTickets, { isLoading, isSuccess }] = useGetAdminTicketsMutation();
 
-  const userId: boolean | number = getUserId();
+  const { userId } = getUser();
 
   return (
-    <MyTicketPage
+    <MyTicketsLayout
       title={"received"}
       useGetQuery={getTickets}
       isLoading={isLoading}

@@ -1,7 +1,6 @@
 import { FC, memo } from "react";
 
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 
 import { FacultiesFilter } from "./components/FacultiesFilter";
 import { StatusCheckboxGroup } from "./components/StatusCheckboxGroup";
@@ -18,21 +17,11 @@ const FilterPanel: FC<FilterPanelProps> = memo(({ isAllStatuses = false }) => {
         justifyContent: "space-between",
         alignItems: "center",
         mt: 1,
+        gap: 2,
       }}
     >
       <StatusCheckboxGroup isAllStatuses={isAllStatuses} />
-      <Grid
-        item
-        sx={{
-          display: "flex",
-          "& > .MuiGrid-root > .MuiButton-root": { minWidth: 20 },
-          gap: 3,
-        }}
-      >
-        <Box>
-          <FacultiesFilter />
-        </Box>
-      </Grid>
+      <FacultiesFilter />
     </Grid>
   );
 });

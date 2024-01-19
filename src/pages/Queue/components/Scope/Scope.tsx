@@ -1,105 +1,37 @@
-import {
-  FC,
-  useState,
-  Dispatch,
-  SetStateAction,
-  DragEvent,
-  useEffect,
-} from "react";
-import { useSearchParams } from "react-router-dom";
+import { FC, useState } from "react";
 
-import {
-  Card,
-  Divider,
-  useTheme,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
 import Box from "@mui/material/Box";
-
-import MenuIcon from "@mui/icons-material/Menu";
+import Card from "@mui/material/Card";
+import Divider from "@mui/material/Divider";
+import useTheme from "@mui/material/styles/useTheme";
+import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { QueueButtonsList } from "./components/QueueButtonsList";
 import { ScopeTicketList } from "./components/ScopeTicketList";
+import { NotFound } from "components/NotFound";
+import { ScopeLabel } from "components/ScopeLabel";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { ScopeLabel } from "../../../../components/ScopeLabel";
-import { IScope } from "../../Queue";
+import IPalette from "theme/IPalette.interface";
+import { dimensions } from "constants";
+import { IScope } from "pages/Queue/Queue";
 
 interface ScopeProps {
   scope: IScope;
-  currentScope: IScope | null;
-  setCurrentScope: Dispatch<SetStateAction<IScope | null>>;
-  scopesList: IScope[];
-  setScopesList: Dispatch<SetStateAction<IScope[]>>;
   facultyId: number;
 }
 
-const Scope: FC<ScopeProps> = ({
-  scope,
-  currentScope,
-  setCurrentScope,
-  scopesList,
-  setScopesList,
-  facultyId,
-}) => {
-  const matches = useMediaQuery("(min-width: 480px)");
+const Scope: FC<ScopeProps> = ({ scope, facultyId }) => {
+  const matches = useMediaQuery(
+    `(min-width: ${dimensions.BREAK_POINTS.QUEUE}px)`
+  );
   const { palette }: IPalette = useTheme();
-
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const [queues, setQueues] = useState<number[]>([]);
-
-  const handleDragStart = () => {
-    setCurrentScope(scope);
-  };
-
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-
-    setScopesList(
-      scopesList.map((scopeItem: IScope) => {
-        if (currentScope) {
-          if (scopeItem.id === scope.id) {
-            return { ...scopeItem, order: currentScope.order };
-          }
-          if (scopeItem.id === currentScope.id) {
-            return { ...scopeItem, order: scope.order };
-          }
-        }
-
-        return scopeItem;
-      })
-    );
-  };
-
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    const newOrder = scopesList
-      .sort((a, b) => a.id - b.id)
-      .map(item => item.order)
-      .join(",");
-
-    if (params.has("order")) {
-      params.set("order", newOrder);
-    } else {
-      params.append("order", newOrder);
-    }
-
-    setSearchParams(params);
-  }, scopesList);
+  const [queues, setQueues] = useState<number[]>(
+    scope.queues.length ? scope.queues.map(queue => queue.queue_id) : []
+  );
 
   return (
     <Card
-      onDragStart={handleDragStart}
-      onDragOver={e => handleDragOver(e)}
-      onDrop={e => handleDrop(e)}
-      draggable={true}
       sx={{
         minWidth: matches ? "415px" : "100%",
         flexBasis: "33.333%",
@@ -111,36 +43,32 @@ const Scope: FC<ScopeProps> = ({
         },
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          cursor: "grab",
-        }}
-      >
-        <Box sx={{ display: "flex", gap: 3, flexGrow: 1 }}>
-          <ScopeLabel scope={scope.name} />
-          <Typography variant="h2">{scope.title}</Typography>
-        </Box>
-        <MenuIcon
-          sx={{ transform: "rotate(90deg)", color: palette.whiteAlpha.default }}
-        />
+      <Box sx={{ display: "flex", justifyContent: "space-between", gap: 3 }}>
+        <Typography variant="h2">{scope.title}</Typography>
+        <ScopeLabel scope={scope.name} />
       </Box>
       <Divider />
       <Box sx={{ pt: 3, pb: 3 }}>
-        {!!scope.queues.length && scope.name !== "Not defined" && (
-          <QueueButtonsList
-            queues={scope.queues}
-            setQueues={setQueues}
-            facultyId={facultyId}
-          />
+        {!!scope.queues.length ? (
+          <>
+            <QueueButtonsList
+              queues={scope.queues}
+              setQueues={setQueues}
+              facultyId={facultyId}
+            />
+            {queues.length && (
+              <ScopeTicketList
+                scope={scope.name}
+                queues={queues}
+                facultyId={facultyId}
+              />
+            )}
+          </>
+        ) : (
+          <Box sx={{ mt: !!scope.queues.length ? 0 : 14 }}>
+            <NotFound size={250} />
+          </Box>
         )}
-        <ScopeTicketList
-          scope={scope.name}
-          queues={queues}
-          facultyId={facultyId}
-          isHaveQueues={!!scope.queues.length}
-        />
       </Box>
     </Card>
   );

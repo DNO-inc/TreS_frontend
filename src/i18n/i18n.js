@@ -11,6 +11,9 @@ i18n
     fallbackLng: "en",
     whiteList: ["en", "ua"],
     debug: false,
+    detection: {
+      cache: ["c"],
+    },
     interpolation: {
       escapeValue: false,
     },

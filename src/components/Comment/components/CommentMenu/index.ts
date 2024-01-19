@@ -1,1 +1,0 @@
-export { CommentMenu } from "./ComingSoon";

@@ -1,21 +1,16 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Badge, useTheme } from "@mui/material";
 
-import ChatIcon from "@mui/icons-material/Chat";
+import { NotFound } from "components/NotFound";
+import { NotificationTile } from "./components/NotificationTile";
 
-import { useNotification } from "../../context/NotificationContext";
-import IPalette from "../../theme/IPalette.interface";
-import { endpoints } from "../../constants";
-import { NotFound } from "../../components/NotFound";
+import { useNotification } from "context/NotificationContext/NotificationContext";
 
 const Notifications: FC = () => {
-  const { palette }: IPalette = useTheme();
   const { t, i18n } = useTranslation();
 
   const { notifications, setNotifications } = useNotification();
@@ -27,7 +22,7 @@ const Notifications: FC = () => {
   return (
     <Grid container>
       <Box>
-        <Typography variant="h1">{t("notification.heading")}</Typography>
+        <Typography variant="h1">{t("notifications.heading")}</Typography>
       </Box>
       <Box
         sx={{
@@ -41,45 +36,18 @@ const Notifications: FC = () => {
         {notifications.length ? (
           notifications.map((notification, index) => {
             const count = notification?.count;
+            const description =
+              i18n.language === "en" ? notification.body : notification.body_ua;
 
             return (
-              <Link
-                to={`${endpoints.fullTicket}/${notification.ticket_id}`}
+              <NotificationTile
+                ticketId={notification.ticket_id}
+                description={description}
+                count={count}
+                handleClick={handleClick}
+                index={index}
                 key={index}
-              >
-                <Box
-                  onClick={() => handleClick(index)}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    gap: 2,
-                    bgcolor: palette.grey.card,
-                    border: `2px solid ${palette.grey.button}`,
-                    p: 2,
-                    borderRadius: 1,
-                  }}
-                >
-                  <Box sx={{ display: "flex", gap: 2 }}>
-                    <ChatIcon sx={{ mt: 0.3 }} />
-                    {i18n.language === "en"
-                      ? notification.body
-                      : notification.body_ua}
-                  </Box>
-                  {count && count > 0 && (
-                    <Badge
-                      badgeContent={count}
-                      sx={{
-                        mr: 1.3,
-                        "& > span": {
-                          color: "white",
-                          bgcolor: palette.grey.active,
-                        },
-                      }}
-                    ></Badge>
-                  )}
-                </Box>
-              </Link>
+              />
             );
           })
         ) : (

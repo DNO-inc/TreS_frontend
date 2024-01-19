@@ -7,19 +7,13 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { formatDate } from "../../../../shared/functions";
-import { endpoints } from "../../../../constants";
+import IPalette from "theme/IPalette.interface";
+import { formatDate } from "functions/index";
+import { endpoints } from "constants";
+import { ICreator } from "components/Ticket/components/TicketBody/TicketBody";
 
 interface FullTicketAdditionInfoProps {
-  creator: {
-    faculty: { faculty_id: number; name: string };
-    firstname: string;
-    group?: { group_id: number; name: string } | undefined;
-    lastname: string;
-    login: string;
-    user_id: number | null;
-  };
+  creator: ICreator;
   faculty: {
     faculty_id: number;
     name: string;
@@ -34,6 +28,8 @@ const FullTicketAdditionInfo: FC<FullTicketAdditionInfoProps> = ({
 }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
+
+  const formattedData = formatDate(date);
 
   return (
     <Grid container>
@@ -61,7 +57,7 @@ const FullTicketAdditionInfo: FC<FullTicketAdditionInfoProps> = ({
         <Grid>
           <Typography>{t("fullTicket.author")}</Typography>
           <NavLink
-            to={!creator ? "" : `${endpoints.profile}/${creator.user_id}`}
+            to={!creator ? "" : `${endpoints.PROFILE}/${creator.user_id}`}
             style={{ color: palette.semantic.info }}
           >
             @{!creator ? "anonymous" : creator.login}
@@ -73,7 +69,7 @@ const FullTicketAdditionInfo: FC<FullTicketAdditionInfoProps> = ({
         </Grid>
         <Grid>
           <Typography>{t("fullTicket.dateOfCreation")}</Typography>
-          <Box>{formatDate(date)}</Box>
+          <Box>{formattedData}</Box>
         </Grid>
       </Grid>
     </Grid>

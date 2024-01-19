@@ -4,19 +4,19 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { SelectChangeEvent } from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Loader } from "../../../../components/Loader";
+import { Loader } from "components/Loader";
 
-import IPalette from "../../../../theme/IPalette.interface";
-import { useGetFacultiesQuery } from "../../../../store/api/api";
+import IPalette from "theme/IPalette.interface";
+import { useGetFacultiesQuery } from "api/meta.api";
+import { urlKeys } from "constants";
+import { useChangeURL } from "hooks/index";
 
 interface FacultySelectProps {
   facultyId: number;
   faculty: number;
-  setFaculty: (faculty: number) => void;
 }
 
 interface faculty {
@@ -24,19 +24,16 @@ interface faculty {
   name: string;
 }
 
-const FacultySelect: FC<FacultySelectProps> = ({
-  facultyId,
-  faculty,
-  setFaculty,
-}) => {
+const FacultySelect: FC<FacultySelectProps> = ({ facultyId, faculty }) => {
   const { palette }: IPalette = useTheme();
 
   const { data, isLoading, isSuccess } = useGetFacultiesQuery({});
 
+  const putFacultyInURL = useChangeURL();
   const handleChange = (event: SelectChangeEvent): void => {
-    const selectedFaculty: number = parseInt(event.target.value);
+    const selectedFaculty = event.target.value;
 
-    setFaculty(selectedFaculty);
+    putFacultyInURL(urlKeys.FACULTY, selectedFaculty);
   };
 
   return (
@@ -64,17 +61,11 @@ const FacultySelect: FC<FacultySelectProps> = ({
             }}
           >
             {data.faculties_list.map((faculty: faculty) => {
-              let isSelected = false;
-
-              if (faculty.faculty_id === facultyId) {
-                isSelected = true;
-              }
-
               return (
                 <MenuItem
                   value={faculty.faculty_id}
                   key={`menuItem-${faculty.faculty_id}`}
-                  selected={isSelected}
+                  selected={faculty.faculty_id === facultyId}
                 >
                   <ListItemText primary={faculty.name} />
                 </MenuItem>

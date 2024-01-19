@@ -6,14 +6,13 @@ import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { SelectChangeEvent } from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Loader } from "../../../../../../components/Loader";
+import { Loader } from "components/Loader";
 
-import { useGetQueueByFacultyMutation } from "../../../../../../store/api/api";
-import IPalette from "../../../../../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
+import { useGetQueuesByFacultyMutation } from "api/meta.api";
 
 interface QueueSelectProps {
   facultyId: number | null;
@@ -29,7 +28,7 @@ const QueueSelect: FC<QueueSelectProps> = ({ facultyId, queue, setQueue }) => {
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
 
   const [getQueues, { data, isSuccess, isLoading }] =
-    useGetQueueByFacultyMutation();
+    useGetQueuesByFacultyMutation();
 
   const handleChange = (event: SelectChangeEvent): void => {
     const selectedQueue: number = parseInt(event.target.value);

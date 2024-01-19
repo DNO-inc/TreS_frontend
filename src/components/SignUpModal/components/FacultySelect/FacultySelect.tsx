@@ -5,18 +5,18 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { SelectChangeEvent } from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import useTheme from "@mui/material/styles/useTheme";
 
-import { Loader } from "../../../../components/Loader";
+import { Loader } from "components/Loader";
 
-import { useGetFacultiesQuery } from "../../../../store/api/api";
-import { useTheme } from "@mui/material";
-import IPalette from "../../../../theme/IPalette.interface";
+import IPalette from "theme/IPalette.interface";
+import { useGetFacultiesQuery } from "api/meta.api";
+import { ISignUpData } from "../../SignUpModal";
 
 interface FacultySelectProps {
   faculty: number | null;
-  setFaculty: Dispatch<SetStateAction<number | null>>;
+  setFaculty: Dispatch<SetStateAction<ISignUpData>>;
   isError: boolean;
 }
 
@@ -37,7 +37,7 @@ const FacultySelect: FC<FacultySelectProps> = ({
   const handleChange = (event: SelectChangeEvent): void => {
     const selectedFaculty: number = parseInt(event.target.value);
 
-    setFaculty(selectedFaculty);
+    setFaculty(prevState => ({ ...prevState, faculty: selectedFaculty }));
   };
 
   return (

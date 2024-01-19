@@ -1,5 +1,17 @@
 const dimensions = {
-  drawerWidth: 300,
+  DRAWER_WIDTH: 300,
+  NOT_FOUND_SIZE: 300,
+  BREAK_POINTS: {
+    QUEUE: 480,
+    LOGIN_MODAL: 500,
+    SIGNUP_MODAL: 500,
+    NOT_FOUND: 600,
+    COMMENTS_TEXTFIELD: 600,
+    AUTH_ACTIONS: 600,
+    ADDITION_ACTIONS: 600,
+    SIMPLE_TICKET: 750,
+    STATUSES_FILTER: 1420,
+  },
 };
 
 export { dimensions };

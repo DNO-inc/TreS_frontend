@@ -13,15 +13,14 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { SelectChangeEvent } from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useTheme from "@mui/material/styles/useTheme";
 
-import { Loader } from "../../../../../../components/Loader";
+import { Loader } from "components/Loader";
 
-import IPalette from "../../../../../../theme/IPalette.interface";
-import { useGetAdminsMutation } from "../../../../../../store/api/api";
-import { getUserId } from "../../../../../../shared/functions/getLocalStorageData";
+import IPalette from "theme/IPalette.interface";
+import { getUser } from "functions/manipulateLocalStorage";
+import { useGetAdminsMutation } from "api/meta.api";
 
 interface AssigneeSelectProps {
   assignee: number;
@@ -64,7 +63,7 @@ const AssigneeSelect: FC<AssigneeSelectProps> = ({
   const { palette }: IPalette = useTheme();
 
   const [admins, setAdmins] = useState<IAssignee[]>([]);
-  const userId = getUserId();
+  const { userId } = getUser();
 
   const [getAdmins, { isLoading, isSuccess }] = useGetAdminsMutation();
 

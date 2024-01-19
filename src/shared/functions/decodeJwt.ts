@@ -1,5 +1,8 @@
 import jwt_decode from "jwt-decode";
 
+import { storage } from "constants";
+import { changeUserField } from "./manipulateLocalStorage";
+
 interface IJwtDecodeData {
   role: string;
   token_id: string;
@@ -16,19 +19,11 @@ const decodeJwt = (jwt: string | null) => {
   const jwtDecodeData: "" | IJwtDecodeData | null = jwt && jwt_decode(jwt);
 
   if (jwt) {
-    localStorage.setItem("access-token", jwt);
-  }
-
-  // if (typeof jwtDecodeData !== "string" && jwtDecodeData?.exp) {
-  //   localStorage.setItem("token-exp", jwtDecodeData.exp.toString());
-  // }
-
-  if (jwtDecodeData && jwtDecodeData?.role) {
-    localStorage.setItem("role", jwtDecodeData.role);
+    localStorage.setItem(storage.ACCESS_TOKEN, jwt);
   }
 
   if (jwtDecodeData && jwtDecodeData?.user_id) {
-    localStorage.setItem("user-id", jwtDecodeData.user_id.toString());
+    changeUserField(storage.USER.ID, jwtDecodeData.user_id);
   }
 };
 

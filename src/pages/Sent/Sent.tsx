@@ -1,17 +1,17 @@
 import { FC } from "react";
 
-import { MyTicketPage } from "../MyTicketPage";
+import { MyTicketsLayout } from "layouts/MyTicketsLayout";
 
-import { useGetTicketsMutation } from "../../store/api/tickets/tickets.api";
-import { getUserId } from "../../shared/functions/getLocalStorageData";
+import { useGetTicketsMutation } from "api/tickets.api";
+import { getUser } from "functions/manipulateLocalStorage";
 
 const Sent: FC = () => {
   const [getTickets, { isLoading, isSuccess }] = useGetTicketsMutation();
 
-  const userId: null | number = getUserId();
+  const { userId } = getUser();
 
   return (
-    <MyTicketPage
+    <MyTicketsLayout
       title={"sent"}
       useGetQuery={getTickets}
       isLoading={isLoading}

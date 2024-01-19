@@ -12,17 +12,20 @@ import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import { Grid, Modal, useTheme } from "@mui/material";
-import IPalette from "../../theme/IPalette.interface";
+import Grid from "@mui/material/Grid";
+import Modal from "@mui/material/Modal";
+import useTheme from "@mui/material/styles/useTheme";
 import Typography from "@mui/material/Typography";
-import { useMediaQuery } from "@mui/material";
-
-import { PersonalInfoStep } from "./components/PersonalInfoStep";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { AccountDetailStep } from "./components/AccountDetailStep";
-import { VerificationStep } from "./components/VerificationStep";
 import { Actions } from "./components/Actions";
-import { useRegistrationMutation } from "../../store/api/registration/registration.api";
+import { PersonalInfoStep } from "./components/PersonalInfoStep";
+import { VerificationStep } from "./components/VerificationStep";
+
+import { useRegistrationMutation } from "api/registration.api";
+import IPalette from "theme/IPalette.interface";
+import { dimensions } from "constants";
 
 interface SignUpModalProps {
   open: boolean;
@@ -30,15 +33,33 @@ interface SignUpModalProps {
   handleLogIn: () => void;
 }
 
-type ApiResponse = {
+interface ApiResponse {
   data?: object;
   error?: any;
+}
+
+export interface ISignUpData {
+  firstname: string;
+  lastname: string;
+  faculty: number | null;
+  login: string;
+  email: string;
+  password: string;
+  confirmedPassword: string;
+}
+
+const STEPS = {
+  PERSONAL_INFO: 0,
+  ACCOUNT_DETAIL: 1,
+  VERIFICATION: 2,
 };
 
 const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
   const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
-  const matches = useMediaQuery("(max-width: 500px)");
+  const matches = useMediaQuery(
+    `(max-width: ${dimensions.BREAK_POINTS.SIGNUP_MODAL}px)`
+  );
 
   const steps = [
     t("signUp.firstStep"),
@@ -48,34 +69,38 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
 
   const [registration, { isError }] = useRegistrationMutation();
 
-  const [firstname, setFirstname] = useState<string>("");
-  const [lastname, setLastname] = useState<string>("");
-  const [faculty, setFaculty] = useState<number | null>(null);
-  const [login, setLogin] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmedPassword, setConfirmedPassword] = useState<string>("");
+  const [signUpData, setSignUpData] = useState<ISignUpData>({
+    firstname: "",
+    lastname: "",
+    faculty: null,
+    login: "",
+    email: "",
+    password: "",
+    confirmedPassword: "",
+  });
+
   const [secretKey, setSecretKey] = useState<string>("");
   const [hasError, setHasError] = useState<boolean>(false);
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(STEPS.PERSONAL_INFO);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleClear = (): void => {
     setActiveStep(0);
-    setFirstname("");
-    setLastname("");
-    setFaculty(null);
-    setLogin("");
-    setEmail("");
-    setPassword("");
-    setConfirmedPassword("");
+    setSignUpData({
+      firstname: "",
+      lastname: "",
+      faculty: null,
+      login: "",
+      email: "",
+      password: "",
+      confirmedPassword: "",
+    });
     setSecretKey("");
     setHasError(false);
   };
 
   const handleClose = (): void => {
     setOpen(false);
-    handleClear();
   };
 
   const handleOpenLogInModal = (): void => {
@@ -86,14 +111,16 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
   const handleSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
 
+    const { firstname, lastname, faculty, login, email, password } = signUpData;
+
     const response: ApiResponse = await registration({
       body: JSON.stringify({
         firstname,
         lastname,
+        faculty,
         login,
         email,
         password,
-        faculty,
       }),
     });
 
@@ -117,8 +144,8 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
     <Modal
       open={open}
       onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
+      aria-labelledby="modal-modal-signup"
+      aria-describedby="modal-modal-authorization"
     >
       <form onSubmit={handleSubmit}>
         <Grid
@@ -162,35 +189,22 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
             <Box
               sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 4 }}
             >
-              {activeStep === 0 && (
+              {activeStep === STEPS.PERSONAL_INFO && (
                 <PersonalInfoStep
-                  firstname={firstname}
-                  setFirstname={setFirstname}
-                  lastname={lastname}
-                  setLastname={setLastname}
-                  faculty={faculty}
-                  setFaculty={setFaculty}
+                  signUpData={signUpData}
+                  setSignUpData={setSignUpData}
                   isError={hasError}
-                  handleOpenLogInModal={handleOpenLogInModal}
                 />
               )}
-              {activeStep === 1 && (
+              {activeStep === STEPS.ACCOUNT_DETAIL && (
                 <AccountDetailStep
-                  login={login}
-                  setLogin={setLogin}
-                  email={email}
-                  setEmail={setEmail}
-                  password={password}
-                  setPassword={setPassword}
-                  confirmedPassword={confirmedPassword}
-                  setConfirmedPassword={setConfirmedPassword}
-                  isError={hasError}
+                  signUpData={signUpData}
+                  setSignUpData={setSignUpData}
                   errorMessage={errorMessage}
                 />
               )}
-              {activeStep === 2 && (
+              {activeStep === STEPS.VERIFICATION && (
                 <VerificationStep
-                  email={email}
                   secretKey={secretKey}
                   setSecretKey={setSecretKey}
                   isError={hasError}
@@ -198,13 +212,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
               )}
             </Box>
             <Actions
-              firstname={firstname}
-              lastname={lastname}
-              faculty={faculty}
-              login={login}
-              email={email}
-              password={password}
-              confirmedPassword={confirmedPassword}
+              signUpData={signUpData}
               secretKey={secretKey}
               steps={steps}
               activeStep={activeStep}
@@ -214,7 +222,7 @@ const SignUpModal: FC<SignUpModalProps> = ({ open, setOpen, handleLogIn }) => {
               handleClose={handleClose}
             />
           </Box>
-          {activeStep === 0 && (
+          {activeStep === STEPS.PERSONAL_INFO && (
             <Typography
               fontSize={14}
               sx={{

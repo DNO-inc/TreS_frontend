@@ -1,11 +1,12 @@
-import { FC } from "react";
+import { ComponentType, FC } from "react";
 
 import Snackbar from "@mui/material/Snackbar";
+import { SlideProps } from "@mui/material/Slide";
 
 interface SnackbarNotificationProps {
-  open: any;
-  handleClose: any;
-  transition: any;
+  open: boolean;
+  handleClose: (_: React.SyntheticEvent | Event, reason: string) => void;
+  transition: ComponentType<Omit<SlideProps, "direction">> | undefined;
 }
 
 const SnackbarNotification: FC<SnackbarNotificationProps> = ({
