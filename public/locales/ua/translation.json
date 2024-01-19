@@ -124,6 +124,7 @@
       "deleted": "Видалені"
     },
     "notifications": "Сповіщення",
+    "statistic": "Статистика",
     "generalTickets": "Поточні звернення",
     "settings": "Налаштування"
   },
@@ -251,7 +252,19 @@
     "close": "Вирішений"
   },
   "statistic": {
-    "heading": "Статистика"
+    "heading": "Статистика",
+    "activitySummary": {
+      "heading": "Підсумок діяльності"
+    },
+    "calendarStatistic": {
+      "heading": "Календар"
+    },
+    "mentionedFaculties": {
+      "heading": "Згадані факультети"
+    },
+    "systemStatus": {
+      "heading": "Поточний стан системи"
+    }
   },
   "privacyPolicy": {
     "postscript": {
