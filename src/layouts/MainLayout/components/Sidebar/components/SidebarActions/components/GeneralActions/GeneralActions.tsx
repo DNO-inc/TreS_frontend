@@ -19,6 +19,8 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import GridViewSharpIcon from "@mui/icons-material/GridViewSharp";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import InsertChartIcon from "@mui/icons-material/InsertChart";
+import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
 
 import { NavbarListItem } from "./components/NavbarListItem";
 
@@ -103,15 +105,26 @@ const GeneralActions: FC<GeneralActionsProps> = ({
           handleListItemClick={handleListItemClick}
         />
         {isAdmin && (
-          <NavbarListItem
-            title={"queue"}
-            endpoint={endpoints.QUEUE}
-            disabled={!isAuth}
-            selectedKey={selectedKey}
-            handleListItemClick={handleListItemClick}
-            activeIcon={<GridViewSharpIcon />}
-            disableIcon={<GridViewIcon />}
-          />
+          <>
+            <NavbarListItem
+              title={"queue"}
+              endpoint={endpoints.QUEUE}
+              disabled={!isAuth}
+              selectedKey={selectedKey}
+              handleListItemClick={handleListItemClick}
+              activeIcon={<GridViewSharpIcon />}
+              disableIcon={<GridViewIcon />}
+            />
+            <NavbarListItem
+              title={"statistic"}
+              endpoint={endpoints.STATISTIC}
+              disabled={!isAuth}
+              selectedKey={selectedKey}
+              handleListItemClick={handleListItemClick}
+              activeIcon={<InsertChartIcon />}
+              disableIcon={<InsertChartOutlinedIcon />}
+            />
+          </>
         )}
         <NavbarListItem
           title={"notifications"}

@@ -1,7 +1,7 @@
 const scopes = {
   REPORTS: "Reports",
   QA: "Q/A",
-  SUGGESTIONS: "Suggestions",
+  SUGGESTION: "Suggestion",
 };
 
 export { scopes };
