@@ -256,14 +256,14 @@
     "activitySummary": {
       "heading": "Підсумок діяльності"
     },
-    "calendarStatistic": {
-      "heading": "Календар"
+    "scopeStatistic": {
+      "heading": "Звернень оброблено"
     },
     "mentionedFaculties": {
       "heading": "Згадані факультети"
     },
     "systemStatus": {
-      "heading": "Поточний стан системи"
+      "heading": "Останні 30 днів"
     }
   },
   "privacyPolicy": {

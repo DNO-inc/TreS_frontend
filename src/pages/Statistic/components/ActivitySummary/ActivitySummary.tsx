@@ -53,7 +53,7 @@ const ActivitySummary: FC<ActivitySummaryProps> = ({ summaryActivity }) => {
   return (
     <StatisticCard
       title={"activitySummary"}
-      width={420}
+      width={320}
       styles={{ gridArea: "activities" }}
     >
       <Box

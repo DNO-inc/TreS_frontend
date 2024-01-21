@@ -60,13 +60,13 @@ const StatusesStatistic: FC<StatusesStatisticProps> = ({
       ctx.save();
       const xCoord = chart.getDatasetMeta(0).data[0].x;
       const yCoord = chart.getDatasetMeta(0).data[0].y;
-      ctx.font = "600 56px san-serif";
+      ctx.font = "600 56px Inter";
       ctx.fillStyle = "rgba(255, 255, 255, 0.48)";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(ticketsCount, xCoord, yCoord - 10);
 
-      ctx.font = "500 20px san-serif";
+      ctx.font = "500 20px Inter";
       ctx.fillStyle = "rgba(255, 255, 255, 0.80)";
       ctx.fillText("Tickets", xCoord, yCoord + 30);
     },

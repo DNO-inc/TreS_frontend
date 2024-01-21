@@ -256,14 +256,14 @@
     "activitySummary": {
       "heading": "Activity summary"
     },
-    "calendarStatistic": {
-      "heading": "Calendar"
+    "scopeStatistic": {
+      "heading": "Tickets processed"
     },
     "mentionedFaculties": {
       "heading": "Mentioned faculties"
     },
     "systemStatus": {
-      "heading": "Current system status"
+      "heading": "Last 30 day"
     }
   },
   "privacyPolicy": {
