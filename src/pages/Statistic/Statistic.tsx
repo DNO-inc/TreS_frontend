@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 
 import { StatusesStatistic } from "./components/StatusesStatistic";
 import { ActivitySummary } from "./components/ActivitySummary";
-import { CalendarStatistic } from "./components/CalendarStatistic";
+import { ScopesStatistic } from "./components/ScopesStatistic";
 import { FacultiesStatistic } from "./components/FacultiesStatistic";
 
 import {
@@ -44,8 +44,9 @@ const Statistic: FC = () => {
         sx={{
           display: "grid",
           gap: "20px",
-          gridTemplateAreas: `"statuses calendar faculties faculties" 
-                              "statuses activities activities none"`,
+          gridTemplateAreas: `"statuses activities faculties" 
+                              "statuses scopes     faculties"
+                              "statuses none       none"`,
           pt: "100px !important",
         }}
       >
@@ -53,7 +54,7 @@ const Statistic: FC = () => {
           <StatusesStatistic statusesStatistic={generalStatistic.statuses} />
         )}
         {generalStatistic && (
-          <CalendarStatistic calendarStatistic={generalStatistic.scopes} />
+          <ScopesStatistic calendarStatistic={generalStatistic.scopes} />
         )}
         {facultiesStatistic && (
           <FacultiesStatistic
@@ -63,6 +64,7 @@ const Statistic: FC = () => {
         {summaryActivity && (
           <ActivitySummary summaryActivity={summaryActivity} />
         )}
+        <div style={{ gridArea: "none" }}></div>
       </Box>
     </Grid>
   );

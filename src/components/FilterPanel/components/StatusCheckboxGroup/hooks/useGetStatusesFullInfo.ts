@@ -1,5 +1,4 @@
 import { ChangeEvent } from "react";
-import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 import useTheme from "@mui/material/styles/useTheme";
@@ -19,7 +18,6 @@ export interface IStatus {
 export const useGetStatusesFullInfo = (
   isAllStatuses: boolean
 ): [IStatus[], boolean[]] => {
-  const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   const [searchParams] = useSearchParams();
@@ -32,7 +30,7 @@ export const useGetStatusesFullInfo = (
     checked: boolean
   ): IStatus => ({
     id,
-    name: t(`statusesFilter.${name}`),
+    name: name,
     color: palette.semantic[color],
     checked,
     onChange: handleChange(id),

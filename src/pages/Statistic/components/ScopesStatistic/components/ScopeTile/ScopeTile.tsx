@@ -1,10 +1,7 @@
 import { FC } from "react";
 
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 import useTheme from "@mui/material/styles/useTheme";
-
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import IPalette from "theme/IPalette.interface";
 
@@ -28,7 +25,7 @@ const ScopeTile: FC<ScopeTileProps> = ({ icon, title, ticketsCount }) => {
       <div
         style={{
           display: "flex",
-          gap: 32,
+          gap: 12,
           alignItems: "center",
         }}
       >
@@ -41,22 +38,14 @@ const ScopeTile: FC<ScopeTileProps> = ({ icon, title, ticketsCount }) => {
         >
           {icon}
         </div>
-        <div>
-          <div>{title}</div>
-          <div>
-            <span style={{ color: palette.semantic.info }}>{ticketsCount}</span>{" "}
-            <span style={{ fontSize: 12, color: palette.whiteAlpha.default }}>
-              tickets
-            </span>
-          </div>
-        </div>
+        <div>{title}</div>
       </div>
-      <IconButton>
-        <MoreHorizIcon
-          fontSize="small"
-          sx={{ color: palette.whiteAlpha.text }}
-        />
-      </IconButton>
+      <div>
+        <span style={{ color: palette.semantic.info }}>{ticketsCount}</span>{" "}
+        <span style={{ fontSize: 12, color: palette.whiteAlpha.default }}>
+          tickets
+        </span>
+      </div>
     </Box>
   );
 };

@@ -19,8 +19,8 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import GridViewSharpIcon from "@mui/icons-material/GridViewSharp";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import InsertChartIcon from "@mui/icons-material/InsertChart";
-import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
+// import InsertChartIcon from "@mui/icons-material/InsertChart";
+// import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
 
 import { NavbarListItem } from "./components/NavbarListItem";
 
@@ -115,7 +115,7 @@ const GeneralActions: FC<GeneralActionsProps> = ({
               activeIcon={<GridViewSharpIcon />}
               disableIcon={<GridViewIcon />}
             />
-            <NavbarListItem
+            {/* <NavbarListItem
               title={"statistic"}
               endpoint={endpoints.STATISTIC}
               disabled={!isAuth}
@@ -123,7 +123,7 @@ const GeneralActions: FC<GeneralActionsProps> = ({
               handleListItemClick={handleListItemClick}
               activeIcon={<InsertChartIcon />}
               disableIcon={<InsertChartOutlinedIcon />}
-            />
+            /> */}
           </>
         )}
         <NavbarListItem
