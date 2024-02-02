@@ -1,1 +1,0 @@
-export { FacultyTile } from "./FacultyTile";
