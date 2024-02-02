@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import Box from "@mui/material/Box";
 import useTheme from "@mui/material/styles/useTheme";
@@ -21,6 +22,7 @@ interface ActivitySummaryProps {
 }
 
 const ActivitySummary: FC<ActivitySummaryProps> = ({ summaryActivity }) => {
+  const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   const { average_process_time, tickets_processed, users_registered } =
@@ -29,31 +31,25 @@ const ActivitySummary: FC<ActivitySummaryProps> = ({ summaryActivity }) => {
   const activityList = [
     {
       icon: processingTime,
-      stat: `${average_process_time} d`,
-      title: "Processing time",
-      percent: "+10% from yesterday",
-      color: "#B59469",
+      stat: `${average_process_time} ${t("statistic.activitySummary.days")}`,
+      title: t("statistic.activitySummary.processingTime"),
     },
     {
       icon: ticketsCount,
       stat: tickets_processed,
-      title: "Tickets",
-      percent: "+8% from yesterday",
-      color: "#A9DFD8",
+      title: t("common.tickets"),
     },
     {
       icon: usersCount,
       stat: users_registered,
-      title: "Users",
-      percent: "+3% from yesterday",
-      color: "#20AEF3",
+      title: t("statistic.activitySummary.users"),
     },
   ];
 
   return (
     <StatisticCard
       title={"activitySummary"}
-      width={420}
+      width={350}
       styles={{ gridArea: "activities" }}
     >
       <Box
@@ -69,17 +65,10 @@ const ActivitySummary: FC<ActivitySummaryProps> = ({ summaryActivity }) => {
         }}
       >
         {activityList.map((activity, index) => {
-          const { icon, stat, title, percent, color } = activity;
+          const { icon, stat, title } = activity;
 
           return (
-            <ActivityTile
-              icon={icon}
-              stat={stat}
-              title={title}
-              percent={percent}
-              color={color}
-              key={index}
-            />
+            <ActivityTile icon={icon} stat={stat} title={title} key={index} />
           );
         })}
       </Box>

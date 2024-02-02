@@ -33,7 +33,7 @@ export interface IScope {
   queues: IQueue[];
 }
 
-const scopeNames = ["Reports", "Q/A", "Suggestions"];
+const scopeNames = ["Reports", "Q/A", "Suggestion"];
 
 const Queue: FC = () => {
   const { t, i18n } = useTranslation();

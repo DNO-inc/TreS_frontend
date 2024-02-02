@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
@@ -13,11 +14,12 @@ interface CustomCheckboxProps {
 }
 
 const CustomCheckbox: FC<CustomCheckboxProps> = ({ status }) => {
+  const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   return (
     <FormControlLabel
-      label={status.name}
+      label={t(`statusesFilter.${status.name}`)}
       control={
         <Box sx={{ position: "relative" }}>
           <Checkbox

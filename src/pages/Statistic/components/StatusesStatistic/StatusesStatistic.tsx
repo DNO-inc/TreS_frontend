@@ -38,13 +38,13 @@ const StatusesStatistic: FC<StatusesStatisticProps> = ({
 
   const data = {
     labels: statusesStatistic.map(status =>
-      t(`statusesFilter.${status.status_name.toLowerCase()}`)
+      t(`statusesFilter.${status.name.toLowerCase()}`)
     ),
     datasets: [
       {
         data: statusesStatistic.map(status => status.tickets_count),
         backgroundColor: statusesStatistic.map(
-          status => `rgba(${colors[status.status_name.toLowerCase()]}, 1)`
+          status => `rgba(${colors[status.name.toLowerCase()]}, 1)`
         ),
         borderWidth: 0,
         cutout: "70%",
@@ -60,15 +60,15 @@ const StatusesStatistic: FC<StatusesStatisticProps> = ({
       ctx.save();
       const xCoord = chart.getDatasetMeta(0).data[0].x;
       const yCoord = chart.getDatasetMeta(0).data[0].y;
-      ctx.font = "600 56px san-serif";
+      ctx.font = "600 56px Inter";
       ctx.fillStyle = "rgba(255, 255, 255, 0.48)";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(ticketsCount, xCoord, yCoord - 10);
 
-      ctx.font = "500 20px san-serif";
+      ctx.font = "500 20px Inter";
       ctx.fillStyle = "rgba(255, 255, 255, 0.80)";
-      ctx.fillText("Tickets", xCoord, yCoord + 30);
+      ctx.fillText(t("common.tickets"), xCoord, yCoord + 30);
     },
   };
 
@@ -84,13 +84,13 @@ const StatusesStatistic: FC<StatusesStatisticProps> = ({
         </Box>
         <Box sx={{ fontSize: 14 }}>
           {statusesStatistic.map(status => {
-            const { tickets_count, status_name, status_id } = status;
+            const { tickets_count, name, status_id } = status;
 
             return (
               <StatusTile
                 count={tickets_count}
-                title={status_name}
-                color={colors[status_name.toLowerCase()]}
+                title={name}
+                color={colors[name.toLowerCase()]}
                 key={status_id}
               />
             );

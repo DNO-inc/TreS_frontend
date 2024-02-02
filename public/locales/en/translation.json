@@ -14,6 +14,7 @@
     "12": "Dec."
   },
   "common": {
+    "tickets": "Tickets",
     "q/a": "Q/A",
     "reports": "Reports",
     "suggestion": "Suggestions",
@@ -133,7 +134,7 @@
     "scopes": {
       "reportsTitle": "Reports",
       "q/aTitle": "Questions",
-      "suggestionsTitle": "Suggestions"
+      "suggestionTitle": "Suggestions"
     },
     "showAll": "Show all"
   },
@@ -254,16 +255,20 @@
   "statistic": {
     "heading": "Statistic",
     "activitySummary": {
-      "heading": "Activity summary"
+      "heading": "Activity summary",
+      "processingTime": "Processing time",
+      "users": "Users",
+      "hours": "h",
+      "days": "d"
     },
-    "calendarStatistic": {
-      "heading": "Calendar"
+    "scopeStatistic": {
+      "heading": "Tickets processed"
     },
     "mentionedFaculties": {
       "heading": "Mentioned faculties"
     },
     "systemStatus": {
-      "heading": "Current system status"
+      "heading": "Last 30 day"
     }
   },
   "privacyPolicy": {
