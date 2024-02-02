@@ -48,7 +48,7 @@ const ScopesStatistic: FC<ScopesStatisticProps> = ({ calendarStatistic }) => {
             <ScopeTile
               icon={icons[scope]}
               title={scope}
-              ticketsCount={tickets_count}
+              ticketsCount={tickets_count || 0}
               color={colors[scope]}
               key={scope}
             />
