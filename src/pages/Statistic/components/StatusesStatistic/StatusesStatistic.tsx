@@ -42,7 +42,7 @@ const StatusesStatistic: FC<StatusesStatisticProps> = ({
     ),
     datasets: [
       {
-        data: statusesStatistic.map(status => status.tickets_count),
+        data: statusesStatistic.map(status => status.tickets_count || 0),
         backgroundColor: statusesStatistic.map(
           status => `rgba(${colors[status.name.toLowerCase()]}, 1)`
         ),
