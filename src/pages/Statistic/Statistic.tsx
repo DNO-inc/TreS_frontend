@@ -78,6 +78,7 @@ const Statistic: FC = () => {
         {summaryActivity && (
           <ActivitySummary summaryActivity={summaryActivity} />
         )}
+        <div style={{ gridArea: "none" }}></div>
       </Box>
     </Grid>
   );
