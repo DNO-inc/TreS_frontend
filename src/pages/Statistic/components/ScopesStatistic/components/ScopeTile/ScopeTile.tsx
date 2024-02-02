@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import Box from "@mui/material/Box";
 import useTheme from "@mui/material/styles/useTheme";
@@ -9,9 +10,16 @@ interface ScopeTileProps {
   icon: JSX.Element;
   title: string;
   ticketsCount: number;
+  color: string;
 }
 
-const ScopeTile: FC<ScopeTileProps> = ({ icon, title, ticketsCount }) => {
+const ScopeTile: FC<ScopeTileProps> = ({
+  icon,
+  title,
+  ticketsCount,
+  color,
+}) => {
+  const { t } = useTranslation();
   const { palette }: IPalette = useTheme();
 
   return (
@@ -31,19 +39,20 @@ const ScopeTile: FC<ScopeTileProps> = ({ icon, title, ticketsCount }) => {
       >
         <div
           style={{
-            backgroundColor: palette.grey.active,
+            backgroundColor: color,
+            color: palette.grey.checkbox,
             borderRadius: 4,
             padding: "10px 10px 4px",
           }}
         >
           {icon}
         </div>
-        <div>{title}</div>
+        <div>{t(`common.${title.toLowerCase()}`)}</div>
       </div>
       <div>
         <span style={{ color: palette.semantic.info }}>{ticketsCount}</span>{" "}
         <span style={{ fontSize: 12, color: palette.whiteAlpha.default }}>
-          tickets
+          {t("common.tickets").toLowerCase()}
         </span>
       </div>
     </Box>

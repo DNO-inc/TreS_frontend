@@ -1,16 +1,19 @@
 import { FC } from "react";
 
 import Box from "@mui/material/Box";
+import useTheme from "@mui/material/styles/useTheme";
+
+import IPalette from "theme/IPalette.interface";
 
 interface ActivityTileProps {
   icon: any;
   stat: number | string;
   title: string;
-  percent: string;
-  color: string;
 }
 
 const ActivityTile: FC<ActivityTileProps> = ({ icon, stat, title }) => {
+  const { palette }: IPalette = useTheme();
+
   return (
     <Box
       sx={{
@@ -33,7 +36,7 @@ const ActivityTile: FC<ActivityTileProps> = ({ icon, stat, title }) => {
           gap: 5,
         }}
       >
-        <div style={{ fontSize: 16 }}>{stat}</div>
+        <div style={{ fontSize: 16, color: palette.semantic.info }}>{stat}</div>
         <div style={{ fontSize: 12 }}>{title}</div>
       </div>
     </Box>

@@ -28,6 +28,12 @@ const ScopesStatistic: FC<ScopesStatisticProps> = ({ calendarStatistic }) => {
     [scopes.SUGGESTION]: <HandshakeOutlinedIcon fontSize="small" />,
   };
 
+  const colors = {
+    [scopes.QA]: "#12DB87",
+    [scopes.REPORTS]: "#D94B44",
+    [scopes.SUGGESTION]: "#03A2E8",
+  };
+
   return (
     <StatisticCard
       title={"scopeStatistic"}
@@ -43,6 +49,7 @@ const ScopesStatistic: FC<ScopesStatisticProps> = ({ calendarStatistic }) => {
               icon={icons[scope]}
               title={scope}
               ticketsCount={tickets_count}
+              color={colors[scope]}
               key={scope}
             />
           );

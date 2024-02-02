@@ -31,7 +31,7 @@ const StatisticCard: FC<StatisticCardProps> = ({
         flexDirection: "column",
         gap: "20px",
         p: "15px 20px",
-        width: `${width}px`,
+        minWidth: `${width}px`,
         height: `fit-content`,
         borderRadius: 1,
         bgcolor: palette.grey.card,

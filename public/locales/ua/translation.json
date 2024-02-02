@@ -14,6 +14,7 @@
     "12": "Груд."
   },
   "common": {
+    "tickets": "Звернень",
     "q/a": "Питання",
     "reports": "Скарги",
     "suggestion": "Пропозиції",
@@ -133,7 +134,7 @@
     "scopes": {
       "reportsTitle": "Скарги",
       "q/aTitle": "Питання",
-      "suggestionsTitle": "Пропозиції"
+      "suggestionTitle": "Пропозиції"
     },
     "showAll": "Показати всі"
   },
@@ -254,7 +255,11 @@
   "statistic": {
     "heading": "Статистика",
     "activitySummary": {
-      "heading": "Підсумок діяльності"
+      "heading": "Підсумкова діяльність",
+      "processingTime": "Час обробки",
+      "users": "Користувачів",
+      "hours": "г",
+      "days": "д"
     },
     "scopeStatistic": {
       "heading": "Звернень оброблено"

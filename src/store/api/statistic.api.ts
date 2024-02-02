@@ -5,21 +5,17 @@ export const statisticApi = api.injectEndpoints({
     getSummaryActivity: builder.query({
       query: () => "/statistic/activity_summary",
     }),
-    getFacultyStatistic: builder.query({
+    getFacultiesStatistic: builder.query({
       query: () => "/statistic/faculties",
     }),
-    getGeneralStatistic: builder.mutation({
-      query: ({ body }) => ({
-        url: "/statistic/period",
-        method: "POST",
-        body,
-      }),
+    getPeriodStatistic: builder.query({
+      query: () => "/statistic/period",
     }),
   }),
 });
 
 export const {
   useGetSummaryActivityQuery,
-  useGetFacultyStatisticQuery,
-  useGetGeneralStatisticMutation,
+  useGetFacultiesStatisticQuery,
+  useGetPeriodStatisticQuery,
 } = statisticApi;
