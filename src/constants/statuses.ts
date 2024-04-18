@@ -1,10 +1,10 @@
 const statuses = {
-  NEW: "new",
-  ACCEPTED: "accepted",
-  OPEN: "open",
-  WAITING: "waiting",
-  CLOSE: "close",
-  REJECTED: "rejected",
-};
+  NEW: 'new',
+  ACCEPTED: 'accepted',
+  OPEN: 'open',
+  WAITING: 'waiting',
+  CLOSED: 'closed',
+  REJECTED: 'rejected',
+}
 
-export { statuses };
+export { statuses }
