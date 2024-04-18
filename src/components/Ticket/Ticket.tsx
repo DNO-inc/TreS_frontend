@@ -1,90 +1,83 @@
-import {
-  MouseEvent,
-  useState,
-  FC,
-  ComponentType,
-  useEffect,
-  memo,
-} from "react";
-import { useNavigate } from "react-router-dom";
+import { MouseEvent, useState, FC, ComponentType, useEffect, memo } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import Divider from "@mui/material/Divider";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import useTheme from "@mui/material/styles/useTheme";
-import { SlideProps } from "@mui/material/Slide";
+import Divider from '@mui/material/Divider'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import useTheme from '@mui/material/styles/useTheme'
+import { SlideProps } from '@mui/material/Slide'
 
-import { TicketHeader } from "./components/TicketHeader";
-import { TicketBody } from "./components/TicketBody";
-import { TicketActions } from "./components/TicketActions";
-import { SnackbarNotification } from "components/SnackbarNotification";
-import { SlideNotification } from "components/SlideNotification";
+import { TicketHeader } from './components/TicketHeader'
+import { TicketBody } from './components/TicketBody'
+import { TicketActions } from './components/TicketActions'
+import { SnackbarNotification } from 'components/SnackbarNotification'
+import { SlideNotification } from 'components/SlideNotification'
 
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
-} from "api/tickets.api";
-import { endpoints, toggleOptions } from "constants";
-import { useCheckStatus, useFormatDate } from "hooks/index";
-import IPalette from "theme/IPalette.interface";
-import { ITicket } from "./ticket.interface";
-import { getUser } from "functions/manipulateLocalStorage";
-import { useAuth } from "context/AuthContext/AuthContext";
-import { useToggleAction } from "hooks/useToggleAction";
+} from 'api/tickets.api'
+import { endpoints, toggleOptions } from 'constants'
+import { useCheckStatus, useFormatDate } from 'hooks/index'
+import IPalette from 'theme/IPalette.interface'
+import { ITicket } from './ticket.interface'
+import { getUser } from 'functions/manipulateLocalStorage'
+import { useAuth } from 'context/AuthContext/AuthContext'
+import { useToggleAction } from 'hooks/useToggleAction'
 
 interface TicketProps {
-  ticket: ITicket;
-  ticketsPerRow: number;
+  ticket: ITicket
+  ticketsPerRow: number
 }
 
 const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
-  const { palette }: IPalette = useTheme();
-  const { isAuth } = useAuth();
-  const navigate = useNavigate();
+  const { palette }: IPalette = useTheme()
+  const { isAuth } = useAuth()
+  const navigate = useNavigate()
 
-  const { userId } = getUser();
-  const creatorId = ticket?.creator?.user_id;
-  const isMyTicket = userId === creatorId;
-  const isHiddenTicket = isMyTicket && ticket.hidden;
+  const { userId } = getUser()
+  const creatorId = ticket?.creator?.user_id
+  const isMyTicket = userId === creatorId
+  const isHiddenTicket = isMyTicket && ticket.hidden
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   const [transition, setTransition] = useState<
     ComponentType<SlideProps> | undefined
-  >(undefined);
+  >(undefined)
 
-  const [upvotes, setUpvotes] = useState<number>(ticket.upvotes);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [isFollowed, setIsFollowed] = useState<boolean>(false);
+  const [upvotes, setUpvotes] = useState<number>(ticket.upvotes)
+  const [isLiked, setIsLiked] = useState<boolean>(false)
+  const [isFollowed, setIsFollowed] = useState<boolean>(false)
 
-  const color: string = useCheckStatus(ticket.status.name);
-  const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
+  const color: string = useCheckStatus(ticket.status.name)
+  const formattedDate: string = ticket?.date && useFormatDate(ticket.date)
 
   useEffect(() => {
-    ticket.is_liked && setIsLiked(true);
-    ticket.is_followed && setIsFollowed(true);
-  }, [ticket.is_liked, ticket.is_followed]);
+    ticket.is_liked && setIsLiked(true)
+    ticket.is_followed && setIsFollowed(true)
+  }, [ticket.is_liked, ticket.is_followed])
 
   //================ refactor this ======================= //
-  type TransitionProps = Omit<SlideProps, "direction">;
+  type TransitionProps = Omit<SlideProps, 'direction'>
 
   function TransitionRight(props: TransitionProps, variant: string) {
-    return <SlideNotification props={props} variant={variant} />;
+    return <SlideNotification props={props} variant={variant} />
   }
 
   const handleSnackbarClick = (Transition: ComponentType<TransitionProps>) => {
-    setTransition(() => Transition);
-    setOpen(true);
-  };
+    setTransition(() => Transition)
+    setOpen(true)
+  }
 
   const handleClose = (_: React.SyntheticEvent | Event, reason: string) => {
-    if (reason === "timeout") setOpen(false);
-  };
+    if (reason === 'timeout') setOpen(false)
+  }
   //================ refactor this ======================= //
 
-  const [toggleLike] = useToggleLikeMutation();
-  const [toggleFollowed] = useToggleBookmarkMutation();
+  const [toggleLike] = useToggleLikeMutation()
+  const [toggleFollowed] = useToggleBookmarkMutation()
 
-  const likeOption = !isLiked ? toggleOptions.LIKE : toggleOptions.UNLIKE;
+  const likeOption = !isLiked ? toggleOptions.LIKE : toggleOptions.UNLIKE
 
   const likeOptions = {
     toggleMutation: toggleLike,
@@ -94,18 +87,18 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
     dependencies: [isLiked],
     callback: () => {
       setUpvotes((prevUpvote: number) =>
-        likeOption === "like" ? prevUpvote + 1 : prevUpvote - 1
-      );
+        likeOption === 'like' ? prevUpvote + 1 : prevUpvote - 1
+      )
 
-      handleSnackbarClick(props => TransitionRight(props, likeOption));
+      handleSnackbarClick(props => TransitionRight(props, likeOption))
     },
-  };
+  }
 
-  const handleToggleLike = useToggleAction(likeOptions);
+  const handleToggleLike = useToggleAction(likeOptions)
 
   const followedOption = !isFollowed
     ? toggleOptions.BOOKMARK
-    : toggleOptions.UNBOOKMARK;
+    : toggleOptions.UNBOOKMARK
 
   const followedOptions = {
     toggleMutation: toggleFollowed,
@@ -114,70 +107,70 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
     ticketId: ticket.ticket_id,
     dependencies: [isFollowed],
     callback: () => {
-      handleSnackbarClick(props => TransitionRight(props, followedOption));
+      handleSnackbarClick(props => TransitionRight(props, followedOption))
     },
-  };
+  }
 
-  const handleToggleFollowed = useToggleAction(followedOptions);
+  const handleToggleFollowed = useToggleAction(followedOptions)
 
   //================ refactor this ======================= //
 
   const handleClick = (event: MouseEvent): void => {
-    const { target } = event;
+    const { target } = event
 
     if (
       target instanceof HTMLElement &&
-      target.tagName !== "path" &&
-      !target.closest(".evadeItem")
+      target.tagName !== 'path' &&
+      !target.closest('.evadeItem')
     ) {
-      isAuth && navigate(`${endpoints.FULL_TICKET}/${ticket.ticket_id}`);
+      isAuth && navigate(`${endpoints.FULL_TICKET}/${ticket.ticket_id}`)
     }
-  };
+  }
 
   return (
     <Card
       onClick={handleClick}
       sx={{
-        position: "relative",
+        position: 'relative',
         flexBasis: `calc((100% - 16px * ${
           ticketsPerRow - 1
         }) / ${ticketsPerRow})`,
         height: 332,
         bgcolor: palette.grey.card,
-        cursor: isAuth ? "pointer" : "default",
-        backgroundImage: "none",
+        cursor: isAuth ? 'pointer' : 'default',
+        backgroundImage: 'none',
         border: `2px solid ${palette.grey.border}`,
-        "& > div > div": {
+        '& > div > div': {
           p: 2,
         },
-        "& > div > hr": {
+        '& > div > hr': {
           borderRadius: 2,
           border: `1px solid ${palette.grey.border}`,
           ml: 2,
           mr: 2,
         },
-        "&::before": isHiddenTicket
+        '&::before': isHiddenTicket
           ? {
               content: "''",
-              position: "absolute",
+              position: 'absolute',
               top: 0,
               left: 0,
-              width: "100%",
-              height: "100%",
-              bgcolor: "rgba(0, 0, 0, 0.4)",
+              width: '100%',
+              height: '100%',
+              bgcolor: 'rgba(0, 0, 0, 0.4)',
               zIndex: 2,
             }
           : {},
-        "&::after": isHiddenTicket
+        '&::after': isHiddenTicket
           ? {
               content: "'🤫'",
-              textAlign: "center",
+              textAlign: 'center',
               fontSize: 170,
-              position: "absolute",
-              top: "53%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              filter: "grayscale(80%)",
+              position: 'absolute',
+              top: '53%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              filter: 'grayscale(80%)',
               opacity: 0.15,
               zIndex: 3,
             }
@@ -186,9 +179,9 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
     >
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
           borderLeft: `12px solid ${color}`,
         }}
       >
@@ -224,7 +217,7 @@ const Ticket: FC<TicketProps> = memo(({ ticket, ticketsPerRow }) => {
         />
       </Box>
     </Card>
-  );
-});
+  )
+})
 
-export { Ticket };
+export { Ticket }

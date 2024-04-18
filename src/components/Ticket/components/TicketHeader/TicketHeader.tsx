@@ -1,53 +1,53 @@
-import { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
+import { NavLink } from 'react-router-dom'
 
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import useTheme from "@mui/material/styles/useTheme";
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import useTheme from '@mui/material/styles/useTheme'
 
-import { ScopeLabel } from "components/ScopeLabel";
-import { Badge } from "components/Badge";
+import { ScopeLabel } from 'components/ScopeLabel'
+import { Badge } from 'components/Badge'
 
-import IPalette from "theme/IPalette.interface";
-import { endpoints, statuses } from "constants";
-import { useAuth } from "context/AuthContext/AuthContext";
-import { useFormatName } from "components/Ticket/hooks/useFormatName";
+import IPalette from 'theme/IPalette.interface'
+import { endpoints, statuses } from 'constants'
+import { useAuth } from 'context/AuthContext/AuthContext'
+import { useFormatName } from 'components/Ticket/hooks/useFormatName'
 
 export interface IAssignee {
-  faculty: { faculty_id: number; name: string };
-  firstname: string;
-  group: { group_id: number; name: string };
-  lastname: string;
-  login: string;
-  user_id: number;
+  faculty: { faculty_id: number; name: string }
+  firstname: string
+  group: { group_id: number; name: string }
+  lastname: string
+  login: string
+  user_id: number
 }
 
 interface TicketHeaderProps {
-  scope: string;
-  color: string;
-  subject: string;
-  status: string;
-  assignee: IAssignee;
+  scope: string
+  color: string
+  subject: string
+  status: string
+  assignee: IAssignee
 }
 
 interface AssigneeLabelProps {
-  assigneeName: string;
+  assigneeName: string
 }
 
 const AssigneeLabel: FC<AssigneeLabelProps> = ({ assigneeName }) => {
-  const { palette }: IPalette = useTheme();
+  const { palette }: IPalette = useTheme()
 
   return (
     <Typography
-      className="evadeItem"
+      className='evadeItem'
       sx={{ color: palette.whiteAlpha.default }}
     >
       {assigneeName}
     </Typography>
-  );
-};
+  )
+}
 
 const TicketHeader: FC<TicketHeaderProps> = ({
   color,
@@ -56,28 +56,28 @@ const TicketHeader: FC<TicketHeaderProps> = ({
   status,
   assignee,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const { isAuth } = useAuth();
+  const { isAuth } = useAuth()
 
-  const assigneeId = assignee?.user_id;
-  const assigneeName = useFormatName(assignee);
+  const assigneeId = assignee?.user_id
+  const assigneeName = useFormatName(assignee)
 
   return (
     <Box maxHeight={80}>
-      <Grid container flexWrap={"nowrap"} justifyContent={"space-between"}>
+      <Grid container flexWrap={'nowrap'} justifyContent={'space-between'}>
         <Typography
-          component="div"
+          component='div'
           noWrap={true}
-          sx={{ textOverflow: "ellipsis" }}
+          sx={{ textOverflow: 'ellipsis' }}
         >
           {subject}
         </Typography>
-        <Grid gap={1} display={"flex"} sx={{ ml: 2 }}>
+        <Grid gap={1} display={'flex'} sx={{ ml: 2 }}>
           <Badge
             customStyle={{
               backgroundColor: color,
-              color: status === statuses.NEW.toUpperCase() ? "#000" : "#fff",
+              color: status === statuses.NEW.toUpperCase() ? '#000' : '#fff',
             }}
             text={t(`ticketStatus.${status.toLowerCase()}`)}
           />
@@ -86,8 +86,8 @@ const TicketHeader: FC<TicketHeaderProps> = ({
       </Grid>
       {isAuth ? (
         <NavLink
-          to={assigneeId ? `${endpoints.PROFILE}/${assigneeId}` : ""}
-          style={{ cursor: assigneeId ? "pointer" : "default" }}
+          to={assigneeId ? `${endpoints.PROFILE}/${assigneeId}` : ''}
+          style={{ cursor: assigneeId ? 'pointer' : 'default' }}
         >
           <AssigneeLabel assigneeName={assigneeName} />
         </NavLink>
@@ -95,7 +95,7 @@ const TicketHeader: FC<TicketHeaderProps> = ({
         <AssigneeLabel assigneeName={assigneeName} />
       )}
     </Box>
-  );
-};
+  )
+}
 
-export { TicketHeader };
+export { TicketHeader }

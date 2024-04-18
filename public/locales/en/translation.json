@@ -44,7 +44,8 @@
       "report": "Report",
       "suggestion": "Suggestion",
       "question": "Question"
-    }
+    },
+    "deleteAllButton": "Delete All selected tickets"
   },
   "dialog": {
     "deleteFile": {
@@ -74,7 +75,7 @@
     "confirm": {
       "header": "Confirm",
       "description": "Go to the provided email address and use the link to restore access to your account.",
-      "close": "Close"
+      "closed": "Closed"
     }
   },
   "signUp": {
@@ -189,6 +190,7 @@
     "author": "Author",
     "faculty": "Faculty",
     "dateOfCreation": "Date of creation",
+    "acceptChanges": "Accept changes",
     "admin": {
       "selectAssignee": "Select assignee"
     },
@@ -203,7 +205,8 @@
       "send": "send",
       "edit": "edit",
       "reply": "reply",
-      "delete": "delete"
+      "delete": "delete",
+      "messagePlaceholder": "message"
     },
     "dialog": {
       "title": "Delete ticket",
@@ -242,7 +245,7 @@
     "open": "Open",
     "waiting": "Waiting",
     "rejected": "Rejected",
-    "close": "Close"
+    "closed": "Closed"
   },
   "ticketStatus": {
     "new": "New",
@@ -250,7 +253,7 @@
     "open": "Open",
     "waiting": "Waiting",
     "rejected": "Rejected",
-    "close": "Close"
+    "closed": "Closed"
   },
   "statistic": {
     "heading": "Statistic",

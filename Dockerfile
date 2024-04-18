@@ -1,7 +1,7 @@
 FROM node:18.16.0-alpine as tres-build-base
 
 ENV VITE_API_URL="https://tres.sumdu.edu.ua/api"
-ENV VITE_WS_URL="wss://https://tres.sumdu.edu.ua/api/ws"
+ENV VITE_WS_URL="wss://tres.sumdu.edu.ua/api/ws"
 
 WORKDIR /app
 COPY . /app
