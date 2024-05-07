@@ -1,17 +1,17 @@
-import CssBaseline from "@mui/material/CssBaseline";
-import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import CssBaseline from '@mui/material/CssBaseline'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
 
-import { Router } from "./router";
+import { Router } from './router'
 
-import { ColorModeContext } from "theme";
-import { useMode } from "theme/hooks";
-import "./App.css";
+import { ColorModeContext } from 'theme'
+import { useMode } from 'theme/hooks'
+import './App.css'
 
-import { AuthProvider } from "context/AuthContext/AuthContext";
-import { NotificationProvider } from "context/NotificationContext/NotificationContext";
+import { AuthProvider } from 'context/AuthContext/AuthContext'
+import { NotificationProvider } from 'context/NotificationContext/NotificationContext'
 
 const App = () => {
-  const [theme, colorMode] = useMode();
+  const [theme, colorMode] = useMode()
 
   return (
     <AuthProvider>
@@ -24,7 +24,7 @@ const App = () => {
         </ColorModeContext.Provider>
       </NotificationProvider>
     </AuthProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App
