@@ -1,28 +1,30 @@
-import { useState, FC } from "react";
-import { useTranslation } from "react-i18next";
+import { FC } from 'react'
+// import { useTranslation } from 'react-i18next'
 
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+// import Box from '@mui/material/Box'
+// import Button from '@mui/material/Button'
 
-import LogInModal from "components/LogInModal";
-import SignUpModal from "components/SignUpModal";
+// import LogInModal from 'components/LogInModal'
+// import SignUpModal from 'components/SignUpModal'
+import { CabinetAuthButton } from 'components/LogInModal/components/LoginStep/components/CabinetAuthButton'
 
 const NoAuthActions: FC = () => {
-  const { t } = useTranslation();
-  const [showLogIn, setShowLogIn] = useState<boolean>(false);
-  const [showSignUn, setShowSignUp] = useState<boolean>(false);
+  // const { t } = useTranslation()
+  // const [showLogIn, setShowLogIn] = useState<boolean>(false)
+  // const [showSignUn, setShowSignUp] = useState<boolean>(false)
 
-  const handleLogIn = (): void => {
-    setShowLogIn(true);
-  };
+  // const handleLogIn = (): void => {
+  //   setShowLogIn(true)
+  // }
 
-  const handleSignUn = (): void => {
-    setShowSignUp(true);
-  };
+  // const handleSignUn = (): void => {
+  //   setShowSignUp(true)
+  // }
 
   return (
     <>
-      <Box sx={{ width: "100%", display: "flex", gap: 1 }}>
+      <CabinetAuthButton />
+      {/* <Box sx={{ width: "100%", display: "flex", gap: 1 }}>
         <Button
           variant="outlined"
           onClick={handleLogIn}
@@ -47,9 +49,9 @@ const NoAuthActions: FC = () => {
         open={showSignUn}
         setOpen={setShowSignUp}
         handleLogIn={handleLogIn}
-      />
+      /> */}
     </>
-  );
-};
+  )
+}
 
-export { NoAuthActions };
+export { NoAuthActions }
