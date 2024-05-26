@@ -1,14 +1,14 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-import baseQueryWithReauth from "./useBaseQuery";
+import { createApi } from '@reduxjs/toolkit/query/react'
+import baseQueryWithReauth from './useBaseQuery'
 
 export const api = createApi({
-  reducerPath: "api",
+  reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
   endpoints: builder => ({
     getVersion: builder.query({
-      query: () => "/about/version",
+      query: () => '/about/version',
     }),
   }),
-});
+})
 
-export const { useGetVersionQuery } = api;
+export const { useGetVersionQuery } = api
