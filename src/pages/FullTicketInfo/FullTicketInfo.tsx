@@ -33,6 +33,11 @@ export interface IPerson {
   nick: string
 }
 
+export interface IFaculty {
+  faculty_id: number
+  name: string
+}
+
 const FullTicketInfo: FC = () => {
   const { palette }: IPalette = useTheme()
   const { pathname } = useLocation()
@@ -62,7 +67,7 @@ const FullTicketInfo: FC = () => {
 
   useEffect(() => {
     showTicket({ body: JSON.stringify({ ticket_id: ticketId }) })
-  }, [ticketId, isSuccessUpdate])
+  }, [isSuccessUpdate])
 
   useEffect(() => {
     if (isSuccess) {
@@ -146,8 +151,9 @@ const FullTicketInfo: FC = () => {
           />
           <FullTicketAdditionInfo
             creator={ticket?.creator}
-            faculty={ticket.faculty}
+            facultyName={ticket.faculty.name}
             date={ticket.date}
+            isSuccessUpdate={isSuccessUpdate}
           />
           <FullTicketComments
             peopleSettings={peopleSettings}

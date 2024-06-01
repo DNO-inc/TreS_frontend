@@ -1,21 +1,26 @@
-import { FC } from "react";
+import { FC } from 'react'
 
-import { MyTicketsLayout } from "layouts/MyTicketsLayout";
+import { MyTicketsLayout } from 'layouts/MyTicketsLayout'
 
-import { useGetSavedTicketsMutation } from "api/tickets.api";
+import { useGetSavedTicketsMutation } from 'api/tickets.api'
+import { checkIsAdmin } from 'functions/checkIsAdmin'
+import { useGetAdminFollowedTicketsMutation } from 'api/admin.api'
 
 const Followed: FC = () => {
-  const [getTickets, { isLoading, isSuccess }] = useGetSavedTicketsMutation();
+  const isAdmin = checkIsAdmin()
+  const [getTickets, { isLoading, isSuccess }] = isAdmin
+    ? useGetAdminFollowedTicketsMutation()
+    : useGetSavedTicketsMutation()
 
   return (
     <MyTicketsLayout
-      title={"followed"}
+      title={'followed'}
       useGetQuery={getTickets}
       isLoading={isLoading}
       isSuccess={isSuccess}
-      option={"followed"}
+      option={'followed'}
     />
-  );
-};
+  )
+}
 
-export { Followed };
+export { Followed }
