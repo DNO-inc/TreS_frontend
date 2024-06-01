@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -14,22 +14,25 @@ import { ICreator } from 'components/Ticket/components/TicketBody/TicketBody'
 
 interface FullTicketAdditionInfoProps {
   creator: ICreator | null
-  faculty: {
-    faculty_id: number
-    name: string
-  }
+  facultyName: string
   date: string
+  isSuccessUpdate: boolean
 }
 
 const FullTicketAdditionInfo: FC<FullTicketAdditionInfoProps> = ({
   creator,
-  faculty,
+  facultyName,
   date,
+  isSuccessUpdate,
 }) => {
   const { t } = useTranslation()
   const { palette }: IPalette = useTheme()
 
   const formattedData = formatDate(date)
+
+  useEffect(() => {
+    isSuccessUpdate
+  }, [isSuccessUpdate])
 
   return (
     <Grid container>
@@ -65,7 +68,7 @@ const FullTicketAdditionInfo: FC<FullTicketAdditionInfoProps> = ({
         </Grid>
         <Grid>
           <Typography>{t('fullTicket.faculty')}</Typography>
-          <Box>{faculty.name}</Box>
+          <Box>{facultyName}</Box>
         </Grid>
         <Grid>
           <Typography>{t('fullTicket.dateOfCreation')}</Typography>

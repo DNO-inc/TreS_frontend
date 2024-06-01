@@ -23,7 +23,11 @@ const SidebarActions: FC = () => {
   const { language } = useAuth()
 
   useEffect(() => {
-    language && i18n.changeLanguage(language)
+    if (language === 'uk') {
+      i18n.changeLanguage('ua')
+    } else if (language === 'en') {
+      i18n.changeLanguage('en')
+    }
   }, [])
 
   const [selectedKey, setSelectedKey] = useState<string>(
