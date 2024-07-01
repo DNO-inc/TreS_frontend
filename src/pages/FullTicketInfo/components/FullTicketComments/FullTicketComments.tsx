@@ -1,41 +1,42 @@
+import { SerializedError } from '@reduxjs/toolkit'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
 import {
-  FC,
-  useEffect,
-  useState,
-  useRef,
-  MutableRefObject,
-  useCallback,
   Dispatch,
+  FC,
+  MutableRefObject,
   SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
-import { SerializedError } from '@reduxjs/toolkit'
 
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import useTheme from '@mui/material/styles/useTheme'
 
-import { Comment } from './components/Comment'
 import { Action } from './components/Action'
+import { ArrowDown } from './components/ArrowDown'
+import { Comment } from './components/Comment'
 import { CommentsTextField } from './components/CommentsTextField'
 import { FloatingPanel } from './components/FloatingPanel'
-import { ArrowDown } from './components/ArrowDown'
 
-import IPalette from 'theme/IPalette.interface'
 import {
   useCreateCommentMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
 } from 'api/comments.api'
-import { useRandomNick } from 'hooks/index'
-import { getRandomNickColor } from 'functions/index'
-import { IPerson } from '../../FullTicketInfo'
-import { getUser, getUserRole } from 'functions/manipulateLocalStorage'
-import { IComment } from './components/Comment/Comment'
-import { IAction } from './components/Action/Action'
-import { permissions } from 'constants'
 import { useGetFullHistoryMutation } from 'api/tickets.api'
+import { permissions } from 'constants'
+import { getRandomNickColor } from 'functions/index'
+import { getUser, getUserRole } from 'functions/manipulateLocalStorage'
+import { useRandomNick } from 'hooks/index'
+import IPalette from 'theme/IPalette.interface'
+import { IPerson } from '../../FullTicketInfo'
+import { IAction } from './components/Action/Action'
+import { IComment } from './components/Comment/Comment'
+import { FloatingDate } from './components/FloatingDate'
 
 export type IHistoryItem = IAction | IComment
 
@@ -277,6 +278,14 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
     }
   }, [])
 
+  const getDatePart = (date: string) => {
+    const d = new Date(date)
+    const day = d.getDate()
+    const month = (d.getMonth() + 1).toString().padStart(2, '0')
+    const year = d.getFullYear()
+    return `${day} ${t(`month.${month}`)} ${year}`
+  }
+
   return (
     <Grid container sx={{ position: 'relative' }}>
       <Typography mb={2}>{t('fullTicket.comments.heading')}</Typography>
@@ -310,6 +319,10 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
         {comments.map((chatItem: IHistoryItem, index: number) => {
           const modifiedItem = { ...chatItem }
 
+          const previousDate = getDatePart(comments[index - 1]?.creation_date)
+          const currentDate = getDatePart(chatItem.creation_date)
+          const isNeedDate = previousDate !== currentDate
+
           if (!peopleSettings.has(modifiedItem.author.user_id)) {
             const color = getRandomNickColor()
             const nick = useRandomNick(
@@ -338,8 +351,25 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
           if (modifiedItem.type_ === 'comment') {
             if (index === 0) {
               return (
+                <>
+                  {isNeedDate && <FloatingDate date={currentDate} />}
+                  <Comment
+                    ref={lastCommentElementRef}
+                    comment={modifiedItem}
+                    key={`${modifiedItem.type_}-${modifiedItem.comment_id}`}
+                    deleteComment={deleteComment}
+                    setEditedComment={setEditedComment}
+                    setRepliedComment={setRepliedComment}
+                    isCanSendMessage={isCanSendMessage}
+                  />
+                </>
+              )
+            }
+
+            return (
+              <>
+                {isNeedDate && <FloatingDate date={currentDate} />}
                 <Comment
-                  ref={lastCommentElementRef}
                   comment={modifiedItem}
                   key={`${modifiedItem.type_}-${modifiedItem.comment_id}`}
                   deleteComment={deleteComment}
@@ -347,39 +377,34 @@ const FullTicketComments: FC<FullTicketCommentsProps> = ({
                   setRepliedComment={setRepliedComment}
                   isCanSendMessage={isCanSendMessage}
                 />
-              )
-            }
-
-            return (
-              <Comment
-                comment={modifiedItem}
-                key={`${modifiedItem.type_}-${modifiedItem.comment_id}`}
-                deleteComment={deleteComment}
-                setEditedComment={setEditedComment}
-                setRepliedComment={setRepliedComment}
-                isCanSendMessage={isCanSendMessage}
-              />
+              </>
             )
           } else if (modifiedItem.type_ === 'action') {
             if (index === 0) {
               return (
+                <>
+                  {isNeedDate && <FloatingDate date={currentDate} />}
+                  <Action
+                    ref={lastCommentElementRef}
+                    action={modifiedItem}
+                    translator={t}
+                    lang={i18n.language}
+                    key={`${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
+                  />
+                </>
+              )
+            }
+
+            return (
+              <>
+                {isNeedDate && <FloatingDate date={currentDate} />}
                 <Action
-                  ref={lastCommentElementRef}
                   action={modifiedItem}
                   translator={t}
                   lang={i18n.language}
                   key={`${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
                 />
-              )
-            }
-
-            return (
-              <Action
-                action={modifiedItem}
-                translator={t}
-                lang={i18n.language}
-                key={`${modifiedItem.field_name}-${modifiedItem.ticket_id}-${index}`}
-              />
+              </>
             )
           }
         })}
