@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction, useCallback } from 'react'
 import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
 import {
   BaseQueryFn,
@@ -6,6 +5,7 @@ import {
   FetchBaseQueryError,
   MutationDefinition,
 } from '@reduxjs/toolkit/query'
+import { Dispatch, SetStateAction, useCallback } from 'react'
 
 interface toggleActionProps {
   toggleMutation: MutationTrigger<
