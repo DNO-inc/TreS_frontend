@@ -1,31 +1,31 @@
-import { FC } from "react";
-import { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { FC } from 'react'
+import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import ListItemText from "@mui/material/ListItemText";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import useTheme from "@mui/material/styles/useTheme";
+import Box from '@mui/material/Box'
+import FormControl from '@mui/material/FormControl'
+import ListItemText from '@mui/material/ListItemText'
+import MenuItem from '@mui/material/MenuItem'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import useTheme from '@mui/material/styles/useTheme'
 
-import { Loader } from "components/Loader";
+import { Loader } from 'components/Loader'
 
-import IPalette from "theme/IPalette.interface";
-import { useGetRolesQuery } from "api/meta.api";
-import { profileFormKeys } from "constants";
-import { useAdminUpdateProfileMutation } from "api/admin.api";
-import { ProfileUpdateBody } from "pages/Profile/Profile";
+import { useAdminUpdateProfileMutation } from 'api/admin.api'
+import { useGetRolesQuery } from 'api/meta.api'
+import { profileFormKeys } from 'constants/index'
+import { ProfileUpdateBody } from 'pages/Profile/Profile'
+import IPalette from 'theme/IPalette.interface'
 
 interface RolesSelectProps {
-  userId: number;
-  userRole: number | undefined;
-  register: UseFormRegister<ProfileUpdateBody>;
-  setValue: UseFormSetValue<ProfileUpdateBody>;
+  userId: number
+  userRole: number | undefined
+  register: UseFormRegister<ProfileUpdateBody>
+  setValue: UseFormSetValue<ProfileUpdateBody>
 }
 
 interface IRole {
-  role_id: number;
-  name: string;
+  role_id: number
+  name: string
 }
 
 const RolesSelect: FC<RolesSelectProps> = ({
@@ -34,46 +34,46 @@ const RolesSelect: FC<RolesSelectProps> = ({
   register,
   setValue,
 }) => {
-  const { palette }: IPalette = useTheme();
+  const { palette }: IPalette = useTheme()
 
-  const { data, isLoading, isSuccess } = useGetRolesQuery({});
-  const [adminUpdateProfile] = useAdminUpdateProfileMutation();
+  const { data, isLoading, isSuccess } = useGetRolesQuery({})
+  const [adminUpdateProfile] = useAdminUpdateProfileMutation()
 
   const handleChange = (event: SelectChangeEvent): void => {
-    const selectedRole: number = parseInt(event.target.value);
-    setValue(profileFormKeys.ROLE, selectedRole);
+    const selectedRole: number = parseInt(event.target.value)
+    setValue(profileFormKeys.ROLE, selectedRole)
 
     const adminProfileUpdateBody = JSON.stringify({
       user_id: userId,
       role_id: selectedRole,
-    });
+    })
 
     adminUpdateProfile({
       body: adminProfileUpdateBody,
-    });
-  };
+    })
+  }
 
   return (
     <Box>
       <FormControl
-        size="small"
+        size='small'
         fullWidth
         {...register(profileFormKeys.ROLE)}
         sx={{
           bgcolor: palette.grey.card,
           width: 170,
-          ".MuiTypography-root": {
+          '.MuiTypography-root': {
             fontSize: 14,
           },
-          ".MuiSelect-select": {
-            p: "2px 24px 4px 16px",
+          '.MuiSelect-select': {
+            p: '2px 24px 4px 16px',
           },
         }}
       >
-        {isLoading && <Loader size="small" />}
+        {isLoading && <Loader size='small' />}
         {isSuccess && (
           <Select
-            id="roles-select"
+            id='roles-select'
             value={userRole?.toString()}
             onChange={handleChange}
             MenuProps={{
@@ -93,13 +93,13 @@ const RolesSelect: FC<RolesSelectProps> = ({
                 >
                   <ListItemText primary={role.name} />
                 </MenuItem>
-              );
+              )
             })}
           </Select>
         )}
       </FormControl>
     </Box>
-  );
-};
+  )
+}
 
-export { RolesSelect };
+export { RolesSelect }

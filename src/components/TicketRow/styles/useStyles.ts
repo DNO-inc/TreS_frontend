@@ -1,14 +1,14 @@
-import useTheme from "@mui/material/styles/useTheme";
+import useTheme from '@mui/material/styles/useTheme'
 
-import IPalette from "theme/IPalette.interface";
-import { statuses } from "constants";
-import { useCheckStatus } from "hooks/index";
+import { statuses } from 'constants/index'
+import { useCheckStatus } from 'hooks/index'
+import IPalette from 'theme/IPalette.interface'
 
 interface StyleProps {
-  ticketStatus: string;
-  isHaveBookmarks: boolean;
-  matches: boolean;
-  language: string;
+  ticketStatus: string
+  isHaveBookmarks: boolean
+  matches: boolean
+  language: string
 }
 
 const useStyles = ({
@@ -17,61 +17,61 @@ const useStyles = ({
   matches,
   language,
 }: StyleProps) => {
-  const { palette }: IPalette = useTheme();
+  const { palette }: IPalette = useTheme()
 
-  const color: string = useCheckStatus(ticketStatus);
+  const color: string = useCheckStatus(ticketStatus)
 
   const ticketRowStyles = {
     gap: 1,
-    flexWrap: "no-wrap",
-    "& > div, button": {
+    flexWrap: 'no-wrap',
+    '& > div, button': {
       bgcolor:
         ticketStatus === statuses.NEW
           ? palette.grey.divider
           : palette.grey.card,
       border: `2px solid ${palette.grey.border}`,
-      overflow: "hidden",
+      overflow: 'hidden',
     },
-    "& > .MuiGrid-root > .MuiBox-root": {
-      p: isHaveBookmarks ? "16px" : "16px 16px 16px 8px",
+    '& > .MuiGrid-root > .MuiBox-root': {
+      p: isHaveBookmarks ? '16px' : '16px 16px 16px 8px',
     },
-  };
+  }
 
   const gridColumnStyles = {
-    display: matches ? "grid" : "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: matches ? 'grid' : 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     gridTemplateColumns:
-      language === "en"
+      language === 'en'
         ? `${
-            isHaveBookmarks ? "48px" : "0px"
+            isHaveBookmarks ? '48px' : '0px'
           } minmax(30px, 1fr) minmax(40px, 3fr) 25px 45px 100px`
         : `${
-            isHaveBookmarks ? "48px" : "0px"
+            isHaveBookmarks ? '48px' : '0px'
           } minmax(30px, 0.9fr) minmax(40px, 3fr) 25px 45px 115px`,
     gap: 2,
     borderLeft: `8px solid ${color}`,
-    "& .MuiTypography-root": {
-      overflow: "hidden",
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
+    '& .MuiTypography-root': {
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
     },
-  };
+  }
 
   const tooltipStyles = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: 24,
     height: 24,
     bgcolor: palette.grey.active,
     borderRadius: 1,
-    ".MuiSvgIcon-root": {
+    '.MuiSvgIcon-root': {
       fontSize: 16,
     },
-  };
+  }
 
-  return [ticketRowStyles, gridColumnStyles, tooltipStyles];
-};
+  return [ticketRowStyles, gridColumnStyles, tooltipStyles]
+}
 
-export { useStyles };
+export { useStyles }
