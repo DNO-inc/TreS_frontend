@@ -25,7 +25,7 @@ import { useToggleAction } from 'hooks/useToggleAction'
 import IPalette from 'theme/IPalette.interface'
 import { ITicket } from './ticket.interface'
 
-interface TicketProps {
+export interface TicketProps {
   ticket: ITicket
   ticketsPerRow: number
 }
