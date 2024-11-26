@@ -1,83 +1,83 @@
+import { SerializedError } from '@reduxjs/toolkit'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
 import {
+  Dispatch,
   ReactNode,
+  SetStateAction,
   createContext,
   useContext,
-  useState,
   useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
-import { SerializedError } from "@reduxjs/toolkit";
-import { useNavigate, useSearchParams } from "react-router-dom";
+  useState,
+} from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
+import { useCabinetLoginMutation, useLoginMutation } from 'api/auth.api'
+import { general } from 'constants/index'
+import { clearLocalStorage } from 'functions/index'
 import {
   getAccessToken,
   getIsTokensExpired,
-} from "functions/manipulateLocalStorage";
-import { clearLocalStorage } from "functions/index";
-import { useCabinetLoginMutation, useLoginMutation } from "api/auth.api";
-import { useGetUser } from "./hooks/useGetUser";
-import { general } from "constants";
+} from 'functions/manipulateLocalStorage'
+import { useGetUser } from './hooks/useGetUser'
 
 interface AuthContextProps {
-  isAuth: boolean;
-  setIsAuth: Dispatch<SetStateAction<boolean>>;
-  authToken: string | null;
-  loginUser: ({ login, password }: loginProps) => Promise<boolean>;
-  logoutUser: () => void;
-  registerUser: (loginInfo: ILoginInfo) => Promise<boolean>;
+  isAuth: boolean
+  setIsAuth: Dispatch<SetStateAction<boolean>>
+  authToken: string | null
+  loginUser: ({ login, password }: loginProps) => Promise<boolean>
+  logoutUser: () => void
+  registerUser: (loginInfo: ILoginInfo) => Promise<boolean>
 }
 
 interface loginProps {
-  login: string;
-  password: string;
+  login: string
+  password: string
 }
 
 interface LoginInfoProps {
   data?: {
-    access_token: string;
-    login: string;
-    refresh_token: string;
-    user_id: number;
-  };
-  error?: FetchBaseQueryError | SerializedError;
+    access_token: string
+    login: string
+    refresh_token: string
+    user_id: number
+  }
+  error?: FetchBaseQueryError | SerializedError
 }
 
 export type ILoginInfo =
   | {
-      access_token: string;
-      login?: string;
-      refresh_token: string;
-      user_id: number;
+      access_token: string
+      login?: string
+      refresh_token: string
+      user_id: number
     }
   | undefined
-  | string;
+  | string
 
 type ApiResponse = {
-  data?: ILoginInfo;
-  error?: FetchBaseQueryError | SerializedError;
-};
+  data?: ILoginInfo
+  error?: FetchBaseQueryError | SerializedError
+}
 
-const AuthContext = createContext({} as AuthContextProps);
+const AuthContext = createContext({} as AuthContextProps)
 
-export default AuthContext;
+export default AuthContext
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
 
-  const cabinetKey = searchParams.get("key");
-  const cabinetToken = searchParams.get("token") || general.TRES_TOKEN;
+  const cabinetKey = searchParams.get('key')
+  const cabinetToken = searchParams.get('token') || general.TRES_TOKEN
 
-  const IsTokensExpired = getIsTokensExpired();
-  const [isAuth, setIsAuth] = useState(!IsTokensExpired);
-  const [authToken, setAuthToken] = useState(getAccessToken());
+  const IsTokensExpired = getIsTokensExpired()
+  const [isAuth, setIsAuth] = useState(!IsTokensExpired)
+  const [authToken, setAuthToken] = useState(getAccessToken())
 
-  const [authorization] = useLoginMutation();
-  const [cabinetAuth] = useCabinetLoginMutation();
+  const [authorization] = useLoginMutation()
+  const [cabinetAuth] = useCabinetLoginMutation()
 
-  const getUser = useGetUser(setIsAuth);
+  const getUser = useGetUser(setIsAuth)
 
   const handleCabinetAuth = async () => {
     if (cabinetKey && cabinetToken) {
@@ -87,51 +87,51 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             key: cabinetKey,
             token: cabinetToken,
           }),
-        });
+        })
 
-        const loginInfo = response?.data;
+        const loginInfo = response?.data
         if (loginInfo) {
-          getUser(loginInfo);
+          getUser(loginInfo)
         }
       } catch (error) {
-        console.error("Cabinet authentication error:", error);
+        console.error('Cabinet authentication error:', error)
       }
     }
-  };
+  }
 
   useEffect(() => {
-    handleCabinetAuth();
-  }, []);
+    handleCabinetAuth()
+  }, [])
 
   const handleUserData = (loginInfo: ILoginInfo | undefined) => {
     if (loginInfo) {
-      getUser(loginInfo);
-      return true;
+      getUser(loginInfo)
+      return true
     }
 
-    return false;
-  };
+    return false
+  }
 
   const loginUser = async ({ login, password }: loginProps) => {
     const { data: loginInfo }: LoginInfoProps = await authorization({
       body: JSON.stringify({ login, password }),
-    });
+    })
 
-    return handleUserData(loginInfo);
-  };
+    return handleUserData(loginInfo)
+  }
 
   const registerUser = async (loginInfo: ILoginInfo) => {
-    return handleUserData(loginInfo);
-  };
+    return handleUserData(loginInfo)
+  }
 
   const logoutUser = () => {
-    setAuthToken(null);
-    clearLocalStorage();
+    setAuthToken(null)
+    clearLocalStorage()
 
-    setIsAuth(false);
+    setIsAuth(false)
 
-    navigate("/");
-  };
+    navigate('/')
+  }
 
   const contextData = {
     isAuth,
@@ -140,13 +140,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loginUser,
     logoutUser,
     registerUser,
-  };
+  }
 
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
-  );
-};
+  )
+}
 
 export const useAuth = (): AuthContextProps => {
-  return useContext(AuthContext);
-};
+  return useContext(AuthContext)
+}
