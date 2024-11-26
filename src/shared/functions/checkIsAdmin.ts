@@ -1,20 +1,20 @@
-import { getUser } from "./manipulateLocalStorage";
-import { roles } from "constants";
+import { roles } from 'constants/index'
+import { getUser } from './manipulateLocalStorage'
 
 const checkIsAdmin = (role = roles.ADMIN) => {
-  let isAdmin = false;
+  let isAdmin = false
 
   try {
-    const user = getUser();
+    const user = getUser()
 
     if (user?.role?.name?.includes(role)) {
-      isAdmin = true;
+      isAdmin = true
     }
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 
-  return isAdmin;
-};
+  return isAdmin
+}
 
-export { checkIsAdmin };
+export { checkIsAdmin }

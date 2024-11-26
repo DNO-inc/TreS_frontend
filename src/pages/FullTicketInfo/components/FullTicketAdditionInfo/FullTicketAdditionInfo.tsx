@@ -1,16 +1,16 @@
 import { FC } from 'react'
-import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { NavLink } from 'react-router-dom'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import useTheme from '@mui/material/styles/useTheme'
 
-import IPalette from 'theme/IPalette.interface'
-import { formatDate } from 'functions/index'
-import { endpoints } from 'constants'
 import { ICreator } from 'components/Ticket/components/TicketBody/TicketBody'
+import { endpoints } from 'constants/index'
+import { formatDate } from 'functions/index'
+import IPalette from 'theme/IPalette.interface'
 
 interface FullTicketAdditionInfoProps {
   creator: ICreator | null
