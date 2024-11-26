@@ -1,31 +1,31 @@
-import { MouseEvent, useState, FC, ComponentType, useEffect, memo } from 'react'
+import { ComponentType, FC, memo, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import Divider from '@mui/material/Divider'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import useTheme from '@mui/material/styles/useTheme'
+import Divider from '@mui/material/Divider'
 import { SlideProps } from '@mui/material/Slide'
+import useTheme from '@mui/material/styles/useTheme'
 
-import { TicketHeader } from './components/TicketHeader'
-import { TicketBody } from './components/TicketBody'
-import { TicketActions } from './components/TicketActions'
-import { SnackbarNotification } from 'components/SnackbarNotification'
 import { SlideNotification } from 'components/SlideNotification'
+import { SnackbarNotification } from 'components/SnackbarNotification'
+import { TicketActions } from './components/TicketActions'
+import { TicketBody } from './components/TicketBody'
+import { TicketHeader } from './components/TicketHeader'
 
 import {
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from 'api/tickets.api'
-import { endpoints, toggleOptions } from 'constants'
+import { endpoints, toggleOptions } from 'constants/index'
+import { useAuth } from 'context/AuthContext/AuthContext'
+import { getUser } from 'functions/manipulateLocalStorage'
 import { useCheckStatus, useFormatDate } from 'hooks/index'
+import { useToggleAction } from 'hooks/useToggleAction'
 import IPalette from 'theme/IPalette.interface'
 import { ITicket } from './ticket.interface'
-import { getUser } from 'functions/manipulateLocalStorage'
-import { useAuth } from 'context/AuthContext/AuthContext'
-import { useToggleAction } from 'hooks/useToggleAction'
 
-interface TicketProps {
+export interface TicketProps {
   ticket: ITicket
   ticketsPerRow: number
 }

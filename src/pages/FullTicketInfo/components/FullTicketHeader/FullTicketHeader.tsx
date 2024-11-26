@@ -1,44 +1,44 @@
-import { FC, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
 import {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
   MutationDefinition,
 } from '@reduxjs/toolkit/dist/query'
+import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
+import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { NavLink, useNavigate } from 'react-router-dom'
 
+import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import useTheme from '@mui/material/styles/useTheme'
-import Grid from '@mui/material/Grid'
-import Avatar from '@mui/material/Avatar'
 
-import RedoIcon from '@mui/icons-material/Redo'
-import EditIcon from '@mui/icons-material/Edit'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import RedoIcon from '@mui/icons-material/Redo'
 
 import { VerticalDivider } from 'components/VerticalDivider'
+import { AssigneeSelect } from './components/AssigneeSelect'
+import { DialogPopup } from './components/DialogPopup'
 import { FacultySelect } from './components/FacultySelect'
 import { QueueSelect } from './components/QueueSelect'
 import { StatusSelect } from './components/StatusSelect'
-import { AssigneeSelect } from './components/AssigneeSelect'
-import { DialogPopup } from './components/DialogPopup'
 
-import IPalette from 'theme/IPalette.interface'
+import { useAdminRemoveTicketMutation } from 'api/admin.api'
+import { endpoints, roles } from 'constants/index'
 import { checkIsAdmin } from 'functions/index'
 import { getUser } from 'functions/manipulateLocalStorage'
-import { endpoints, roles } from 'constants'
-import { useAdminRemoveTicketMutation } from 'api/admin.api'
+import IPalette from 'theme/IPalette.interface'
 
-import styles from './FullTicketHeader.module.css'
-import { IAction } from '../FullTicketComments/components/Action/Action'
 import { useGetStatusesQuery } from 'api/meta.api'
 import { useCheckStatus } from 'hooks/index'
+import { IAction } from '../FullTicketComments/components/Action/Action'
+import styles from './FullTicketHeader.module.css'
 
 interface FullTicketHeaderProps {
   assigneeId: number

@@ -1,33 +1,33 @@
-import { FC, lazy } from "react";
+import { FC, lazy } from 'react'
 
-import Box from "@mui/material/Box";
+import Box from '@mui/material/Box'
 
-import MobileDrawer from "./components/MobileDrawer";
+import MobileDrawer from './components/MobileDrawer'
 
-import { dimensions } from "constants";
+import { dimensions } from 'constants/index'
 
-const CommonDrawer = lazy(() => import("./components/CommonDrawer"));
+const CommonDrawer = lazy(() => import('./components/CommonDrawer'))
 
 interface SidebarProps {
-  mobileOpen: boolean;
-  handleDrawerToggle: () => void;
+  mobileOpen: boolean
+  handleDrawerToggle: () => void
 }
 
 const Sidebar: FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => {
   const container: (() => HTMLElement) | undefined =
-    window !== undefined ? () => window.document.body : undefined;
+    window !== undefined ? () => window.document.body : undefined
 
-  const drawerWidth = dimensions.DRAWER_WIDTH;
+  const drawerWidth = dimensions.DRAWER_WIDTH
 
   return (
     <Box
-      component="nav"
+      component='nav'
       sx={{
         width: { md: drawerWidth },
-        height: "100%",
+        height: '100%',
         flexShrink: { md: 0 },
       }}
-      aria-label="mailbox folders"
+      aria-label='mailbox folders'
     >
       {mobileOpen ? (
         <MobileDrawer
@@ -39,7 +39,7 @@ const Sidebar: FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => {
         <CommonDrawer />
       )}
     </Box>
-  );
-};
+  )
+}
 
-export { Sidebar };
+export { Sidebar }

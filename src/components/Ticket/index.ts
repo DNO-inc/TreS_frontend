@@ -1,1 +1,1 @@
-export { Ticket } from "./Ticket";
+export { Ticket } from './Ticket'

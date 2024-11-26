@@ -1,32 +1,32 @@
-import { useEffect, useState, FC } from "react";
-import { useLocation } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
-import Box from "@mui/material/Box";
-import useTheme from "@mui/material/styles/useTheme";
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
+import Grid from '@mui/material/Grid'
+import useTheme from '@mui/material/styles/useTheme'
 
-import { GeneralActions } from "./components/GeneralActions";
-import { AdditionActions } from "./components/AdditionActions";
-import { VerticalDivider } from "../../../../../../components/VerticalDivider";
+import { VerticalDivider } from '../../../../../../components/VerticalDivider'
+import { AdditionActions } from './components/AdditionActions'
+import { GeneralActions } from './components/GeneralActions'
 
-import { endpoints } from "constants";
-import IPalette from "theme/IPalette.interface";
+import { endpoints } from 'constants/index'
+import IPalette from 'theme/IPalette.interface'
 
 const SidebarActions: FC = () => {
-  const { pathname } = useLocation();
-  const { i18n } = useTranslation();
-  const { palette }: IPalette = useTheme();
+  const { pathname } = useLocation()
+  const { i18n } = useTranslation()
+  const { palette }: IPalette = useTheme()
 
   const [selectedKey, setSelectedKey] = useState<string>(
     endpoints.GENERAL_TICKETS
-  );
+  )
 
   const changeLanguage = (language: string): void => {
-    i18n.changeLanguage(language);
-  };
+    i18n.changeLanguage(language)
+  }
 
   const checkColor = (
     language: string,
@@ -34,47 +34,47 @@ const SidebarActions: FC = () => {
   ): string => {
     return i18n.language === language || isStandard
       ? palette.primary.main
-      : palette.common.white;
-  };
+      : palette.common.white
+  }
 
   useEffect(() => {
-    setSelectedKey(pathname);
-  }, [pathname]);
+    setSelectedKey(pathname)
+  }, [pathname])
 
   return (
     <Grid
       container
-      flexDirection={"column"}
-      height={"100vh"}
-      flexWrap={"nowrap"}
-      padding={" 0px 12px 16px"}
+      flexDirection={'column'}
+      height={'100vh'}
+      flexWrap={'nowrap'}
+      padding={' 0px 12px 16px'}
     >
-      <Box flex={"1 0 auto"}>
+      <Box flex={'1 0 auto'}>
         <GeneralActions
           selectedKey={selectedKey}
           setSelectedKey={setSelectedKey}
         />
-        <Divider sx={{ width: "100%" }} />
+        <Divider sx={{ width: '100%' }} />
         <AdditionActions
           selectedKey={selectedKey}
           setSelectedKey={setSelectedKey}
         />
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
+            display: 'flex',
+            alignItems: 'center',
             gap: 1,
-            "& > button": { minWidth: 24 },
+            '& > button': { minWidth: 24 },
           }}
         >
           <Button
             onClick={() => {
-              changeLanguage("en");
+              changeLanguage('en')
             }}
             sx={{
-              color: checkColor("en", !i18n.language),
+              color: checkColor('en', !i18n.language),
             }}
           >
             EN
@@ -82,10 +82,10 @@ const SidebarActions: FC = () => {
           <VerticalDivider color={palette.grey.checkbox} />
           <Button
             onClick={() => {
-              changeLanguage("ua");
+              changeLanguage('ua')
             }}
             sx={{
-              color: checkColor("ua"),
+              color: checkColor('ua'),
             }}
           >
             UA
@@ -93,7 +93,7 @@ const SidebarActions: FC = () => {
         </Box>
       </Box>
     </Grid>
-  );
-};
+  )
+}
 
-export { SidebarActions };
+export { SidebarActions }
