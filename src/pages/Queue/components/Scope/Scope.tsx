@@ -1,50 +1,50 @@
-import { FC, useState } from "react";
+import { FC, useState } from 'react'
 
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import Divider from "@mui/material/Divider";
-import useTheme from "@mui/material/styles/useTheme";
-import Typography from "@mui/material/Typography";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import Divider from '@mui/material/Divider'
+import useTheme from '@mui/material/styles/useTheme'
+import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
-import { QueueButtonsList } from "./components/QueueButtonsList";
-import { ScopeTicketList } from "./components/ScopeTicketList";
-import { NotFound } from "components/NotFound";
-import { ScopeLabel } from "components/ScopeLabel";
+import { NotFound } from 'components/NotFound'
+import { ScopeLabel } from 'components/ScopeLabel'
+import { QueueButtonsList } from './components/QueueButtonsList'
+import { ScopeTicketList } from './components/ScopeTicketList'
 
-import IPalette from "theme/IPalette.interface";
-import { dimensions } from "constants";
-import { IScope } from "pages/Queue/Queue";
+import { dimensions } from 'constants/index'
+import { IScope } from 'pages/Queue/Queue'
+import IPalette from 'theme/IPalette.interface'
 
 interface ScopeProps {
-  scope: IScope;
-  facultyId: number;
+  scope: IScope
+  facultyId: number
 }
 
 const Scope: FC<ScopeProps> = ({ scope, facultyId }) => {
   const matches = useMediaQuery(
     `(min-width: ${dimensions.BREAK_POINTS.QUEUE}px)`
-  );
-  const { palette }: IPalette = useTheme();
+  )
+  const { palette }: IPalette = useTheme()
   const [queues, setQueues] = useState<number[]>(
     scope.queues.length ? scope.queues.map(queue => queue.queue_id) : []
-  );
+  )
 
   return (
     <Card
       sx={{
-        minWidth: matches ? "415px" : "100%",
-        flexBasis: "33.333%",
-        height: "calc(100vh - 190px)",
+        minWidth: matches ? '415px' : '100%',
+        flexBasis: '33.333%',
+        height: 'calc(100vh - 190px)',
         bgcolor: palette.grey.card,
         border: `2px solid ${palette.grey.border}`,
-        "& > .MuiBox-root": {
-          p: "20px 16px",
+        '& > .MuiBox-root': {
+          p: '20px 16px',
         },
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "space-between", gap: 3 }}>
-        <Typography variant="h2">{scope.title}</Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 3 }}>
+        <Typography variant='h2'>{scope.title}</Typography>
         <ScopeLabel scope={scope.name} />
       </Box>
       <Divider />
@@ -71,7 +71,7 @@ const Scope: FC<ScopeProps> = ({ scope, facultyId }) => {
         )}
       </Box>
     </Card>
-  );
-};
+  )
+}
 
-export { Scope };
+export { Scope }

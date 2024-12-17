@@ -7,13 +7,13 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import useTheme from '@mui/material/styles/useTheme'
 
-import { ScopeLabel } from 'components/ScopeLabel'
 import { Badge } from 'components/Badge'
+import { ScopeLabel } from 'components/ScopeLabel'
 
-import IPalette from 'theme/IPalette.interface'
-import { endpoints, statuses } from 'constants'
-import { useAuth } from 'context/AuthContext/AuthContext'
 import { useFormatName } from 'components/Ticket/hooks/useFormatName'
+import { endpoints, statuses } from 'constants/index'
+import { useAuth } from 'context/AuthContext/AuthContext'
+import IPalette from 'theme/IPalette.interface'
 
 export interface IAssignee {
   faculty: { faculty_id: number; name: string }

@@ -1,28 +1,28 @@
+import { SerializedError } from '@reduxjs/toolkit'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
 import {
+  Dispatch,
   ReactNode,
+  SetStateAction,
   createContext,
   useContext,
-  useState,
   useEffect,
-  Dispatch,
-  SetStateAction,
+  useState,
 } from 'react'
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
-import { SerializedError } from '@reduxjs/toolkit'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import {
-  getAccessToken,
-  getIsTokensExpired,
-} from 'functions/manipulateLocalStorage'
-import { clearLocalStorage } from 'functions/index'
 import {
   useCabinetLoginMutation,
   useCabinetLogoutMutation,
   useLoginMutation,
 } from 'api/auth.api'
+import { general } from 'constants/index'
+import { clearLocalStorage } from 'functions/index'
+import {
+  getAccessToken,
+  getIsTokensExpired,
+} from 'functions/manipulateLocalStorage'
 import { useGetUser } from './hooks/useGetUser'
-import { general } from 'constants'
 
 interface AuthContextProps {
   isAuth: boolean

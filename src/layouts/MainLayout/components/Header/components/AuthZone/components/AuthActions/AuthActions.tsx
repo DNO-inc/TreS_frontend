@@ -3,27 +3,27 @@ import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 
 import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
+import useTheme from '@mui/material/styles/useTheme'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import useTheme from '@mui/material/styles/useTheme'
 
-import LogoutIcon from '@mui/icons-material/Logout'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
+import LogoutIcon from '@mui/icons-material/Logout'
 
-import { VerticalDivider } from 'components/VerticalDivider'
 import { CustomTooltip } from 'components/CustomTooltip'
+import { VerticalDivider } from 'components/VerticalDivider'
 
-import Logo from '../../../../../../../../assets/logo.svg'
-import admin from '../../../../../../../../assets/admin.webp'
-import { dimensions, endpoints, permissions } from 'constants'
-import { getUser, getUserRole } from 'functions/manipulateLocalStorage'
+import { dimensions, endpoints, permissions } from 'constants/index'
 import { useAuth } from 'context/AuthContext/AuthContext'
-import IPalette from 'theme/IPalette.interface'
 import { checkIsAdmin } from 'functions/index'
+import { getUser, getUserRole } from 'functions/manipulateLocalStorage'
+import IPalette from 'theme/IPalette.interface'
+import admin from '../../../../../../../../assets/admin.webp'
+import Logo from '../../../../../../../../assets/logo.svg'
 
 const AuthActions: FC = () => {
   const { t } = useTranslation()
