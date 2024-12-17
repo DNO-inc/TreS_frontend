@@ -2,9 +2,7 @@ import { ChangeEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import useTheme from '@mui/material/styles/useTheme'
-
-import { statuses } from 'constants/statuses'
-import { urlKeys } from 'constants/urlKeys'
+import { statuses, urlKeys } from 'constants/index'
 import { useChangeURL } from 'hooks/index'
 import IPalette from 'theme/IPalette.interface'
 
