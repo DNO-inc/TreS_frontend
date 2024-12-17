@@ -1,43 +1,43 @@
-import { FC } from "react";
-import { Link } from "react-router-dom";
+import { FC } from 'react'
+import { Link } from 'react-router-dom'
 
-import Drawer from "@mui/material/Drawer";
-import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import useTheme from "@mui/material/styles/useTheme";
+import Avatar from '@mui/material/Avatar'
+import Drawer from '@mui/material/Drawer'
+import Grid from '@mui/material/Grid'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import useTheme from '@mui/material/styles/useTheme'
 
-import { SidebarActions } from "../SidebarActions";
+import { SidebarActions } from '../SidebarActions'
 
-import Logo from "../../../../../../assets/logo.svg";
-import IPalette from "theme/IPalette.interface";
-import { dimensions, endpoints } from "constants";
+import { dimensions, endpoints } from 'constants/index'
+import IPalette from 'theme/IPalette.interface'
+import Logo from '../../../../../../assets/logo.svg'
 
 const CommonDrawer: FC = () => {
-  const { palette }: IPalette = useTheme();
+  const { palette }: IPalette = useTheme()
 
-  const drawerWidth = dimensions.DRAWER_WIDTH;
+  const drawerWidth = dimensions.DRAWER_WIDTH
 
   return (
     <Drawer
-      variant="permanent"
+      variant='permanent'
       sx={{
-        display: { xs: "none", md: "block" },
-        "& .MuiDrawer-paper": {
+        display: { xs: 'none', md: 'block' },
+        '& .MuiDrawer-paper': {
           backgroundColor: palette.grey.sidebar,
           borderRight: `2px solid ${palette.grey.card}`,
-          boxSizing: "border-box",
+          boxSizing: 'border-box',
           width: drawerWidth,
         },
-        "& > div": {
-          "&::-webkit-scrollbar": {
+        '& > div': {
+          '&::-webkit-scrollbar': {
             width: 3,
           },
-          "&::-webkit-scrollbar-track": {
-            backgroundColor: "inherit",
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'inherit',
           },
-          "&::-webkit-scrollbar-thumb": {
+          '&::-webkit-scrollbar-thumb': {
             backgroundColor: palette.grey[400],
             borderRadius: 2,
           },
@@ -47,25 +47,25 @@ const CommonDrawer: FC = () => {
     >
       <Toolbar
         sx={{
-          minHeight: "65.5px !important",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          minHeight: '65.5px !important',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           backgroundColor: palette.grey.sidebar,
           borderBottom: `2px solid ${palette.grey.card}`,
           mb: 1,
         }}
       >
-        <Grid container justifyContent={"space-between"}>
+        <Grid container justifyContent={'space-between'}>
           <Link to={endpoints.GENERAL_TICKETS}>
-            <Grid display={"flex"} flexDirection={"row"} alignItems={"center"}>
-              <Avatar alt="Logo" src={Logo} sx={{ width: 36, height: 36 }} />
+            <Grid display={'flex'} flexDirection={'row'} alignItems={'center'}>
+              <Avatar alt='Logo' src={Logo} sx={{ width: 36, height: 36 }} />
               <Typography
                 sx={{
                   ml: 1,
-                  textTransform: "uppercase",
-                  fontSize: "24px",
-                  fontWeight: "bold",
+                  textTransform: 'uppercase',
+                  fontSize: '24px',
+                  fontWeight: 'bold',
                 }}
               >
                 TreS
@@ -76,7 +76,7 @@ const CommonDrawer: FC = () => {
       </Toolbar>
       <SidebarActions />
     </Drawer>
-  );
-};
+  )
+}
 
-export { CommonDrawer };
+export { CommonDrawer }

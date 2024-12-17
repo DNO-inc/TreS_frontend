@@ -1,19 +1,19 @@
-import { ChangeEvent, FC } from "react";
-import { useTranslation } from "react-i18next";
-import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
+import { ChangeEvent, FC } from 'react'
+import { FieldErrors, UseFormRegister, UseFormWatch } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import useTheme from "@mui/material/styles/useTheme";
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import useTheme from '@mui/material/styles/useTheme'
 
-import IPalette from "theme/IPalette.interface";
-import { createFormKeys, general } from "constants";
+import { createFormKeys, general } from 'constants/index'
+import IPalette from 'theme/IPalette.interface'
 
 interface TicketBodyTextFieldProps {
-  register: UseFormRegister<ICreateTicketRequestBody>;
-  errors: FieldErrors<ICreateTicketRequestBody>;
-  watch: UseFormWatch<ICreateTicketRequestBody>;
+  register: UseFormRegister<ICreateTicketRequestBody>
+  errors: FieldErrors<ICreateTicketRequestBody>
+  watch: UseFormWatch<ICreateTicketRequestBody>
 }
 
 const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
@@ -21,25 +21,25 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
   errors,
   watch,
 }) => {
-  const { t } = useTranslation();
-  const { palette }: IPalette = useTheme();
+  const { t } = useTranslation()
+  const { palette }: IPalette = useTheme()
 
-  const placeholderText: string = t("createTicket.ticketBodyPlaceholder");
+  const placeholderText: string = t('createTicket.ticketBodyPlaceholder')
 
-  const body = watch(createFormKeys.BODY, "");
+  const body = watch(createFormKeys.BODY, '')
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    register(createFormKeys.BODY).onChange(event);
-  };
+    register(createFormKeys.BODY).onChange(event)
+  }
 
   return (
-    <Box sx={{ position: "relative", width: "100%" }}>
-      <Typography variant="h3">{t("createTicket.ticketBody")}</Typography>
+    <Box sx={{ position: 'relative', width: '100%' }}>
+      <Typography variant='h3'>{t('createTicket.ticketBody')}</Typography>
       <TextField
-        id="ticket-body"
+        id='ticket-body'
         placeholder={placeholderText}
         multiline
         rows={12}
-        variant="outlined"
+        variant='outlined'
         fullWidth
         {...register(createFormKeys.BODY, {
           required: true,
@@ -49,21 +49,21 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
         onChange={handleChange}
         error={!!errors.body || body.length > general.MAX_BODY_LENGTH}
         sx={{
-          overflow: "hidden",
+          overflow: 'hidden',
           bgcolor: palette.grey.card,
-          ".MuiOutlinedInput-root": {
-            p: "0 0 24px",
+          '.MuiOutlinedInput-root': {
+            p: '0 0 24px',
           },
-          "& > .MuiOutlinedInput-root > textarea": {
-            p: "12px 16px 0",
-            "&::-webkit-scrollbar": {
+          '& > .MuiOutlinedInput-root > textarea': {
+            p: '12px 16px 0',
+            '&::-webkit-scrollbar': {
               width: 4,
             },
-            "&::-webkit-scrollbar-track": {
+            '&::-webkit-scrollbar-track': {
               backgroundColor: palette.grey.border,
             },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: "rgba(255, 255, 255, 0.36)",
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'rgba(255, 255, 255, 0.36)',
               borderRadius: 4,
             },
           },
@@ -71,7 +71,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
       />
       <span
         style={{
-          position: "absolute",
+          position: 'absolute',
           bottom: 6,
           right: 8,
           fontSize: 12,
@@ -81,7 +81,7 @@ const TicketBodyTextField: FC<TicketBodyTextFieldProps> = ({
         {body.length} / {general.MAX_BODY_LENGTH}
       </span>
     </Box>
-  );
-};
+  )
+}
 
-export { TicketBodyTextField };
+export { TicketBodyTextField }

@@ -3,9 +3,10 @@ import { useSearchParams } from 'react-router-dom'
 
 import useTheme from '@mui/material/styles/useTheme'
 
-import IPalette from 'theme/IPalette.interface'
-import { statuses, urlKeys } from 'constants'
+import { statuses } from 'constants/statuses'
+import { urlKeys } from 'constants/urlKeys'
 import { useChangeURL } from 'hooks/index'
+import IPalette from 'theme/IPalette.interface'
 
 export interface IStatus {
   id: number
