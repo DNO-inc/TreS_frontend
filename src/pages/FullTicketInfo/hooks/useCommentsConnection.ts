@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { endpoints } from 'constants/index'
+import { endpoints } from 'constants'
 import { useAuth } from 'context/AuthContext/AuthContext'
 import { getAccessToken } from 'functions/manipulateLocalStorage'
 import { IAction } from '../components/FullTicketComments/components/Action/Action'
