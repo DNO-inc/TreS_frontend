@@ -1,26 +1,26 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from 'react'
 
-import FormGroup from "@mui/material/FormGroup";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import FormGroup from '@mui/material/FormGroup'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
-import { NotFound } from "components/NotFound";
-import { SkeletonTicketRow } from "components/SkeletonTicketRow";
-import { TicketRow } from "components/TicketRow";
-import { CustomPagination } from "components/CustomPagination";
+import { CustomPagination } from 'components/CustomPagination'
+import { NotFound } from 'components/NotFound'
+import { SkeletonTicketRow } from 'components/SkeletonTicketRow'
+import { TicketRow } from 'components/TicketRow'
 
-import { ITicket } from "components/TicketRow/ticket.interface";
-import { dimensions } from "constants";
+import { ITicket } from 'components/TicketRow/ticket.interface'
+import { dimensions } from 'constants/index'
 
 interface RenderElementsProps {
-  tickets: ITicket[];
-  title: string;
-  isHaveBookmarks: boolean;
-  handleDelete: ((ticketIdList: number[]) => void) | null;
-  handleRestore: ((ticketIdList: number) => void) | null;
-  setDeletedList: Dispatch<SetStateAction<number[]>> | null;
-  totalPage: number;
-  currentPage: number;
-  isLoading: boolean;
+  tickets: ITicket[]
+  title: string
+  isHaveBookmarks: boolean
+  handleDelete: ((ticketIdList: number[]) => void) | null
+  handleRestore: ((ticketIdList: number) => void) | null
+  setDeletedList: Dispatch<SetStateAction<number[]>> | null
+  totalPage: number
+  currentPage: number
+  isLoading: boolean
 }
 
 const useRenderElements = ({
@@ -36,13 +36,13 @@ const useRenderElements = ({
 }: RenderElementsProps) => {
   const matches = useMediaQuery(
     `(min-width: ${dimensions.BREAK_POINTS.SIMPLE_TICKET}px)`
-  );
+  )
 
   const renderSkeletonTickets = () => (
     <FormGroup
       sx={{
-        display: "flex",
-        flexDirection: "row",
+        display: 'flex',
+        flexDirection: 'row',
         gap: 1,
       }}
     >
@@ -54,14 +54,14 @@ const useRenderElements = ({
         />
       ))}
     </FormGroup>
-  );
+  )
 
   const renderTickets = () => (
     <>
       <FormGroup
         sx={{
-          display: "flex",
-          flexDirection: "row",
+          display: 'flex',
+          flexDirection: 'row',
           gap: 1,
         }}
       >
@@ -81,11 +81,11 @@ const useRenderElements = ({
         <CustomPagination total={totalPage} current={currentPage} />
       )}
     </>
-  );
+  )
 
-  const renderNotFound = () => !isLoading && <NotFound withPostscript={true} />;
+  const renderNotFound = () => !isLoading && <NotFound withPostscript={true} />
 
-  return { renderSkeletonTickets, renderTickets, renderNotFound };
-};
+  return { renderSkeletonTickets, renderTickets, renderNotFound }
+}
 
-export { useRenderElements };
+export { useRenderElements }

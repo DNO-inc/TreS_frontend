@@ -28,7 +28,7 @@ import {
   useEditCommentMutation,
 } from 'api/comments.api'
 import { useGetFullHistoryMutation } from 'api/tickets.api'
-import { permissions } from 'constants'
+import { permissions } from 'constants/index'
 import { getRandomNickColor } from 'functions/index'
 import { getUser, getUserRole } from 'functions/manipulateLocalStorage'
 import { useRandomNick } from 'hooks/index'
