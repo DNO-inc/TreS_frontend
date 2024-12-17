@@ -11,11 +11,10 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
 
 import { VerticalDivider } from 'components/VerticalDivider'
-import { CustomCheckbox } from './components/CustomCheckbox'
-
 import { dimensions, urlKeys } from 'constants/index'
 import { useChangeURL } from 'hooks/index'
 import IPalette from 'theme/IPalette.interface'
+import { CustomCheckbox } from './components/CustomCheckbox'
 import { useGetStatusesFullInfo } from './hooks/useGetStatusesFullInfo'
 
 interface StatusCheckboxGroupProps {
