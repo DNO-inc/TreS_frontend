@@ -1,21 +1,21 @@
-import { FC } from "react";
-import { Link } from "react-router-dom";
+import { FC } from 'react'
+import { Link } from 'react-router-dom'
 
-import Box from "@mui/material/Box";
-import Badge from "@mui/material/Badge";
-import useTheme from "@mui/material/styles/useTheme";
+import Badge from '@mui/material/Badge'
+import Box from '@mui/material/Box'
+import useTheme from '@mui/material/styles/useTheme'
 
-import ChatIcon from "@mui/icons-material/Chat";
+import ChatIcon from '@mui/icons-material/Chat'
 
-import { endpoints } from "constants";
-import IPalette from "theme/IPalette.interface";
+import { endpoints } from 'constants/index'
+import IPalette from 'theme/IPalette.interface'
 
 interface NotificationTileProps {
-  ticketId: number;
-  description: string;
-  count: number | undefined;
-  handleClick: (index: number) => void;
-  index: number;
+  ticketId: number
+  description: string
+  count: number | undefined
+  handleClick: (index: number) => void
+  index: number
 }
 
 const NotificationTile: FC<NotificationTileProps> = ({
@@ -25,16 +25,16 @@ const NotificationTile: FC<NotificationTileProps> = ({
   handleClick,
   index,
 }) => {
-  const { palette }: IPalette = useTheme();
+  const { palette }: IPalette = useTheme()
 
   return (
     <Link to={`${endpoints.FULL_TICKET}/${ticketId}`}>
       <Box
         onClick={() => handleClick(index)}
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           gap: 2,
           bgcolor: palette.grey.card,
           border: `2px solid ${palette.grey.button}`,
@@ -42,7 +42,7 @@ const NotificationTile: FC<NotificationTileProps> = ({
           borderRadius: 1,
         }}
       >
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box sx={{ display: 'flex', gap: 2 }}>
           <ChatIcon sx={{ mt: 0.3 }} />
           {description}
         </Box>
@@ -51,8 +51,8 @@ const NotificationTile: FC<NotificationTileProps> = ({
             badgeContent={count}
             sx={{
               mr: 1.3,
-              "& > span": {
-                color: "white",
+              '& > span': {
+                color: 'white',
                 bgcolor: palette.grey.active,
               },
             }}
@@ -60,7 +60,7 @@ const NotificationTile: FC<NotificationTileProps> = ({
         )}
       </Box>
     </Link>
-  );
-};
+  )
+}
 
-export { NotificationTile };
+export { NotificationTile }

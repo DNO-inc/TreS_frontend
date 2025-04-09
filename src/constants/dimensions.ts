@@ -12,6 +12,6 @@ const dimensions = {
     SIMPLE_TICKET: 750,
     STATUSES_FILTER: 1420,
   },
-};
+}
 
-export { dimensions };
+export { dimensions }

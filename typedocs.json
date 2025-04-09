@@ -1,0 +1,12 @@
+{
+  "entryPoints": ["src"],
+  "out": "docs/api",
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "**/index.ts"],
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "includeVersion": true,
+  "tsconfig": "./tsconfig.json",
+  "plugin": ["typedoc-plugin-mdn-links"],
+  "hideBreadcrumbs": true
+}

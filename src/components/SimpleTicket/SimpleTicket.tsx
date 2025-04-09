@@ -1,67 +1,67 @@
-import { ForwardRefExoticComponent, RefAttributes, forwardRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { ForwardRefExoticComponent, RefAttributes, forwardRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import useTheme from "@mui/material/styles/useTheme";
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import useTheme from '@mui/material/styles/useTheme'
 
-import { Badge } from "components/Badge";
+import { Badge } from 'components/Badge'
 
-import { endpoints } from "constants";
-import { useFormatDate } from "hooks/index";
-import IPalette from "theme/IPalette.interface";
-import { ITicket } from "./ticket.interface";
+import { endpoints } from 'constants/index'
+import { useFormatDate } from 'hooks/index'
+import IPalette from 'theme/IPalette.interface'
+import { ITicket } from './ticket.interface'
 
 interface SimpleTicketProps {
-  ticket: ITicket;
+  ticket: ITicket
 }
 
 const SimpleTicket: ForwardRefExoticComponent<
-  Omit<SimpleTicketProps, "ref"> & RefAttributes<HTMLDivElement>
+  Omit<SimpleTicketProps, 'ref'> & RefAttributes<HTMLDivElement>
 > = forwardRef(({ ticket }, ref) => {
-  const { palette }: IPalette = useTheme();
-  const navigate = useNavigate();
+  const { palette }: IPalette = useTheme()
+  const navigate = useNavigate()
 
-  const formattedDate: string = ticket?.date && useFormatDate(ticket.date);
+  const formattedDate: string = ticket?.date && useFormatDate(ticket.date)
 
   const handleClick = (): void => {
-    navigate(`${endpoints.FULL_TICKET}/${ticket.ticket_id}`);
-  };
+    navigate(`${endpoints.FULL_TICKET}/${ticket.ticket_id}`)
+  }
 
   return (
     <Box
       ref={ref}
       sx={{
-        display: "inline-flex",
-        position: "relative",
-        flexDirection: "column",
+        display: 'inline-flex',
+        position: 'relative',
+        flexDirection: 'column',
         height: 180,
-        width: "97%",
+        width: '97%',
         gap: 2,
         p: 2,
         bgcolor: palette.grey.divider,
         borderRadius: 1,
-        cursor: "pointer",
+        cursor: 'pointer',
       }}
       onClick={handleClick}
     >
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
         <Box
           sx={{
-            maxWidth: "50%",
+            maxWidth: '50%',
           }}
         >
           <Typography
-            component={"h2"}
+            component={'h2'}
             sx={{
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
             }}
           >
             {ticket.subject}
@@ -81,15 +81,15 @@ const SimpleTicket: ForwardRefExoticComponent<
       <Box
         sx={{
           height: 88,
-          overflowY: "hidden",
-          whiteSpace: "pre-line",
-          "&::after": {
+          overflowY: 'hidden',
+          whiteSpace: 'pre-line',
+          '&::after': {
             content: `""`,
-            position: "absolute",
+            position: 'absolute',
             bottom: 56,
             left: 0,
-            height: "48px",
-            width: "100%",
+            height: '48px',
+            width: '100%',
             background: `linear-gradient(transparent, ${palette.grey.divider})`,
           },
         }}
@@ -97,13 +97,13 @@ const SimpleTicket: ForwardRefExoticComponent<
         <Typography
           sx={{
             color: palette.whiteAlpha.text,
-            overflowWrap: "break-word",
+            overflowWrap: 'break-word',
           }}
         >
           {ticket.body}
         </Typography>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography sx={{ color: palette.whiteAlpha.default }}>
           {ticket.faculty.name}
         </Typography>
@@ -112,7 +112,7 @@ const SimpleTicket: ForwardRefExoticComponent<
         </Typography>
       </Box>
     </Box>
-  );
-});
+  )
+})
 
-export { SimpleTicket };
+export { SimpleTicket }

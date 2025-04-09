@@ -33,6 +33,37 @@ Your app is ready to be deployed!
 
 - vite - Build tool
 
+## 📘 Documentation: Generating Documentation with TypeDoc
+
+This project uses [TypeDoc](https://typedoc.org/) to automatically generate documentation from JSDoc/TypeDoc style comments.
+
+### 🔧 Documentation Structure
+
+Components, hooks, utilities should be documented via multiline comments in TypeDoc format:
+
+```ts
+/**
+* Component to display a login modal window.
+*
+* @component
+* @param {boolean} open - The state of the modal window opening.
+* @param {Dispatch<SetStateAction<boolean>>} setOpen - The function to update the state of the opening.
+* @param {() => void} handleSignUn - Callback to switch to the registration window.
+* @returns {JSX.Element} The login modal window.
+*/
+const LogInModal: FC<LogInModalProps> = ({ open, setOpen, handleSignUn }) => {
+...
+}
+```
+
+## 📁 Structure
+
+All documentation is generated from the code in `src/`. Documentation is generated only for files that contain appropriate comments.
+
+---
+
+> 💡 Remember to keep comments up to date when changing the logic of the component.
+
 ## Authors:
 
 Team:

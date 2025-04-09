@@ -26,7 +26,7 @@
     "paths": {
       "assets/*": ["assets/*"],
       "components/*": ["components/*"],
-      "constants/*": ["constants/*"],
+      "constants/index": ["constants/index.ts"],
       "context/*": ["context/*"],
       "layouts/*": ["layouts/*"],
       "pages/*": ["pages/*"],

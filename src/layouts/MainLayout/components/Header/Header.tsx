@@ -8,12 +8,12 @@ import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
 import useTheme from '@mui/material/styles/useTheme'
 
-import MenuIcon from '@mui/icons-material/Menu'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import MenuIcon from '@mui/icons-material/Menu'
 
 import { AuthZone } from './components/AuthZone'
 
-import { dimensions, endpoints } from 'constants'
+import { dimensions, endpoints } from 'constants/index'
 import IPalette from 'theme/IPalette.interface'
 
 interface HeaderProps {

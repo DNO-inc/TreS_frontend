@@ -1,55 +1,55 @@
-import { FC } from "react";
+import { FC } from 'react'
 
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import ListItemText from "@mui/material/ListItemText";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import useTheme from "@mui/material/styles/useTheme";
+import Box from '@mui/material/Box'
+import FormControl from '@mui/material/FormControl'
+import ListItemText from '@mui/material/ListItemText'
+import MenuItem from '@mui/material/MenuItem'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import useTheme from '@mui/material/styles/useTheme'
 
-import { Loader } from "components/Loader";
+import { Loader } from 'components/Loader'
 
-import IPalette from "theme/IPalette.interface";
-import { useGetFacultiesQuery } from "api/meta.api";
-import { urlKeys } from "constants";
-import { useChangeURL } from "hooks/index";
+import { useGetFacultiesQuery } from 'api/meta.api'
+import { urlKeys } from 'constants/index'
+import { useChangeURL } from 'hooks/index'
+import IPalette from 'theme/IPalette.interface'
 
 interface FacultySelectProps {
-  facultyId: number;
-  faculty: number;
+  facultyId: number
+  faculty: number
 }
 
 interface faculty {
-  faculty_id: number;
-  name: string;
+  faculty_id: number
+  name: string
 }
 
 const FacultySelect: FC<FacultySelectProps> = ({ facultyId, faculty }) => {
-  const { palette }: IPalette = useTheme();
+  const { palette }: IPalette = useTheme()
 
-  const { data, isLoading, isSuccess } = useGetFacultiesQuery({});
+  const { data, isLoading, isSuccess } = useGetFacultiesQuery({})
 
-  const putFacultyInURL = useChangeURL();
+  const putFacultyInURL = useChangeURL()
   const handleChange = (event: SelectChangeEvent): void => {
-    const selectedFaculty = event.target.value;
+    const selectedFaculty = event.target.value
 
-    putFacultyInURL(urlKeys.FACULTY, selectedFaculty);
-  };
+    putFacultyInURL(urlKeys.FACULTY, selectedFaculty)
+  }
 
   return (
     <Box>
       <FormControl
         fullWidth
-        size="small"
+        size='small'
         sx={{
           bgcolor: palette.grey.card,
-          minWidth: "150px",
+          minWidth: '150px',
         }}
       >
-        {isLoading && <Loader size="small" />}
+        {isLoading && <Loader size='small' />}
         {isSuccess && (
           <Select
-            id="faculty-select"
+            id='faculty-select'
             value={faculty.toString()}
             onChange={handleChange}
             MenuProps={{
@@ -69,13 +69,13 @@ const FacultySelect: FC<FacultySelectProps> = ({ facultyId, faculty }) => {
                 >
                   <ListItemText primary={faculty.name} />
                 </MenuItem>
-              );
+              )
             })}
           </Select>
         )}
       </FormControl>
     </Box>
-  );
-};
+  )
+}
 
-export { FacultySelect };
+export { FacultySelect }

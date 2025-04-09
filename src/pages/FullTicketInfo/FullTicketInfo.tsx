@@ -1,32 +1,32 @@
-import { useEffect, FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import Grid from '@mui/material/Grid'
 import useTheme from '@mui/material/styles/useTheme'
 
 import { Loader } from '../../components/Loader'
-import { ActionPanel } from './components/ActionPanel'
 import { MarkdownWithStyles } from '../../utils/markdown'
-import { FullTicketHeader } from './components/FullTicketHeader'
-import { FullTicketComments } from './components/FullTicketComments'
+import { ActionPanel } from './components/ActionPanel'
 import { FullTicketAdditionInfo } from './components/FullTicketAdditionInfo'
+import { FullTicketComments } from './components/FullTicketComments'
 import { FullTicketFiles } from './components/FullTicketFiles'
+import { FullTicketHeader } from './components/FullTicketHeader'
 
-import { useShowTicketMutation } from 'api/tickets.api'
-import { checkIsAdmin } from 'functions/index'
-import IPalette from 'theme/IPalette.interface'
 import {
   useAdminShowTicketMutation,
   useAdminUpdateTicketMutation,
 } from 'api/admin.api'
-import { getUser } from 'functions/manipulateLocalStorage'
 import {
+  useShowTicketMutation,
   useToggleBookmarkMutation,
   useToggleLikeMutation,
 } from 'api/tickets.api'
-import { useCommentsConnection } from './hooks/useCommentsConnection'
+import { toggleOptions } from 'constants/index'
+import { checkIsAdmin } from 'functions/index'
+import { getUser } from 'functions/manipulateLocalStorage'
 import { useToggleAction } from 'hooks/index'
-import { toggleOptions } from 'constants'
+import IPalette from 'theme/IPalette.interface'
+import { useCommentsConnection } from './hooks/useCommentsConnection'
 
 export interface IPerson {
   color: string

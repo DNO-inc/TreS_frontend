@@ -1,20 +1,20 @@
-import { useEffect, useState, FC } from 'react'
-import { useLocation } from 'react-router-dom'
+import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 
-import Button from '@mui/material/Button'
-import Grid from '@mui/material/Grid'
-import Divider from '@mui/material/Divider'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
+import Grid from '@mui/material/Grid'
 import useTheme from '@mui/material/styles/useTheme'
 
-import { GeneralActions } from './components/GeneralActions'
-import { AdditionActions } from './components/AdditionActions'
 import { VerticalDivider } from '../../../../../../components/VerticalDivider'
+import { AdditionActions } from './components/AdditionActions'
+import { GeneralActions } from './components/GeneralActions'
 
-import { endpoints } from 'constants'
-import IPalette from 'theme/IPalette.interface'
+import { endpoints } from 'constants/index'
 import { useAuth } from 'context/AuthContext/AuthContext'
+import IPalette from 'theme/IPalette.interface'
 
 const SidebarActions: FC = () => {
   const { pathname } = useLocation()
