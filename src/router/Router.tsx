@@ -11,8 +11,10 @@ import { Loader } from 'components/Loader'
 import PrivacyPolicy from 'pages/PrivacyPolicy'
 
 import { useAccessRenewMutation } from 'api/profile.api'
-import { endpoints, permissions } from 'constants/index'
+import { endpoints, general, permissions } from 'constants/index'
 import { useAuth } from 'context/AuthContext/AuthContext'
+
+const CABINET_AUTH_URL = `https://cabinet.sumdu.edu.ua/index/service/${general.TRES_TOKEN}`
 
 const Layout = lazy(() => import('layouts/MainLayout'))
 const GeneralTickets = lazy(() => import('pages/GeneralTickets'))
@@ -50,9 +52,17 @@ const Router: FC = () => {
   const [resetPassword] = useAccessRenewMutation({})
 
   useEffect(() => {
+    const hasCabinetCallback = searchParams.has('key')
+    const hasResetToken = searchParams.has('reset_token')
+
+    if (!isAuth && !hasCabinetCallback && !hasResetToken) {
+      window.location.href = CABINET_AUTH_URL
+      return
+    }
+
     if (pathname === '/') {
       navigate(endpoints.GENERAL_TICKETS)
-    } else if (searchParams.has('reset_token')) {
+    } else if (hasResetToken) {
       const resetToken = searchParams.get('reset_token')
 
       resetPassword(resetToken).then((res: ApiResponse) => {

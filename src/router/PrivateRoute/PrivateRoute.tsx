@@ -1,12 +1,19 @@
-import { Navigate, Outlet } from 'react-router'
+import { Outlet } from 'react-router'
 
-import { endpoints } from 'constants/index'
+import { general } from 'constants/index'
 import { useAuth } from 'context/AuthContext/AuthContext'
+
+const CABINET_AUTH_URL = `https://cabinet.sumdu.edu.ua/index/service/${general.TRES_TOKEN}`
 
 const PrivateRoute = () => {
   const { isAuth } = useAuth()
 
-  return isAuth ? <Outlet /> : <Navigate to={endpoints.GENERAL_TICKETS} />
+  if (!isAuth) {
+    window.location.href = CABINET_AUTH_URL
+    return null
+  }
+
+  return <Outlet />
 }
 
 export { PrivateRoute }
